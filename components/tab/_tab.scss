@@ -1,0 +1,163 @@
+﻿:root {
+    --tab-active-background: var(--button-focus-background);
+    --tab-folder-border-color: rgba(0,0,0,.1);
+    --tab-folder-color: var(--foreground);
+    --tab-folder-background: var(--light);
+    --tab-folder-active-color: var(--foreground);
+    --tab-folder-active-background: var(--background-mid);
+}
+
+@keyframes fadeInUp {
+    from {
+        visibility: hidden;
+        opacity: 0;
+        transform: translateY(.25rem);
+    }
+
+    to {
+        visibility: visible;
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOutDown {
+    from {
+        visibility: visible;
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    to {
+        visibility: hidden;
+        opacity: 0;
+        transform: translateY(.25rem);
+    }
+}
+
+.tabs {
+    position: relative;
+    overflow: hidden;
+    transition: all .5s ease;
+
+    > ul {
+        display: flex;
+        margin: 0;
+        padding: 0;
+        overflow-y: scroll;
+
+        li {
+            display: flex;
+            flex: 0 0 auto;
+            margin-right: .5rem;
+
+            &.active {
+                z-index: 10 !important;
+
+                button {
+                    background: var(--tab-active-background);
+                }
+            }
+        }
+    }
+
+    > div {
+        width: 100%;
+        padding: 1rem;
+        box-sizing: border-box;
+        visibility: hidden;
+        opacity: 0;
+        transform: translateY(.25rem);
+        animation: fadeOutDown .125s forwards;
+        position: absolute;
+
+        &.active {
+            animation: fadeInUp .5s forwards;
+            animation-delay: .125s;
+        }
+    }
+
+    &.folder {
+        > ul {
+            border-bottom: 1px solid var(--tab-folder-border-color);
+            padding: 0 .5rem;
+
+            li {
+                margin-right: -.5rem;
+                margin-bottom: 0;
+                position: relative;
+                z-index: 0;
+
+                $var: 10;
+
+                @for $i from 1 through 10 {
+                    &:nth-child(#{$i}) {
+                        z-index: #{$var};
+                        $var: $var - 1;
+                    }
+                }
+
+                button {
+                    border: 1px solid var(--tab-folder-border-color);
+                    border-bottom: 0;
+                    border-radius: 15px 15px 0 0;
+                    background: var(--tab-folder-background);
+                    position: relative;
+                    z-index: 1;
+                    margin-bottom: 0;
+
+                    &:hover {
+                        background: var(--tab-folder-active-background);
+                    }
+                }
+
+                &.active {
+                    button {
+                        background: var(--tab-folder-active-background);
+                        color: var(--tab-folder-active-color);
+                    }
+                }
+            }
+        }
+    }
+
+    &.slider {
+        > div {
+            flex: 0 0 100%;
+            visibility: visible;
+            opacity: 1;
+            animation: none !important;
+            transition: left .5s ease;
+        }
+
+        $var: 1;
+        $modifier: 0;
+
+        @for $i from 1 through 10 {
+            &[data-active-panel="#{$i}"] {
+                $loop: 1;
+                $loopModifier: $modifier;
+
+                @for $loop from 1 through 10 {
+                    > div:nth-of-type(#{$loop}) {
+                        $percent: (100% * $loopModifier);
+                        left: $percent;
+                    }
+
+                    $loopModifier: $loopModifier + 1;
+                }
+            }
+
+            $modifier: $modifier - 1;
+            $var: $var + 1;
+        }
+    }
+}
+
+@media (min-width: $breakpoint-md) {
+    .tabs {
+        > ul {
+            overflow: visible;
+        }
+    }
+}

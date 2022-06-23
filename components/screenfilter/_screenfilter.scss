@@ -1,0 +1,54 @@
+@import "./../../styles/mixin";
+
+:host, .screenfilter {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+
+    button {
+        width: 3rem;
+        height: 3rem;
+        border-radius: 50%;
+        background: var(--primary);
+        position: relative;
+        z-index: 2;
+        box-shadow: var(--box-shadow);
+
+        .icon, ::ng-deep codebase-icon {
+            width: 1.25rem;
+            height: 1.25rem;
+            @include absolute-center();
+
+            svg {
+                fill: var(--light);
+            }
+        }
+    }
+
+    .filter-query {
+        position: absolute;
+        bottom: calc(100% + .5rem);
+        right: 0;
+        z-index: 1;
+
+        input {
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            box-shadow: var(--box-shadow);
+            border: none;
+            font-size: 1rem;
+            width: 1rem;
+            transform: translateY(3rem);
+            opacity: 0;
+            transition: all .25s ease;
+        }
+
+        &.open {
+            input {
+                width: 12rem;
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    }
+}

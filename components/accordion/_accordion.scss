@@ -1,0 +1,79 @@
+:host, .accordion {
+    --accordion-toggle-background: var(--background-low);
+    --accordion-toggle-color: var(--foreground);
+    --accordion-body-background: var(--background);
+    --accordion-body-color: var(--foreground);
+
+    display: block;
+    border: 1px solid var(--border-color);
+    position: relative;
+
+    .toggle {
+        cursor: pointer;
+        padding: 1rem;
+        color: var(--accordion-toggle-color);
+        background: var(--accordion-toggle-background);
+        position: relative;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+
+        span {
+            flex: 0 0 auto;
+            position: relative;
+            padding-right: 2.25rem;
+
+            &::before, &::after {
+                content: "";
+                display: block;
+                position: absolute;
+                top: 50%;
+                width: .5rem;
+                height: 2px;
+                background: var(--accordion-toggle-color);
+                transition: all .5s ease;
+            }
+
+            &::before {
+                right: calc(1.5rem - 3px);
+                transform: translateY(-50%) rotate(45deg);
+            }
+
+            &::after {
+                right: 1rem;
+                transform: translateY(-50%) rotate(-45deg);
+            }
+        }
+
+        &.open {
+            &::before {
+                right: calc(1.5rem - 3px);
+                transform: translateY(-50%) rotate(-45deg);
+            }
+
+            &::after {
+                right: 1rem;
+                transform: translateY(-50%) rotate(45deg);
+            }
+        }
+    }
+
+    .accordion-body {
+        position: absolute;
+        width: 100%;
+        visibility: hidden;
+        overflow: hidden;
+        color: var(--accordion-body-color);
+        background: var(--accordion-body-background);
+        box-sizing: border-box;
+        transition: height .5s ease;
+        z-index: -1;
+        
+        &.open {
+            height: 0;
+            position: relative;
+            visibility: visible;
+            z-index: 1;
+        }
+    }
+}

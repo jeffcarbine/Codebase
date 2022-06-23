@@ -1,0 +1,10 @@
+:root {
+    --header-background: var(--background-low);
+}
+
+header {
+    width: 100%;
+    padding: 1rem;
+    box-sizing: border-box;
+    background: var(--header-background);
+}

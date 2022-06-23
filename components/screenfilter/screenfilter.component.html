@@ -1,0 +1,6 @@
+<button (click)="toggleFilter()">
+    <codebase-icon iconName="filter"></codebase-icon>
+</button>
+<div class="filter-query" [class.open]="filterOpen">
+    <input type="text" (input)="filterPage()" #pageFilterQuery />
+</div>

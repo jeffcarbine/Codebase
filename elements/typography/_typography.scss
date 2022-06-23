@@ -1,0 +1,132 @@
+@use "../../styles/mixin";
+
+$levels: 12;
+
+:root {
+  --root-font-size: 16px;
+
+  --base-font-size: var(--root-font-size);
+  --base-font-family: "Open Sans", sans-serif;
+  --base-line-height: calc(var(--base-font-size) * 1.5);
+  --base-font-weight: 300;
+
+  // p
+  --p-margin: calc(var(--base-font-size) * 0.75) 0;
+
+  // strong
+  --strong-font-weight: 700;
+
+  // headers
+  --base-heading-font-size: var(--base-font-size);
+  --base-heading-decrease: 0.85;
+  --base-heading-multiplier: 2.6;
+  --base-heading-line-height-multiplier: 1.125;
+
+  @for $level from 1 through $levels {
+    $i: $level - 1;
+    $decreasePower: 1;
+
+    @for $ii from 0 to $i {
+      $decreasePower: calc(#{$decreasePower} * var(--base-heading-decrease));
+    }
+
+    --f#{$level}-font-size: calc(
+      var(--base-heading-font-size) *
+        calc(var(--base-heading-multiplier) * #{$decreasePower})
+    );
+    --f#{$level}-line-height: calc(
+      var(--f#{$level}-font-size) * var(--base-heading-line-height-multiplier)
+    );
+    --f#{$level}-font-weight: 300;
+
+    @if $level <= 6 {
+      --f#{$level}-margin: 0 0 calc(var(--f#{$level}-font-size) * 0.25) 0;
+    }
+  }
+}
+
+html {
+  font-size: var(--base-font-size);
+  line-height: var(--base-line-height);
+  font-weight: var(--base-font-weight);
+}
+
+p {
+  line-height: calc(var(--base-font-size) * 2);
+  font-size: 1rem;
+  margin: var(--p-margin);
+
+  + p {
+    margin: 0 0 0.75rem 0;
+  }
+}
+
+a {
+  cursor: pointer;
+}
+
+strong {
+  font-weight: var(--strong-font-weight);
+}
+
+@mixin fontValues($i) {
+  font-size: var(--f#{$i}-font-size);
+  line-height: var(--f#{$i}-line-height);
+  font-weight: var(--f#{$i}-font-weight);
+}
+
+@mixin headingValues($i) {
+  @include fontValues($i);
+
+  span {
+    display: block;
+    font-size: calc(var(--f#{$i}-font-size) * 0.5);
+    line-height: calc(var(--f#{$i}-font-size) * 0.45);
+  }
+}
+
+@for $i from 1 through 6 {
+  h#{$i},
+  .h#{$i} {
+    @include headingValues(#{$i});
+    margin: var(--f#{$i}-margin);
+
+    + p {
+      margin-top: 0;
+    }
+  }
+}
+
+@for $i from 1 through $levels {
+  .f#{$i} {
+    @include fontValues(#{$i});
+  }
+}
+
+ul,
+ol {
+  margin-bottom: 0.75rem;
+  margin-left: 1.5rem;
+
+  li {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    margin-bottom: 0.25rem;
+  }
+}
+
+ul li {
+  list-style-type: circle;
+}
+
+@media only screen and (min-width: mixin.$breakpoint-sm) {
+  :root {
+    --base-font-size: calc(var(--root-font-size) * 1.25);
+  }
+}
+
+@media only screen and (min-width: mixin.$breakpoint-md) {
+  :root {
+    --base-font-size: calc(var(--root-font-size) * 1.5);
+  }
+}

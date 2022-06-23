@@ -1,0 +1,317 @@
+﻿/**
+    Input
+    Text/number inputs, textareas, checkbox, radios and all their variants
+*/
+
+:root {
+    --label-background: var(--background-low);
+    --label-color: var(--foreground);
+    --label-font-size: 1rem;
+    --label-line-height: 1rem;
+    --label-focus-font-size: .75rem;
+    --label-active-color: var(--foreground-mid);
+    --label-active-border-color: var(--accent);
+
+    --input-placeholder-color: var(--primary);
+
+    --checkbox-radio-font-size: 1rem;
+    --checkbox-radio-background-color: var(--background);
+    --checkbox-radio-color: var(--foreground);
+    --checkbox-radio-focus-background-color: var(--background-low);
+    --checkbox-radio-focus-border-color: var(--accent);
+
+    --input-background: transparent;
+    --input-color: var(--foreground);
+    --input-font-size: 16px; // note, this is to keep inputs from zooming on mobile devices, so modifiy at your own risk
+    --input-active-border-color: var(--accent);
+    --input-invalid-color: var(--negative);
+    --input-invalid-border-color: var(--input-invalid-color);
+    --input-focus-background: var(--primary);
+    --validation-message-color: var(--input-invalid-border-color);
+}
+
+// animation
+@keyframes labelBefore {
+    0% {
+        width: 1px;
+        height: 1px;
+        background: rgba(0,0,0,.05);
+    }
+
+    100% {
+        width: 1200px;
+        height: 1200px;
+        background: transparent;
+    }
+}
+
+// autofill fix?
+@keyframes autofill {
+    0%,100% {
+        color: #666;
+        background: transparent;
+    }
+}
+
+input:-webkit-autofill {
+    animation: autofill .5s forwards;
+    animation-delay: 1s; /* Safari support - any positive time runs instantly */
+}
+
+// some general input cleanup
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.style-inputs {
+    label {
+        color: var(--label-color);
+        font-size: var(--label-font-size);
+        line-height: var(--label-line-height);
+        transition: all .125s linear;
+        overflow: hidden;
+        z-index: 1;
+
+        // text/number inputs
+        &:not([for]) {
+            display: block;
+            position: relative;
+            margin: .5rem 0;
+            padding: 1.25rem .5rem;
+            box-sizing: border-box;
+            border-bottom: 1px solid transparent;
+
+            &::before, &::after {
+                content: "";
+                display: block;
+                @include absolute-center();
+            }
+            // this is the background of the label
+            &::after {
+                background: var(--label-background);
+                z-index: -3;
+                height: 100%;
+                width: 100%;
+            }
+            // this is the cool click animation
+            &::before {
+                position: absolute;
+                top: 50%;
+                left: var(--label-before-left);
+                height: 1px;
+                width: 1px;
+                border-radius: 50%;
+                z-index: -2;
+            }
+
+            &.active, &.has-value, &.permanent-active {
+                padding: .5rem .5rem 2rem .5rem;
+                color: var(--label-active-color);
+                font-size: var(--label-focus-font-size);
+            }
+
+            &.active {
+                border-color: var(--label-active-border-color);
+
+                &::before {
+                    animation: labelBefore 1.5s forwards;
+                    animation-delay: .125s;
+                }
+            }
+
+            input, select, textarea {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: calc(100% - 1rem);
+                z-index: 0;
+                border: none;
+                background: transparent;
+                outline: none;
+                box-sizing: border-box;
+                font-size: var(--input-font-size);
+                font-family: inherit;
+                cursor: default;
+
+                &::placeholder {
+                    color: var(--input-placeholder-color);
+                    font-style: italic;
+                }
+            }
+
+            .field-validation-error {
+                color: var(--validation-message-color);
+                font-size: var(--label-focus-font-size);
+            }
+
+            input, textarea {
+                padding: 0 calc(.5rem + 2px); // just to give it the illusion of being ligned up
+            }
+
+            textarea {
+                padding-top: .75rem;
+            }
+
+            select {
+                padding: 0 calc(.25rem + 2px); // just to give it the illusion of being ligned up
+                width: calc(100% - .5rem); // keeps spacing on the right hand side for the caret
+            }
+        }
+        // removes mm/dd//yyyy from date inputs
+        // as well as calendar pick icon
+        input[type=date] {
+            &::-webkit-datetime-edit {
+                color: transparent;
+            }
+
+            &::-webkit-calendar-picker-indicator {
+                display: none;
+            }
+        }
+
+        &.active {
+            input[type=date] {
+                &::-webkit-datetime-edit {
+                    color: inherit;
+                }
+            }
+        }
+    }
+
+    // checkboxes and radios
+    input[type=checkbox], input[type=radio] {
+        width: 0px;
+        height: 0px;
+        overflow: hidden;
+        position: relative;
+        z-index: -1;
+        margin: 0;
+        flex: 0 0 auto;
+        // this broke stuff before, but it's breaking more stuff now
+        // so we're going to do it again and make note here that there's
+        // no way to make it vanish in Firefox without using display: none
+        // so if it really breaks stuff, then we need to rethink something
+        // else instead
+        display: none;
+
+        + label {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            padding-left: 1.5rem;
+            cursor: pointer;
+            line-height: var(--base-line-height);
+
+            &::before, &::after {
+                content: "";
+                display: block;
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            &::before {
+                opacity: 0;
+                z-index: 1;
+                transition: all .25s ease;
+            }
+
+            &::after {
+                background: var(--checkbox-radio-background-color);
+                border: 1px solid rgba(0,0,0,.1);
+                width: 1rem;
+                height: 1rem;
+                left: 0;
+                z-index: 0;
+                transition: all .5s ease;
+            }
+        }
+
+        &:checked {
+            + label {
+                &::before {
+                    opacity: 1;
+                }
+            }
+        }
+
+        &:focus {
+            + label {
+                &::after {
+                    background: var(--checkbox-radio-focus-background-color);
+                    border-color: var(--checkbox-radio-focus-border-color);
+                }
+            }
+        }
+
+        &.contained {
+            + label {
+                padding-left: 0;
+                width: 1rem;
+                display: inline-block;
+                text-align: center;
+                font-size: .8rem;
+                border: 1px solid transparent;
+
+                &::before {
+                    display: none;
+                }
+
+                &::after {
+                    z-index: -1;
+                    left: 50%;
+                    transform: translate(-50%,-50%);
+                }
+            }
+
+            &:checked {
+                + label {
+                    &::after {
+                        background: var(--checkbox-radio-focus-border-color);
+                    }
+                }
+            }
+        }
+    }
+
+    input[type=checkbox] {
+        + label {
+            &::before {
+                width: .25rem;
+                height: .5rem;
+                border: 1px solid var(--checkbox-radio-color);
+                border-top: none;
+                border-left: none;
+                transform: translateY(-60%) rotate(45deg);
+                left: .45rem;
+            }
+        }
+    }
+
+    input[type=radio] {
+        + label {
+            &::before, &::after {
+                border-radius: 50%;
+            }
+
+            &::before {
+                left: calc(.25rem + 1px);
+                width: .5rem;
+                height: .5rem;
+                background: var(--checkbox-radio-color);
+            }
+        }
+    }
+
+}

@@ -1,0 +1,44 @@
+:root {
+    --button-border-radius: 0;
+    --button-background: var(--accent);
+    --button-color: var(--foreground);
+    --button-focus-color: var(--foreground);
+    --button-focus-background: var(--accent-step);
+    --button-font-weight: 400;
+    --button-font-size: 1rem;
+    --button-padding-x: 1.125rem;
+    --button-padidng-y:  1.5rem;
+}
+
+button {
+    outline: none;
+    cursor: pointer;
+}
+
+.btn {
+    outline: none;
+    padding: var(--button-padding-x) var(--button-padding-y);
+    border: none;
+    transition: all .25s ease;
+    font-size: var(--button-font-size);
+    text-decoration: none;
+    line-height: 1rem;
+    display: inline-block;
+    font-weight: var(--button-font-weight);
+    font-family: unset; // override browser defaults and listen to the body
+    margin: .25rem 0;
+    background: var(--button-background);
+    color: var(--button-color);
+    border-radius: var(--button-border-radius);
+    cursor: pointer;
+
+    &:focus, &:hover {
+        background:var(--button-focus-background);
+        color: var(--button-focus-color);
+    }
+
+    &.block {
+        display: block;
+        width: 100%;
+    }
+}

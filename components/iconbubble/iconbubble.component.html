@@ -1,0 +1,6 @@
+<button #button (mouseover)="toggleHover(true)" (mouseout)="toggleHover(false)" (click)="toggleClick()">
+    <codebase-icon iconName="question-circle"></codebase-icon>
+</button>
+<div class="bubble" [class.hovered]="hovered" [class.clicked]="clicked" [class.left]="left" [class.right]="!left">
+    <ng-content></ng-content>
+</div>

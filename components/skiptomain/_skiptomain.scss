@@ -1,0 +1,15 @@
+#skip-to-main {
+    position: fixed;
+    top: -5rem;
+    left: .5rem;
+    z-index: 100;
+    transition: all .25s ease;
+
+    &:focus {
+        top: .5rem;
+    }
+}
+
+main {
+    outline: 0;
+}

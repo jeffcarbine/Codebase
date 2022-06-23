@@ -1,0 +1,8 @@
+<button (click)="toggle($event)" [class.open]="isOpen" class="toggle">
+  <span>
+    <ng-content select="[button]"></ng-content>
+  </span>
+</button>
+<div #body class="accordion-body" [class.open]="isOpen">
+  <ng-content select="[body]"></ng-content>
+</div>
