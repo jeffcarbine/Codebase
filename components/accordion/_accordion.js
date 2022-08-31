@@ -11,12 +11,11 @@ function toggleAccordion(target) {
   // the body of the accordion always follow right after the button
   let accordionBody = target.nextElementSibling;
 
-  // check to see whether or not the it is collapsed
-  if (accordionBody.classList.contains("collapsed")) {
+  // check to see whether or not the it is open
+  if (!accordionBody.classList.contains("open")) {
     // create the function to handle opening the accordion
     let openAccordionBody = function () {
-      accordionBody.classList.remove("collapsed");
-      target.classList.add("open");
+      accordionBody.classList.add("open");
     };
 
     // we need to add the delegate to listen for resizing
@@ -53,8 +52,7 @@ function toggleAccordion(target) {
     }
   } else {
     // or we just close the accordion
-    accordionBody.classList.add("collapsed");
-    target.classList.remove("open");
+    accordionBody.classList.remove("open");
   }
 }
 
