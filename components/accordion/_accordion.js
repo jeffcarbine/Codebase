@@ -11,81 +11,45 @@ function toggleAccordion(target) {
   // the body of the accordion always follow right after the button
   let accordionBody = target.nextElementSibling;
 
+  const height = accordionBody.offsetHeight,
+    transitionDuration = getComputedStyle(accordionBody).getPropertyValue(
+      "transition-duration"
+    ),
+    delay = parseFloat(transitionDuration.replace("s", "")) * 1000;
+
   // check to see whether or not the it is open
   if (!accordionBody.classList.contains("open")) {
-    // create the function to handle opening the accordion
-    let openAccordionBody = function () {
-      accordionBody.classList.add("open");
-    };
+    // now set a 10ms timeout so we can add the height inline and then
+    // transition to the height px value
 
-    // we need to add the delegate to listen for resizing
-    // after the first accordion is opened
-    if (!accordionsToRemeasure) {
-      console.log("time to remeasure accordions!");
-      addEventDelegate(
-        "resize, orientationchange",
-        window,
-        remeasureAccordions
-      );
+    accordionBody.classList.add("open");
 
-      // prevent it from doing it again after this one time
-      accordionsToRemeasure = true;
-    }
+    setTimeout(() => {
+      accordionBody.style.height = height + "px";
+    }, 10);
 
-    // if this is the first time, there is a 50ms delay
-    // while we measure the accordion-body
-    if (!accordionBody.classList.contains("measured")) {
-      // get height
-      let height = accordionBody.offsetHeight + "px";
-      accordionBody.style.height = height;
-
-      // add class of measured
-      accordionBody.classList.add("measured");
-
-      // and open after 50ms timeout
-      setTimeout(function () {
-        openAccordionBody();
-      }, 50);
-    } else {
-      // otherwise, we just open it
-      openAccordionBody();
-    }
+    // and after the transition duration, change the inline
+    // height to "auto" so that we aren't stuck at a pixel height
+    setTimeout(() => {
+      accordionBody.style.height = "auto";
+    }, delay);
   } else {
-    // or we just close the accordion
-    accordionBody.classList.remove("open");
+    // set the accordion's height back to it's precise pixel amount
+    accordionBody.style.height = height + "px";
+
+    // then after a short timeout, set it to null so as
+    // to trigger the transition
+    setTimeout(() => {
+      accordionBody.style.height = null;
+    }, 10);
+
+    // and then after the transition duration, remove the open
+    // class from the accordion-body
+    setTimeout(() => {
+      accordionBody.classList.remove("open");
+    }, delay);
   }
 }
 
 // event for opening the accordion via the .toggle element
 addEventDelegate("click", ".accordion .toggle", toggleAccordion);
-
-// whether or not we should start remeasuring
-let accordionsToRemeasure = false;
-
-/**
- * Remeasure Accordions
- * This remeasures all the currently measured accordions whenever the screen is resized or orientation is changed.
- */
-
-function remeasureAccordions() {
-  // get all the measured accordion-body elements
-  let accordionBodies = document.querySelectorAll(".accordion-body.measured");
-
-  // loop through them
-  accordionBodies.forEach(function (accordionBody) {
-    // remove the measured class so we can get it into a measurable state
-    accordionBody.classList.remove("measured");
-
-    // remove the inline height
-    accordionBody.style.removeProperty("height");
-
-    // and recalculate it
-    let height = accordionBody.offsetHeight + "px";
-    accordionBody.style.height = height;
-
-    // add the measured class after a 50ms timeout
-    setTimeout(function () {
-      accordionBody.classList.add("measured");
-    }, 50);
-  });
-}

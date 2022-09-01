@@ -22,22 +22,28 @@
 
 const xhr = function (method, path, success, error, failure, data) {
   // start by creating a request
-  const request = new XMLHttpRequest();
+  let request = new XMLHttpRequest();
   request.open(method, path);
 
-  request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
   request.onload = function () {
     if (request.status === 200) {
-      success(request);
+      success(request.response);
     } else if (request.status === 500) {
-      failure(request);
+      failure(request.response);
     } else {
-      error(request);
+      error(request.response);
     }
   };
 
-  request.send(JSON.stringify(data));
+  request.onerror = function () {
+    error(request.response);
+  };
+
+  const requestBody = new URLSearchParams(data).toString();
+
+  request.send(requestBody);
 };
 
 const xhrForm = function (path, form) {
@@ -50,12 +56,27 @@ const xhrForm = function (path, form) {
     json[key] = value;
   });
 
+  // get the expected response box
+  const responseBox = form.querySelector("#response");
+
+  const renderResponse = function (string, status) {
+    responseBox.className = status;
+    responseBox.textContent = string;
+  };
+
   // default behaviours for success, error and failure
-  const success = function () {};
+  const success = function (response) {
+    renderResponse(response, "success");
+    form.reset();
+  };
 
-  const error = function () {};
+  const error = function (response) {
+    renderResponse(response, "error");
+  };
 
-  const failure = function () {};
+  const failure = function (response) {
+    renderResponse(response, "failure");
+  };
 
   // and now pass this all to the xhr function
   xhr("POST", path, success, error, failure, json);
