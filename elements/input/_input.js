@@ -20,7 +20,7 @@ function initializeLabel(label) {
 function initializeLabels() {
   let labels = document.querySelectorAll("label:not([data-label-init])");
 
-  loop(labels, function(label) {
+  labels.forEach(function (label) {
     initializeLabel(label);
   });
 }
@@ -251,7 +251,7 @@ addEventDelegate("keyup", "input[type=tel]", backspacerUP);
 
 // CURRENCY FORMATTER
 
-Number.prototype.countDecimals = function() {
+Number.prototype.countDecimals = function () {
   if (Math.floor(this.valueOf()) === this.valueOf()) return 0;
   return this.toString().split(".")[1].length || 0;
 };

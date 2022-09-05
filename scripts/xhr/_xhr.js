@@ -46,21 +46,39 @@ const xhr = function (method, path, success, error, failure, data) {
   request.send(requestBody);
 };
 
-const xhrForm = function (path, form) {
-  // get the formData
-  const formData = new FormData(form);
+const xhrForm = function (form) {
+  // get the data from the form
+  const formData = new FormData(form),
+    method = form.method,
+    action = form.action;
 
   let json = {};
 
   formData.forEach(function (value, key) {
-    json[key] = value;
+    // need to create subobjects
+    if (key.includes(".")) {
+      // then split it and assign it as split
+      let parent = key.split(".")[0],
+        child = key.split(".")[1];
+
+      // and if the parent is undefined, define it
+      if (json[parent] === undefined) {
+        json[parent] = {};
+      }
+
+      json[parent][child] = value;
+    } else {
+      json[key] = value;
+    }
   });
 
+  console.log(json);
+
   // get the expected response box
-  const responseBox = form.querySelector("#response");
+  const responseBox = form.querySelector(".response");
 
   const renderResponse = function (string, status) {
-    responseBox.className = status;
+    responseBox.dataset.status = status;
     responseBox.textContent = string;
   };
 
@@ -79,5 +97,8 @@ const xhrForm = function (path, form) {
   };
 
   // and now pass this all to the xhr function
-  xhr("POST", path, success, error, failure, json);
+  xhr(method, action, success, error, failure, json);
 };
+
+// run xhrForm on any form with a class of xhr
+addEventDelegate("submit", "form.xhr", xhrForm, true);

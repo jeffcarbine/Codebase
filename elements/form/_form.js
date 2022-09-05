@@ -21,12 +21,12 @@ function convertBreak(br) {
   br.remove();
 }
 
-window.addEventListener("load", function() {
+window.addEventListener("load", function () {
   let forms = document.querySelectorAll("form");
 
-  loop(forms, function(form) {
+  loop(forms, function (form) {
     let brs = form.querySelectorAll("br");
-    loop(brs, function(br) {
+    loop(brs, function (br) {
       convertBreak(br);
     });
   });
@@ -39,7 +39,7 @@ window.addEventListener("load", function() {
 function autofillHelper(form) {
   let inputs = form.querySelectorAll("input");
 
-  loop(inputs, function(input) {
+  loop(inputs, function (input) {
     let label = input.parentNode;
     if (input.value !== "") {
       if (!label.classList.contains("has-value")) {
