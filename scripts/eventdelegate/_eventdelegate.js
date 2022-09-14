@@ -174,7 +174,7 @@ document.addEventListener("scroll", function (e) {
  * @notes The use of this is detailed in the first comment in this file
  */
 
-function addEventDelegate(event, target, func, preventDefault = false) {
+const addEventDelegate = (event, target, func, preventDefault = false) => {
   // first, we need to check what kind of event is being registered
   // -- if it is a load or resize function that are being set to the
   // window, then they need to be handled differently and just get
@@ -212,7 +212,9 @@ function addEventDelegate(event, target, func, preventDefault = false) {
       registerEvent(event, target, func, preventDefault);
     }
   }
-}
+};
+
+export { addEventDelegate };
 
 /**
  * Register Event
