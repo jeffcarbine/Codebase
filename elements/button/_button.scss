@@ -1,9 +1,9 @@
 :root {
   --button-border-radius: 0;
-  --button-background: var(--accent);
-  --button-color: var(--foreground);
-  --button-focus-color: var(--foreground);
-  --button-focus-background: var(--accent-step);
+  --button-background: var(--primary);
+  --button-color: var(--light);
+  --button-focus-color: var(--light);
+  --button-focus-background: var(--primary-step);
   --button-font-weight: 400;
   --button-font-size: 1rem;
   --button-padding-x: 1.125rem;

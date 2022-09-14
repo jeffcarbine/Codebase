@@ -35,6 +35,16 @@ form {
       }
     }
   }
+
+  .response {
+    padding: 2rem 1rem;
+    margin: 1rem 0;
+    box-sizing: border-box;
+
+    &[data-status="error"] {
+      background: var(--yellow);
+    }
+  }
 }
 
 @media (min-width: $breakpoint-md) {

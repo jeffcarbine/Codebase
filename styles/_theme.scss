@@ -1,8 +1,8 @@
 ﻿:root {
-  --primary: #455a64;
-  --primary-step: #33434a;
-  --accent: #ffc317;
-  --accent-step: #ffcb29;
+  --primary: hsl(197, 37%, 24%);
+  --primary-step: hsl(197, 37%, 34%);
+  --accent: hsl(344, 20%, 63%);
+  --accent-step: hsl(344, 20%, 73%);
 
   --dark: #252422;
   --dark-low: #383736;
@@ -19,13 +19,16 @@
   --background-low: var(--light-low);
   --background-mid: var(--light-mid);
 
-  --green: #32965d;
-  --green-step: #c8e1d2;
-  --red: #be5446;
-  --red-step: #edd7d4;
+  --green: hsl(173, 58%, 39%);
+  --green-step: hsl(173, 58%, 59%);
+  --red: hsl(12, 76%, 61%);
+  --red-step: hsl(12, 76%, 81%);
+  --yellow: hsl(43, 74%, 66%);
+  --yellow-step: hsl(43, 74%, 86%);
 
   --positive: var(--green);
   --negative: var(--red);
+  --warning: var(--yellow);
 
   --box-shadow: 0px 7px 10px -5px rgba(0, 0, 0, 0.25);
   --border-radius: 0.25rem;
