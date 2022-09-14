@@ -1,7 +1,7 @@
 import { addEventDelegate } from "../eventdelegate/_eventdelegate.js";
 import xhr from "./_xhr.js";
 
-const xhrForm = function (form) {
+const authXhr = function (form) {
   // get the data from the form
   const formData = new FormData(form),
     method = form.method,
@@ -38,37 +38,23 @@ const xhrForm = function (form) {
   };
 
   // default behaviours for success, error and failure
-  const success = function (request) {
+  const success = function (response) {
     const redirect = form.dataset.redirect !== undefined;
 
     if (redirect) {
       window.location = form.dataset.redirect;
     } else {
-      response.renderResponse(request.response, "success");
+      response.renderResponse(response, "success");
       form.reset();
     }
   };
 
-  const error = function (request) {
-    let message = request.response;
-
-    if (request.status === 400) {
-      if (form.dataset.http400 !== undefined) {
-        message = form.dataset.http400;
-      }
-    }
-
-    if (request.status === 401) {
-      if (form.dataset.http401 !== undefined) {
-        message = form.dataset.http401;
-      }
-    }
-
-    renderResponse(message, "error");
+  const error = function (response) {
+    renderResponse(response, "error");
   };
 
-  const failure = function (request) {
-    renderResponse(request.response, "failure");
+  const failure = function (response) {
+    renderResponse(response, "failure");
   };
 
   // and now pass this all to the xhr function

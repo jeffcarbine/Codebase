@@ -30,11 +30,11 @@ export default (method, path, success, error, failure, data) => {
   request.onload = function () {
     console.log(request.status);
     if (request.status === 200) {
-      success(request.response);
+      success(request);
     } else if (request.status === 500) {
-      failure(request.response);
+      failure(request);
     } else {
-      error(request.response);
+      error(request);
     }
   };
 
