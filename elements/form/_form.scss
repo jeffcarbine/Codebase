@@ -1,7 +1,12 @@
-﻿form {
+﻿:root {
+  --form-width: 30rem;
+}
+
+form {
   display: flex;
   flex-wrap: wrap;
-  width: 100%;
+  width: var(--form-width);
+  margin: 0 auto;
 
   .linebreak {
     flex: 0 0 100%;
