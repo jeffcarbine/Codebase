@@ -1,7 +1,12 @@
-﻿form {
+﻿:root {
+  --form-width: 30rem;
+}
+
+form {
   display: flex;
   flex-wrap: wrap;
-  width: 100%;
+  width: var(--form-width);
+  margin: 0 auto;
 
   .linebreak {
     flex: 0 0 100%;
@@ -28,6 +33,16 @@
       + label[for] {
         margin-top: -0.5rem;
       }
+    }
+  }
+
+  .response {
+    padding: 2rem 1rem;
+    margin: 1rem 0;
+    box-sizing: border-box;
+
+    &[data-status="error"] {
+      background: var(--yellow);
     }
   }
 }
