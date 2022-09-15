@@ -38,23 +38,37 @@ const xhrForm = function (form) {
   };
 
   // default behaviours for success, error and failure
-  const success = function (response) {
+  const success = function (request) {
     const redirect = form.dataset.redirect !== undefined;
 
     if (redirect) {
       window.location = form.dataset.redirect;
     } else {
-      response.renderResponse(response, "success");
+      response.renderResponse(request.response, "success");
       form.reset();
     }
   };
 
-  const error = function (response) {
-    renderResponse(response, "error");
+  const error = function (request) {
+    let message = request.response;
+
+    if (request.status === 400) {
+      if (form.dataset.http400 !== undefined) {
+        message = form.dataset.http400;
+      }
+    }
+
+    if (request.status === 401) {
+      if (form.dataset.http401 !== undefined) {
+        message = form.dataset.http401;
+      }
+    }
+
+    renderResponse(message, "error");
   };
 
-  const failure = function (response) {
-    renderResponse(response, "failure");
+  const failure = function (request) {
+    renderResponse(request.response, "failure");
   };
 
   // and now pass this all to the xhr function
