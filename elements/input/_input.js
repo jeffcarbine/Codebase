@@ -1,4 +1,6 @@
-﻿var inputString =
+﻿import { addEventDelegate } from "../../scripts/eventdelegate/_eventdelegate.js";
+
+var inputString =
   "input:not([type=checkbox]):not([type=radio]), select, textarea";
 
 function initializeLabel(label) {

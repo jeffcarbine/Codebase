@@ -20,7 +20,7 @@
  *
  */
 
-const xhr = function (method, path, success, error, failure, data) {
+export default (method, path, success, error, failure, data) => {
   // start by creating a request
   let request = new XMLHttpRequest();
   request.open(method, path);
@@ -28,6 +28,7 @@ const xhr = function (method, path, success, error, failure, data) {
   request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
   request.onload = function () {
+    console.log(request.status);
     if (request.status === 200) {
       success(request.response);
     } else if (request.status === 500) {
@@ -45,60 +46,3 @@ const xhr = function (method, path, success, error, failure, data) {
 
   request.send(requestBody);
 };
-
-const xhrForm = function (form) {
-  // get the data from the form
-  const formData = new FormData(form),
-    method = form.method,
-    action = form.action;
-
-  let json = {};
-
-  formData.forEach(function (value, key) {
-    // need to create subobjects
-    if (key.includes(".")) {
-      // then split it and assign it as split
-      let parent = key.split(".")[0],
-        child = key.split(".")[1];
-
-      // and if the parent is undefined, define it
-      if (json[parent] === undefined) {
-        json[parent] = {};
-      }
-
-      json[parent][child] = value;
-    } else {
-      json[key] = value;
-    }
-  });
-
-  console.log(json);
-
-  // get the expected response box
-  const responseBox = form.querySelector(".response");
-
-  const renderResponse = function (string, status) {
-    responseBox.dataset.status = status;
-    responseBox.textContent = string;
-  };
-
-  // default behaviours for success, error and failure
-  const success = function (response) {
-    renderResponse(response, "success");
-    form.reset();
-  };
-
-  const error = function (response) {
-    renderResponse(response, "error");
-  };
-
-  const failure = function (response) {
-    renderResponse(response, "failure");
-  };
-
-  // and now pass this all to the xhr function
-  xhr(method, action, success, error, failure, json);
-};
-
-// run xhrForm on any form with a class of xhr
-addEventDelegate("submit", "form.xhr", xhrForm, true);
