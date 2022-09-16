@@ -1,3 +1,5 @@
+import { addEventDelegate } from "../../scripts/eventdelegate/_eventdelegate.js";
+
 /**
  * Toggle Accordions
  * This toggles the accordion open and closed.
