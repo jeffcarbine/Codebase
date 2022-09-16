@@ -1,10 +1,9 @@
 import User from "../../models/user.js";
 import passport from "passport";
+import authRender from "./auth-render.js";
 
 export const login = (req, res) => {
-  res.render("login", {
-    subtitle: "Log In",
-  });
+  authRender(req, res, "login");
 };
 
 export const signup = (req, res) => {
@@ -25,15 +24,19 @@ export const register = (req, res) => {
     return res.status(500).send("Passwords do not match");
   }
 
-  User.register(new User({ username }), password, (err, account) => {
-    if (err) {
-      return res.render("signup", { account: account });
-    }
+  User.register(
+    new User({ username, admin: false }),
+    password,
+    (err, account) => {
+      if (err) {
+        return res.render("signup", { account: account });
+      }
 
-    passport.authenticate("local")(req, res, () => {
-      res.redirect("/");
-    });
-  });
+      passport.authenticate("local")(req, res, () => {
+        res.redirect("/");
+      });
+    }
+  );
 };
 
 export const authenticate = (req, res) => {
