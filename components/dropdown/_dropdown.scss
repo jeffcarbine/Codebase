@@ -1,34 +1,6 @@
-:root, ::ng-deep :root {
+:root {
   --dropdown-background: var(--background-low);
   --dropdown-button-background: transparent;
-}
-
-@keyframes dropdownOpen {
-  from {
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-1rem);
-  }
-
-  to {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-  }
-}
-
-@keyframes dropdownClose {
-  from {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-  }
-
-  to {
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-1rem);
-  }
 }
 
 .dropdown,
@@ -41,6 +13,8 @@
     padding-right: 2.25rem;
     background: var(--dropdown-button-background);
     height: 100%;
+    z-index: 1;
+    cursor: pointer;
 
     &::before,
     &::after {
@@ -76,7 +50,8 @@
     &.noCarat {
       padding-right: 0;
 
-      &::before, &::after {
+      &::before,
+      &::after {
         display: none;
       }
     }
@@ -85,18 +60,14 @@
   > div {
     background: var(--dropdown-background);
     position: absolute;
-    z-index: 8;
+    z-index: 0;
     top: 100%;
     overflow: hidden;
     padding: 0 1rem;
     box-sizing: border-box;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-1rem);
-
-    &.animate {
-      animation: dropdownClose 0.5s forwards;
-    }
+    transition: height 0.5s ease;
 
     &::before,
     &::after {
@@ -107,7 +78,9 @@
     }
 
     &.open {
-      animation: dropdownOpen 0.5s forwards;
+      height: 0px;
+      opacity: 1;
+      visibility: visible;
     }
   }
 

@@ -20,7 +20,20 @@
  *
  */
 
-export default (method, path, success, error, failure, data) => {
+export default (
+  method,
+  path,
+  success = (request) => {
+    console.log(request.response);
+  },
+  error = (request) => {
+    console.log(request.response);
+  },
+  failure = (request) => {
+    console.log(request.response);
+  },
+  data
+) => {
   // start by creating a request
   let request = new XMLHttpRequest();
   request.open(method, path);

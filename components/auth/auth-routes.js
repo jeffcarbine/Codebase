@@ -1,6 +1,7 @@
 import User from "../../models/user.js";
 import passport from "passport";
 import authRender from "./auth-render.js";
+import emailValidator from "email-validator";
 
 export const login = (req, res) => {
   authRender(req, res, "login");
@@ -22,6 +23,11 @@ export const register = (req, res) => {
   // first, check to see if the passwords match
   if (password !== passwordConfirm) {
     return res.status(500).send("Passwords do not match");
+  }
+
+  // and then check if the email is valid
+  if (!emailValidator.validate(username)) {
+    return res.status(500).send("Not a valid email address.");
   }
 
   User.register(

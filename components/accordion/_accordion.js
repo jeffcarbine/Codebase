@@ -9,10 +9,14 @@ import { addEventDelegate } from "../../scripts/eventdelegate/_eventdelegate.js"
  * @param {element} target the accorion opening button
  */
 
-function toggleAccordion(target) {
+const handleAccordionClick = (target) => {
   // the body of the accordion always follow right after the button
-  let accordionBody = target.nextElementSibling;
+  const accordionBody = target.nextElementSibling;
 
+  toggleAccordion(accordionBody, target);
+};
+
+const toggleAccordion = (accordionBody, accordionButton) => {
   const height = accordionBody.offsetHeight,
     transitionDuration = getComputedStyle(accordionBody).getPropertyValue(
       "transition-duration"
@@ -25,6 +29,7 @@ function toggleAccordion(target) {
     // transition to the height px value
 
     accordionBody.classList.add("open");
+    accordionButton.classList.add("open");
 
     setTimeout(() => {
       accordionBody.style.height = height + "px";
@@ -38,6 +43,7 @@ function toggleAccordion(target) {
   } else {
     // set the accordion's height back to it's precise pixel amount
     accordionBody.style.height = height + "px";
+    console.log(height);
 
     // then after a short timeout, set it to null so as
     // to trigger the transition
@@ -51,7 +57,10 @@ function toggleAccordion(target) {
       accordionBody.classList.remove("open");
     }, delay);
   }
-}
+};
 
-// event for opening the accordion via the .toggle element
-addEventDelegate("click", ".accordion .toggle", toggleAccordion);
+// export for use in typescript
+export { toggleAccordion };
+
+// // event for opening the accordion via the .toggle element
+addEventDelegate("click", ".accordion .toggle", handleAccordionClick);
