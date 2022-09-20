@@ -1,4 +1,5 @@
 import { addEventDelegate } from "../../scripts/eventdelegate/_eventdelegate.js";
+import { smoothScroll } from "../../scripts/smoothscroll/_smoothscroll.js";
 
 /**
  * Toggle Accordions
@@ -9,7 +10,7 @@ import { addEventDelegate } from "../../scripts/eventdelegate/_eventdelegate.js"
  * @param {element} target the accorion opening button
  */
 
-const handleAccordionClick = (target) => {
+export const handleAccordionClick = (target) => {
   // the body of the accordion always follow right after the button
   const accordionBody = target.nextElementSibling;
 
@@ -64,3 +65,26 @@ export { toggleAccordion };
 
 // // event for opening the accordion via the .toggle element
 addEventDelegate("click", ".accordion .toggle", handleAccordionClick);
+
+// automatically expand the accordion that matches the hash
+if (window.location.hash !== "") {
+  const hash = window.location.hash;
+  // then we have a hash, and we need to check to see if there's a matching element onscreen
+  const hashAccordion = document.querySelector(".accordion" + hash);
+
+  if (hashAccordion !== undefined) {
+    // delay to illustate the location of the faq
+    setTimeout(() => {
+      smoothScroll(hash);
+
+      // and then open the accordion
+      setTimeout(() => {
+        const accordionButton = hashAccordion.querySelector("button");
+        handleAccordionClick(accordionButton);
+
+        // and give the accordion a highlighted class
+        hashAccordion.classList.add("highlighted");
+      }, 500);
+    }, 500);
+  }
+}
