@@ -1,0 +1,10 @@
+.dropdown.admin {
+  --dropdown-carat-color: var(--light);
+  z-index: 100;
+
+  > button {
+    background: var(--red);
+    color: var(--light);
+    text-transform: uppercase;
+  }
+}

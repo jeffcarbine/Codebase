@@ -1,6 +1,7 @@
 :root {
   --dropdown-background: var(--background-low);
-  --dropdown-button-background: transparent;
+  --dropdown-button-background: var(--button-background);
+  --dropdown-carat-color: var(--button-color);
 }
 
 .dropdown,
@@ -10,11 +11,14 @@
   > button {
     margin-bottom: 0;
     position: relative;
-    padding-right: 2.25rem;
+    padding: var(--button-padding-y) 2.25rem var(--button-padding-y)
+      var(--button-padding-x);
     background: var(--dropdown-button-background);
+    border: none;
     height: 100%;
     z-index: 1;
     cursor: pointer;
+    font-size: var(--button-font-size);
 
     &::before,
     &::after {
@@ -24,7 +28,7 @@
       position: absolute;
       top: 50%;
       transition: all 0.5s ease;
-      background: var(--button-color);
+      background: var(--dropdown-carat-color);
     }
 
     &::before {
