@@ -10,7 +10,6 @@ import { toggleAccordion } from "../accordion/_accordion.js";
 
 const handleDropdownClick = (dropdownButton) => {
   let dropdownBody = dropdownButton.nextElementSibling;
-  console.log(dropdownBody);
 
   toggleDropdown(dropdownBody, dropdownButton);
 };
@@ -18,5 +17,7 @@ const handleDropdownClick = (dropdownButton) => {
 const toggleDropdown = (dropdownBody, dropdownButton) => {
   toggleAccordion(dropdownBody, dropdownButton);
 };
+
+export { toggleDropdown };
 
 addEventDelegate("click", ".dropdown > button", handleDropdownClick);

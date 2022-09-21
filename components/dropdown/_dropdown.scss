@@ -4,8 +4,7 @@
   --dropdown-carat-color: var(--button-color);
 }
 
-.dropdown,
-:host {
+.dropdown, .dropdown-select {
   position: relative;
 
   > button {
@@ -109,6 +108,22 @@
         &::before {
           transform: translateY(-50%) rotate3d(0, 0, 0, 180deg);
         }
+      }
+    }
+  }
+}
+
+// specific dropdown-select stuff
+.dropdown-select {
+  > div {
+    ul {
+      margin: 0;
+      padding: 0;
+
+      li {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;  
       }
     }
   }
