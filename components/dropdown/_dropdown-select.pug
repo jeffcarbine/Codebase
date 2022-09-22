@@ -1,0 +1,5 @@
+mixin dropdownSelect(className, title)
+    include ../dropdown/_dropdown.pug
+
+    +dropdown("select " + className, title)
+        block

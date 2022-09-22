@@ -17,7 +17,7 @@ export const handleAccordionClick = (target) => {
   toggleAccordion(accordionBody, target);
 };
 
-const toggleAccordion = (accordionBody, accordionButton) => {
+const toggleAccordion = (accordionBody, accordionButton, callback) => {
   const height = accordionBody.offsetHeight,
     transitionDuration = getComputedStyle(accordionBody).getPropertyValue(
       "transition-duration"
@@ -56,6 +56,7 @@ const toggleAccordion = (accordionBody, accordionButton) => {
     // class from the accordion-body
     setTimeout(() => {
       accordionBody.classList.remove("open");
+      accordionButton.classList.remove("open");
     }, delay);
   }
 };

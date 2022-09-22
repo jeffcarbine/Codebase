@@ -4,8 +4,9 @@
   --dropdown-carat-color: var(--button-color);
 }
 
-.dropdown, .dropdown-select {
+.dropdown {
   position: relative;
+  z-index: 10;
 
   > button {
     margin-bottom: 0;
@@ -62,8 +63,9 @@
 
   > div {
     background: var(--dropdown-background);
+    border: 1px solid var(--border-color);
     position: absolute;
-    z-index: 0;
+    z-index: 10;
     top: 100%;
     overflow: hidden;
     padding: 0 1rem;
@@ -71,6 +73,7 @@
     opacity: 0;
     visibility: hidden;
     transition: height 0.5s ease;
+    box-shadow: var(--box-shadow);
 
     &::before,
     &::after {
@@ -111,20 +114,23 @@
       }
     }
   }
-}
 
-// specific dropdown-select stuff
-.dropdown-select {
-  > div {
-    ul {
-      margin: 0;
-      padding: 0;
+  &.select {
+    > div {
+      max-height: 15rem;
+      overflow-y: scroll;
 
-      li {
+      ul {
         margin: 0;
         padding: 0;
-        list-style-type: none;  
+  
+        li {
+          margin: 0;
+          padding: 0;
+          list-style-type: none;  
+        }
       }
     }
   }
 }
+

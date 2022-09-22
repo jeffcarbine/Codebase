@@ -18,6 +18,30 @@ const toggleDropdown = (dropdownBody, dropdownButton) => {
   toggleAccordion(dropdownBody, dropdownButton);
 };
 
-export { toggleDropdown };
-
 addEventDelegate("click", ".dropdown > button", handleDropdownClick);
+
+/**
+ * Dropdown Select
+ * This is the specific controls for if we have a .dropdown.select
+ */
+
+const handleDropdownSelectClick = (dropdownSelectButton) => {
+  // so what we need to do is find the main button for the dropdown
+  const dropdown = dropdownSelectButton.closest(".dropdown"),
+    mainDropdownButton = dropdown.querySelector(":scope > button"),
+    mainDropdownBody = dropdown.querySelector(":scope > div");
+
+  // now we just update the text
+  const textContent = dropdownSelectButton.textContent;
+
+  mainDropdownButton.textContent = textContent;
+
+  // and toggle the dropdown
+  toggleAccordion(mainDropdownBody, mainDropdownButton);
+};
+
+addEventDelegate(
+  "click",
+  ".dropdown.select ul li a, .dropdown.select ul li button",
+  handleDropdownSelectClick
+);
