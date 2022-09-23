@@ -1,5 +1,5 @@
 ﻿import { addEventDelegate } from "../../scripts/eventdelegate/_eventdelegate.js";
-import { toggleAccordion } from "../accordion/_accordion.js";
+import { toggleAccordion, closeAccordion } from "../accordion/_accordion.js";
 
 /**
  * Dropdown
@@ -37,7 +37,7 @@ const handleDropdownSelectClick = (dropdownSelectButton) => {
   mainDropdownButton.textContent = textContent;
 
   // and toggle the dropdown
-  toggleAccordion(mainDropdownBody, mainDropdownButton);
+  closeAccordion(mainDropdownBody, mainDropdownButton);
 };
 
 addEventDelegate(

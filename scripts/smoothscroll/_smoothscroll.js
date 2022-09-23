@@ -29,18 +29,18 @@ export const smoothScroll = (hash) => {
     // overflow-y set to scroll or we hit
     // the window
 
-    let target = document.querySelector(hash),
-      scrollOffset = target.dataset.scrolloffset;
+    let target = document.querySelector(hash);
 
     // now check to see that the target is defined
     // (ie: the element we want to scroll to actually exists)
-    if (target !== undefined) {
-      // figure out what the parent is
-      const scrollParent = getScrollParent(target);
+    if (target !== undefined && target !== null) {
+      const scrollOffset = target.dataset.scrolloffset,
+        // figure out what the parent is
+        scrollParent = getScrollParent(target);
 
-      let targetPosition = target.offsetTop;
-      let parentOffset = scrollParent.offsetTop || 0;
-      let offsetPosition = targetPosition - parentOffset - scrollOffset;
+      let targetPosition = target.offsetTop,
+        parentOffset = scrollParent.offsetTop || 0,
+        offsetPosition = targetPosition - parentOffset - scrollOffset;
 
       // if window, then do window
       if (scrollParent === window) {

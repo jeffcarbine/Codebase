@@ -18,14 +18,14 @@ export const handleAccordionClick = (target) => {
 };
 
 const toggleAccordion = (accordionBody, accordionButton, callback) => {
-  const height = accordionBody.offsetHeight,
-    transitionDuration = getComputedStyle(accordionBody).getPropertyValue(
-      "transition-duration"
-    ),
-    delay = parseFloat(transitionDuration.replace("s", "")) * 1000;
-
   // check to see whether or not the it is open
   if (!accordionBody.classList.contains("open")) {
+    const height = accordionBody.offsetHeight,
+      transitionDuration = getComputedStyle(accordionBody).getPropertyValue(
+        "transition-duration"
+      ),
+      delay = parseFloat(transitionDuration.replace("s", "")) * 1000;
+
     // now set a 10ms timeout so we can add the height inline and then
     // transition to the height px value
 
@@ -42,27 +42,36 @@ const toggleAccordion = (accordionBody, accordionButton, callback) => {
       accordionBody.style.height = "auto";
     }, delay);
   } else {
-    // set the accordion's height back to it's precise pixel amount
-    accordionBody.style.height = height + "px";
-    console.log(height);
-
-    // then after a short timeout, set it to null so as
-    // to trigger the transition
-    setTimeout(() => {
-      accordionBody.style.height = null;
-    }, 10);
-
-    // and then after the transition duration, remove the open
-    // class from the accordion-body
-    setTimeout(() => {
-      accordionBody.classList.remove("open");
-      accordionButton.classList.remove("open");
-    }, delay);
+    closeAccordion(accordionBody, accordionButton);
   }
 };
 
+const closeAccordion = (accordionBody, accordionButton) => {
+  const height = accordionBody.offsetHeight,
+    transitionDuration = getComputedStyle(accordionBody).getPropertyValue(
+      "transition-duration"
+    ),
+    delay = parseFloat(transitionDuration.replace("s", "")) * 1000;
+
+  // set the accordion's height back to it's precise pixel amount
+  accordionBody.style.height = height + "px";
+
+  // then after a short timeout, set it to null so as
+  // to trigger the transition
+  setTimeout(() => {
+    accordionBody.style.height = null;
+  }, 10);
+
+  // and then after the transition duration, remove the open
+  // class from the accordion-body
+  setTimeout(() => {
+    accordionBody.classList.remove("open");
+    accordionButton.classList.remove("open");
+  }, delay);
+};
+
 // export for use in typescript
-export { toggleAccordion };
+export { toggleAccordion, closeAccordion };
 
 // // event for opening the accordion via the .toggle element
 addEventDelegate("click", ".accordion .toggle", handleAccordionClick);
@@ -73,7 +82,7 @@ if (window.location.hash !== "") {
   // then we have a hash, and we need to check to see if there's a matching element onscreen
   const hashAccordion = document.querySelector(".accordion" + hash);
 
-  if (hashAccordion !== undefined) {
+  if (hashAccordion !== undefined && hashAccordion !== null) {
     // delay to illustate the location of the faq
     setTimeout(() => {
       smoothScroll(hash);
