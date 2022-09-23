@@ -30,7 +30,7 @@ function observerCallback(entries, vclassObserver) {
       // add that to the end of the element's className
       element.className += vclass;
       // and then stop observing this entry
-      vclassObserver.unobserve(entry);
+      vclassObserver.unobserve(element);
     }
   });
 }
