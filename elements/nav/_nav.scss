@@ -3,8 +3,8 @@
 :root {
   --nav-background: transparent;
   --nav-background-scrolled: var(--dark);
-  --nav-item-padding-x: .25rem;
-  --nav-item-padding-y: .5rem;
+  --nav-item-padding-y: .25rem;
+  --nav-item-padding-x: .5rem;
   --nav-item-color: var(--foreground);
   --nav-item-background: transparent;
   --nav-item-color-active: var(--accent);
@@ -13,8 +13,8 @@
   --nav-submenu-background: var(--accent);
   --nav-submenu-item-color: var(--foreground);
   --nav-submenu-item-background: transparent;
-  --nav-submenu-item-padding-x: .25rem;
   --nav-submenu-item-padding-y: .25rem;
+  --nav-submenu-item-padding-x: .25rem;
 }
 
 nav {
@@ -40,7 +40,7 @@ nav {
         transition: all 0.5s ease;
 
         &.active {
-          --nav-item-color: var(--nav-item-color-active);
+          --nav-item-color: var(--nav-item-color-active);        
         }
       }
 
@@ -76,11 +76,11 @@ nav {
       }
 
       li {
-        padding: var(--nav-submenu-item-padding-y) var(--nav-submenu-item-padding-x);
         background: var(--nav-submenu-item-background);
 
         a {
           color: var(--nav-submenu-item-color);
+          padding: var(--nav-submenu-item-padding-y) var(--nav-submenu-item-padding-x);
           white-space: nowrap;
         }
       }
