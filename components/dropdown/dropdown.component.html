@@ -1,6 +1,0 @@
-<button (click)="toggle($event)" [class.open]="isOpen" [class.noCarat]="carat === false" class="action-dropdown-button">
-  <ng-content select="[button]"></ng-content>
-</button>
-<div [class.open]="isOpen" [class.animate]="animationAdded">
-  <ng-content select="[body]"></ng-content>
-</div>

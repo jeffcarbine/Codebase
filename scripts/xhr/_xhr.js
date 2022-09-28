@@ -20,12 +20,25 @@
  *
  */
 
-export default (method, path, success, error, failure, data) => {
+export default (
+  method,
+  path,
+  success = (request) => {
+    console.log(request.response);
+  },
+  error = (request) => {
+    console.log(request.response);
+  },
+  failure = (request) => {
+    console.log(request.response);
+  },
+  data
+) => {
   // start by creating a request
   let request = new XMLHttpRequest();
   request.open(method, path);
 
-  request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
   request.onload = function () {
     console.log(request.status);
@@ -42,7 +55,7 @@ export default (method, path, success, error, failure, data) => {
     error(request.response);
   };
 
-  const requestBody = new URLSearchParams(data).toString();
+  const requestBody = JSON.stringify(data);
 
   request.send(requestBody);
 };

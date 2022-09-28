@@ -1,11 +1,12 @@
 ﻿:root {
-  --form-width: 30rem;
+  --form-max-width: 30rem;
 }
 
-form {
+form.form-control {
   display: flex;
   flex-wrap: wrap;
-  width: var(--form-width);
+  width: 100%;
+  max-width: var(--form-max-width);
   margin: 0 auto;
 
   .linebreak {

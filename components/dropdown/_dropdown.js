@@ -1,74 +1,47 @@
-﻿/**
- * Dropdown
- * This handles the opening and closing of dropdowns
- */
-
-let dropdownOperation = false;
-
-function toggleDropdown(button) {
-  let dropdownBody = button.nextElementSibling;
-
-  if (!dropdownOperation) {
-    dropdownOperation = true;
-
-    if (dropdownBody.classList.contains("collapsed")) {
-      button.classList.add("open");
-
-      // preemptively remove any styles so that the measurement
-      // is good
-      dropdownBody.removeAttribute("style");
-
-      let height = dropdownBody.offsetHeight;
-      dropdownBody.style.height = height + "px";
-      dropdownBody.classList.add("measured");
-
-      setTimeout(function () {
-        dropdownBody.classList.remove("collapsed");
-      }, 50);
-    } else {
-      button.classList.remove("open");
-
-      dropdownBody.classList.add("collapsed");
-
-      setTimeout(function () {
-        dropdownBody.classList.remove("measured");
-      }, 500);
-    }
-
-    setTimeout(function () {
-      dropdownOperation = false;
-    }, 500);
-  }
-}
-
-addEventDelegate("click", ".dropdown > button", toggleDropdown);
+﻿import { addEventDelegate } from "../../scripts/eventdelegate/_eventdelegate.js";
+import { toggleAccordion, closeAccordion } from "../accordion/_accordion.js";
 
 /**
- * Remeasure Dropdowns
- * This will remeasure the dropdown's sizes in the event
- * of an orientationChange or a reize
+ * Dropdown
+ * This handles the opening and closing of dropdowns
+ * It uses the same script as the accordion, so we just
+ * import it here
  */
 
-var dropdownRemeasure;
+const handleDropdownClick = (dropdownButton) => {
+  let dropdownBody = dropdownButton.nextElementSibling;
 
-function measureDropdowns(dropdowns) {
-  loop(dropdowns, function (dropdown) {
-    dropdown.classList.remove("measured");
-    dropdown.style.height = "auto";
-    let height = dropdown.offsetHeight;
-    dropdown.style.height = height + "px";
+  toggleDropdown(dropdownBody, dropdownButton);
+};
 
-    dropdown.classList.add("measured");
-  });
-}
+const toggleDropdown = (dropdownBody, dropdownButton) => {
+  toggleAccordion(dropdownBody, dropdownButton);
+};
 
-function remeasureDropdowns() {
-  let measuredDropdowns = document.querySelectorAll(".dropdown > div.measured");
-  clearTimeout(dropdownRemeasure);
+addEventDelegate("click", ".dropdown > button", handleDropdownClick);
 
-  dropdownRemeasure = setTimeout(function () {
-    measureDropdowns(measuredDropdowns);
-  }, 500);
-}
+/**
+ * Dropdown Select
+ * This is the specific controls for if we have a .dropdown.select
+ */
 
-addEventDelegate("resize", window, remeasureDropdowns);
+const handleDropdownSelectClick = (dropdownSelectButton) => {
+  // so what we need to do is find the main button for the dropdown
+  const dropdown = dropdownSelectButton.closest(".dropdown"),
+    mainDropdownButton = dropdown.querySelector(":scope > button"),
+    mainDropdownBody = dropdown.querySelector(":scope > div");
+
+  // now we just update the text
+  const textContent = dropdownSelectButton.textContent;
+
+  mainDropdownButton.textContent = textContent;
+
+  // and toggle the dropdown
+  closeAccordion(mainDropdownBody, mainDropdownButton);
+};
+
+addEventDelegate(
+  "click",
+  ".dropdown.select ul li a, .dropdown.select ul li button",
+  handleDropdownSelectClick
+);

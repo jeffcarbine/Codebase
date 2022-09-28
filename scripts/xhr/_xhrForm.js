@@ -44,7 +44,7 @@ const xhrForm = function (form) {
     if (redirect) {
       window.location = form.dataset.redirect;
     } else {
-      response.renderResponse(request.response, "success");
+      renderResponse(request.response, "success");
       form.reset();
     }
   };
