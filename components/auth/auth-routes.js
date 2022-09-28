@@ -1,10 +1,10 @@
 import User from "../../models/user.js";
 import passport from "passport";
+import authRender from "./auth-render.js";
+import emailValidator from "email-validator";
 
 export const login = (req, res) => {
-  res.render("login", {
-    subtitle: "Log In",
-  });
+  authRender(req, res, "login");
 };
 
 export const signup = (req, res) => {
@@ -25,15 +25,24 @@ export const register = (req, res) => {
     return res.status(500).send("Passwords do not match");
   }
 
-  User.register(new User({ username }), password, (err, account) => {
-    if (err) {
-      return res.render("signup", { account: account });
-    }
+  // and then check if the email is valid
+  if (!emailValidator.validate(username)) {
+    return res.status(500).send("Not a valid email address.");
+  }
 
-    passport.authenticate("local")(req, res, () => {
-      res.redirect("/");
-    });
-  });
+  User.register(
+    new User({ username, admin: false }),
+    password,
+    (err, account) => {
+      if (err) {
+        return res.render("signup", { account: account });
+      }
+
+      passport.authenticate("local")(req, res, () => {
+        res.redirect("/");
+      });
+    }
+  );
 };
 
 export const authenticate = (req, res) => {

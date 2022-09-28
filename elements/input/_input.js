@@ -14,6 +14,11 @@ function initializeLabel(label) {
     if (placeholder || tagName === "SELECT") {
       label.classList.add("permanent-active");
     }
+
+    // and make it active if it has a value
+    if (child.value !== "") {
+      label.classList.add("active");
+    }
   }
 
   label.dataset.labelInit = true;
@@ -28,11 +33,6 @@ function initializeLabels() {
 }
 
 addEventDelegate("load", window, initializeLabels);
-//addEventDelegate(
-//  "childList",
-//  "label:not([for]):not([data-label-init])",
-//  initializeLabel
-//);
 
 function selectInputLabel(input) {
   let label = input.parentNode;

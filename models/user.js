@@ -6,6 +6,13 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
   username: String,
   password: String,
+  admin: Boolean,
+  contributor: Boolean,
+  tier: Number,
+  subscription: String,
+  active: Boolean,
+  postsViewed: Array,
+  pollsAnswered: Array,
 });
 
 userSchema.plugin(passportLocalMongoose);

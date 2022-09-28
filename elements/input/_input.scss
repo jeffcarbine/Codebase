@@ -183,6 +183,30 @@ input[type="number"] {
           100% - 0.5rem
         ); // keeps spacing on the right hand side for the caret
       }
+
+      // for inputXhr stuff
+      &.unsavedChanges {
+        border-color: var(--yellow);
+        color: var(--foreground);
+      }
+
+      &.waiting {
+        &::after {
+          opacity: 0.5;
+          z-index: 0;
+        }
+
+        input,
+        textarea,
+        select {
+          pointer-events: none;
+        }
+      }
+
+      &.success {
+        border-color: var(--green);
+        color: inherit;
+      }
     }
     // removes mm/dd//yyyy from date inputs
     // as well as calendar pick icon
