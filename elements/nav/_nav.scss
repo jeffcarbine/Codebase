@@ -1,728 +1,151 @@
-///////
-// NAV
-///////
-// Nav can be mixed and matched
-// - so you can have one of five
-// different touch styles and
-// one of three different desktop
-// styles. We accomplish this by
-// giving the default styles a 
-// max-width and require a class
-// name declaration for the type
-// of navigation you want.
+@use "../../styles/mixin";
 
 :root {
-    // nav toggle
-    --toggle-nav-dimensions: 1.5rem;
-    --toggle-nav-color: var(--foreground);
+  --nav-background: transparent;
+  --nav-background-scrolled: var(--dark);
+  --nav-item-padding-x: .25rem;
+  --nav-item-padding-y: .5rem;
+  --nav-item-color: var(--foreground);
+  --nav-item-background: transparent;
+  --nav-item-color-active: var(--accent);
+  --nav-item-color-scrolled: var(--light);
 
-    // toggle navigation
-    --nav-toggle-width: 70vw;
-    --nav-toggle-font-size: 1.5rem;
-    --nav-toggle-background: rgba(0,0,0,.95);
-    --nav-toggle-color: var(--background);
-    --nav-toggle-active-background: transparent;
-    --nav-toggle-active-color: var(--accent);
-
-    // static navigation
-    --nav-static-font-size: 1.25rem;
-    --nav-static-color: var(--light);
-    --nav-static-background: var(--primary);
-    --nav-static-focus-color: var(--accent);
-    --nav-static-focus-background: var(--foreground);
-    --nav-static-active-background: transparent;
-    --nav-static-active-color: var(--accent);
-    --nav-static-dropdown-color: var(--background);
-    --nav-static-dropdown-background: var(--primary-step);
-
-    // static row
-    --nav-static-row-flex: 0 0 auto;
-
-    // static dock
-    --nav-static-dock-flex: 0 0 20%;
+  --nav-submenu-background: var(--accent);
+  --nav-submenu-item-color: var(--foreground);
+  --nav-submenu-item-background: transparent;
+  --nav-submenu-item-padding-x: .25rem;
+  --nav-submenu-item-padding-y: .25rem;
 }
 
-@mixin nav-reset {
-    background: none;
-    position: relative;
-    top: auto;
-    height: auto;
-    padding: 0;
-    box-sizing: content-box;
-    width: auto;
-    opacity: 1;
-    visibility: visible;
-    flex-direction: inherit;
-    justify-content: inherit;
-
-    &.right {
-        right: auto;
-    }
-
-    &.left {
-        left: auto;
-    }
-
-    &.right, &.left {
-        ul {
-            text-align: left;
-            padding: 0;
-        }
-    }
-
-    > ul {
-        > li {
-            position: initial;
-
-            ul.measured {
-            }
-        }
-    }
-}
-
-// default touch styles
-@mixin nav-toggle {
-    @include nav-reset();
-
-    background: var(--nav-toggle-background);
-    position: fixed;
-    top: 0;
-    height: var(--fullscreen);
-    z-index: 10;
-    transition: all .5s ease;
-    padding: 1rem;
-    box-sizing: border-box;
-
-    ul {
-        li {
-            &.active {
-                background: var(--nav-toggle-active-background);
-
-                > a, > button {
-                    color: var(--nav-toggle-active-color);
-                }
-
-                button {
-                    &::before, &::after {
-                        background: var(--nav-toggle-active-color);
-                    }
-                }
-            }
-
-            a, button {
-                color: var(--nav-toggle-color);
-                font-size: var(--nav-toggle-font-size);
-            }
-
-            button {
-                &::before, &::after {
-                    background: var(--nav-toggle-color);
-                }
-            }
-
-            ul {
-                li {
-                    a, button {
-                        font-size: calc(var(--nav-toggle-font-size) * .85);
-                    }
-                }
-            }
-        }
-    }
-}
-
-@mixin nav-static {
-    @include nav-reset();
-
-    // general desktop nav rules
-    background: var(--nav-static-background);
-    padding: 0 .5rem;
-    box-sizing: border-box;
-
-    > ul {
-        display: flex;
-        flex-direction: row;
-
-        li {
-            padding: .5rem 1rem .5rem .5rem;
-            margin: 0;
-
-            &.active {
-                background: var(--nav-static-active-background);
-
-                > a, > button {
-                    color: var(--nav-static-active-color);
-                }
-
-                button {
-                    &::before, &::after {
-                        background: var(--nav-static-active-color);
-                    }
-                }
-            }
-
-            a, button {
-                font-size: var(--nav-static-font-size);
-                color: var(--nav-static-color);
-                cursor: pointer;
-                white-space: nowrap;
-                transition: all .5s ease;
-
-                &:focus {
-                    color: var(--nav-static-focus-color);
-                    outline: none;
-
-                    &::before, &::after {
-                        background: var(--nav-static-focus-color);
-                    }
-                }
-            }
-
-            button {
-                &::before, &::after {
-                    background: var(--nav-static-color);
-                }
-            }
-
-            ul {
-                top: 100%;
-                left: 0;
-
-                &.measured {
-                    position: absolute;
-                    background: var(--nav-static-dropdown-background);
-
-                    ul {
-                        top: .5rem;
-                        left: 100%;
-                    }
-                }
-
-                li {
-                    a, button {
-                        font-size: calc(var(--nav-static-font-size) * .85);
-                        color: var(--nav-static-dropdown-color);
-                    }
-                }
-            }
-        }
-    }
-}
-
-@mixin toggle-slideout {
-    @include nav-toggle();
-
-    width: var(--nav-toggle-width);
-    // option 2
-    &.left {
-        left: calc(var(--nav-toggle-width) * -1);
-
-        &.open {
-            left: 0;
-        }
-
-        ul {
-            padding-left: .5rem;
-        }
-    }
-    // option 3
-    &.right {
-        right: calc(var(--nav-toggle-width) * -1);
-
-        &.open {
-            right: 0;
-        }
-
-        ul {
-            padding-right: .5rem;
-            text-align: right;
-        }
-    }
-}
-
-@mixin toggle-slideover {
-    
-    @include nav-toggle();
-
-    padding-top: var(--header-height);
-    width: var(--nav-toggle-width);
-    // option 2
-    &.left {
-        left: calc(var(--nav-toggle-width) * -1);
-
-        &.open {
-            left: 0;
-        }
-
-        ul {
-            padding-left: .5rem;
-        }
-    }
-    // option 3
-    &.right {
-        right: calc(var(--nav-toggle-width) * -1);
-
-        &.open {
-            right: 0;
-        }
-
-        ul {
-            padding-right: .5rem;
-            text-align: right;
-        }
-    }
-}
-
-@mixin toggle-overlay {
-    
-    @include nav-toggle();
-
-    display: flex;
-    width: 100vw;
-    flex-direction: column;
-    justify-content: center;
-    opacity: 0;
-    visibility: hidden;
-
-    &.open {
-        opacity: 1;
-        visibility: visible;
-    }
-
-    ul {
-        text-align: center;
-    }
-}
-
-@mixin column {
-    
-    @include nav-static();
-
-    > ul {
-        li {
-            position: relative;
-
-            ul {
-                min-width: 100%;
-            }
-        }
-    }
-}
-
-@mixin row {
-    
-    @include nav-static();
-
-    padding: 0;
-
-    > ul {
-        position: relative;
-
-        > li {
-
-            > ul {
-                display: flex;
-                flex-wrap: wrap;
-                width: 100%;
-
-                > li {
-                    flex: var(--nav-static-row-flex);
-                    position: relative;
-                }
-
-                ul {
-                    min-width: 100%;
-                    top: 100%;
-                    left: 0;
-                }
-            }
-        }
-    }
-}
-
-@mixin dock {
-    
-    @include nav-static();
-
-    padding: 0;
-
-    > ul {
-        position: relative;
-
-        > li {
-
-            > ul {
-                display: flex;
-                flex-wrap: wrap;
-                width: 100%;
-
-                > li {
-                    flex: var(--nav-static-dock-flex);
-                    color: var(--nav-static-color);
-                    position: relative;
-
-                    button {
-                        &::before, &::after {
-                            display: none;
-                        }
-                    }
-                }
-
-                ul {
-                    position: relative;
-                    min-width: 100%;
-                    top: inherit;
-                    left: inherit;
-
-                    &.collapsed {
-                        height: auto !important;
-                        animation: none;
-                    }
-                }
-            }
-        }
-    }
-}
-
-@mixin vertical {
-    
-    @include nav-static();
-    position: relative;
-    height: 100%;
-
-    > ul {
-        flex-direction: column;
-
-        li {
-            button {
-                display: block;
-                width: 100%;
-                text-align: left;
-
-                &::before, &::after {
-                    right: 0;
-                }
-
-                &::before {
-                    top: calc(50% - .0625rem);
-                }
-
-                &::after {
-                    top: calc(50% + .1875rem);
-                }
-            }
-
-            &.open {
-                button {
-                    &::before {
-                        transform: translate(1rem, -50%) rotate(45deg);
-                    }
-
-                    &::after {
-                        transform: translate(1rem, -50%) rotate(-45deg);
-                    }
-                }
-            }
-
-            ul {
-                top: 0;
-                left: 100%;
-                position: absolute;
-                height: 100% !important;
-                overflow: hidden;
-
-                &.collapsed {
-                    height: 100% !important;
-                    width: 0 !important;
-                }
-            }
-        }
-    }
-}
-
-
-// GENERAL SAVED NAV STYLES
 nav {
-    position: relative;
-    z-index: 5;
+  background: var(--nav-background);
+  ul {
+    margin: 0;
+
+    li {
+      list-style-type: none;
+
+      a,
+      button {
+        cursor: pointer;
+        display: block;
+        position: relative;
+        z-index: 2;
+        background: var(--nav-iten-background);
+        border: none;
+        padding: var(--nav-item-padding-y) var(--nav-item-padding-x);
+        margin: 0 auto;
+        color: var(--nav-item-color);
+        text-decoration: none;
+        transition: all 0.5s ease;
+
+        &.active {
+          --nav-item-color: var(--nav-item-color-active);
+        }
+      }
+
+      button {
+        padding-right: 2rem;
+
+        &::after {
+          content: "";
+          display: block;
+          position: absolute;
+          top: calc(50% - 0.25rem);
+          right: 0.75rem;
+          transform: translateY(-50%);
+          @include mixin.triangle(bottom, var(--nav-item-color), 0.375rem);
+        }
+      }
+    }
+
+    &.submenu {
+      overflow: hidden;
+      box-sizing: border-box;
+      position: absolute;
+      visibility: hidden;
+      opacity: 0;
+      transition: height 0.5s ease;
+      background: var(--nav-submenu-background);
+
+      &.open {
+        height: 0;
+        position: relative;
+        visibility: visible;
+        opacity: 1;
+      }
+
+      li {
+        padding: var(--nav-submenu-item-padding-y) var(--nav-submenu-item-padding-x);
+        background: var(--nav-submenu-item-background);
+
+        a {
+          color: var(--nav-submenu-item-color);
+          white-space: nowrap;
+        }
+      }
+    }
+  }
+}
+  
+@media only screen and (min-width: mixin.$breakpoint-md) {
+  :root {
+    --nav-submenu-item-padding-x: .75rem;
+  }
+  
+  #navToggle {
+    display: none;
+  }
+
+  nav {
+    width: 100%;
 
     ul {
+      display: flex;
+      margin: 0;
+
+      li {
+        flex: 0 0 auto;
         margin: 0;
+        position: relative;
 
-        li {
-            padding: .5rem 0 0;
-            list-style-type: none;
-            transition: all .5s ease;
+        a,
+        button {
+          margin: 0;
+        }
 
-            a, button {
-                font-weight: var(--base-font-weight);
-                text-decoration: none;
-                background: transparent;
-                transition: all .5s ease;
-            }
+        button {
+          &::after {
+            top: calc(50% - 0.125rem);
+            @include mixin.triangle(bottom, var(--nav-item-color), 0.375rem);
+          }
+        }
 
+        ul.submenu {
+          flex-direction: column;
+          position: absolute;
+          top: calc(100% + 0.25rem);
+          width: auto;
+          background: var(--nav-submenu-background);
+
+          &.open {
+            position: absolute;
+          }
+
+          li {
+            a,
             button {
-                position: relative;
-                padding-right: 1.25rem;
-                outline: none;
-
-                &::before, &::after {
-                    content: "";
-                    width: .5rem;
-                    height: 2px;
-                    position: absolute;
-                    top: 50%;
-                    transition: all .5s ease;
-                }
-
-                &::before {
-                    right: calc(.5rem - 3px);
-                    transform: translateY(-50%) rotate(45deg);
-                }
-
-                &::after {
-                    right: 0rem;
-                    transform: translateY(-50%) rotate(-45deg);
-                }
+              transition: all 0.25s ease;
             }
-
-            &.open {
-                > button {
-                    &::before {
-                        transform: translateY(-50%) rotate(-45deg);
-                    }
-
-                    &::after {
-                        transform: translateY(-50%) rotate(45deg);
-                    }
-                }
-            }
-
-            ul {
-                position: absolute;
-                opacity: 0;
-                visibility: hidden;
-
-                &.measured {
-                    visibility: visible;
-                    position: relative;
-                    height: auto;
-                    opacity: 1;
-                    transition: all .5s ease;
-                    overflow: hidden;
-
-                    &.collapsed {
-                        height: 0 !important;
-                    }
-
-                    &.overflow-off {
-                        overflow: visible;
-                    }
-                }
-            }
+          }
         }
+      }
     }
 
-    &.sticky {
-        &.sticky-active {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-        }
+    &.scrolled {
+      --nav-background: var(--nav-background-scrolled);
+      --nan-item-color: var(--nav-item-color-scrolled);
     }
+  }
 }
-
-// TOGGLE NAV
-// nav toggle button only
-// appears for touch styles
-#toggle-nav {
-    position: relative;
-    z-index: 11;
-    display: block;
-    width: var(--toggle-nav-dimensions);
-    height: var(--toggle-nav-dimensions);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    outline: none;
-    background: transparent;
-
-    > span {
-        width: var(--toggle-nav-dimensions);
-        height: 1px;
-        margin: 3px 0;
-        background: var(--toggle-nav-color);
-        transition: all .5s ease;
-        opacity: 1;
-        visibility: visible;
-    }
-
-    &.x {
-        > span {
-            margin: -.5px 0;
-
-            &:nth-of-type(1) {
-                transform: rotate(45deg);
-            }
-
-            &:nth-of-type(2) {
-                opacity: 0;
-                visibility: hidden;
-            }
-
-            &:nth-of-type(3) {
-                transform: rotate(-45deg);
-            }
-        }
-    }
-}
-
-// BODY SLIDING
-// FOR SLIDEOUT
-body {
-    position: relative;
-    left: 0;
-
-    &.slide-left {
-        left: var(--nav-toggle-width);
-    }
-
-    &.slide-right {
-        left: calc(var(--nav-toggle-width) * -1);
-    }
-}
-
-
-
-// DEFAULT NAV OPTIONS
-
-nav {
-    &.toggle-slideout {
-        @include toggle-slideout();
-    }
-
-    &.toggle-slideover {
-        @include toggle-slideover();
-    }
-
-    &.toggle-overlay {
-        @include toggle-overlay();
-    }
-
-    &.column {
-        @include column();
-    }
-
-    &.row {
-        @include row();
-    }
-
-    &.dock {
-        @include dock();
-    }
-
-    &.vertical {
-        @include vertical();
-    }
-}
-
-
-// MD NAV OPTIONS
-@media only screen and (min-width: $breakpoint-md) {
-    nav {
-        &.md-toggle-slideout {
-            @include toggle-slideout();
-        }
-
-        &.md-toggle-slideover {
-            @include toggle-slideover();
-        }
-
-        &.md-toggle-overlay {
-            @include toggle-overlay();
-        }
-
-        &.md-column {
-            @include column();
-        }
-
-        &.md-row {
-            @include row();
-        }
-
-        &.md-dock {
-            @include dock();
-        }
-
-        &.md-vertical {
-            @include vertical();
-        }
-    }
-}
-
-// LG NAV OPTIONS
-@media only screen and (min-width: $breakpoint-lg) {
-    nav {
-        &.lg-toggle-slideout {
-            @include toggle-slideout();
-        }
-
-        &.lg-toggle-slideover {
-            @include toggle-slideover();
-        }
-
-        &.lg-toggle-overlay {
-            @include toggle-overlay();
-        }
-
-        &.lg-column {
-            @include column();
-        }
-
-        &.lg-row {
-            @include row();
-        }
-
-        &.lg-dock {
-            @include dock();
-        }
-
-        &.lg-vertical {
-            @include vertical();
-        }
-    }
-}
-
-// XL NAV OPTIONS
-@media only screen and (min-width: $breakpoint-xl) {
-    nav {
-        &.xl-toggle-slideout {
-            @include toggle-slideout();
-        }
-
-        &.xl-toggle-slideover {
-            @include toggle-slideover();
-        }
-
-        &.xl-toggle-overlay {
-            @include toggle-overlay();
-        }
-
-        &.xl-column {
-            @include column();
-        }
-
-        &.xl-row {
-            @include row();
-        }
-
-        &.xl-dock {
-            @include dock();
-        }
-
-        &.xl-vertical {
-            @include vertical();
-        }
-    }
-}
+  
