@@ -46,7 +46,6 @@ export const register = (req, res) => {
 };
 
 export const authenticate = (req, res) => {
-  console.log("made it here!");
   res.redirect("/");
 };
 
