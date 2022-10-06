@@ -4,6 +4,8 @@
  *
  * example:
  *
+ * const data = { foo: "bar" }
+ *
  * const success = function(xhr) {
  *    console.log(xhr.status);
  * };
@@ -16,7 +18,7 @@
  *    console.warn(xhr.status);
  * }
  *
- * xhr("POST", "https://testurl.com/test", success, error, failure, "FOO=bar",);
+ * xhr("POST", "https://testurl.com/test", success, error, failure, data);
  *
  */
 
@@ -32,7 +34,7 @@ export default (
   failure = (request) => {
     console.log(request.response);
   },
-  data
+  data = {}
 ) => {
   // start by creating a request
   let request = new XMLHttpRequest();

@@ -1,0 +1,41 @@
+doctype html
+html
+  head
+  title Backstage by Roadee.io - #{subtitle}
+  meta(name="viewport", content="width=device-width, initial-scale=1")
+
+  // favicons
+  link(rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png")
+  link(rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png")
+  link(rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png")
+  link(rel="manifest" href="/images/favicon/site.webmanifest")
+
+  // styles
+  if(localhost)
+    link(href="/admin/styles/admin.min.css", rel="stylesheet")
+  else
+    style
+    include ../styles/admin.min.css
+
+  header 
+    img.logo(src="/admin/images/logo.png")
+    nav
+      -const menu = { Dashboard: "/admin", Events: "/admin/events", Fanart: "/admin/fanart"}
+      ul
+        each val, key in menu
+          -const navItemClass = path === val ? "active": "";
+          li(class=navItemClass)
+            a(href=val) #{key.replaceAll("_", " ")}
+  body.style-inputs
+  script. 
+    0 // dummy fix for Firefox
+
+  main
+    block content
+
+  footer 
+    p Copyright NaddPod
+
+  script(src="/periodic/elements/input/_input.js", type="module", defer=true)
+  
+  block scripts

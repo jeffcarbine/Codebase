@@ -19,7 +19,6 @@ function smoothScrollClick(link) {
  * @param {string} hash the id that we are scrolling to
  */
 export const smoothScroll = (hash) => {
-  console.log("should be scrolling...");
   // check to see if the hash contains letters
   // (ie: its a valid id selector)
   if (hash.match(/[a-z]/i)) {
@@ -31,7 +30,6 @@ export const smoothScroll = (hash) => {
     // the window
 
     let target = document.querySelector(hash);
-    console.log(target);
 
     // now check to see that the target is defined
     // (ie: the element we want to scroll to actually exists)
@@ -101,6 +99,8 @@ addEventDelegate("click", "a[href^='#']", smoothScrollClick);
 const params = new URLSearchParams(window.location.search),
   hash = params.get("scrollto");
 
-setTimeout(() => {
-  smoothScroll("#" + hash);
-}, 500);
+if (hash !== null) {
+  setTimeout(() => {
+    smoothScroll("#" + hash);
+  }, 500);
+}
