@@ -1,6 +1,7 @@
 .accordion {
   --accordion-toggle-background: var(--background-low);
   --accordion-toggle-color: var(--foreground);
+  --accordion-toggle-font-size: var(--base-font-size);
   --accordion-body-background: var(--background);
   --accordion-body-color: var(--foreground);
   --accordion-highlight-body-background: var(--yellow-step);
@@ -14,6 +15,7 @@
     padding: 1rem;
     color: var(--accordion-toggle-color);
     background: var(--accordion-toggle-background);
+    font-size: var(--accordion-font-size);
     position: relative;
     width: 100%;
     display: flex;
@@ -51,14 +53,16 @@
     }
 
     &.open {
-      &::before {
-        right: calc(1.5rem - 3px);
-        transform: translateY(-50%) rotate(-45deg);
-      }
+      > * {
+        &::before {
+          right: calc(1.5rem - 3px);
+          transform: translateY(-50%) rotate(-45deg);
+        }
 
-      &::after {
-        right: 1rem;
-        transform: translateY(-50%) rotate(45deg);
+        &::after {
+          right: 1rem;
+          transform: translateY(-50%) rotate(45deg);
+        }
       }
     }
   }
