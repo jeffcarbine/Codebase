@@ -22,39 +22,58 @@
  *
  */
 
-export default (
-  method,
-  path,
-  success = (request) => {
-    console.log(request.response);
-  },
-  error = (request) => {
-    console.log(request.response);
-  },
-  failure = (request) => {
-    console.log(request.response);
-  },
-  data = {}
-) => {
+export default (method, path, data = {}, callbacks = {}) => {
+  // set default methods
+  if (callbacks.success === undefined) {
+    callbacks.success = (request) => {
+      console.log(request.response);
+    };
+  }
+
+  if (callbacks.error === undefined) {
+    callbacks.error = (request) => {
+      console.log(request.response);
+    };
+  }
+
+  if (callbacks.failure === undefined) {
+    callbacks.failure = (request) => {
+      console.log(request.response);
+    };
+  }
+
+  if (callbacks.progress === undefined) {
+    callbacks.progress = (event) => {
+      if (event.lengthComputable) {
+        console.log(`Received ${event.loaded} of ${event.total} bytes`);
+      } else {
+        console.log(`Received ${event.loaded} bytes`);
+      }
+    };
+  }
+
   // start by creating a request
   let request = new XMLHttpRequest();
   request.open(method, path);
 
   request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
-  request.onload = function () {
-    console.log(request.status);
+  request.onload = () => {
     if (request.status === 200) {
-      success(request);
+      callbacks.success(request);
     } else if (request.status === 500) {
-      failure(request);
+      callbacks.failure(request);
     } else {
-      error(request);
+      console.log(request);
     }
   };
 
-  request.onerror = function () {
-    error(request.response);
+  request.onprogress = (event) => {
+    callbacks.progress(event);
+  };
+
+  request.onerror = () => {
+    callbacks.error(request.response);
   };
 
   const requestBody = JSON.stringify(data);
