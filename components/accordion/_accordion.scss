@@ -2,17 +2,20 @@
   --accordion-toggle-background: var(--background-low);
   --accordion-toggle-color: var(--foreground);
   --accordion-toggle-font-size: var(--base-font-size);
+  --accordion-toggle-padding: 1rem;
   --accordion-body-background: var(--background);
   --accordion-body-color: var(--foreground);
   --accordion-highlight-body-background: var(--yellow-step);
+  --accordion-border: 1px solid var(--border-color);
 
   display: block;
-  border: 1px solid var(--border-color);
+  border: var(--accordion-border);
   position: relative;
+  overflow: hidden;
 
-  .toggle {
+  > button {
     cursor: pointer;
-    padding: 1rem;
+    padding: var(--accordion-toggle-padding);
     color: var(--accordion-toggle-color);
     background: var(--accordion-toggle-background);
     font-size: var(--accordion-font-size);
