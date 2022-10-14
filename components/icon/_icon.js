@@ -1,4 +1,7 @@
-﻿/**
+﻿import { addEventDelegate } from "../../scripts/eventdelegate/_eventdelegate.js";
+import iconList from "./_icon-list.js";
+
+/**
  * Icon Loader
  * This loads our SVG icons from data-icon elements
  * Icons are stored as string entries in the iconList or colorIconList objects
@@ -101,7 +104,7 @@ function loadIcon(target) {
       // case we replace it with our svg
       if (target.tagName === "I") {
         // give the icon the iconClasses
-        icon.className += iconClasses;
+        icon.classList += iconClasses;
         let parent = target.parentNode;
         // append the icon before the target
         parent.appendChild(icon, target);
