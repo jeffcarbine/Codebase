@@ -190,11 +190,11 @@ function generateIcons() {
 }
 
 // run on mutation
-addEventDelegate(
-  "childList, attributes:data-icon",
-  "[data-icon], [data-color-icon]",
-  loadIcon
-);
+// addEventDelegate(
+//   "childList, attributes:data-icon",
+//   "[data-icon], [data-color-icon]",
+//   loadIcon
+// );
 
 // run on load
 addEventDelegate("load", window, generateIcons);
