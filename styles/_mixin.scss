@@ -5,7 +5,8 @@
 $breakpoint-sm: 330px;
 $breakpoint-md: 813px;
 $breakpoint-lg: 1024px;
-$breakpoint-xl: 1400px;
+$breakpoint-xl: 1280px;
+$breakpoint-xxl: 1440px;
 
 // so we can access them
 // via getComputedStyles in JS
@@ -14,6 +15,7 @@ $breakpoint-xl: 1400px;
   --breakpoint-md: $breakpoint-md;
   --breakpoint-lg: $breakpoint-lg;
   --breakpoint-xl: $breakpoint-xl;
+  --breakpoint-xxl: $breakpoint-xxl;
 }
 
 @mixin absolute-center {
@@ -106,7 +108,12 @@ $breakpoint-xl: 1400px;
   @return $opposite-directions;
 }
 
-@mixin triangle($direction, $color: currentcolor, $size: 1rem, $multiplier: 1.5) {
+@mixin triangle(
+  $direction,
+  $color: currentcolor,
+  $size: 1rem,
+  $multiplier: 1.5
+) {
   display: block;
   border-#{opposite-direction($direction)}: $size * $multiplier solid $color;
   border-#{$direction}: none;

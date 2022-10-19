@@ -55,7 +55,7 @@ const inputXhr = function (input) {
   };
 
   // and now pass this all to the xhr function
-  xhr(method, action, success, error, failure, json);
+  xhr(method, action, json, { success, error, failure });
 };
 
 // run xhrForm on any form with a class of xhr
