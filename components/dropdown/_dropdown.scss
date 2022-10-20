@@ -19,6 +19,7 @@
     z-index: 1;
     cursor: pointer;
     font-size: var(--button-font-size);
+    color: inherit;
 
     &::before,
     &::after {
@@ -123,14 +124,13 @@
       ul {
         margin: 0;
         padding: 0;
-  
+
         li {
           margin: 0;
           padding: 0;
-          list-style-type: none;  
+          list-style-type: none;
         }
       }
     }
   }
 }
-

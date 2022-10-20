@@ -1,0 +1,148 @@
+@import "../../styles/reset";
+@import "../../styles/mixin";
+@import "../../elements/typography/typography";
+@import "../../styles/theme";
+@import "../../elements/button/button";
+@import "../../elements/form/form";
+@import "../../elements/input/input";
+@import "../../components/toggleswitch/toggleswitch";
+@import "../../components/tile/tile";
+@import "dashboard";
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+:root {
+  --base-font-family: "Poppins", sans-serif;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-wrap: wrap;
+  min-height: 100%;
+
+  header {
+    flex: 0 0 12rem;
+    background: var(--background-low);
+    border-right: 1px solid var(--border-color);
+    box-sizing: border-box;
+  }
+
+  main {
+    flex: 0 0 calc(100% - 12rem);
+  }
+
+  footer {
+    flex: 0 0 auto;
+  }
+}
+
+header {
+  img.logo {
+    margin: 1rem auto;
+    display: block;
+    width: 5rem;
+  }
+}
+
+nav {
+  height: 100%;
+
+  ul {
+    margin: 0;
+    padding: 0;
+
+    li {
+      padding: 0;
+      margin: 0;
+      cursor: pointer;
+
+      a {
+        padding: 1rem;
+        margin: .25rem;
+        @include fontValues(7);
+        text-decoration: none;
+        box-sizing: border-box;
+        color: var(--primary);
+        display: block;
+        transition: background .125s ease;
+        border-radius: 5px;
+
+        &:hover {
+          background: var(--primary);
+          color: var(--light);
+        }
+      }
+
+      &.active {
+        a {
+          background: var(--primary-step);
+          color: var(--light);
+        }
+      }
+    }
+  }
+}
+
+h1 {
+  display: block;
+  padding: 1rem;
+  color: var(--light);
+  font-weight: 700;
+  text-transform: uppercase;
+  background: var(--primary);
+  margin: -1rem -1rem 0 -1rem;
+}
+
+main {
+  padding: 1rem;
+  box-sizing: border-box;
+  min-height: 100vh;
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+
+  .tile {
+    flex: 0 0 calc(100% - 2rem);
+    margin: 1rem;
+    padding: 1rem;
+    border-radius: 25px;
+  }
+}
+
+.print {
+  a {
+    text-decoration: none;
+  }
+
+  figure {
+    width: 100%;
+    padding: 1rem;
+    box-sizing: border-box;
+
+    img {
+      width: 100%;
+    }
+  }
+}
+
+@media only screen and (min-width: $breakpoint-md) {
+  .grid {
+    .tile {
+      flex: 0 0 calc(50% - 2rem);
+    }
+  }
+}
+
+@media only screen and (min-width: $breakpoint-lg) {
+  .grid {
+    .tile {
+      flex: 0 0 calc(33.33% - 2rem);
+    }
+  }
+}

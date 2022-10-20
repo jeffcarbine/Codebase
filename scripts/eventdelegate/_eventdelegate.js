@@ -450,7 +450,6 @@ function observeMutations() {
 let prevMutationTarget;
 
 function executeCheck(mutation) {
-  console.log("checking for mutation");
   let mutationTarget = mutation.target;
 
   if (

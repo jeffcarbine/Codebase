@@ -2,8 +2,13 @@ import { addEventDelegate } from "../eventdelegate/_eventdelegate.js";
 import xhr from "./_xhr.js";
 
 const inputXhr = function (input) {
-  // first, give the label the class of "waiting"
-  const label = input.parentNode;
+  // first, find the label for the input
+  // and give it the class of "waiting"
+  const label =
+    input.parentNode.tagName === "LABEL"
+      ? input.parentNode
+      : document.querySelector("label[for=" + input.id + "]");
+  console.log(label);
   label.classList.add("waiting");
 
   const form = input.closest("form"),
@@ -15,7 +20,14 @@ const inputXhr = function (input) {
     data: {},
   };
 
-  json.data[input.name] = input.value;
+  // value is different for checkboxes
+  const value =
+    input.type === "checkbox" || input.type === "radio"
+      ? input.checked
+      : input.value;
+  console.log(value);
+
+  json.data[input.name] = value;
 
   // get any hidden inputs, as those will
   // contain some kind of identifying data
@@ -43,7 +55,7 @@ const inputXhr = function (input) {
   };
 
   // and now pass this all to the xhr function
-  xhr(method, action, success, error, failure, json);
+  xhr(method, action, json, { success, error, failure });
 };
 
 // run xhrForm on any form with a class of xhr

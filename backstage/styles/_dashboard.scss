@@ -1,0 +1,11 @@
+@use "../../elements/typography/typography";
+
+#dashboard {
+  .subscribers, .income {
+    @include typography.fontValues(1);
+    padding: 1rem;
+    color: var(--primary);
+    font-weight: 700;
+    display: block;
+  }
+}

@@ -1,0 +1,69 @@
+extends _admin-base.pug 
+
+block content 
+  h1 Events 
+  
+  section 
+    .tile-grid
+      each event in events
+        .tile
+          .tile-header 
+             h2 #{event.venue}
+
+          .tile-body
+            form.inputXhr(method="POST", action="/admin/events/edit")
+              input(type="hidden", name="id", value=event._id)
+              label Venue 
+                input(type="text", name="venue", value=event.venue)
+              label Street 
+                input(type="text", name="street", value=event.street)
+              label City 
+                input(type="text", name="city", value=event.city)
+              label Region 
+                input(type="text", name="region", value=event.region)
+              label Country 
+                input(type="text", name="country", value=event.country)
+              label Festival 
+                input(type="text", name="festival", value=event.festival)
+              label Date 
+                -let eventDate = event.date.getFullYear() + "-" + ("0" + (event.date.getMonth() + 1)).slice(-2) + "-" + ("0" + event.date.getDate()).slice(-2);
+                input(type="date", name="date", value=eventDate)
+              label Tickets 
+                input(type="text", name="tickets", value=event.tickets)
+              div.toggle.single
+                input(type="checkbox", id="event" + event._id, name="soldOut", checked=event.soldOut)
+                label(for="event" + event._id) Sold Out
+
+            .btn-centered
+              button.btn.sm.delete(data-eventId=event._id) Delete Event
+
+      .tile 
+        .tile-header 
+          h2 Add New Event 
+
+        .tile-body 
+          form.xhr(method="POST", action="/admin/events/add", data-redirect="/admin/events")
+            input(type="hidden", name="id")
+            label Venue 
+              input(type="text", name="venue")
+            label Street 
+              input(type="text", name="street")
+            label City 
+              input(type="text", name="city")
+            label Region 
+              input(type="text", name="region")
+            label Country 
+              input(type="text", name="country")
+            label Festival 
+              input(type="text", name="festival")
+            label Date 
+              input(type="date", name="date")
+            label Tickets 
+              input(type="text", name="tickets")
+
+            button.btn Create Event
+
+block scripts 
+  script(src="/periodic/scripts/xhr/_inputXhr.js", type="module", defer="true")
+  script(src="/periodic/scripts/xhr/_xhrForm.js", type="module", defer="true")
+  script(src="/admin/scripts/events.js", type="module", defer="true")

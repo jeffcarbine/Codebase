@@ -1,0 +1,20 @@
+mixin audioplayer(filepath, title)
+  .audio-player
+    audio(id=id, controls, data-src=filepath)
+
+    .timeline(data-id=id)
+      .progress
+    .controls
+      .play-container
+        .toggle-play.play
+      .time
+        .current --:--
+        .divider
+        .length
+      .name #{title}
+      .volume-container
+        .volume-button
+          i(data-icon="speaker")
+          i(data-icon="mute")
+        .volume-slider
+          .volume-percentage

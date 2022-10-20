@@ -137,7 +137,7 @@ function GetCursorPosition() {
   var t1 = phonevalue1;
   var t2 = phonevalue2;
   var bool = false;
-  for (i = 0; i < t1.length; i++) {
+  for (let i = 0; i < t1.length; i++) {
     if (t1.substring(i, 1) !== t2.substring(i, 1)) {
       if (!bool) {
         cursorposition = i;
@@ -148,7 +148,8 @@ function GetCursorPosition() {
 }
 
 function ValidatePhone(object) {
-  var p = phonevalue1;
+  var p = phonevalue1,
+    pp;
 
   p = p.replace(/[^\d]*/gi, "");
 
@@ -156,8 +157,8 @@ function ValidatePhone(object) {
     object.value = p;
   } else if (p.length === 3) {
     pp = p;
-    d4 = p.indexOf("(");
-    d5 = p.indexOf(")");
+    let d4 = p.indexOf("(");
+    let d5 = p.indexOf(")");
     if (d4 === -1) {
       pp = "(" + pp;
     }
@@ -167,29 +168,29 @@ function ValidatePhone(object) {
     object.value = pp;
   } else if (p.length > 3 && p.length < 7) {
     p = "(" + p;
-    l30 = p.length;
-    p30 = p.substring(0, 4);
+    let l30 = p.length;
+    let p30 = p.substring(0, 4);
     p30 = p30 + ") ";
 
-    p31 = p.substring(4, l30);
+    let p31 = p.substring(4, l30);
     pp = p30 + p31;
 
     object.value = pp;
   } else if (p.length >= 7) {
     p = "(" + p;
-    l30 = p.length;
-    p30 = p.substring(0, 4);
+    let l30 = p.length;
+    let p30 = p.substring(0, 4);
     p30 = p30 + ") ";
 
-    p31 = p.substring(4, l30);
+    let p31 = p.substring(4, l30);
     pp = p30 + p31;
 
-    l40 = pp.length;
-    p40 = pp.substring(0, 9);
+    let l40 = pp.length;
+    let p40 = pp.substring(0, 9);
     p40 = p40 + "-";
 
-    p41 = pp.substring(9, l40);
-    ppp = p40 + p41;
+    let p41 = pp.substring(9, l40);
+    let ppp = p40 + p41;
 
     object.value = ppp.substring(0, maxphonelength);
   }
@@ -207,8 +208,8 @@ function ValidatePhone(object) {
       cursorposition = cursorposition + 2;
     } else if (cursorposition === 7) {
       cursorposition = cursorposition + 4;
-      e1 = object.value.indexOf(")");
-      e2 = object.value.indexOf("-");
+      let e1 = object.value.indexOf(")");
+      let e2 = object.value.indexOf("-");
       if (e1 > -1 && e2 > -1) {
         if (e2 - e1 === 4) {
           cursorposition = cursorposition - 1;
@@ -225,11 +226,13 @@ function ValidatePhone(object) {
 }
 
 function ParseChar(sStr, sChar) {
+  let sNewStr;
+
   if (sChar.length === null) {
     zChar = new Array(sChar);
   } else zChar = sChar;
 
-  for (i = 0; i < zChar.length; i++) {
+  for (let i = 0; i < zChar.length; i++) {
     sNewStr = "";
 
     var iStart = 0;
@@ -240,6 +243,7 @@ function ParseChar(sStr, sChar) {
       iStart = iEnd + 1;
       iEnd = sStr.indexOf(sChar[i], iStart);
     }
+
     sNewStr += sStr.substring(sStr.lastIndexOf(sChar[i]) + 1, sStr.length);
 
     sStr = sNewStr;

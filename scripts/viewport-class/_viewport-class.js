@@ -8,7 +8,7 @@
 // it has to cross before the class is added, just so animations aren't lost
 const observerOptions = {
   rootMargin: "-150px",
-  threshold: 0.5,
+  threshold: 0,
 };
 
 // create the intersection observer for vclass
