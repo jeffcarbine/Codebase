@@ -1,8 +1,8 @@
 import { addEventDelegate } from "../../scripts/eventdelegate/_eventdelegate.js";
 
-export const nav = document.querySelector("nav");
+const toggleNav = (button) => {
+  const nav = document.querySelector("nav");
 
-export const toggleNav = (button) => {
   if (nav.classList.contains("open")) {
     nav.classList.remove("open");
     button.classList.remove("open");
@@ -10,6 +10,10 @@ export const toggleNav = (button) => {
     nav.classList.add("open");
     button.classList.add("open");
   }
+};
+
+export const enableToggleNav = () => {
+  addEventDelegate("click", "#navToggle", toggleNav);
 };
 
 const toggleSubmenu = (button) => {
@@ -75,6 +79,8 @@ export const enableToggleSubmenu = () => {
 };
 
 const setNavBackground = (scrollPos) => {
+  const nav = document.querySelector("nav");
+
   const _100vh = window.innerHeight;
 
   if (scrollPos > _100vh) {
