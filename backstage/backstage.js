@@ -1,6 +1,6 @@
 import { dashboard } from "./routes/dashboard.js";
 import { events, addEvent, editEvent, deleteEvent } from "./routes/events.js";
-import { fanart } from "./routes/fanart.js";
+import { fanart, post__fanartApprove } from "./routes/fanart.js";
 
 export default (app, express, __dirname, connectEnsureLogin) => {
   app.use(
@@ -35,4 +35,9 @@ export default (app, express, __dirname, connectEnsureLogin) => {
     deleteEvent
   );
   app.get("/admin/fanart", connectEnsureLogin.ensureLoggedIn(), fanart);
+  app.post(
+    "/admin/fanart/approve",
+    connectEnsureLogin.ensureLoggedIn(),
+    post__fanartApprove
+  );
 };

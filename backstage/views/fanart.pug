@@ -15,9 +15,14 @@ block content
             figure
               img.productImage(src=print.image, loading="lazy")
 
-          .toggle.single 
-            input(type="checkbox", id="print" + print._id, checked=print.approved)
-            label(for="print" + print._id) Approved
+          form.inputXhr(method="POST", action="/admin/fanart/approve")
+            input(type="hidden", name="id", value=print._id)
+            .toggle.single 
+              input(type="checkbox", id="print" + print._id, name="approved" checked=print.approved)
+              label(for="print" + print._id) Approved
 
           button.btn.sm.delete(data-id=print._id) Delete
           button.btn.sm.ban(data-id=print.email) Ban Artist
+
+  block scripts 
+    script(src="/periodic/scripts/xhr/_inputXhr.js", type="module", defer=true)
