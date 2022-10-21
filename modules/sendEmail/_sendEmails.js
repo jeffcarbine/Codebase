@@ -38,7 +38,7 @@ export const sendEmail = (obj) => {
         : "You received a message from your Carbine.co website",
     message =
       obj.message !== undefined
-        ? obj.subject
+        ? obj.message
         : "Somebody has submitted a contact form on your website.",
     replacements = obj.replacements !== undefined ? obj.replacements : false,
     res = obj.res !== undefined ? obj.res : false,
@@ -84,7 +84,7 @@ export const sendEmail = (obj) => {
         };
 
         if (htmlBody !== null) {
-          emailData.htmlBody = htmlBody;
+          emailData.html = htmlBody;
         }
 
         // send the email
