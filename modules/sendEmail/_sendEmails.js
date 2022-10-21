@@ -1,3 +1,6 @@
+import * as dotenv from "dotenv";
+dotenv.config();
+
 import async from "async";
 import nodemailer from "nodemailer";
 import * as fs from "fs";
@@ -11,14 +14,14 @@ const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 587,
   auth: {
-    user: "concierge@tailorcooperative.com",
-    pass: "uhspmxjlcbwidzus",
+    user: process.env.EMAILADDRESS,
+    pass: process.env.EMAILPASSWORD,
   },
 });
 
 /**
  * sends an email
- * @param {string} template the html template to render
+ * @param {string} template full path to the html template to render
  * @param {string} recipient who the email is going to
  * @param {string} subject the subject of the email
  * @param {string} message text-only version of the email
@@ -28,7 +31,6 @@ const transporter = nodemailer.createTransport({
 export const sendEmail = (
   template,
   to,
-  from,
   subject,
   message,
   replacements,
@@ -58,11 +60,12 @@ export const sendEmail = (
         });
       },
       function (htmlBody, callback) {
+        console.log(to, from);
         // send the email
         transporter
           .sendMail({
-            from: '"Tailor Cooperative" <concierge@tailorcooperative.com>', // sender address
-            to: recipient, // list of recipients
+            from: process.env.EMAILADDRESS,
+            to, // list of recipients
             subject: subject, // Subject line
             text: message, // plain text body
             html: htmlBody, // html body
