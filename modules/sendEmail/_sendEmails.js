@@ -27,39 +27,35 @@ const transporter = nodemailer.createTransport({
  */
 export const sendEmail = (
   template,
-  recipient,
+  to,
+  from,
   subject,
   message,
   replacements,
   mainCallback = false
 ) => {
-  console.log("attempting to send email!");
   async.waterfall(
     [
       // step 1: get the template's html from file
       function (callback) {
-        fs.readFile(
-          __dirname + "/emailTemplates/" + template + ".html",
-          "utf8",
-          function (err, html) {
-            if (err) {
-              callback(err);
-            } else {
-              // set the html to a variable
-              let htmlBody = html;
+        fs.readFile(__dirname + template, "utf8", function (err, html) {
+          if (err) {
+            callback(err);
+          } else {
+            // set the html to a variable
+            let htmlBody = html;
 
-              // and then process the replacements
-              for (let key in replacements) {
-                let replacement = replacements[key];
+            // and then process the replacements
+            for (let key in replacements) {
+              let replacement = replacements[key];
 
-                htmlBody = htmlBody.replace("%%" + key + "%%", replacement);
-              }
-
-              // and send the modified htmlBody on to the next step
-              callback(null, htmlBody);
+              htmlBody = htmlBody.replace("%%" + key + "%%", replacement);
             }
+
+            // and send the modified htmlBody on to the next step
+            callback(null, htmlBody);
           }
-        );
+        });
       },
       function (htmlBody, callback) {
         // send the email
