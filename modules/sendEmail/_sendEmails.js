@@ -28,55 +28,72 @@ const transporter = nodemailer.createTransport({
  * @param {object} replacements key/value pairs of %%data%% replacements in template file
  * @param {string} mainCallback a passed callback, if needed
  */
-export const sendEmail = (
-  template,
-  to,
-  subject,
-  message,
-  replacements,
-  mainCallback = false
-) => {
+export const sendEmail = (obj) => {
+  // set object defaults
+  const template = obj.template,
+    to = obj.to !== undefined ? obj.to : process.env.EMAILADDRESS,
+    subject =
+      obj.subject !== undefined
+        ? obj.subject
+        : "You received a message from your Carbine.co website",
+    message =
+      obj.message !== undefined
+        ? obj.subject
+        : "Somebody has submitted a contact form on your website.",
+    replacements = obj.replacements !== undefined ? obj.replacements : false,
+    res = obj.res !== undefined ? obj.res : false,
+    successMessage =
+      obj.successMessage !== undefined
+        ? obj.successMessage
+        : "Email sent successfully";
+
   async.waterfall(
     [
       // step 1: get the template's html from file
       function (callback) {
-        fs.readFile(__dirname + template, "utf8", function (err, html) {
-          if (err) {
-            callback(err);
-          } else {
-            // set the html to a variable
-            let htmlBody = html;
+        if (replacements) {
+          fs.readFile(__dirname + template, "utf8", function (err, html) {
+            if (err) {
+              callback(err);
+            } else {
+              // set the html to a variable
+              let htmlBody = html;
 
-            // and then process the replacements
-            for (let key in replacements) {
-              let replacement = replacements[key];
+              // and then process the replacements
+              for (let key in replacements) {
+                let replacement = replacements[key];
 
-              htmlBody = htmlBody.replace("%%" + key + "%%", replacement);
+                htmlBody = htmlBody.replace("%%" + key + "%%", replacement);
+              }
+
+              // and send the modified htmlBody on to the next step
+              callback(null, htmlBody);
             }
-
-            // and send the modified htmlBody on to the next step
-            callback(null, htmlBody);
-          }
-        });
+          });
+        } else {
+          callback(null, null);
+        }
       },
       function (htmlBody, callback) {
-        console.log(to, from);
+        // create the emailData object
+        const emailData = {
+          from: process.env.EMAILADDRESS,
+          to, // list of recipients
+          subject: subject, // Subject line
+          text: message, // plain text body
+        };
+
+        if (htmlBody !== null) {
+          emailData.htmlBody = htmlBody;
+        }
+
         // send the email
         transporter
-          .sendMail({
-            from: process.env.EMAILADDRESS,
-            to, // list of recipients
-            subject: subject, // Subject line
-            text: message, // plain text body
-            html: htmlBody, // html body
-          })
-          .then((info) => {
-            // email was successfully sent
-            console.log("sent email");
-
-            // and run mainCallback if it exists
-            if (mainCallback) {
-              mainCallback();
+          .sendMail(emailData)
+          .then(() => {
+            // and return a 200 if response was provided
+            if (res) {
+              return res.status(200).send(successMessage);
             }
           })
           .catch((err) => {
