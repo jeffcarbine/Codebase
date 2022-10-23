@@ -1,0 +1,63 @@
+@use "../../styles/mixin";
+@use "../../elements/typography/typography";
+
+.tile {
+  padding: .5rem;
+  box-sizing: border-box;
+  background: var(--background);
+
+  .tile-header {
+    border-radius: 5px 5px 0 0;
+    border: 1px solid var(--border-color);
+    background: var(--background-low);
+    padding: 1rem;
+    @include typography.fontValues(6);
+    font-weight: 700;
+    border-bottom: 1px solid var(--border-color);
+
+    h2 {
+      @include fontValues(4);
+    }
+  }
+
+  .tile-body {
+    border-radius: 0 0 5px 5px;
+    border: 1px solid var(--border-color);
+    border-top: none;
+    padding: 1rem;
+    box-sizing: border-box;
+  }
+}
+
+.tile-grid {
+  display: flex;
+  flex-wrap: wrap;
+
+  .tile {
+    flex: 0 0 100%;
+  }
+}
+
+@media only screen and (min-width: mixin.$breakpoint-md) {
+  .tile-grid {
+    .tile {
+      flex: 0 0 50%;
+    }
+  }
+}
+
+@media only screen and (min-width: mixin.$breakpoint-lg) {
+  .tile-grid {
+    .tile {
+      flex: 0 0 33.33%;
+    }
+  }
+}
+
+@media only screen and (min-width: mixin.$breakpoint-xl) {
+  .tile-grid {
+    .tile {
+      flex: 0 0 25%;
+    }
+  }
+}

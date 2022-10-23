@@ -22,9 +22,7 @@
  * })
  */
 
-console.log("adding dynamic element creating");
-
-function createDynamicElement(obj) {
+export const createDynamicElement = (obj) => {
   var element;
 
   if (obj.tagName !== undefined) {
@@ -35,14 +33,14 @@ function createDynamicElement(obj) {
 
   for (var key in obj) {
     if (
-        key !== "children" &&
-        key !== "child" &&
-        key !== "tagName" &&
-        key !== "textContent"
+      key !== "children" &&
+      key !== "child" &&
+      key !== "tagName" &&
+      key !== "textContent"
     ) {
-        element.setAttribute(key, obj[key]);
+      element.setAttribute(key, obj[key]);
     } else if (key === "textContent") {
-        element.textContent = obj[key];   
+      element.textContent = obj[key];
     } else if (key === "children") {
       let children = obj[key];
 
@@ -61,4 +59,4 @@ function createDynamicElement(obj) {
   }
 
   return element;
-}
+};

@@ -7,6 +7,11 @@ const xhrForm = function (form) {
     method = form.method,
     action = form.action;
 
+  // add the loading class to the form
+  if (!form.classList.contains("loading")) {
+    form.classList.add("loading");
+  }
+
   let json = {};
 
   formData.forEach(function (value, key) {
@@ -27,18 +32,19 @@ const xhrForm = function (form) {
     }
   });
 
-  console.log(json);
-
   // get the expected response box
   const responseBox = form.querySelector(".response");
 
-  const renderResponse = function (string, status) {
+  const renderResponse = (string, status) => {
+    console.log(string);
+    form.classList.remove("loading");
+
     responseBox.dataset.status = status;
     responseBox.textContent = string;
   };
 
   // default behaviours for success, error and failure
-  const success = function (request) {
+  const success = (request) => {
     const redirect = form.dataset.redirect !== undefined;
 
     if (redirect) {
@@ -46,6 +52,11 @@ const xhrForm = function (form) {
     } else {
       renderResponse(request.response, "success");
       form.reset();
+
+      // remove success message after two seconds
+      setTimeout(() => {
+        delete responseBox.dataset.status;
+      }, 2000);
     }
   };
 
@@ -67,12 +78,18 @@ const xhrForm = function (form) {
     renderResponse(message, "error");
   };
 
-  const failure = function (request) {
+  const failure = (request) => {
     renderResponse(request.response, "failure");
   };
 
+  const progress = (event) => {
+    console.log(progress);
+  };
+
   // and now pass this all to the xhr function
-  xhr(method, action, success, error, failure, json);
+  setTimeout(() => {
+    xhr(method, action, json, { success, error, failure, progress });
+  }, 1000);
 };
 
 // run xhrForm on any form with a class of xhr

@@ -4,14 +4,6 @@
 */
 
 :root {
-  --label-background: var(--background-low);
-  --label-color: var(--foreground);
-  --label-font-size: 1rem;
-  --label-line-height: 1rem;
-  --label-focus-font-size: 0.75rem;
-  --label-active-color: var(--foreground-mid);
-  --label-active-border-color: var(--accent);
-
   --input-placeholder-color: var(--primary);
 
   --checkbox-radio-font-size: 1rem;
@@ -75,6 +67,20 @@ input[type="number"] {
 
 .style-inputs {
   label {
+    --label-background: var(--background-low);
+    --label-color: var(--foreground);
+    --label-font-size: 1rem;
+    --label-line-height: 1rem;
+    --label-focus-font-size: 0.75rem;
+    --label-active-color: var(--foreground-mid);
+    --label-active-border-color: var(--accent);
+    --label-border-radius: 0;
+    --label-round-border-radius: 50px;
+    --label-padding: 1.25rem 0.5rem;
+    --label-round-padding: 1.25rem;
+    --label-active-padding: 0.5rem 0.5rem 2rem 0.5rem;
+    --label-round-active-padding: 0.5rem 0.5rem 2rem 1rem;
+
     color: var(--label-color);
     font-size: var(--label-font-size);
     line-height: var(--label-line-height);
@@ -87,19 +93,17 @@ input[type="number"] {
       display: block;
       position: relative;
       margin: 0.5rem 0;
-      padding: 1.25rem 0.5rem;
+      padding: var(--label-padding);
       box-sizing: border-box;
       border: 1px solid var(--border-color);
+      border-radius: var(--label-border-radius);
 
       input,
       select,
       textarea {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: calc(100% - 1rem);
-        z-index: 0;
+        --input-padding: 0.5rem;
+        --select-padding: 0.25rem;
+
         border: none;
         background: transparent;
         outline: none;
@@ -114,6 +118,32 @@ input[type="number"] {
           color: var(--input-placeholder-color);
           font-style: italic;
         }
+      }
+
+      input,
+      select {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: calc(100% - 1rem);
+        z-index: 0;
+      }
+
+      input,
+      textarea {
+        padding: 0 calc(var(--input-padding) + 2px); // just to give it the illusion of being ligned up
+      }
+
+      textarea {
+        padding-top: 0.75rem;
+      }
+
+      select {
+        padding: 0 calc(var(--select-padding) + 2px); // just to give it the illusion of being ligned up
+        width: calc(
+          100% - 0.5rem
+        ); // keeps spacing on the right hand side for the caret
       }
 
       &::before,
@@ -143,7 +173,7 @@ input[type="number"] {
       &.active,
       &.has-value,
       &.permanent-active {
-        padding: 0.5rem 0.5rem 2rem 0.5rem;
+        padding: var(--label-active-padding);
         color: var(--label-active-color);
         font-size: var(--label-focus-font-size);
 
@@ -168,20 +198,24 @@ input[type="number"] {
         font-size: var(--label-focus-font-size);
       }
 
-      input,
-      textarea {
-        padding: 0 calc(0.5rem + 2px); // just to give it the illusion of being ligned up
-      }
+      &.round {
+        padding: var(--label-round-padding);
+        border-radius: var(--label-round-border-radius);
 
-      textarea {
-        padding-top: 0.75rem;
-      }
+        input,
+        textarea {
+          --input-padding: 1rem;
+        }
 
-      select {
-        padding: 0 calc(0.25rem + 2px); // just to give it the illusion of being ligned up
-        width: calc(
-          100% - 0.5rem
-        ); // keeps spacing on the right hand side for the caret
+        select {
+          --select-padding: 0.5rem;
+        }
+
+        &.active,
+        &.has-value,
+        &.permanent-active {
+          padding: var(--label-round-active-padding);
+        }
       }
 
       // for inputXhr stuff

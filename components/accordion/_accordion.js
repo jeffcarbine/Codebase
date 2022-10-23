@@ -74,7 +74,7 @@ const closeAccordion = (accordionBody, accordionButton) => {
 export { toggleAccordion, closeAccordion };
 
 // // event for opening the accordion via the .toggle element
-addEventDelegate("click", ".accordion .toggle", handleAccordionClick);
+addEventDelegate("click", ".accordion > button", handleAccordionClick);
 
 // automatically expand the accordion that matches the hash
 const params = new URLSearchParams(window.location.search),
