@@ -1,5 +1,6 @@
 import { addEventDelegate } from "../eventdelegate/_eventdelegate.js";
 import xhr from "./_xhr.js";
+import { toast } from "../../components/alert/_alert.js";
 
 const xhrForm = function (form) {
   // get the data from the form
@@ -32,15 +33,11 @@ const xhrForm = function (form) {
     }
   });
 
-  // get the expected response box
-  const responseBox = form.querySelector(".response");
-
   const renderResponse = (string, status) => {
     console.log(string);
     form.classList.remove("loading");
 
-    responseBox.dataset.status = status;
-    responseBox.textContent = string;
+    toast(string, { status });
   };
 
   // default behaviours for success, error and failure
@@ -82,13 +79,13 @@ const xhrForm = function (form) {
     renderResponse(request.response, "failure");
   };
 
-  const progress = (event) => {
-    console.log(progress);
-  };
+  // const progress = (event) => {
+  //   console.log(progress);
+  // };
 
   // and now pass this all to the xhr function
   setTimeout(() => {
-    xhr(method, action, json, { success, error, failure, progress });
+    xhr(method, action, json, { success, error, failure });
   }, 1000);
 };
 

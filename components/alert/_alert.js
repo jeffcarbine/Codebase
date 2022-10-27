@@ -1,94 +1,55 @@
-﻿// ALERTS
+﻿import { createDynamicElement } from "../../scripts/createDynamicElement/_createDynamicElement.js";
+import { addEventDelegate } from "../../scripts/eventdelegate/_eventdelegate.js";
 
-function initDismissableAlerts() {
-  let dismissableAlerts = document.querySelectorAll(
-    ".alert.dismissable:not(.initialized), .alert.toast:not(.initialized)"
-  );
+// ALERTS
 
-  loop(dismissableAlerts, function(alert) {
-    // before we make it dismissable, check to see
-    // if they should be auto-dismissed via cookie
+function removeToast(alert, head = null) {
+  alert.classList.remove("visible");
 
-    let cookie = alert.dataset.cookie;
-
-    if (cookie !== undefined) {
-      if (getCookie(cookie) === null) {
-        initDismissableAlert(alert);
-      } else {
-        alert.style.display = "none";
-      }
-    } else {
-      initDismissableAlert(alert);
-    }
-  });
-}
-
-function initDismissableAlert(alert) {
-  let dismiss = createDynamicElement({
-    tagName: "button",
-    class: "dismissAlert",
-    "aria-label": "Dismiss Alert"
-  });
-
-  alert.appendChild(dismiss);
-
-  alert.classList.add("initialized");
-}
-
-addEventDelegate("load", window, initDismissableAlerts);
-
-function dismissAlert(target) {
-  let alert = target.parentNode;
-  let cookie = alert.dataset.cookie;
-  let expires = alert.dataset.expires;
-
-  let height = alert.offsetHeight + "px";
-  alert.style.height = height;
-
-  if (cookie !== null) {
-    setCookie(cookie, true, expires);
+  if (head !== null) {
+    head.removeChild(transition);
   }
 
-  setTimeout(function() {
-    if (alert.classList.contains("toast")) {
-      alert.classList.remove("visible");
-    } else {
-      alert.classList.add("dismissed");
-    }
-  }, 250);
+  setTimeout(() => {
+    document.body.removeChild(alert);
+  }, 1000);
 }
 
-addEventDelegate("click", "button.dismissAlert", dismissAlert);
+const dismissToast = (button) => {
+  let alert = button.parentNode;
+
+  removeToast(alert);
+};
+
+addEventDelegate("click", ".alert button.dismiss", dismissToast);
 
 // TOAST
 
-function toast(message, params) {
-  const toastDelay = 100;
-
-  const auto = false;
-  const type = null;
-
-  if (params !== undefined) {
-    auto = params.auto;
-    type = params.type || null;
-  }
-
-  const alertId = "alet" + Date.now();
+export const toast = (message, params = {}) => {
+  const toastDelay = 100,
+    auto = params.auto !== undefined ? params.auto : true,
+    status = params.status,
+    alertId = "alert" + Date.now();
 
   let alert = createDynamicElement({
-    class: "alert toast",
+    class: "alert toast dismissable",
     id: alertId,
     children: [
       {
         tagName: "p",
-        textContent: message
-      }
-    ]
+        textContent: message,
+      },
+      {
+        tagName: "button",
+        class: "dismiss",
+        "aria-label": "Dismiss",
+      },
+    ],
   });
 
   document.body.appendChild(alert);
 
-  setTimeout(function() {
+  setTimeout(function () {
     alert.classList.add("visible");
   }, toastDelay);
 
@@ -96,8 +57,8 @@ function toast(message, params) {
     alert.classList.add("auto");
   }
 
-  if (type !== null) {
-    alert.classList.add(type);
+  if (status !== null) {
+    alert.classList.add(status);
   }
 
   if (auto === true) {
@@ -114,7 +75,7 @@ function toast(message, params) {
     let transition = document.createElement("style");
     let head = document.querySelector("head");
 
-    setTimeout(function() {
+    setTimeout(function () {
       transition.innerHTML =
         "#" +
         alertId +
@@ -124,22 +85,20 @@ function toast(message, params) {
       head.appendChild(transition);
     }, toastDelay);
 
-    let timeout = setTimeout(function() {
-      alert.classList.remove("visible");
-      head.removeChild(transition);
-      document.body.removeChild(alert);
+    let timeout = setTimeout(function () {
+      removeToast(alert, head);
     }, delay * 1000);
 
-    let stopTimeout = function() {
+    let stopTimeout = function () {
       clearTimeout(timeout);
       head.removeChild(transition);
     };
 
     addEventDelegate("mouseover", "#" + alertId, stopTimeout);
 
-    let resumeTimeout = function() {
+    let resumeTimeout = function () {
       head.appendChild(transition);
-      timeout = setTimeout(function() {
+      timeout = setTimeout(function () {
         alert.classList.remove("visible");
         head.removeChild(transition);
         document.body.removeChild(alert);
@@ -148,4 +107,4 @@ function toast(message, params) {
 
     addEventDelegate("mouseout", "#" + alertId, resumeTimeout);
   }
-}
+};

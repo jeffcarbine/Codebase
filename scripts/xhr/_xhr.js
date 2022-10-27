@@ -42,16 +42,6 @@ export default (method, path, data = {}, callbacks = {}) => {
     };
   }
 
-  if (callbacks.progress === undefined) {
-    callbacks.progress = (event) => {
-      if (event.lengthComputable) {
-        console.log(`Received ${event.loaded} of ${event.total} bytes`);
-      } else {
-        console.log(`Received ${event.loaded} bytes`);
-      }
-    };
-  }
-
   // start by creating a request
   let request = new XMLHttpRequest();
   request.open(method, path);
@@ -64,17 +54,19 @@ export default (method, path, data = {}, callbacks = {}) => {
     } else if (request.status === 500) {
       callbacks.failure(request);
     } else {
-      console.log(request);
+      callbacks.error(request);
     }
-  };
-
-  request.onprogress = (event) => {
-    callbacks.progress(event);
   };
 
   request.onerror = () => {
     callbacks.error(request.response);
   };
+
+  if (callbacks.progress !== undefined) {
+    request.onprogress = (event) => {
+      callbacks.progress(event);
+    };
+  }
 
   const requestBody = JSON.stringify(data);
 
