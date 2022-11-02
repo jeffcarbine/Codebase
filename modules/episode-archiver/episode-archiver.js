@@ -7,7 +7,7 @@ import request from "request";
 import { getSpotifyToken } from "../../../apis/spotify.js";
 import { getPatreonToken } from "../../../apis/patreon.js";
 import Episode from "../../../models/Episode.js";
-import e from "express";
+import { generateTitles } from "../../../modules/episodeFormatter.js";
 
 const itunesUrl = process.env.ITUNESURL,
   spotifyUrl = process.env.SPOTIFYURL,
@@ -170,12 +170,14 @@ const processiTunes = (count = 1, asyncCallback) => {
       itunesEps,
       (itunesEp, next) => {
         const fullTitle = itunesEp.trackName,
+          titles = generateTitles(fullTitle),
+          title = titles.title,
           itunesLink = itunesEp.trackViewUrl;
 
         // save to mongodb
         Episode.findOneAndUpdate(
           {
-            fullTitle,
+            title,
           },
           {
             $set: {
@@ -256,7 +258,7 @@ const processPatreon = (patreonFilter, asyncCallback) => {
                       $set: postData.data,
                     },
                     {
-                      upsert: true,
+                      upsert: postData.upsert,
                     }
                   ).exec((err) => {
                     if (err) {
