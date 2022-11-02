@@ -249,7 +249,7 @@ const processPatreon = (patreonFilter, asyncCallback) => {
               (post, next) => {
                 const postData = patreonFilter(post);
 
-                if (postData !== undefined) {
+                if (postData.data !== undefined) {
                   Episode.findOneAndUpdate(
                     postData.query,
                     {
@@ -273,7 +273,10 @@ const processPatreon = (patreonFilter, asyncCallback) => {
                 if (err) {
                   console.log(err);
                 } else {
-                  asyncCallback(null);
+                  console.log("Successfully updated Patreon episodes");
+                  if (asyncCallback) {
+                    asyncCallback(null);
+                  }
                 }
               }
             );
@@ -286,6 +289,8 @@ const processPatreon = (patreonFilter, asyncCallback) => {
   console.log("trying to get patreon token");
   getPatreonToken(prepPatreonRequest);
 };
+
+export { processPatreon };
 
 export const archiveEpisodes = (episodeFormatter, patreonFilter, count) => {
   console.log("archiving episodes");
