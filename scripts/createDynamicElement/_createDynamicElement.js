@@ -45,31 +45,52 @@ export const createDynamicElement = (obj) => {
         "</svg>";
 
     element = new DOMParser().parseFromString(markup, "text/xml").firstChild;
+
+    element.classList.add("icon-" + obj.icon);
   } else {
     for (var key in obj) {
       if (
         key !== "children" &&
+        key !== "prepend" &&
+        key !== "append" &&
         key !== "child" &&
         key !== "tagName" &&
-        key !== "textContent"
+        key !== "textContent" &&
+        key !== "innerHTML" &&
+        key !== "if"
       ) {
         element.setAttribute(key, obj[key]);
+      } else if (key === "if") {
+        // then this is conditional on the if value being true
+        const isTrue = obj[key];
+
+        // if not true, break the loop
+        if (!isTrue) {
+          break;
+        }
       } else if (key === "textContent") {
         element.textContent = obj[key];
-      } else if (key === "children") {
+      } else if (key === "prepend" || key === "append" || key === "children") {
         let children = obj[key];
 
         for (var i = 0; i < children.length; i++) {
           let child = children[i];
 
           let childElement = createDynamicElement(child);
-          element.appendChild(childElement);
+
+          if (key === "children" || key === "append") {
+            element.appendChild(childElement);
+          } else if (key === "prepend") {
+            element.prepend(childElement);
+          }
         }
       } else if (key === "child") {
         let child = obj[key];
 
         let childElement = createDynamicElement(child);
         element.appendChild(childElement);
+      } else if (key === "innerHTML") {
+        element.innerHTML = obj[key];
       }
     }
   }

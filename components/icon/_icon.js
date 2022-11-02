@@ -93,9 +93,9 @@ function loadIcon(target) {
       // set the appropriate class for the svg whether it is
       // color or not
       if (isColor) {
-        icon.setAttribute("class", "color-icon");
+        icon.setAttribute("class", "color-icon-");
       } else {
-        icon.setAttribute("class", "icon");
+        icon.setAttribute("class", "icon-");
       }
 
       icon.classList += iconName;
