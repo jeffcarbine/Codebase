@@ -307,7 +307,7 @@ export const archiveEpisodes = (episodeFormatter, patreonFilter, count) => {
       (callback) => {
         processSpotify(count, callback);
       },
-      (callback) => {
+      () => {
         processiTunes(count);
       },
     ],
