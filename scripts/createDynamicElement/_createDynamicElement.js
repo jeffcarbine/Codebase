@@ -49,48 +49,62 @@ export const createDynamicElement = (obj) => {
     element.classList.add("icon-" + obj.icon);
   } else {
     for (var key in obj) {
-      if (
-        key !== "children" &&
-        key !== "prepend" &&
-        key !== "append" &&
-        key !== "child" &&
-        key !== "tagName" &&
-        key !== "textContent" &&
-        key !== "innerHTML" &&
-        key !== "if"
-      ) {
-        element.setAttribute(key, obj[key]);
-      } else if (key === "if") {
-        // then this is conditional on the if value being true
-        const isTrue = obj[key];
+      const value = obj[key];
 
-        // if not true, break the loop
-        if (!isTrue) {
-          break;
-        }
-      } else if (key === "textContent") {
-        element.textContent = obj[key];
-      } else if (key === "prepend" || key === "append" || key === "children") {
-        let children = obj[key];
+      if (value !== null) {
+        if (
+          key !== "children" &&
+          key !== "prepend" &&
+          key !== "append" &&
+          key !== "child" &&
+          key !== "tagName" &&
+          key !== "textContent" &&
+          key !== "innerHTML" &&
+          key !== "if"
+        ) {
+          element.setAttribute(key, value);
+        } else if (key === "if") {
+          // then this is conditional on the if value being true
+          const isTrue = value;
 
-        for (var i = 0; i < children.length; i++) {
-          let child = children[i];
+          // if not true, return a null value
+          if (!isTrue) {
+            return null;
+          }
+        } else if (key === "textContent") {
+          element.textContent = value;
+        } else if (
+          key === "prepend" ||
+          key === "append" ||
+          key === "children"
+        ) {
+          let children = value;
+
+          for (var i = 0; i < children.length; i++) {
+            let child = children[i];
+
+            let childElement = createDynamicElement(child);
+
+            if (key === "children" || key === "append") {
+              if (childElement !== null) {
+                element.appendChild(childElement);
+              }
+            } else if (key === "prepend") {
+              if (childElement !== null) {
+                element.prepend(childElement);
+              }
+            }
+          }
+        } else if (key === "child") {
+          let child = value;
 
           let childElement = createDynamicElement(child);
-
-          if (key === "children" || key === "append") {
+          if (childElement !== null) {
             element.appendChild(childElement);
-          } else if (key === "prepend") {
-            element.prepend(childElement);
           }
+        } else if (key === "innerHTML") {
+          element.innerHTML = value;
         }
-      } else if (key === "child") {
-        let child = obj[key];
-
-        let childElement = createDynamicElement(child);
-        element.appendChild(childElement);
-      } else if (key === "innerHTML") {
-        element.innerHTML = obj[key];
       }
     }
   }

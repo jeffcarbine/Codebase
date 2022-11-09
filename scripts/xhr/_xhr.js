@@ -22,7 +22,7 @@
  *
  */
 
-export default (method, path, data = {}, callbacks = {}) => {
+export const xhr = (method, path, data = {}, callbacks = {}) => {
   // set default methods
   if (callbacks.success === undefined) {
     callbacks.success = (request) => {

@@ -1,5 +1,5 @@
 import { addEventDelegate } from "../eventdelegate/_eventdelegate.js";
-import xhr from "./_xhr.js";
+import { xhr } from "./_xhr.js";
 
 const inputXhr = function (input) {
   // first, find the label for the input
