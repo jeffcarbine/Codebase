@@ -149,7 +149,6 @@ export const deleteEvent = (req, res, next) => {
 
   const body = req.body,
     eventId = body.eventId;
-  console.log(eventId);
 
   Event.findOneAndDelete({
     _id: eventId,
