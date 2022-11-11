@@ -120,7 +120,7 @@ const processSpotify = (count = 1, asyncCallback) => {
       asyncLoop(
         spotifyEps,
         (spotifyEp, next) => {
-          const fullTitle = spotifyEp.name,
+          const fullTitle = spotifyEp.name.replaceAll("&", "&amp;"),
             spotifyLink = spotifyEp.external_urls.spotify;
 
           // save to mongodb
