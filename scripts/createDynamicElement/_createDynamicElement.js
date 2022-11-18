@@ -36,7 +36,6 @@ export const createDynamicElement = (obj) => {
   if (obj.icon) {
     // this is an icon, so we can ignore the rest
     const icon = obj.icon;
-    console.log(icon);
 
     // there should only be one key/value pair, but we
     // use a loop cause I don't know of a cleaner way to
@@ -50,7 +49,7 @@ export const createDynamicElement = (obj) => {
 
       element = new DOMParser().parseFromString(markup, "text/xml").firstChild;
 
-      element.classList.add("icon-" + iconName);
+      element.classList = "icon icon-" + iconName;
     }
   } else {
     for (var key in obj) {
