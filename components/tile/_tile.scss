@@ -9,6 +9,7 @@
   background: var(--transparent);
 
   .tile-header {
+    position: relative;
     border-radius: 5px 5px 0 0;
     border: 1px solid var(--border-color);
     background: var(--background-low);
@@ -19,6 +20,13 @@
 
     h2 {
       @include fontValues(4);
+    }
+
+    button.action {
+      position: absolute;
+      top: 50%;
+      right: 0.5rem;
+      transform: translateY(-50%);
     }
   }
 
