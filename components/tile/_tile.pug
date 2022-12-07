@@ -1,5 +1,10 @@
-mixin tile(header)
-    div.tile
-      .tile-header #{header}
+mixin tile(obj)
+    -
+      const className = obj.class || null,
+        id = obj.id || null,
+        header = obj.header || null
+        
+    div.tile(class=className, id=id)
+		  .tile-header #{header}
       .tile-body
         block
