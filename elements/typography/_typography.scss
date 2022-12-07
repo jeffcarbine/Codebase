@@ -1,46 +1,46 @@
 @use "../../styles/mixin";
 
-$levels: 12;
+$levels: 15;
 
 :root {
   --root-font-size: 10px;
-
-  --base-font-size: var(--root-font-size);
-  --base-font-family: "Open Sans", sans-serif;
-  --base-line-height: calc(var(--base-font-size) * 1.5);
-  --base-font-weight: 300;
 
   // p
   --p-margin: calc(var(--base-font-size) * 0.75) 0;
 
   // strong
-  --strong-font-weight: 700;
+  --strong-font-weight: 500;
 
-  // headers
-  --base-heading-font-size: var(--base-font-size);
-  --base-heading-decrease: 0.85;
-  --base-heading-multiplier: 2.6;
-  --base-heading-line-height-multiplier: 1.125;
+  // font values
+  --base-font-family: "Open Sans", sans-serif;
+  --base-line-height: calc(var(--base-font-size) * 1.5);
+  --base-font-weight: 300;
+  // smalls screens, root is base
+  // but on larger screens (below) we increase it
+  --base-font-size: var(--root-font-size);
+  --base-font-increase: 1.175;
+  --base-font-line-height-increase: 0.9;
 
   @for $level from 1 through $levels {
-    $i: $level - 1;
-    $decreasePower: 1;
+    $i: calc($level - 1);
+    $fontLevel: calc(12 - $i);
+    $increasePower: 1;
 
     @for $ii from 0 to $i {
-      $decreasePower: calc(#{$decreasePower} * var(--base-heading-decrease));
+      $increasePower: calc(#{$increasePower} * var(--base-font-increase));
     }
 
-    --f#{$level}-font-size: calc(
-      var(--base-heading-font-size) *
-        calc(var(--base-heading-multiplier) * #{$decreasePower})
+    --f#{$fontLevel}-font-size: calc(var(--base-font-size) * #{$increasePower});
+    --f#{$fontLevel}-line-height: calc(
+      var(--f#{$fontLevel}-font-size) * var(--base-font-line-height-increase)
     );
-    --f#{$level}-line-height: calc(
-      var(--f#{$level}-font-size) * var(--base-heading-line-height-multiplier)
-    );
-    --f#{$level}-font-weight: 300;
+    --f#{$fontLevel}-font-weight: 300;
 
-    @if $level <= 6 {
-      --f#{$level}-margin: 0 0 calc(var(--f#{$level}-font-size) * 0.25) 0;
+    @if $fontLevel <= 6 {
+      --f#{$fontLevel}-margin: 0
+        0
+        calc(var(--f#{$fontLevel}-font-size) * 0.25)
+        0;
     }
   }
 }
@@ -52,9 +52,18 @@ html {
   font-family: var(--base-font-family);
 }
 
+@mixin fontValues($size, $height: $size, $weight: $size) {
+  font-size: var(--f#{$size}-font-size);
+  line-height: var(--f#{$height}-line-height);
+  font-weight: var(--f#{$weight}-font-weight);
+}
+
+body {
+  @include fontValues(10, 6);
+  font-weight: 300;
+}
+
 p {
-  line-height: calc(var(--base-font-size) * 2);
-  font-size: 1rem;
   margin: var(--p-margin);
 
   + p {
@@ -70,19 +79,13 @@ strong {
   font-weight: var(--strong-font-weight);
 }
 
-@mixin fontValues($i) {
-  font-size: var(--f#{$i}-font-size);
-  line-height: var(--f#{$i}-line-height);
-  font-weight: var(--f#{$i}-font-weight);
-}
-
-@mixin headingValues($i) {
-  @include fontValues($i);
+@mixin headingValues($size, $height: $size, $weight: $size) {
+  @include fontValues($size, $height, $weight);
 
   span {
     display: block;
-    font-size: calc(var(--f#{$i}-font-size) * 0.5);
-    line-height: calc(var(--f#{$i}-font-size) * 0.45);
+    font-size: calc(var(--f#{$size}-font-size) * 0.5);
+    line-height: calc(var(--f#{$height}-line-height) * 0.45);
   }
 }
 
@@ -108,12 +111,6 @@ ul,
 ol {
   margin-bottom: 0.75rem;
   margin-left: 1.5rem;
-
-  li {
-    font-size: 1rem;
-    line-height: 1.5rem;
-    margin-bottom: 0.25rem;
-  }
 }
 
 ul li {

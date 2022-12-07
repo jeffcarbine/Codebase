@@ -27,34 +27,89 @@ export const createDynamicElement = (obj) => {
 
   if (obj.tagName !== undefined) {
     element = document.createElement(obj.tagName);
+  } else if (obj.icon) {
+    element = "";
   } else {
     element = document.createElement("div");
   }
 
-  for (var key in obj) {
-    if (
-      key !== "children" &&
-      key !== "child" &&
-      key !== "tagName" &&
-      key !== "textContent"
-    ) {
-      element.setAttribute(key, obj[key]);
-    } else if (key === "textContent") {
-      element.textContent = obj[key];
-    } else if (key === "children") {
-      let children = obj[key];
+  if (obj.icon) {
+    // this is an icon, so we can ignore the rest
+    const icon = obj.icon;
 
-      for (var i = 0; i < children.length; i++) {
-        let child = children[i];
+    // there should only be one key/value pair, but we
+    // use a loop cause I don't know of a cleaner way to
+    // do this
+    for (let iconName in icon) {
+      const iconString = icon[iconName],
+        markup =
+          "<svg xmlns='http://www.w3.org/2000/svg' id='Layer_1' data-name='Layer 1' viewBox='0 0 320.27 316.32'>" +
+          iconString.replace(/cls/g, iconName) +
+          "</svg>";
 
-        let childElement = createDynamicElement(child);
-        element.appendChild(childElement);
+      element = new DOMParser().parseFromString(markup, "text/xml").firstChild;
+
+      element.classList = "icon icon-" + iconName;
+    }
+  } else {
+    for (var key in obj) {
+      const value = obj[key];
+
+      if (value !== null) {
+        if (
+          key !== "children" &&
+          key !== "prepend" &&
+          key !== "append" &&
+          key !== "child" &&
+          key !== "tagName" &&
+          key !== "textContent" &&
+          key !== "innerHTML" &&
+          key !== "if"
+        ) {
+          element.setAttribute(key, value);
+        } else if (key === "if") {
+          // then this is conditional on the if value being true
+          const isTrue = value;
+
+          // if not true, return a null value
+          if (!isTrue) {
+            return null;
+          }
+        } else if (key === "textContent") {
+          element.textContent = value;
+        } else if (
+          key === "prepend" ||
+          key === "append" ||
+          key === "children"
+        ) {
+          let children = value;
+
+          for (var i = 0; i < children.length; i++) {
+            let child = children[i];
+
+            let childElement = createDynamicElement(child);
+
+            if (key === "children" || key === "append") {
+              if (childElement !== null) {
+                element.appendChild(childElement);
+              }
+            } else if (key === "prepend") {
+              if (childElement !== null) {
+                element.prepend(childElement);
+              }
+            }
+          }
+        } else if (key === "child") {
+          let child = value;
+
+          let childElement = createDynamicElement(child);
+          if (childElement !== null) {
+            element.appendChild(childElement);
+          }
+        } else if (key === "innerHTML") {
+          element.innerHTML = value;
+        }
       }
-    } else if (key === "child") {
-      let child = obj[key];
-
-      let childElement = createDynamicElement(child);
-      element.appendChild(childElement);
     }
   }
 

@@ -3,8 +3,8 @@
 :root {
   --nav-background: transparent;
   --nav-background-scrolled: var(--dark);
-  --nav-item-padding-y: .25rem;
-  --nav-item-padding-x: .5rem;
+  --nav-item-padding-y: 0.25rem;
+  --nav-item-padding-x: 0.5rem;
   --nav-item-color: var(--foreground);
   --nav-item-background: transparent;
   --nav-item-color-active: var(--accent);
@@ -13,8 +13,8 @@
   --nav-submenu-background: var(--accent);
   --nav-submenu-item-color: var(--foreground);
   --nav-submenu-item-background: transparent;
-  --nav-submenu-item-padding-y: .25rem;
-  --nav-submenu-item-padding-x: .25rem;
+  --nav-submenu-item-padding-y: 0.25rem;
+  --nav-submenu-item-padding-x: 0.25rem;
 }
 
 nav {
@@ -40,7 +40,7 @@ nav {
         transition: all 0.5s ease;
 
         &.active {
-          --nav-item-color: var(--nav-item-color-active);        
+          --nav-item-color: var(--nav-item-color-active);
         }
       }
 
@@ -51,7 +51,7 @@ nav {
           content: "";
           display: block;
           position: absolute;
-          top: calc(50% - 0.25rem);
+          top: 50%;
           right: 0.75rem;
           transform: translateY(-50%);
           @include mixin.triangle(bottom, var(--nav-item-color), 0.375rem);
@@ -80,19 +80,20 @@ nav {
 
         a {
           color: var(--nav-submenu-item-color);
-          padding: var(--nav-submenu-item-padding-y) var(--nav-submenu-item-padding-x);
+          padding: var(--nav-submenu-item-padding-y)
+            var(--nav-submenu-item-padding-x);
           white-space: nowrap;
         }
       }
     }
   }
 }
-  
+
 @media only screen and (min-width: mixin.$breakpoint-md) {
   :root {
-    --nav-submenu-item-padding-x: .75rem;
+    --nav-submenu-item-padding-x: 0.75rem;
   }
-  
+
   #navToggle {
     display: none;
   }
@@ -148,4 +149,3 @@ nav {
     }
   }
 }
-  

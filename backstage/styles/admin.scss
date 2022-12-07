@@ -9,7 +9,7 @@
 @import "../../components/tile/tile";
 @import "dashboard";
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
 
 :root {
   --base-font-family: "Poppins", sans-serif;
@@ -62,13 +62,13 @@ nav {
 
       a {
         padding: 1rem;
-        margin: .25rem;
+        margin: 0.25rem;
         @include fontValues(7);
         text-decoration: none;
         box-sizing: border-box;
         color: var(--primary);
         display: block;
-        transition: background .125s ease;
+        transition: background 0.125s ease;
         border-radius: 5px;
 
         &:hover {
@@ -91,7 +91,7 @@ h1 {
   display: block;
   padding: 1rem;
   color: var(--light);
-  font-weight: 700;
+  font-weight: 500;
   text-transform: uppercase;
   background: var(--primary);
   margin: -1rem -1rem 0 -1rem;

@@ -1,4 +1,4 @@
-import xhr from "/periodic/scripts/xhr/_xhr.js";
+import { xhr } from "/periodic/scripts/xhr/_xhr.js";
 import { addEventDelegate } from "/periodic/scripts/eventdelegate/_eventdelegate.js";
 
 const deleteEvent = (button) => {

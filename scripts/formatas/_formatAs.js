@@ -1,23 +1,15 @@
-﻿function formatAs(format, input) {
-  var result;
-  var str;
+﻿export const formatAsCurrency = (input, decimals = true) => {
+  if (decimals) {
+    let str;
 
-  switch (format) {
-    case "currency":
-      str = input;
+    if (typeof input === "number") {
+      str = input.toFixed(2).toString();
+    } else {
+      str = parseFloat(input).toFixed(2).toString();
+    }
 
-      result = "$" + str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-      break;
-
-    case "currencyDecimals":
-      if (typeof input === "number") {
-        str = input.toFixed(2).toString();
-      } else {
-        str = input;
-      }
-
-      result = "$" + str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return "$" + str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  } else {
+    return "$" + input.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
-
-  return result;
-}
+};

@@ -1,42 +1,44 @@
 ﻿.table-wrapper {
-    width: 100%;
-    overflow: scroll;
+  width: 100%;
+  overflow: scroll;
 }
 
 table {
-    width: 100%;
-    border: 1px solid rgba(0,0,0,.125);
+  width: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.125);
 
-    caption {
-        padding: .5rem;
-    }
+  caption {
+    padding: 0.5rem;
+    font-size: 1.5rem;
+  }
 
-    th, td {
-        padding: .25rem;
-    }
+  th,
+  td {
+    padding: 0.25rem;
+  }
 
+  tr {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  thead {
+    font-weight: 600;
+    border: none;
+  }
+
+  tbody {
     tr {
-        border-bottom: 1px solid rgba(0,0,0,.05);
-    }
-
-    thead {
-        font-weight: 600;
-        border: none;
-    }
-
-    tbody {
-        tr {
-            th {
-                &[scope=row] {
-                    font-weight: 600;
-                }
-            }
+      th {
+        &[scope="row"] {
+          font-weight: 600;
         }
+      }
     }
+  }
 }
 
 @media only screen and (min-width: $breakpoint-md) {
-    .table-wrapper {
-        overflow: visible;
-    }
+  .table-wrapper {
+    overflow: visible;
+  }
 }

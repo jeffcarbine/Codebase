@@ -1,3 +1,6 @@
+import * as dotenv from "dotenv";
+dotenv.config();
+
 import async from "async";
 import nodemailer from "nodemailer";
 import * as fs from "fs";
@@ -11,37 +14,45 @@ const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 587,
   auth: {
-    user: "concierge@tailorcooperative.com",
-    pass: "uhspmxjlcbwidzus",
+    user: process.env.EMAILADDRESS,
+    pass: process.env.EMAILPASSWORD,
   },
 });
 
 /**
  * sends an email
- * @param {string} template the html template to render
+ * @param {string} template full path to the html template to render
  * @param {string} recipient who the email is going to
  * @param {string} subject the subject of the email
  * @param {string} message text-only version of the email
  * @param {object} replacements key/value pairs of %%data%% replacements in template file
  * @param {string} mainCallback a passed callback, if needed
  */
-export const sendEmail = (
-  template,
-  recipient,
-  subject,
-  message,
-  replacements,
-  mainCallback = false
-) => {
-  console.log("attempting to send email!");
+export const sendEmail = (obj) => {
+  // set object defaults
+  const template = obj.template,
+    to = obj.to !== undefined ? obj.to : process.env.EMAILADDRESS,
+    subject =
+      obj.subject !== undefined
+        ? obj.subject
+        : "You received a message from your Carbine.co website",
+    message =
+      obj.message !== undefined
+        ? obj.message
+        : "Somebody has submitted a contact form on your website.",
+    replacements = obj.replacements !== undefined ? obj.replacements : false,
+    res = obj.res !== undefined ? obj.res : false,
+    successMessage =
+      obj.successMessage !== undefined
+        ? obj.successMessage
+        : "Email sent successfully";
+
   async.waterfall(
     [
       // step 1: get the template's html from file
       function (callback) {
-        fs.readFile(
-          __dirname + "/emailTemplates/" + template + ".html",
-          "utf8",
-          function (err, html) {
+        if (replacements) {
+          fs.readFile(__dirname + template, "utf8", function (err, html) {
             if (err) {
               callback(err);
             } else {
@@ -58,26 +69,31 @@ export const sendEmail = (
               // and send the modified htmlBody on to the next step
               callback(null, htmlBody);
             }
-          }
-        );
+          });
+        } else {
+          callback(null, null);
+        }
       },
       function (htmlBody, callback) {
+        // create the emailData object
+        const emailData = {
+          from: process.env.EMAILADDRESS,
+          to, // list of recipients
+          subject: subject, // Subject line
+          text: message, // plain text body
+        };
+
+        if (htmlBody !== null) {
+          emailData.html = htmlBody;
+        }
+
         // send the email
         transporter
-          .sendMail({
-            from: '"Tailor Cooperative" <concierge@tailorcooperative.com>', // sender address
-            to: recipient, // list of recipients
-            subject: subject, // Subject line
-            text: message, // plain text body
-            html: htmlBody, // html body
-          })
-          .then((info) => {
-            // email was successfully sent
-            console.log("sent email");
-
-            // and run mainCallback if it exists
-            if (mainCallback) {
-              mainCallback();
+          .sendMail(emailData)
+          .then(() => {
+            // and return a 200 if response was provided
+            if (res) {
+              return res.status(200).send(successMessage);
             }
           })
           .catch((err) => {

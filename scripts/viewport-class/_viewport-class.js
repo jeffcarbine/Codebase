@@ -35,14 +35,21 @@ function observerCallback(entries, vclassObserver) {
   });
 }
 
-// on page load, get all the elements that have a data-vclass property
-const vclassElements = document.querySelectorAll("[data-vclass]");
+export const observeViewportClassElements = () => {
+  // on page load, get all the elements that have a data-vclass property
+  const vclassElements = document.querySelectorAll(
+    "[data-vclass]:not([data-vclass-observed=true]"
+  );
 
-// and then observe each one
-vclassElements.forEach((element) => {
-  // check just in case there are no matching elements
-  if (element) {
-    // observe it!
-    vclassObserver.observe(element);
-  }
-});
+  // and then observe each one
+  vclassElements.forEach((element) => {
+    // check just in case there are no matching elements
+    if (element) {
+      // observe it!
+      vclassObserver.observe(element);
+      element.dataset.vclassObserved = true;
+    }
+  });
+};
+
+observeViewportClassElements();
