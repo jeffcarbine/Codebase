@@ -86,5 +86,18 @@ form.form-control {
                 }
             }*/
     }
+
+    &.inline {
+      display: flex;
+
+      label {
+        flex: 1 1 auto;
+        margin: 0.5rem 0.5rem !important;
+      }
+
+      button {
+        flex: 0 0 auto;
+      }
+    }
   }
 }
