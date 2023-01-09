@@ -119,7 +119,7 @@
   }
 
   &.toast {
-    position: fixed;
+    position: absolute;
     z-index: 8;
     width: 100%;
     max-width: 20rem;
@@ -193,4 +193,9 @@
       }
     }
   }
+}
+
+// quick positioning for anything that becomes a toast parent
+.toast-parent {
+  position: relative;
 }

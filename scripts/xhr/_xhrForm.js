@@ -2,7 +2,7 @@ import { addEventDelegate } from "../eventdelegate/_eventdelegate.js";
 import { xhr } from "./_xhr.js";
 import { toast } from "../../components/alert/_alert.js";
 
-const xhrForm = function (form) {
+const xhrForm = function (form, json = {}) {
   // get the data from the form
   const formData = new FormData(form),
     method = form.method,
@@ -12,8 +12,6 @@ const xhrForm = function (form) {
   if (!form.classList.contains("loading")) {
     form.classList.add("loading");
   }
-
-  let json = {};
 
   formData.forEach(function (value, key) {
     // need to create subobjects
@@ -34,10 +32,9 @@ const xhrForm = function (form) {
   });
 
   const renderResponse = (string, status) => {
-    console.log(string);
     form.classList.remove("loading");
 
-    toast(string, { status });
+    toast(string, { status }, form);
   };
 
   // default behaviours for success, error and failure
@@ -49,11 +46,6 @@ const xhrForm = function (form) {
     } else {
       renderResponse(request.response, "success");
       form.reset();
-
-      // remove success message after two seconds
-      setTimeout(() => {
-        delete responseBox.dataset.status;
-      }, 2000);
     }
   };
 
@@ -91,3 +83,26 @@ const xhrForm = function (form) {
 
 // run xhrForm on any form with a class of xhr
 addEventDelegate("submit", "form.xhr", xhrForm, true);
+
+const xhrFormRecaptcha = (form) => {
+  const recaptchaSiteKey = form.dataset.recaptchaSiteKey;
+
+  grecaptcha.ready(() => {
+    grecaptcha.execute(recaptchaSiteKey, { action: "submit" }).then((recaptchaToken) => {
+      xhrForm(form, { recaptchaToken });
+    });
+  });
+};
+
+addEventDelegate("submit", "form.xhrRecaptcha", xhrFormRecaptcha, true);
+
+// // handle recaptcha forms
+// const recaptchaHandler = () => {
+//   // get the recaptchaForm on the page
+//   const recaptchaForm = document.querySelector("#recaptchaForm");
+
+//   // run it through xhrForm
+//   xhrForm(recaptchaForm);
+// };
+
+// window.recaptchaHandler = recaptchaHandler;
