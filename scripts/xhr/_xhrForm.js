@@ -13,7 +13,7 @@ const xhrForm = function (form, json = {}) {
     form.classList.add("loading");
   }
 
-  formData.forEach(function (value, key) {
+  formData.forEach((value, key) => {
     // need to create subobjects
     if (key.includes(".")) {
       // then split it and assign it as split
