@@ -39,7 +39,7 @@ nav {
         text-decoration: none;
         transition: all 0.5s ease;
 
-        &.active {
+        &.active, &.page-active {
           --nav-item-color: var(--nav-item-color-active);
         }
       }
