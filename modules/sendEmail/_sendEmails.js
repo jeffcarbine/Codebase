@@ -49,8 +49,21 @@ export const sendEmail = (obj) => {
 
   async.waterfall(
     [
+      // step 1: get the template base html file
+      (callback) => {
+        fs.readFile(__dirname + "/email-templates/base.html", "utf8", function (err, html) {
+          if (err) {
+            callback(err);
+          } else {
+            // set the html to a variable
+            let base = html;
+
+            callback(null, base);
+          }
+        });
+      },
       // step 1: get the template's html from file
-      function (callback) {
+      function (base, callback) {
         if (replacements) {
           fs.readFile(__dirname + template, "utf8", function (err, html) {
             if (err) {
@@ -59,15 +72,18 @@ export const sendEmail = (obj) => {
               // set the html to a variable
               let htmlBody = html;
 
+              // place the htmlBody into the base
+              base = base.replace("%%templateBody%%", htmlBody);
+
               // and then process the replacements
               for (let key in replacements) {
                 let replacement = replacements[key];
 
-                htmlBody = htmlBody.replace("%%" + key + "%%", replacement);
+                base = base.replace("%%" + key + "%%", replacement);
               }
 
               // and send the modified htmlBody on to the next step
-              callback(null, htmlBody);
+              callback(null, base);
             }
           });
         } else {
