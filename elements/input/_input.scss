@@ -88,6 +88,19 @@ input[type="number"] {
     overflow: hidden;
     z-index: 1;
 
+    // some default sizing
+    &.sm {
+      width: 6rem;
+    }
+
+    &.md {
+      width: 12rem;
+    }
+
+    &.lg {
+      width: 18rem;
+    }
+
     // text/number inputs
     &:not([for]) {
       display: block;

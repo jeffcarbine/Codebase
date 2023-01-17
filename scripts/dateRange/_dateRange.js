@@ -33,7 +33,18 @@ export const monthToDate = (start_date = new Date()) => {
   let startOfMonth = new Date(start_date);
   startOfMonth.setDate(1);
 
-  console.log(start_date, startOfMonth);
-
   return [startOfMonth, start_date];
 };
+
+export const fullMonth = (start_date = new Date()) => {
+  let startOfMonth = new Date(start_date),
+  endOfMonth = new Date(start_date);
+
+  const month = start_date.getMonth();
+
+  startOfMonth.setDate(1);
+  endOfMonth.setMonth(month + 1);
+  endOfMonth.setDate(0);
+
+  return [startOfMonth, endOfMonth];
+}
