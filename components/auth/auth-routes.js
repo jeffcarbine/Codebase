@@ -4,7 +4,7 @@ import authRender from "./auth-render.js";
 import emailValidator from "email-validator";
 
 export const login = (req, res) => {
-  authRender(req, res, "login");
+  authRender(req, res, "login", { subtitle: "Backstage Access"});
 };
 
 export const signup = (req, res) => {

@@ -67,8 +67,7 @@ table {
 }
 
 :root {
-  --root-font-size: 7px;
-  --root-font-increase: 1.21644039;
+  --root-font-size: 10px;
   --p-margin: calc(var(--base-font-size) * 0.75) 0;
   --strong-font-weight: 500;
   --base-font-family: "Open Sans", sans-serif;
@@ -427,25 +426,14 @@ ul li {
   list-style-type: circle;
 }
 
-@media only screen and (min-width: 330px) {
-  :root {
-    --base-font-size: calc(var(--root-font-size) * var(--root-font-increase));
-  }
-}
 @media only screen and (min-width: 813px) {
   :root {
-    --base-font-size: calc(
-      var(--root-font-size) * var(--root-font-increase) *
-        var(--root-font-increase)
-    );
+    --base-font-size: calc(var(--root-font-size) * 1.25);
   }
 }
 @media only screen and (min-width: 1024px) {
   :root {
-    --base-font-size: calc(
-      var(--root-font-size) * var(--root-font-increase) *
-        var(--root-font-increase) * var(--root-font-increase)
-    );
+    --base-font-size: calc(var(--root-font-size) * 1.5);
   }
 }
 :root {
@@ -498,7 +486,7 @@ html.darkmode {
   --button-focus-color: var(--light);
   --button-focus-background: var(--primary-step);
   --button-font-weight: 400;
-  --button-font-size: var(--f10-font-size);
+  --button-font-size: 1rem;
   --button-padding-x: 1.125rem;
   --button-padding-y: 1.5rem;
 }
@@ -601,16 +589,6 @@ form.form-control label[for] + input[type=radio] + label[for] {
                   margin-left: .5rem;
               }
           }*/
-  }
-  form.inline {
-    display: flex;
-  }
-  form.inline label {
-    flex: 1 1 auto;
-    margin: 0.5rem 0.5rem !important;
-  }
-  form.inline button {
-    flex: 0 0 auto;
   }
 }
 /**
@@ -1259,8 +1237,7 @@ input[type=number] {
 }
 
 :root {
-  --root-font-size: 7px;
-  --root-font-increase: 1.21644039;
+  --root-font-size: 10px;
   --p-margin: calc(var(--base-font-size) * 0.75) 0;
   --strong-font-weight: 500;
   --base-font-family: "Open Sans", sans-serif;
@@ -1632,50 +1609,36 @@ ul li {
   list-style-type: circle;
 }
 
-@media only screen and (min-width: 330px) {
-  :root {
-    --base-font-size: calc(var(--root-font-size) * var(--root-font-increase));
-  }
-}
 @media only screen and (min-width: 813px) {
   :root {
-    --base-font-size: calc(
-      var(--root-font-size) * var(--root-font-increase) *
-        var(--root-font-increase)
-    );
+    --base-font-size: calc(var(--root-font-size) * 1.25);
   }
 }
 @media only screen and (min-width: 1024px) {
   :root {
-    --base-font-size: calc(
-      var(--root-font-size) * var(--root-font-increase) *
-        var(--root-font-increase) * var(--root-font-increase)
-    );
+    --base-font-size: calc(var(--root-font-size) * 1.5);
   }
 }
 .tile {
-  --tile-background: var(--background);
   padding: 0.5rem;
   box-sizing: border-box;
-  background: var(--transparent);
+  background: var(--background);
 }
 .tile .tile-header {
-  position: relative;
   border-radius: 5px 5px 0 0;
   border: 1px solid var(--border-color);
   background: var(--background-low);
   padding: 1rem;
-  font-size: var(--f9-font-size);
-  line-height: var(--f9-line-height);
-  font-weight: var(--f9-font-weight);
+  font-size: var(--f6-font-size);
+  line-height: var(--f6-line-height);
+  font-weight: var(--f6-font-weight);
   font-weight: 500;
   border-bottom: 1px solid var(--border-color);
 }
-.tile .tile-header button.action {
-  position: absolute;
-  top: 50%;
-  right: 0.5rem;
-  transform: translateY(-50%);
+.tile .tile-header h2 {
+  font-size: var(--f4-font-size);
+  line-height: var(--f4-line-height);
+  font-weight: var(--f4-font-weight);
 }
 .tile .tile-body {
   border-radius: 0 0 5px 5px;
@@ -1683,35 +1646,29 @@ ul li {
   border-top: none;
   padding: 1rem;
   box-sizing: border-box;
-  background: var(--tile-background);
-  position: relative;
-}
-.tile .tile-body .loading {
-  display: block;
-  height: 10rem;
 }
 
-.tile-flex {
+.tile-grid {
   display: flex;
   flex-wrap: wrap;
 }
-.tile-flex .tile {
+.tile-grid .tile {
   flex: 0 0 100%;
 }
 
 @media only screen and (min-width: 813px) {
-  .tile-flex .tile {
-    flex: 1 0 50%;
+  .tile-grid .tile {
+    flex: 0 0 50%;
   }
 }
 @media only screen and (min-width: 1024px) {
-  .tile-flex .tile {
-    flex: 1 0 33.33%;
+  .tile-grid .tile {
+    flex: 0 0 33.33%;
   }
 }
 @media only screen and (min-width: 1280px) {
-  .tile-flex .tile {
-    flex: 1 0 25%;
+  .tile-grid .tile {
+    flex: 0 0 25%;
   }
 }
 :root {
@@ -1723,8 +1680,7 @@ ul li {
 }
 
 :root {
-  --root-font-size: 7px;
-  --root-font-increase: 1.21644039;
+  --root-font-size: 10px;
   --p-margin: calc(var(--base-font-size) * 0.75) 0;
   --strong-font-weight: 500;
   --base-font-family: "Open Sans", sans-serif;
@@ -2096,25 +2052,14 @@ ul li {
   list-style-type: circle;
 }
 
-@media only screen and (min-width: 330px) {
-  :root {
-    --base-font-size: calc(var(--root-font-size) * var(--root-font-increase));
-  }
-}
 @media only screen and (min-width: 813px) {
   :root {
-    --base-font-size: calc(
-      var(--root-font-size) * var(--root-font-increase) *
-        var(--root-font-increase)
-    );
+    --base-font-size: calc(var(--root-font-size) * 1.25);
   }
 }
 @media only screen and (min-width: 1024px) {
   :root {
-    --base-font-size: calc(
-      var(--root-font-size) * var(--root-font-increase) *
-        var(--root-font-increase) * var(--root-font-increase)
-    );
+    --base-font-size: calc(var(--root-font-size) * 1.5);
   }
 }
 #dashboard .subscribers,
