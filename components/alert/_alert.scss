@@ -119,11 +119,11 @@
   }
 
   &.toast {
-    position: fixed;
+    position: absolute;
     z-index: 8;
     width: 100%;
-    max-width: 20rem;
-    bottom: 0;
+    max-width: 30rem;
+    bottom: .5rem;
     left: 50%;
     padding: 1rem;
     transform: translate(-50%, 120%);
@@ -132,7 +132,6 @@
 
     &.visible {
       transform: translate(-50%, 0);
-      bottom: 0;
       opacity: 1;
     }
 
@@ -193,4 +192,9 @@
       }
     }
   }
+}
+
+// quick positioning for anything that becomes a toast parent
+.toast-parent {
+  position: relative;
 }

@@ -118,13 +118,13 @@ ul li {
   list-style-type: circle;
 }
 
-@media only screen and (min-width: mixin.$breakpoint-sm) {
+@media only screen and (min-width: mixin.$breakpoint-md) {
   :root {
     --base-font-size: calc(var(--root-font-size) * var(--root-font-increase));
   }
 }
 
-@media only screen and (min-width: mixin.$breakpoint-md) {
+@media only screen and (min-width: mixin.$breakpoint-lg) {
   :root {
     --base-font-size: calc(
       var(--root-font-size) * var(--root-font-increase) *

@@ -8,7 +8,7 @@ export const dashboard = (req, res, next) => {
     User.find({}).exec((err, users) => {
       const count = users.length;
 
-      mainCallback("dashboard", { path: "/admin" });
+      mainCallback("dashboard", { path: "/admin", subtitle: "Dashboard" });
     });
   });
 };

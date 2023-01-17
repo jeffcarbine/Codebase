@@ -25,7 +25,7 @@ addEventDelegate("click", ".alert button.dismiss", dismissToast);
 
 // TOAST
 
-export const toast = (message, params = {}) => {
+export const toast = (message, params = {}, parent = document.body) => {
   const toastDelay = 100,
     auto = params.auto !== undefined ? params.auto : true,
     status = params.status,
@@ -47,7 +47,8 @@ export const toast = (message, params = {}) => {
     ],
   });
 
-  document.body.appendChild(alert);
+  parent.classList.add("toast-parent");
+  parent.appendChild(alert);
 
   setTimeout(function () {
     alert.classList.add("visible");
