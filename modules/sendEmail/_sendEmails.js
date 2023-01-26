@@ -19,7 +19,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const sendEmail = (obj) => {
+export const sendEmail = (obj) => {
   // get the email template
   const template = obj.template,
     // who the email is going to, otherwise use process EMAILADDRESS
@@ -48,16 +48,20 @@ const sendEmail = (obj) => {
     [
       // step 1: get the template base html file
       (callback) => {
-        fs.readFile(__dirname + "/email-templates/base.html", "utf8", function (err, html) {
-          if (err) {
-            callback(err);
-          } else {
-            // set the html to a variable
-            let base = html;
+        fs.readFile(
+          __dirname + "/email-templates/base.html",
+          "utf8",
+          function (err, html) {
+            if (err) {
+              callback(err);
+            } else {
+              // set the html to a variable
+              let base = html;
 
-            callback(null, base);
+              callback(null, base);
+            }
           }
-        });
+        );
       },
       // step 1: get the template's html from file
       function (base, callback) {
