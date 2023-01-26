@@ -85,18 +85,6 @@ const scrub = (timeline, e) => {
 
 addEventDelegate("click", ".audio-player .timeline", scrub);
 
-// //click volume slider to change volume
-
-const changeVolume = (volumeSlider, e) => {
-  const audio = findAudio(volumeSlider);
-
-  const sliderWidth = window.getComputedStyle(volumeSlider).width;
-  const newVolume = e.offsetX / parseInt(sliderWidth);
-  audio.volume = newVolume;
-  audioPlayer.querySelector(".controls .volume-percentage").style.width =
-    newVolume * 100 + "%";
-};
-
 // check audio percentage and update time accordingly
 const monitorProgress = (audio) => {
   const audioPlayer = audio.parentNode;
@@ -108,19 +96,35 @@ const monitorProgress = (audio) => {
   );
 };
 
-const muteUnmute = (button) => {
-  const audio = findAudio(button);
+// const muteUnmute = (button) => {
+//   const audio = findAudio(button);
 
-  audio.muted = !audio.muted;
+//   audio.muted = !audio.muted;
 
-  if (audio.muted) {
-    button.classList.add("mute");
+//   if (audio.muted) {
+//     button.classList.add("mute");
+//   } else {
+//     button.classList.remove("mute");
+//   }
+// };
+
+// addEventDelegate("click", ".audio-player .volume-button", muteUnmute);
+
+const toggleVolumeSlider = (volumeButton) => {
+  const volumeContainer = volumeButton.parentNode;
+
+  if (volumeContainer.classList.contains("active")) {
+    volumeContainer.classList.remove("active");
   } else {
-    button.classList.remove("mute");
+    volumeContainer.classList.add("active");
   }
 };
 
-addEventDelegate("click", ".audio-player .volume-button", muteUnmute);
+addEventDelegate(
+  "click",
+  ".audio-player .controls .volume-button",
+  toggleVolumeSlider
+);
 
 const adjustVolume = (volumeSlider, e) => {
   const audio = findAudio(volumeSlider),
