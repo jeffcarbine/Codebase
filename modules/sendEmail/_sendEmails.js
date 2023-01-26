@@ -19,29 +19,26 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-/**
- * sends an email
- * @param {string} template full path to the html template to render
- * @param {string} recipient who the email is going to
- * @param {string} subject the subject of the email
- * @param {string} message text-only version of the email
- * @param {object} replacements key/value pairs of %%data%% replacements in template file
- * @param {string} mainCallback a passed callback, if needed
- */
 export const sendEmail = (obj) => {
-  // set object defaults
+  // get the email template
   const template = obj.template,
+    // who the email is going to, otherwise use process EMAILADDRESS
     to = obj.to !== undefined ? obj.to : process.env.EMAILADDRESS,
+    // the subjet of the email
     subject =
       obj.subject !== undefined
         ? obj.subject
         : "You received a message from your Carbine.co website",
+    // the text-only version of the message being sent
     message =
       obj.message !== undefined
         ? obj.message
         : "Somebody has submitted a contact form on your website.",
+    // the replacements that will be passed into the template
     replacements = obj.replacements !== undefined ? obj.replacements : false,
+    // whether or not we're passing in a res
     res = obj.res !== undefined ? obj.res : false,
+    // the success message that will pop up once the email was sent
     successMessage =
       obj.successMessage !== undefined
         ? obj.successMessage
@@ -51,16 +48,20 @@ export const sendEmail = (obj) => {
     [
       // step 1: get the template base html file
       (callback) => {
-        fs.readFile(__dirname + "/email-templates/base.html", "utf8", function (err, html) {
-          if (err) {
-            callback(err);
-          } else {
-            // set the html to a variable
-            let base = html;
+        fs.readFile(
+          __dirname + "/email-templates/base.html",
+          "utf8",
+          function (err, html) {
+            if (err) {
+              callback(err);
+            } else {
+              // set the html to a variable
+              let base = html;
 
-            callback(null, base);
+              callback(null, base);
+            }
           }
-        });
+        );
       },
       // step 1: get the template's html from file
       function (base, callback) {
@@ -101,6 +102,10 @@ export const sendEmail = (obj) => {
 
         if (htmlBody !== null) {
           emailData.html = htmlBody;
+        }
+
+        if (obj.replyTo !== null) {
+          emailData.replyTo = obj.replyTo;
         }
 
         // send the email

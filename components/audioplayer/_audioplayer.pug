@@ -1,15 +1,13 @@
-mixin audioplayer(filepath, title)
+mixin audioplayer(filepath, title, allowDownload = false)
   .audio-player
     audio(id=id, controls, data-src=filepath)
 
-    .timeline(data-id=id)
-      .progress
     .controls
       .play-container
         .toggle-play.play
       .time
         .current --:--
-        .divider
+        .slash
         .length
       .name #{title}
       .volume-container
@@ -18,3 +16,8 @@ mixin audioplayer(filepath, title)
           i(data-icon="mute")
         .volume-slider
           .volume-percentage
+      if(allowDownload)
+        .download-container
+          button.
+    .timeline(data-id=id)
+      .progress
