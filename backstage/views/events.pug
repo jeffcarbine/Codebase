@@ -25,17 +25,9 @@ block content
                 input(type="text", name="country", value=event.country)
               label Festival 
                 input(type="text", name="festival", value=event.festival)
-              .inlineInputs
-                label.sm Month 
-                  select(name="month")
-                    - const months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
-                    each val, index in months 
-                      - let selected = event.month === index 
-                      option(value=index, selected=selected) #{months[index]}
-                label.xs Day
-                  input(type="number", name="day", value=event.day)
-                label.sm Year 
-                  input(type="number", name="year", value=event.year)
+              label Date 
+                -let eventDate = event.date.getFullYear() + "-" + ("0" + (event.date.getMonth() + 1)).slice(-2) + "-" + ("0" + event.date.getDate()).slice(-2);
+                input(type="date", name="date", value=eventDate)
               .inlineInputs
                 label.xs Hours 
                   input(type="number", name="hours", value=event.hours)
