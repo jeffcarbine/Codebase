@@ -19,6 +19,7 @@
 
 nav {
   background: var(--nav-background);
+
   ul {
     margin: 0;
 
@@ -39,7 +40,7 @@ nav {
         text-decoration: none;
         transition: all 0.5s ease;
 
-        &.active {
+        &.active, &.page-active {
           --nav-item-color: var(--nav-item-color-active);
         }
       }
@@ -60,6 +61,7 @@ nav {
     }
 
     &.submenu {
+      min-width: 100%;
       overflow: hidden;
       box-sizing: border-box;
       position: absolute;
@@ -117,7 +119,7 @@ nav {
 
         button {
           &::after {
-            top: calc(50% - 0.125rem);
+            top: calc(50% + 0.125rem);
             @include mixin.triangle(bottom, var(--nav-item-color), 0.375rem);
           }
         }
@@ -125,8 +127,7 @@ nav {
         ul.submenu {
           flex-direction: column;
           position: absolute;
-          top: calc(100% + 0.25rem);
-          width: auto;
+          top: 100%;
           background: var(--nav-submenu-background);
 
           &.open {

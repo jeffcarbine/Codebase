@@ -4,19 +4,6 @@
  * enter the viewport
  */
 
-// the class isn't added immediately, there's a 150px threshold
-// it has to cross before the class is added, just so animations aren't lost
-const observerOptions = {
-  rootMargin: "-150px",
-  threshold: 0,
-};
-
-// create the intersection observer for vclass
-var vclassObserver = new IntersectionObserver(
-  observerCallback,
-  observerOptions
-);
-
 // when the observer runs
 function observerCallback(entries, vclassObserver) {
   // reivew all the corresponding vclass entries
@@ -46,6 +33,16 @@ export const observeViewportClassElements = () => {
     // check just in case there are no matching elements
     if (element) {
       // observe it!
+      
+      // create the intersection observer for vclass
+      var vclassObserver = new IntersectionObserver(
+        observerCallback,
+        {
+          rootMargin: element.dataset.vclassMargin || "50px",
+          threshold: 0,
+        }
+      );
+
       vclassObserver.observe(element);
       element.dataset.vclassObserved = true;
     }

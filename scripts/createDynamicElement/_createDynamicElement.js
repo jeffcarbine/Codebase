@@ -115,3 +115,22 @@ export const createDynamicElement = (obj) => {
 
   return element;
 };
+
+export class TABLE {
+  constructor(thead, tbody) {
+    this.tagName = "table";
+    this.childen = [
+      {
+        tagName: "thead",
+        child: {
+          tagName: "tr",
+          children: thead
+        }
+      },
+      {
+        tagName: "tbody",
+        children: tbody
+      }
+    ]
+  }
+}

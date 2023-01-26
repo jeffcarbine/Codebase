@@ -3,7 +3,8 @@
 $levels: 15;
 
 :root {
-  --root-font-size: 10px;
+  --root-font-size: 7px;
+  --root-font-increase: 1.21644039; // gives you eighteen for large screens
 
   // p
   --p-margin: calc(var(--base-font-size) * 0.75) 0;
@@ -119,12 +120,24 @@ ul li {
 
 @media only screen and (min-width: mixin.$breakpoint-md) {
   :root {
-    --base-font-size: calc(var(--root-font-size) * 1.25);
+    --base-font-size: calc(var(--root-font-size) * var(--root-font-increase));
   }
 }
 
 @media only screen and (min-width: mixin.$breakpoint-lg) {
   :root {
-    --base-font-size: calc(var(--root-font-size) * 1.5);
+    --base-font-size: calc(
+      var(--root-font-size) * var(--root-font-increase) *
+        var(--root-font-increase)
+    );
+  }
+}
+
+@media only screen and (min-width: mixin.$breakpoint-lg) {
+  :root {
+    --base-font-size: calc(
+      var(--root-font-size) * var(--root-font-increase) *
+        var(--root-font-increase) * var(--root-font-increase)
+    );
   }
 }

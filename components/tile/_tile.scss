@@ -2,21 +2,27 @@
 @use "../../elements/typography/typography";
 
 .tile {
+  --tile-background: var(--background);
+
   padding: 0.5rem;
   box-sizing: border-box;
-  background: var(--background);
+  background: var(--transparent);
 
   .tile-header {
+    position: relative;
     border-radius: 5px 5px 0 0;
     border: 1px solid var(--border-color);
     background: var(--background-low);
     padding: 1rem;
-    @include typography.fontValues(6);
+    @include typography.fontValues(9);
     font-weight: 500;
     border-bottom: 1px solid var(--border-color);
 
-    h2 {
-      @include fontValues(4);
+    button.action {
+      position: absolute;
+      top: 50%;
+      right: 0.5rem;
+      transform: translateY(-50%);
     }
   }
 
@@ -26,10 +32,17 @@
     border-top: none;
     padding: 1rem;
     box-sizing: border-box;
+    background: var(--tile-background);
+    position: relative;
+
+    .loading {
+      display: block;
+      height: 10rem;
+    }
   }
 }
 
-.tile-grid {
+.tile-flex {
   display: flex;
   flex-wrap: wrap;
 
@@ -39,25 +52,25 @@
 }
 
 @media only screen and (min-width: mixin.$breakpoint-md) {
-  .tile-grid {
+  .tile-flex {
     .tile {
-      flex: 0 0 50%;
+      flex: 1 0 50%;
     }
   }
 }
 
 @media only screen and (min-width: mixin.$breakpoint-lg) {
-  .tile-grid {
+  .tile-flex {
     .tile {
-      flex: 0 0 33.33%;
+      flex: 1 0 33.33%;
     }
   }
 }
 
 @media only screen and (min-width: mixin.$breakpoint-xl) {
-  .tile-grid {
+  .tile-flex {
     .tile {
-      flex: 0 0 25%;
+      flex: 1 0 25%;
     }
   }
 }
