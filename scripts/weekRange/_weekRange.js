@@ -5,16 +5,16 @@ export default (weeksAgo = 0, now = new Date()) => {
     now.getDate() - weeksAgo * 7
   );
 
-  let begin_time = new Date(),
-    end_time = new Date();
+  let start_date = new Date(),
+    end_date = new Date();
 
-  begin_time.setDate(week_comparison.getDate() - week_comparison.getDay());
-  begin_time.setUTCHours(0, 0, 0, 0);
-  end_time.setDate(begin_time.getDate() + 7);
-  end_time.setUTCHours(23, 59, 59, 999);
+  start_date.setDate(week_comparison.getDate() - week_comparison.getDay());
+  start_date.setUTCHours(0, 0, 0, 0);
+  end_date.setDate(begin_time.getDate() + 7);
+  end_date.setUTCHours(23, 59, 59, 999);
 
   return {
-    begin_time,
-    end_time,
+    begin_date,
+    end_date,
   };
 };
