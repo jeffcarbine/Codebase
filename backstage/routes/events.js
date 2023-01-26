@@ -55,8 +55,8 @@ const geocode = (body, callback) => {
 };
 
 export const addEvent = (req, res, next) => {
-  let body = req.body;
-  body.date = new Date(req.body.date);
+  const body = req.body,
+    tickets = body.tickets;
 
   const createEvent = (err, body) => {
     if (err) {
@@ -65,7 +65,7 @@ export const addEvent = (req, res, next) => {
       // add this event to the database
       Event.findOneAndUpdate(
         {
-          date: body.date,
+          tickets,
         },
         {
           $set: body,
@@ -90,6 +90,7 @@ export const addEvent = (req, res, next) => {
 };
 
 export const editEvent = (req, res, next) => {
+  console.log("editing event!");
   const updateEvent = (err, data) => {
     if (err) {
       return res.status(500).send(err);

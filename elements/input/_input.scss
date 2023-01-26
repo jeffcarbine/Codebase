@@ -89,6 +89,10 @@ input[type="number"] {
     z-index: 1;
 
     // some default sizing
+    &.xs {
+      width: 3rem;
+    }
+
     &.sm {
       width: 6rem;
     }
@@ -401,6 +405,30 @@ input[type="number"] {
         width: 0.5rem;
         height: 0.5rem;
         background: var(--checkbox-radio-color);
+      }
+    }
+  }
+
+  .inlineInputs {
+    display: flex;
+
+    label {
+      margin-right: 0.25rem;
+
+      &.xs {
+        flex: 0 0 3rem;
+      }
+
+      &.sm {
+        flex: 0 0 6rem;
+      }
+
+      &.md {
+        flex: 0 0 12rem;
+      }
+
+      &.lg {
+        flex: 0 0 15rem;
       }
     }
   }

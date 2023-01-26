@@ -62,16 +62,16 @@ form.form-control {
 
 @media (min-width: $breakpoint-md) {
   form {
-    label:not([for]) {
-      &.sm {
-        flex: 1 0 calc(33% - 0.25rem);
-        max-width: 50%;
+    // label:not([for]) {
+    //   &.sm {
+    //     flex: 1 0 calc(33% - 0.25rem);
+    //     max-width: 50%;
 
-        + label.sm {
-          margin-left: 0.5rem;
-        }
-      }
-    }
+    //     + label.sm {
+    //       margin-left: 0.5rem;
+    //     }
+    //   }
+    // }
 
     label[for] {
       flex: 0 1 auto;

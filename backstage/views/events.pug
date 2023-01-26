@@ -4,11 +4,11 @@ block content
   h1 Events 
   
   section 
-    .tile-grid
+    .tile-flex
       each event in events
         .tile
           .tile-header 
-             h2 #{event.venue}
+             span #{event.venue}
 
           .tile-body
             form.inputXhr(method="POST", action="/admin/events/edit")
@@ -25,9 +25,29 @@ block content
                 input(type="text", name="country", value=event.country)
               label Festival 
                 input(type="text", name="festival", value=event.festival)
-              label Date 
-                -let eventDate = event.date.getFullYear() + "-" + ("0" + (event.date.getMonth() + 1)).slice(-2) + "-" + ("0" + event.date.getDate()).slice(-2);
-                input(type="date", name="date", value=eventDate)
+              .inlineInputs
+                label.sm Month 
+                  select(name="month")
+                    - const months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+                    each val, index in months 
+                      - let selected = event.month === index 
+                      option(value=index, selected=selected) #{months[index]}
+                label.xs Day
+                  input(type="number", name="day", value=event.day)
+                label.sm Year 
+                  input(type="number", name="year", value=event.year)
+              .inlineInputs
+                label.xs Hours 
+                  input(type="number", name="hours", value=event.hours)
+                label.sm Minutes 
+                  select(name="minutes")
+                    - const minutes = [0, 15, 30, 45];
+                    each val, index in minutes 
+                      -
+                        let selected = event.minutes === minutes[index],
+                          displayMinutes = index === 0 ? "00" : minutes[index];
+
+                      option(value=val, selected=selected) #{displayMinutes}
               label Tickets 
                 input(type="text", name="tickets", value=event.tickets)
               div.toggle.single
@@ -39,7 +59,7 @@ block content
 
       .tile 
         .tile-header 
-          h2 Add New Event 
+          span Add New Event 
 
         .tile-body 
           form.xhr(method="POST", action="/admin/events/add", data-redirect="/admin/events")
