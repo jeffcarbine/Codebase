@@ -105,7 +105,7 @@ export const sendEmail = (obj) => {
         }
 
         if (obj.replyTo !== null) {
-          emailData.replyTo = replyTo;
+          emailData.replyTo = obj.replyTo;
         }
 
         // send the email
