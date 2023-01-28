@@ -116,21 +116,120 @@ export const createDynamicElement = (obj) => {
   return element;
 };
 
-export class TABLE {
-  constructor(thead, tbody) {
-    this.tagName = "table";
-    this.childen = [
-      {
-        tagName: "thead",
-        child: {
-          tagName: "tr",
-          children: thead
+// element class shorthands
+
+class ELEMENT {
+  constructor(params) {
+    // if params is a string, then it's just textcontent
+    if (typeof params === "string") {
+      this.textContent = params;
+      // if it is an object or an array...
+    } else if (typeof params === "object") {
+      if (Array.isArray(params)) {
+        // if an array, then it's children
+        this.children = params;
+      } else {
+        // otherwise, it's regular properties
+        for (let key in params) {
+          this[key] = params[key];
         }
-      },
-      {
-        tagName: "tbody",
-        children: tbody
       }
-    ]
+    }
   }
 }
+
+export class TABLE extends ELEMENT {
+  constructor(params) {
+    super(params);
+    this.tagName = "table";
+  }
+}
+
+export class THEAD extends ELEMENT {
+  constructor(params) {
+    super(params);
+    this.tagName = "thead";
+  }
+}
+
+export class TH extends ELEMENT {
+  constructor(params) {
+    super(params);
+    this.tagName = "th";
+  }
+}
+
+export class TR extends ELEMENT {
+  constructor(params) {
+    super(params);
+    this.tagName = "tr";
+  }
+}
+
+export class TBODY extends ELEMENT {
+  constructor(params) {
+    super(params);
+    this.tagName = "tbody";
+  }
+}
+
+export class TD extends ELEMENT {
+  constructor(params) {
+    super(params);
+    this.tagName = "td";
+  }
+}
+
+export class TFOOT extends ELEMENT {
+  constructor(params) {
+    super(params);
+    this.tagName = "tfoot";
+  }
+}
+
+export class INPUT extends ELEMENT {
+  constructor(params) {
+    super(params);
+    this.tagName = "input";
+  }
+}
+
+export class NUMBER extends INPUT {
+  constructor(params) {
+    super(params);
+    this.type = "number";
+  }
+}
+
+export class TEXT extends INPUT {
+  constructor(params) {
+    super(params);
+    this.type = "text";
+  }
+}
+
+export class EMAIL extends INPUT {
+  constructor(params) {
+    super(params);
+    this.type = "email";
+  }
+}
+
+// export class TABLE {
+//   constructor(thead, tbody) {
+//     this.tagName = "table";
+//     this.childen = [
+//       {
+//         tagName: "thead",
+//         child: {
+//           tagName: "tr",
+//           children: thead,
+//         },
+//       },
+//       {
+//         tagName: "tbody",
+//         children: tbody,
+//       },
+//     ];
+//   }
+// }
