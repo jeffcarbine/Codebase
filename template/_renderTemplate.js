@@ -1,5 +1,7 @@
 export const renderTemplate = (obj, isServer = false) => {
-  console.log("attempting to render!");
+  // TODO: check for an if property, and don't return
+  // anything if the if is false
+
   // start by creating the element
   let element;
 
@@ -10,21 +12,20 @@ export const renderTemplate = (obj, isServer = false) => {
     element = "<";
   }
 
-  // if there is a tagname
+  // set the tagName
+  let tagName = "div";
   if (obj.tagName !== undefined) {
+    tagName = obj.tagName;
+  }
+
+  if (obj.icon === undefined) {
+    // assign the tagName
     if (isServer) {
       // pass that as the first part of the html string
-      element += obj.tagName;
+      element += tagName;
     } else {
       // create that element
-      element = document.createElement(obj.tagName);
-    }
-    // if it is not an icon, we default to div
-  } else if (!obj.icon) {
-    if (isServer) {
-      element += "div";
-    } else {
-      element = document.createElement("div");
+      element = document.createElement(tagName);
     }
   }
 
@@ -71,7 +72,7 @@ export const renderTemplate = (obj, isServer = false) => {
           key !== "if"
         ) {
           if (isServer) {
-            element += " " + key + "='" + value + "'";
+            element = element + " " + key + "='" + value + "'";
           } else {
             element.setAttribute(key, value);
           }
@@ -79,51 +80,48 @@ export const renderTemplate = (obj, isServer = false) => {
       }
     }
 
-    // // go through every key/value pair that isn't
-    // // an html property
-    // for (let key in obj) {
-    //   if (key === "if") {
-    //     // then this is conditional on the if value being true
-    //     const isTrue = value;
+    // now we've made it through the first tag, so we need to close it
+    // if this is a server render
+    if (isServer) {
+      element = element + ">";
+    }
 
-    //     // if not true, return a null value
-    //     if (!isTrue) {
-    //       return null;
-    //     }
-    //   } else if (key === "textContent") {
-    //     if (isServer) {
-    //     } else {
-    //       element.textContent = value;
-    //     }
-    //   } else if (key === "prepend" || key === "append" || key === "children") {
-    //     let children = value;
+    // now go through the rest of the properties,
+    // in order of importance
+    for (var key in obj) {
+      const value = obj[key];
 
-    //     for (var i = 0; i < children.length; i++) {
-    //       let child = children[i];
+      if (value !== null) {
+        if (
+          key === "children" ||
+          key === "child" ||
+          key === "textContent" ||
+          key === "innerHTML"
+        ) {
+          if (key === "children" || key === "child") {
+            let children = key === "children" ? value : [value];
 
-    //       let childElement = createDynamicElement(child);
+            for (let i = 0; i < children.length; i++) {
+              const child = children[i];
 
-    //       if (key === "children" || key === "append") {
-    //         if (childElement !== null) {
-    //           element.appendChild(childElement);
-    //         }
-    //       } else if (key === "prepend") {
-    //         if (childElement !== null) {
-    //           element.prepend(childElement);
-    //         }
-    //       }
-    //     }
-    //   } else if (key === "child") {
-    //     let child = value;
+              // render the template for the child
+              element = element + renderTemplate(child, isServer);
+            }
+          } else if (key === "textContent" || key === "innerHTML") {
+            if (isServer) {
+              element = element + value;
+            } else {
+              element[key] = value;
+            }
+          }
+        }
+      }
+    }
 
-    //     let childElement = createDynamicElement(child);
-    //     if (childElement !== null) {
-    //       element.appendChild(childElement);
-    //     }
-    //   } else if (key === "innerHTML") {
-    //     element.innerHTML = value;
-    //   }
-    // }
+    // and if this is a server render, we need to close the tag
+    if (isServer) {
+      element = element + "</" + tagName + ">";
+    }
   }
 
   return element;

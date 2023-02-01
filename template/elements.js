@@ -1,7 +1,7 @@
 class ELEMENT {
   constructor(params) {
     // if params is a string, then it's just textcontent
-    if (typeof params === "string") {
+    if (typeof params !== "object") {
       this.textContent = params;
       // if it is an object or an array...
     } else if (typeof params === "object") {
@@ -23,7 +23,8 @@ export class HTML extends ELEMENT {
     super(params);
     this.tagName = "html";
     this.lang = "en";
-    this.children = [new TITLE(params.title), new VIEWPORT()];
+    this.children.unshift(new TITLE(params.title));
+    this.children.unshift(new VIEWPORT());
   }
 }
 
