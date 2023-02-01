@@ -23,8 +23,16 @@ export class HTML extends ELEMENT {
     super(params);
     this.tagName = "html";
     this.lang = "en";
-    this.children.unshift(new TITLE(params.title));
-    this.children.unshift(new VIEWPORT());
+
+    const head = new HEAD({
+      title: params.title,
+      metas: params.metas,
+      links: params.links,
+      stylesheets: params.stylesheets,
+      scripts: params.scripts,
+    });
+
+    this.children.unshift(head);
   }
 }
 
@@ -32,6 +40,65 @@ export class HEAD extends ELEMENT {
   constructor(params) {
     super(params);
     this.tagName = "head";
+    this.children = [];
+
+    if (params.title !== undefined) {
+      const title = new TITLE({
+        textContent: params.title,
+      });
+
+      this.children.push(title);
+    }
+
+    if (params.metas !== undefined && Array.isArray(params.metas)) {
+      for (let i = 0; i < params.metas.length; i++) {
+        const meta = params.metas[i];
+
+        const metaTag = new META({
+          name: meta.name,
+          content: meta.content,
+        });
+
+        this.children.push(metaTag);
+      }
+    }
+
+    if (params.links !== undefined && Array.isArray(params.links)) {
+      for (let i = 0; i < params.links.length; i++) {
+        const link = params.links[i],
+          linkTag = new LINK();
+
+        for (let key in link) {
+          linkTag[key] = link[key];
+        }
+
+        this.children.push(linkTag);
+      }
+    }
+
+    if (params.stylesheets !== undefined && Array.isArray(params.stylesheets)) {
+      for (let i = 0; i < params.stylesheets.length; i++) {
+        const stylesheet = params.stylesheets[i],
+          stylesheetTag = new STYLESHEET({
+            href: stylesheet,
+          });
+
+        this.children.push(stylesheetTag);
+      }
+    }
+
+    if (params.scripts !== undefined && Array.isArray(params.scripts)) {
+      for (let i = 0; i < params.scripts.length; i++) {
+        const script = params.scripts[i],
+          scriptTag = new SCRIPT();
+
+        for (let key in script) {
+          scriptTag[key] = script[key];
+        }
+
+        this.children.push(scriptTag);
+      }
+    }
   }
 }
 
@@ -185,8 +252,24 @@ export class A extends ELEMENT {
 export class NAVIGATION {
   constructor(routes) {
     this.tagName = "nav";
+
+    let children = [];
+
+    for (let route in routes) {
+      const path = routes[route];
+
+      const navItem = new LI({
+        child: new A({
+          href: path,
+          textContent: route,
+        }),
+      });
+
+      children.push(navItem);
+    }
+
     this.child = new UL({
-      children: [],
+      children,
     });
   }
 }

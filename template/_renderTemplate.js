@@ -86,41 +86,103 @@ export const renderTemplate = (obj, isServer = false) => {
       element = element + ">";
     }
 
-    // now go through the rest of the properties,
-    // in order of importance
-    for (var key in obj) {
-      const value = obj[key];
+    // anything that goes between the tags
+    // only happens on elements that have
+    // opening and closing tags
+    const singletonTags = [
+      "area",
+      "base",
+      "br",
+      "col",
+      "command",
+      "embed",
+      "hr",
+      "img",
+      "input",
+      "keygen",
+      "link",
+      "meta",
+      "param",
+      "source",
+      "track",
+      "wbr",
+    ];
 
-      if (value !== null) {
-        if (
-          key === "children" ||
-          key === "child" ||
-          key === "textContent" ||
-          key === "innerHTML"
-        ) {
-          if (key === "children" || key === "child") {
-            let children = key === "children" ? value : [value];
+    if (!singletonTags.includes(tagName)) {
+      // now go through the rest of the properties,
+      // in order of importance
+      for (var key in obj) {
+        const value = obj[key];
 
-            for (let i = 0; i < children.length; i++) {
-              const child = children[i];
+        if (value !== null) {
+          if (
+            key === "children" ||
+            key === "child" ||
+            key === "prepend" ||
+            key === "append" ||
+            key === "textContent" ||
+            key === "innerHTML"
+          ) {
+            if (key === "prepend") {
+              // check if this is an object, otherwise we
+              // just need to add it as textContent
+              if (typeof value !== "object") {
+                if (isServer) {
+                  element = element + value;
+                } else {
+                  element.prepend(document.createTextNode(value));
+                }
+              } else {
+                if (isServer) {
+                  element = element + renderTemplate(value, isServer);
+                } else {
+                  element.prepend(renderTemplate(value, isServer));
+                }
+              }
+            } else if (key === "children" || key === "child") {
+              let children = key === "children" ? value : [value];
 
-              // render the template for the child
-              element = element + renderTemplate(child, isServer);
-            }
-          } else if (key === "textContent" || key === "innerHTML") {
-            if (isServer) {
-              element = element + value;
-            } else {
-              element[key] = value;
+              for (let i = 0; i < children.length; i++) {
+                if (isServer) {
+                  const child = children[i];
+
+                  // render the template for the child
+                  element = element + renderTemplate(child, isServer);
+                } else {
+                  element.appendChild(childElement);
+                }
+              }
+            } else if (key === "textContent" || key === "innerHTML") {
+              if (isServer) {
+                element = element + value;
+              } else {
+                element[key] = value;
+              }
+            } else if (key === "append") {
+              // check if this is an object, otherwise we
+              // just need to add it as textContent
+              if (typeof value !== "object") {
+                if (isServer) {
+                  element = element + value;
+                } else {
+                  element.appendChild(document.createTextNode(value));
+                }
+              } else {
+                if (isServer) {
+                  element = element + renderTemplate(value, isServer);
+                } else {
+                  element.appendChild(renderTemplate(value, isServer));
+                }
+              }
             }
           }
         }
       }
-    }
 
-    // and if this is a server render, we need to close the tag
-    if (isServer) {
-      element = element + "</" + tagName + ">";
+      // and if this is a server render, we need to close the tag
+      if (isServer) {
+        element = element + "</" + tagName + ">";
+      }
     }
   }
 
