@@ -201,6 +201,13 @@ export class NUMBER extends INPUT {
   }
 }
 
+export class HIDDEN extends INPUT {
+  constructor(params) {
+    super(params);
+    this.type = "hidden";
+  }
+}
+
 export class TEXT extends INPUT {
   constructor(params) {
     super(params);
