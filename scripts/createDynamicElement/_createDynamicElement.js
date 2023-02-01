@@ -121,7 +121,7 @@ export const createDynamicElement = (obj) => {
 class ELEMENT {
   constructor(params) {
     // if params is a string, then it's just textcontent
-    if (typeof params === "string") {
+    if (typeof params !== "object") {
       this.textContent = params;
       // if it is an object or an array...
     } else if (typeof params === "object") {

@@ -7,7 +7,7 @@ const xhrInput = function (input) {
   const label =
     input.parentNode.tagName === "LABEL"
       ? input.parentNode
-      : document.querySelector("label[for=" + (input.id || input.name) + "]");
+      : document.querySelector("label[for='" + (input.id || input.name) + "']");
 
   if (label !== null) {
     label.classList.add("waiting");
