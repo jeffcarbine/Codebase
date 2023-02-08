@@ -4,17 +4,14 @@ import authRender from "./auth-render.js";
 import emailValidator from "email-validator";
 
 export const login = (req, res) => {
-  authRender(req, res, "login", { subtitle: "Backstage Access"});
+  authRender(req, res, "login", { subtitle: "Backstage Access" });
 };
 
 export const signup = (req, res) => {
-  res.render("signup", {
-    subtitle: "Sign Up",
-  });
+  authRender(req, res, "signup", { subtitle: "Sign Up for Backstage Access" });
 };
 
 export const register = (req, res) => {
-  console.log("registering!");
   // get the usernane and password from the request
   const username = req.body.username,
     password = req.body.password,

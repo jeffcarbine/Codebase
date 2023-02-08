@@ -1,0 +1,24 @@
+#login {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  .login-form {
+    width: 40rem;
+    max-width: 85%;
+    margin: 0 auto;
+    padding: 3rem;
+    display: block;
+    border-radius: 50px;
+    background: #252422;
+    box-shadow: 20px 20px 60px #1f1f1d, -20px -20px 60px #2b2927;
+
+    h1 {
+      margin: 2rem 0;
+      text-align: center;
+      @include fontValues(8);
+    }
+  }
+}

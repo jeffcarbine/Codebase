@@ -5,6 +5,19 @@ export const renderTemplate = (obj, isServer = false) => {
   // start by creating the element
   let element;
 
+  // check to see if the obj has an "if" property, and check if it is true
+  // or not - if not true, they we just don't render anything
+  if (obj.if !== undefined) {
+    // then check it if is false
+    if (!obj.if) {
+      if (isServer) {
+        return "";
+      } else {
+        return null;
+      }
+    }
+  }
+
   // if this is the server, we need to output a string,
   // otherwise we'll use the document.createElement for
   // the frontend

@@ -1,0 +1,34 @@
+// PERIODIC
+@import "../../styles/reset";
+@import "../../styles/mixin";
+@import "../../elements/typography/typography";
+@import "../../styles/theme";
+@import "../../elements/button/button";
+@import "../../elements/form/form";
+@import "../../elements/input/input";
+@import "../../components/toggleswitch/toggleswitch";
+@import "../../components/tile/tile";
+
+// GLOBAL
+@import "header";
+@import "fonts";
+
+// PAGES
+@import "login";
+@import "dashboard";
+
+:root {
+  --base-font-family: "Poppins", sans-serif;
+
+  --foreground: var(--light);
+  --foreground-low: var(--light-low);
+  --foreground-mid: var(--light-mid);
+  --background: var(--dark);
+  --background-low: var(--dark-low);
+  --background-mid: var(--dark-mid);
+}
+
+html {
+  display: block !important;
+  height: 100%;
+}

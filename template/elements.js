@@ -23,6 +23,7 @@ export class HTML extends ELEMENT {
     super(params);
     this.tagName = "html";
     this.lang = "en";
+    this.style = "display: none;"; // avoids FOUC
 
     const head = new HEAD({
       title: params.title,
@@ -195,6 +196,14 @@ export class P extends ELEMENT {
   }
 }
 
+export class SPAN extends ELEMENT {
+  constructor(params) {
+    super(params);
+
+    this.tagName = "span";
+  }
+}
+
 export class FOOTER extends ELEMENT {
   constructor(params) {
     super(params);
@@ -206,6 +215,10 @@ export class FOOTER extends ELEMENT {
 export class IMG extends ELEMENT {
   constructor(params) {
     super(params);
+
+    if (typeof params !== "object") {
+      this.src = params;
+    }
 
     this.tagName = "img";
   }
@@ -249,14 +262,16 @@ export class A extends ELEMENT {
   }
 }
 
-export class NAVIGATION {
-  constructor(routes) {
+export class NAVIGATION extends ELEMENT {
+  constructor(params) {
+    super(params);
+
     this.tagName = "nav";
 
     let children = [];
 
-    for (let route in routes) {
-      const path = routes[route];
+    for (let route in params.routes) {
+      const path = params.routes[route];
 
       const navItem = new LI({
         child: new A({
@@ -344,23 +359,72 @@ export class INPUT extends ELEMENT {
   }
 }
 
-export class NUMBER extends INPUT {
+export class LABEL extends ELEMENT {
   constructor(params) {
     super(params);
-    this.type = "number";
+    this.tagName = "label";
   }
 }
 
-export class TEXT extends INPUT {
-  constructor(params) {
-    super(params);
-    this.type = "text";
+export class NUMBER {
+  constructor({ type = "number" } = {}) {
+    this.tagName = "label";
+    this.textContent = label;
+    this.child = new INPUT({ type });
   }
 }
 
-export class EMAIL extends INPUT {
+export class TEXT {
+  constructor({ type = "text" } = {}) {
+    this.tagName = "label";
+    this.textContent = label;
+    this.child = new INPUT({ type });
+  }
+}
+
+export class EMAIL {
+  constructor({
+    type = "email",
+    name = "email",
+    id = "email",
+    label = "Email",
+  } = {}) {
+    this.tagName = "label";
+    this.textContent = label;
+    this.child = new INPUT({ type, name, id });
+  }
+}
+
+export class PASSWORD {
+  constructor({
+    type = "password",
+    name = "password",
+    id = "password",
+    label = "Password",
+  } = {}) {
+    this.tagName = "label";
+    this.textContent = label;
+    this.child = new INPUT({ type, name, id });
+  }
+}
+
+export class BUTTON extends ELEMENT {
   constructor(params) {
     super(params);
-    this.type = "email";
+    this.tagName = "button";
+  }
+}
+
+export class BTN extends BUTTON {
+  constructor(params) {
+    super(params);
+    this.class = "btn" + (params.class !== undefined ? " " + params.class : "");
+  }
+}
+
+export class FORM extends ELEMENT {
+  constructor(params) {
+    super(params);
+    this.tagName = "form";
   }
 }
