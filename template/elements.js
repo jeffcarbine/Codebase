@@ -1,10 +1,8 @@
 class ELEMENT {
   constructor(params) {
-    // if params is a string, then it's just textcontent
-    if (typeof params !== "object") {
-      this.textContent = params;
-      // if it is an object or an array...
-    } else if (typeof params === "object") {
+    // we allow other classes to define what they do
+    // with non-object params
+    if (typeof params === "object") {
       if (Array.isArray(params)) {
         // if an array, then it's children
         this.children = this.children.concat(params);
@@ -129,6 +127,10 @@ export class LINK extends ELEMENT {
   constructor(params) {
     super(params);
     this.tagName = "link";
+
+    if (typeof params === "string") {
+      this.href = params;
+    }
   }
 }
 
@@ -145,6 +147,10 @@ export class SCRIPT extends ELEMENT {
 
     this.tagName = "script";
     this.defer = true;
+
+    if (typeof params === "string") {
+      this.src = params;
+    }
   }
 }
 
@@ -193,6 +199,10 @@ export class P extends ELEMENT {
     super(params);
 
     this.tagName = "p";
+
+    if (typeof params === "string") {
+      this.textContent = params;
+    }
   }
 }
 
@@ -201,6 +211,10 @@ export class SPAN extends ELEMENT {
     super(params);
 
     this.tagName = "span";
+
+    if (typeof params === "string") {
+      this.textContent = params;
+    }
   }
 }
 
@@ -216,11 +230,11 @@ export class IMG extends ELEMENT {
   constructor(params) {
     super(params);
 
-    if (typeof params !== "object") {
+    this.tagName = "img";
+
+    if (typeof params === "string") {
       this.src = params;
     }
-
-    this.tagName = "img";
   }
 }
 
@@ -251,6 +265,10 @@ export class LI extends ELEMENT {
     super(params);
 
     this.tagName = "li";
+
+    if (typeof params === "string") {
+      this.textContent = params;
+    }
   }
 }
 
@@ -267,8 +285,11 @@ export class NAVIGATION extends ELEMENT {
     super(params);
 
     this.tagName = "nav";
+    this.children = params.children || [];
 
-    let children = [];
+    const ul = new UL({
+      children: [],
+    });
 
     for (let route in params.routes) {
       const path = params.routes[route];
@@ -280,12 +301,19 @@ export class NAVIGATION extends ELEMENT {
         }),
       });
 
-      children.push(navItem);
+      ul.children.push(navItem);
     }
 
-    this.child = new UL({
-      children,
-    });
+    this.children.unshift(ul);
+  }
+}
+
+export class NAVTOGGLE extends ELEMENT {
+  constructor(params) {
+    super(params);
+
+    this.tagName = "button";
+    this.id = "navToggle";
   }
 }
 
@@ -300,6 +328,10 @@ export class H1 extends ELEMENT {
   constructor(params) {
     super(params);
     this.tagName = "h1";
+
+    if (typeof params === "string") {
+      this.textContent = params;
+    }
   }
 }
 
@@ -321,6 +353,10 @@ export class TH extends ELEMENT {
   constructor(params) {
     super(params);
     this.tagName = "th";
+
+    if (typeof params === "string") {
+      this.textContent = params;
+    }
   }
 }
 
@@ -342,6 +378,10 @@ export class TD extends ELEMENT {
   constructor(params) {
     super(params);
     this.tagName = "td";
+
+    if (typeof params === "string") {
+      this.textContent = params;
+    }
   }
 }
 
@@ -412,6 +452,10 @@ export class BUTTON extends ELEMENT {
   constructor(params) {
     super(params);
     this.tagName = "button";
+
+    if (typeof params === "string") {
+      this.textContent = params;
+    }
   }
 }
 
@@ -426,5 +470,6 @@ export class FORM extends ELEMENT {
   constructor(params) {
     super(params);
     this.tagName = "form";
+    this.method = params.method !== undefined ? params.method : "POST";
   }
 }

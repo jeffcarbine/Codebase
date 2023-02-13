@@ -3,12 +3,13 @@ header {
   justify-content: center;
 
   &#mainHeader {
-    padding: 5rem 0;
+    padding: 1rem 0;
+    background: var(--primary);
   }
 
   .logo,
   .client-logo {
-    flex: 0 0 10rem;
+    flex: 0 0 5rem;
 
     img {
       width: 100%;

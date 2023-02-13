@@ -1,19 +1,15 @@
-import User from "../../models/user.js";
+import User from "../models/user.js";
 import passport from "passport";
 import authRender from "./auth-render.js";
 import emailValidator from "email-validator";
 
-export const login = (req, res) => {
-  authRender(req, res, "login", { subtitle: "Backstage Access" });
-};
-
-export const signup = (req, res) => {
+export const get__backstage_signup = (req, res) => {
   authRender(req, res, "signup", { subtitle: "Sign Up for Backstage Access" });
 };
 
-export const register = (req, res) => {
+export const post__backstage_signup = (req, res) => {
   // get the usernane and password from the request
-  const username = req.body.username,
+  const username = req.body.email,
     password = req.body.password,
     passwordConfirm = req.body.passwordConfirm;
 
@@ -36,21 +32,8 @@ export const register = (req, res) => {
       }
 
       passport.authenticate("local")(req, res, () => {
-        res.redirect("/");
+        res.redirect("/backstage");
       });
     }
   );
-};
-
-export const authenticate = (req, res) => {
-  res.redirect("/");
-};
-
-export const logout = (req, res) => {
-  req.logout((err) => {
-    if (err) {
-      return next(err);
-    }
-    res.redirect("/");
-  });
 };

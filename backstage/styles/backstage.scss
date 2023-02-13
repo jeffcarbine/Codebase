@@ -8,9 +8,11 @@
 @import "../../elements/input/input";
 @import "../../components/toggleswitch/toggleswitch";
 @import "../../components/tile/tile";
+@import "../../components/alert/_alert.scss";
 
 // GLOBAL
 @import "header";
+@import "nav";
 @import "fonts";
 
 // PAGES
@@ -19,16 +21,31 @@
 
 :root {
   --base-font-family: "Poppins", sans-serif;
-
-  --foreground: var(--light);
-  --foreground-low: var(--light-low);
-  --foreground-mid: var(--light-mid);
-  --background: var(--dark);
-  --background-low: var(--dark-low);
-  --background-mid: var(--dark-mid);
 }
 
 html {
   display: block !important;
   height: 100%;
+}
+
+body {
+  height: 100%;
+}
+
+.split {
+  height: calc(100vh - 7rem);
+}
+
+@media only screen and (min-width: $breakpoint-md) {
+  .split {
+    display: flex;
+
+    nav {
+      flex: 0 0 15rem;
+    }
+
+    main {
+      flex: 1 1 auto;
+    }
+  }
 }

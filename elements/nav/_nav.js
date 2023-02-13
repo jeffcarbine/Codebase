@@ -10,6 +10,10 @@ const toggleNav = (button) => {
     nav.classList.add("open");
     button.classList.add("open");
   }
+
+  if (!button.classList.contains("previously-toggled")) {
+    button.classList.add("previously-toggled");
+  }
 };
 
 export const enableToggleNav = () => {

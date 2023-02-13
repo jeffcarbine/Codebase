@@ -15,8 +15,12 @@
     background: #252422;
     box-shadow: 20px 20px 60px #1f1f1d, -20px -20px 60px #2b2927;
 
+    header {
+      padding: 5rem 0;
+    }
+
     h1 {
-      margin: 2rem 0;
+      margin: 4rem 0;
       text-align: center;
       @include fontValues(8);
     }

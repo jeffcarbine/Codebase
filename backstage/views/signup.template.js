@@ -9,6 +9,7 @@ import {
   HEADER,
   IMG,
   SPAN,
+  MODULE,
 } from "../../template/elements.js";
 
 export default (data) => {
@@ -34,13 +35,17 @@ export default (data) => {
             }),
             new H1("Sign Up for Backstage"),
             new FORM({
+              action: "/backstage/signup",
               class: "style-inputs",
               children: [
-                new EMAIL(),
+                new EMAIL({
+                  name: "username",
+                  id: "username",
+                }),
                 new PASSWORD(),
                 new PASSWORD({
-                  name: "passwordconfirm",
-                  id: "passwordconfirm",
+                  name: "passwordConfirm",
+                  id: "passwordConfirm",
                   label: "Confirm Password",
                 }),
                 new BTN("Log In"),

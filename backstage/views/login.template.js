@@ -9,6 +9,7 @@ import {
   HEADER,
   IMG,
   SPAN,
+  MODULE,
 } from "../../template/elements.js";
 
 export default (data) => {
@@ -32,10 +33,17 @@ export default (data) => {
                 },
               ],
             }),
-            new H1("Log In to Backstage"),
             new FORM({
+              action: "/backstage/login",
               class: "style-inputs",
-              children: [new EMAIL(), new PASSWORD(), new BTN("Log In")],
+              children: [
+                new EMAIL({
+                  name: "username",
+                  id: "username",
+                }),
+                new PASSWORD(),
+                new BTN("Log In"),
+              ],
             }),
           ],
         },

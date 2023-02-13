@@ -1,11 +1,10 @@
 import { dashboard } from "./routes/dashboard.js";
+import { get__backstage_login, post__backstage_login } from "./routes/login.js";
+import { get__backstage_logout } from "./routes/logout.js";
 import {
-  signup,
-  register,
-  login,
-  authenticate,
-  logout,
-} from "./routes/auth-routes.js";
+  get__backstage_signup,
+  post__backstage_signup,
+} from "./routes/signup.js";
 // import { events, addEvent, editEvent, deleteEvent } from "./routes/events.js";
 // import { fanart, post__fanartApprove } from "./routes/fanart.js";
 
@@ -48,9 +47,13 @@ export default (app, express, __dirname, passport, connectEnsureLogin) => {
   //   post__fanartApprove
   // );
 
-  app.get("/signup", signup);
-  app.post("/signup", register);
-  app.get("/login", login);
-  app.post("/login", passport.authenticate("local"), authenticate);
-  app.get("/logout", logout);
+  app.get("/backstage/signup", get__backstage_signup);
+  app.post("/backstage/signup", post__backstage_signup);
+  app.get("/backstage/login", get__backstage_login);
+  app.post(
+    "/backstage/login",
+    passport.authenticate("local"),
+    post__backstage_login
+  );
+  app.get("/backstage/logout", get__backstage_logout);
 };
