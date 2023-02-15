@@ -163,7 +163,9 @@ export const renderTemplate = (obj, isServer = false) => {
                   element = element + renderTemplate(child, isServer);
                 } else {
                   const childElement = renderTemplate(child);
-                  element.appendChild(childElement);
+                  if (childElement !== null) {
+                    element.appendChild(childElement);
+                  }
                 }
               }
             } else if (key === "textContent" || key === "innerHTML") {

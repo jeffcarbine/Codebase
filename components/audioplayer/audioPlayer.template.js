@@ -1,6 +1,6 @@
 import { speaker, download } from "../icon/_icon-list.js";
 
-export const audioPlayerTemplate = (link, title, ifValue = true) => {
+export const audioPlayerTemplate = (link, title = "", ifValue = true) => {
   return {
     if: ifValue,
     class: "audio-player",
