@@ -49,4 +49,10 @@ button {
 
 .btn-container {
   margin: 1rem 0;
+
+  .btn {
+    &:nth-of-type(n + 2) {
+      margin-left: 0.5rem;
+    }
+  }
 }
