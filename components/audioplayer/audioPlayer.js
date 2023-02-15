@@ -15,8 +15,8 @@ const getTimeCodeFromNum = (num) => {
 };
 
 const findAudio = (element) => {
-  const audioPlayer = element.closest(".audio-player"),
-    audio = audioPlayer.querySelector("audio");
+  const audioplayer = element.closest(".audio-player"),
+    audio = audioplayer.querySelector("audio");
 
   return audio;
 };
@@ -58,12 +58,12 @@ const loadAudio = (audio) => {
   audio.addEventListener(
     "loadeddata",
     () => {
-      const audioPlayer = audio.parentNode;
+      const audioplayer = audio.parentNode;
 
-      audioPlayer.querySelector(".time .length").textContent =
+      audioplayer.querySelector(".time .length").textContent =
         getTimeCodeFromNum(audio.duration);
 
-      audioPlayer.querySelector(".time .current").textContent = "0:00";
+      audioplayer.querySelector(".time .current").textContent = "0:00";
       audio.volume = 0.75;
     },
     false
@@ -87,11 +87,11 @@ addEventDelegate("click", ".audio-player .timeline", scrub);
 
 // check audio percentage and update time accordingly
 const monitorProgress = (audio) => {
-  const audioPlayer = audio.parentNode;
+  const audioplayer = audio.parentNode;
 
-  const progressBar = audioPlayer.querySelector(".progress");
+  const progressBar = audioplayer.querySelector(".progress");
   progressBar.style.width = (audio.currentTime / audio.duration) * 100 + "%";
-  audioPlayer.querySelector(".time .current").textContent = getTimeCodeFromNum(
+  audioplayer.querySelector(".time .current").textContent = getTimeCodeFromNum(
     audio.currentTime
   );
 };
@@ -128,12 +128,12 @@ addEventDelegate(
 
 const adjustVolume = (volumeSlider, e) => {
   const audio = findAudio(volumeSlider),
-    audioPlayer = audio.parentNode;
+    audioplayer = audio.parentNode;
 
   const sliderWidth = window.getComputedStyle(volumeSlider).width;
   const newVolume = e.offsetX / parseInt(sliderWidth);
   audio.volume = newVolume;
-  audioPlayer.querySelector(".controls .volume-percentage").style.width =
+  audioplayer.querySelector(".controls .volume-percentage").style.width =
     newVolume * 100 + "%";
 };
 
