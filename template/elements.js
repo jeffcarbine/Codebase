@@ -335,6 +335,50 @@ export class H1 extends ELEMENT {
   }
 }
 
+export class H2 extends ELEMENT {
+  constructor(params) {
+    super(params);
+    this.tagName = "h2";
+
+    if (typeof params === "string") {
+      this.textContent = params;
+    }
+  }
+}
+
+export class H3 extends ELEMENT {
+  constructor(params) {
+    super(params);
+    this.tagName = "h3";
+
+    if (typeof params === "string") {
+      this.textContent = params;
+    }
+  }
+}
+
+export class H4 extends ELEMENT {
+  constructor(params) {
+    super(params);
+    this.tagName = "h4";
+
+    if (typeof params === "string") {
+      this.textContent = params;
+    }
+  }
+}
+
+export class H5 extends ELEMENT {
+  constructor(params) {
+    super(params);
+    this.tagName = "h5";
+
+    if (typeof params === "string") {
+      this.textContent = params;
+    }
+  }
+}
+
 export class TABLE extends ELEMENT {
   constructor(params) {
     super(params);
@@ -459,9 +503,16 @@ export class BUTTON extends ELEMENT {
   }
 }
 
-export class BTN extends BUTTON {
+export class BTN extends ELEMENT {
   constructor(params) {
     super(params);
+
+    if (params.href !== undefined) {
+      this.tagName = "a";
+    } else {
+      this.tagName = "btn";
+    }
+
     this.class = "btn" + (params.class !== undefined ? " " + params.class : "");
   }
 }

@@ -14,14 +14,14 @@ export const audioPlayerTemplate = (link, title, ifValue = true) => {
         class: "controls",
         children: [
           {
+            class: "name",
+            textContent: title,
+          },
+          {
             class: "play-container",
             child: {
               class: "toggle-play play",
             },
-          },
-          {
-            class: "name",
-            textContent: title,
           },
           {
             class: "time",

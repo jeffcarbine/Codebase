@@ -4,10 +4,12 @@ dotenv.config();
 import async from "async";
 import asyncLoop from "node-async-loop";
 import request from "request";
-import { getSpotifyToken } from "../../../apis/spotify.js";
-import { getPatreonToken } from "../../../apis/patreon.js";
+import { getSpotifyToken } from "../../apis/spotify.js";
+// import { getPatreonToken } from "../../../apis/patreon.js";
 import Episode from "../../../models/Episode.js";
-import { generateTitles } from "../../../modules/episodeFormatter.js";
+// import { generateTitles } from "../../../modules/episodeFormatter.js";
+import pkg from "rss-to-json";
+const { parse } = pkg;
 
 const itunesUrl = process.env.ITUNESURL,
   spotifyUrl = process.env.SPOTIFYURL,
@@ -19,56 +21,101 @@ const itunesUrl = process.env.ITUNESURL,
 // in the database. the other functions only find
 // and update an entry with their data, with the
 // exception of patreon exclusives
-const processRSS = (episodeFormatter, count = 1, asyncCallback) => {
+const processRSS = (rssFormatter, count = 1, asyncCallback) => {
   console.log("getting episodes from RSS feed");
-  // get the number of episodes from the rss feed
-  fetch(rssUrl + count)
-    // make it json
-    .then((res) => res.json())
-    // and now extract the data needed for the episode
-    .then((json) => {
-      const eps = json.items,
-        formattedEps = []; // this is just in case we are getting a callback
 
-      asyncLoop(
-        eps,
-        (ep, next) => {
-          const formattedEp = episodeFormatter(ep),
-            fullTitle = formattedEp.fullTitle;
+  parse(rssUrl).then((feed) => {
+    const episodes = feed.items;
 
-          // save to mongodb
-          Episode.findOneAndUpdate(
-            {
-              fullTitle,
-            },
-            {
-              $set: formattedEp,
-            },
-            {
-              upsert: true,
-            }
-          ).exec(function (err, episode) {
-            if (err) {
-              mainCallback(err);
-            } else {
-              formattedEps.push(formattedEp);
-              next();
-            }
-          });
-        },
-        function (err) {
+    asyncLoop(
+      episodes,
+      (episode, next) => {
+        const formattedEpisode = rssFormatter(episode),
+          fullTitle = formattedEpisode.fullTitle;
+
+        // save to mongodb
+        Episode.findOneAndUpdate(
+          {
+            fullTitle,
+          },
+          {
+            $set: formattedEpisode,
+          },
+          {
+            upsert: true,
+          }
+        ).exec(function (err, episode) {
           if (err) {
-            console.log(err);
+            mainCallback(err);
           } else {
-            console.log("Succesfully updated RSS feed episodes");
+            next();
+          }
+        });
+      },
+      function (err) {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log("Succesfully updated RSS feed episodes");
 
-            if (asyncCallback) {
-              asyncCallback(null);
-            }
+          if (asyncCallback) {
+            asyncCallback(null);
           }
         }
-      );
-    });
+      }
+    );
+  });
+  // get the number of episodes from the rss feed
+  // fetch(rssUrl + count)
+  //   // make it json
+  //   .then((res) => {
+  //     console.log(res);
+  //     res.json();
+  //   })
+  //   // and now extract the data needed for the episode
+  //   .then((json) => {
+  //     const eps = json.items,
+  //       formattedEps = []; // this is just in case we are getting a callback
+
+  //     asyncLoop(
+  //       eps,
+  //       (ep, next) => {
+  //         const formattedEp = rssFormatter(ep),
+  //           fullTitle = formattedEp.fullTitle;
+
+  //         // save to mongodb
+  //         Episode.findOneAndUpdate(
+  //           {
+  //             fullTitle,
+  //           },
+  //           {
+  //             $set: formattedEp,
+  //           },
+  //           {
+  //             upsert: true,
+  //           }
+  //         ).exec(function (err, episode) {
+  //           if (err) {
+  //             mainCallback(err);
+  //           } else {
+  //             formattedEps.push(formattedEp);
+  //             next();
+  //           }
+  //         });
+  //       },
+  //       function (err) {
+  //         if (err) {
+  //           console.log(err);
+  //         } else {
+  //           console.log("Succesfully updated RSS feed episodes");
+
+  //           if (asyncCallback) {
+  //             asyncCallback(null);
+  //           }
+  //         }
+  //       }
+  //     );
+  //   });
 };
 
 const processSpotify = (count = 1, asyncCallback) => {
@@ -170,14 +217,12 @@ const processiTunes = (count = 1, asyncCallback) => {
       itunesEps,
       (itunesEp, next) => {
         const fullTitle = itunesEp.trackName,
-          titles = generateTitles(fullTitle),
-          title = titles.title,
           itunesLink = itunesEp.trackViewUrl;
 
         // save to mongodb
         Episode.findOneAndUpdate(
           {
-            title,
+            fullTitle,
           },
           {
             $set: {
@@ -294,21 +339,40 @@ const processPatreon = (patreonFilter, asyncCallback) => {
 
 export { processPatreon };
 
-export const archiveEpisodes = (episodeFormatter, patreonFilter, count) => {
-  console.log("archiving episodes");
+export const archiveEpisodes = (episodeFormatter, count = 1) => {
+  console.log(rssUrl, spotifyUrl, patreonUrl, itunesUrl);
   async.waterfall(
     [
       (callback) => {
-        processRSS(episodeFormatter, count, callback);
+        if (rssUrl !== undefined) {
+          processRSS(episodeFormatter, count, callback);
+        } else {
+          console.log("RSS is not defined. Skiping RSS archive");
+          callback(null);
+        }
       },
       (callback) => {
-        processPatreon(patreonFilter, callback);
+        if (patreonUrl !== undefined) {
+          processPatreon(patreonFilter, callback);
+        } else {
+          console.log("Patreon URL is not defined. Skipping Patreon archive.");
+          callback(null);
+        }
       },
       (callback) => {
-        processSpotify(count, callback);
+        if (spotifyUrl !== undefined) {
+          processSpotify(count, callback);
+        } else {
+          console.log("Spotify URL is not defined. Skipping Spotify archive.");
+          callback(null);
+        }
       },
       () => {
-        processiTunes(count);
+        if (itunesUrl !== undefined) {
+          processiTunes(count);
+        } else {
+          console.log("iTunes URL is not defined. Skipping iTunes archive.");
+        }
       },
     ],
     (err) => {

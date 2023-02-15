@@ -156,12 +156,13 @@ export const renderTemplate = (obj, isServer = false) => {
               let children = key === "children" ? value : [value];
 
               for (let i = 0; i < children.length; i++) {
-                if (isServer) {
-                  const child = children[i];
+                const child = children[i];
 
+                if (isServer) {
                   // render the template for the child
                   element = element + renderTemplate(child, isServer);
                 } else {
+                  const childElement = renderTemplate(child);
                   element.appendChild(childElement);
                 }
               }
