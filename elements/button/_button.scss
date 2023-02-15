@@ -1,46 +1,49 @@
-:root {
-  --button-border-radius: 0;
-  --button-background: var(--primary);
-  --button-color: var(--light);
-  --button-focus-color: var(--light);
-  --button-focus-background: var(--primary-step);
-  --button-font-weight: 400;
-  --button-font-size: var(--f10-font-size);
-  --button-padding-x: 1.125rem;
-  --button-padding-y: 1.5rem;
-}
-
 button {
   outline: none;
   cursor: pointer;
 }
 
 .btn {
+  --btn-border-radius: 0;
+  --btn-background: var(--primary);
+  --btn-color: var(--light);
+  --btn-focus-color: var(--light);
+  --btn-focus-background: var(--primary-step);
+  --btn-font-weight: 400;
+  --btn-font-size: var(--f10-font-size);
+  --btn-padding-x: 1.125rem;
+  --btn-padding-y: 1.5rem;
+
   outline: none;
-  padding: var(--button-padding-x) var(--button-padding-y);
+  padding: var(--btn-padding-x) var(--btn-padding-y);
   border: none;
   transition: all 0.25s ease;
-  font-size: var(--button-font-size);
+  font-size: var(--btn-font-size);
   text-decoration: none;
   line-height: 1rem;
   display: inline-block;
-  font-weight: var(--button-font-weight);
+  font-weight: var(--btn-font-weight);
   font-family: unset; // override browser defaults and listen to the body
   margin: 0.25rem 0;
-  background: var(--button-background);
-  color: var(--button-color);
-  border-radius: var(--button-border-radius);
+  background: var(--btn-background);
+  color: var(--btn-color);
+  border-radius: var(--btn-border-radius);
   cursor: pointer;
 
   &:focus,
   &:hover {
-    background: var(--button-focus-background);
-    color: var(--button-focus-color);
+    background: var(--btn-focus-background);
+    color: var(--btn-focus-color);
   }
 
   &.block {
     display: block;
     width: 100%;
+  }
+
+  &.accent {
+    --btn-background: var(--accent);
+    --btn-focus-background: var(--accent-step);
   }
 }
 

@@ -49,7 +49,7 @@ const play = (button) => {
   }
 };
 
-addEventDelegate("click", ".audio-player .toggle-play", play);
+addEventDelegate("click", ".audioPlayer .toggle-play", play);
 
 const loadAudio = (audio) => {
   const src = audio.dataset.src;
@@ -83,7 +83,7 @@ const scrub = (timeline, e) => {
   audio.currentTime = timeToSeek;
 };
 
-addEventDelegate("click", ".audio-player .timeline", scrub);
+addEventDelegate("click", ".audioPlayer .timeline", scrub);
 
 // check audio percentage and update time accordingly
 const monitorProgress = (audio) => {
@@ -108,7 +108,7 @@ const monitorProgress = (audio) => {
 //   }
 // };
 
-// addEventDelegate("click", ".audio-player .volume-button", muteUnmute);
+// addEventDelegate("click", ".audioPlayer .volume-button", muteUnmute);
 
 const toggleVolumeSlider = (volumeButton) => {
   const volumeContainer = volumeButton.parentNode;
@@ -122,7 +122,7 @@ const toggleVolumeSlider = (volumeButton) => {
 
 addEventDelegate(
   "click",
-  ".audio-player .controls .volume-button",
+  ".audioPlayer .controls .volume-button",
   toggleVolumeSlider
 );
 
@@ -139,6 +139,6 @@ const adjustVolume = (volumeSlider, e) => {
 
 addEventDelegate(
   "click",
-  ".audio-player .controls .volume-slider",
+  ".audioPlayer .controls .volume-slider",
   adjustVolume
 );
