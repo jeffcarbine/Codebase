@@ -15,8 +15,8 @@ const getTimeCodeFromNum = (num) => {
 };
 
 const findAudio = (element) => {
-  const audioplayer = element.closest(".audio-player"),
-    audio = audioplayer.querySelector("audio");
+  const audioPlayer = element.closest(".audioPlayer"),
+    audio = audioPlayer.querySelector("audio");
 
   return audio;
 };
@@ -58,12 +58,12 @@ const loadAudio = (audio) => {
   audio.addEventListener(
     "loadeddata",
     () => {
-      const audioplayer = audio.parentNode;
+      const audioPlayer = audio.parentNode;
 
-      audioplayer.querySelector(".time .length").textContent =
+      audioPlayer.querySelector(".time .length").textContent =
         getTimeCodeFromNum(audio.duration);
 
-      audioplayer.querySelector(".time .current").textContent = "0:00";
+      audioPlayer.querySelector(".time .current").textContent = "0:00";
       audio.volume = 0.75;
     },
     false
@@ -87,11 +87,11 @@ addEventDelegate("click", ".audio-player .timeline", scrub);
 
 // check audio percentage and update time accordingly
 const monitorProgress = (audio) => {
-  const audioplayer = audio.parentNode;
+  const audioPlayer = audio.parentNode;
 
-  const progressBar = audioplayer.querySelector(".progress");
+  const progressBar = audioPlayer.querySelector(".progress");
   progressBar.style.width = (audio.currentTime / audio.duration) * 100 + "%";
-  audioplayer.querySelector(".time .current").textContent = getTimeCodeFromNum(
+  audioPlayer.querySelector(".time .current").textContent = getTimeCodeFromNum(
     audio.currentTime
   );
 };
@@ -128,12 +128,12 @@ addEventDelegate(
 
 const adjustVolume = (volumeSlider, e) => {
   const audio = findAudio(volumeSlider),
-    audioplayer = audio.parentNode;
+    audioPlayer = audio.parentNode;
 
   const sliderWidth = window.getComputedStyle(volumeSlider).width;
   const newVolume = e.offsetX / parseInt(sliderWidth);
   audio.volume = newVolume;
-  audioplayer.querySelector(".controls .volume-percentage").style.width =
+  audioPlayer.querySelector(".controls .volume-percentage").style.width =
     newVolume * 100 + "%";
 };
 
