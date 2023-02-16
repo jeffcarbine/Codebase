@@ -292,14 +292,24 @@ export class NAVIGATION extends ELEMENT {
     });
 
     for (let route in params.routes) {
+      let navItem;
+
       const path = params.routes[route];
 
-      const navItem = new LI({
-        child: new A({
-          href: path,
-          textContent: route,
-        }),
-      });
+      if (typeof path === "string") {
+        navItem = new LI({
+          class: route.toLowerCase(),
+          child: new A({
+            href: path,
+            textContent: route,
+          }),
+        });
+      } else {
+        navItem = new LI({
+          class: route.toLowerCase(),
+          child: path,
+        });
+      }
 
       ul.children.push(navItem);
     }

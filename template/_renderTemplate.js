@@ -149,7 +149,11 @@ export const renderTemplate = (obj, isServer = false) => {
                 if (isServer) {
                   element = element + renderTemplate(value, isServer);
                 } else {
-                  element.prepend(renderTemplate(value, isServer));
+                  const childElement = renderTemplate(value);
+                  if (childElement !== null) {
+                    console.log(childElement);
+                    element.prepend(childElement);
+                  }
                 }
               }
             } else if (key === "children" || key === "child") {
@@ -168,7 +172,13 @@ export const renderTemplate = (obj, isServer = false) => {
                   }
                 }
               }
-            } else if (key === "textContent" || key === "innerHTML") {
+            } else if (key === "textContent") {
+              if (isServer) {
+                element = element + value;
+              } else {
+                element.appendChild(document.createTextNode(value));
+              }
+            } else if (key === "innerHTML") {
               if (isServer) {
                 element = element + value;
               } else {
