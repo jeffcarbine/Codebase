@@ -151,7 +151,6 @@ export const renderTemplate = (obj, isServer = false) => {
                 } else {
                   const childElement = renderTemplate(value);
                   if (childElement !== null) {
-                    console.log(childElement);
                     element.prepend(childElement);
                   }
                 }
