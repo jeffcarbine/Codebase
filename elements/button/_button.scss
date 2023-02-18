@@ -45,6 +45,11 @@ button {
     --btn-background: var(--accent);
     --btn-focus-background: var(--accent-step);
   }
+
+  &.transparent {
+    --btn-background: rgba(0, 0, 0, 0.1);
+    --btn-focus-background: rgba(0, 0, 0, 0.2);
+  }
 }
 
 .btn-container {
