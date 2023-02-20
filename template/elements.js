@@ -306,7 +306,8 @@ export class NAVIGATION extends ELEMENT {
     for (let route in params.routes) {
       let navItem;
 
-      const path = params.routes[route];
+      const path = params.routes[route],
+        active = path === params.path;
 
       if (typeof path === "string") {
         navItem = new LI({
@@ -321,6 +322,10 @@ export class NAVIGATION extends ELEMENT {
           class: route.toLowerCase(),
           child: path,
         });
+      }
+
+      if (active) {
+        navItem.class = navItem.class + " active";
       }
 
       ul.children.push(navItem);
