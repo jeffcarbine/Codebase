@@ -557,3 +557,10 @@ export class BLOCKQUOTE extends ELEMENT {
     }
   }
 }
+
+export class BR extends ELEMENT {
+  constructor(params) {
+    super(params);
+    this.tagName = "br";
+  }
+}

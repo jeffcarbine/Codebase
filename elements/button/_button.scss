@@ -11,6 +11,7 @@ button {
   --btn-focus-background: var(--primary-step);
   --btn-font-weight: 400;
   --btn-font-size: var(--f10-font-size);
+  --btn-line-height: var(--f10-line-height);
   --btn-padding-x: 1.125rem;
   --btn-padding-y: 1.5rem;
 
@@ -20,7 +21,7 @@ button {
   transition: all 0.25s ease;
   font-size: var(--btn-font-size);
   text-decoration: none;
-  line-height: 1rem;
+  line-height: var(--btn-line-height);
   display: inline-block;
   font-weight: var(--btn-font-weight);
   font-family: unset; // override browser defaults and listen to the body
@@ -56,6 +57,8 @@ button {
   margin: 1rem 0;
 
   .btn {
+    max-width: 80%;
+
     &:nth-of-type(n + 2) {
       margin-left: 0.5rem;
     }
