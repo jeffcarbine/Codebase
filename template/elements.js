@@ -206,6 +206,18 @@ export class P extends ELEMENT {
   }
 }
 
+export class STRONG extends ELEMENT {
+  constructor(params) {
+    super(params);
+
+    this.tagName = "strong";
+
+    if (typeof params === "string") {
+      this.textContent = params;
+    }
+  }
+}
+
 export class SPAN extends ELEMENT {
   constructor(params) {
     super(params);
@@ -532,5 +544,16 @@ export class FORM extends ELEMENT {
     super(params);
     this.tagName = "form";
     this.method = params.method !== undefined ? params.method : "POST";
+  }
+}
+
+export class BLOCKQUOTE extends ELEMENT {
+  constructor(params) {
+    super(params);
+    this.tagName = "blockquote";
+
+    if (typeof params === "string") {
+      this.textContent = params;
+    }
   }
 }

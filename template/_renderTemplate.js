@@ -18,6 +18,17 @@ export const renderTemplate = (obj, isServer = false) => {
     }
   }
 
+  // if this is just a string and not actually an object,
+  // the we just need to return the text
+  if (typeof obj === "string") {
+    if (isServer) {
+      return obj;
+    } else {
+      element = document.createTextNode(obj);
+      return element;
+    }
+  }
+
   // if this is the server, we need to output a string,
   // otherwise we'll use the document.createElement for
   // the frontend
