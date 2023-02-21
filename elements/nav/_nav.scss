@@ -32,7 +32,7 @@ nav {
         z-index: 2;
         background: var(--nav-iten-background);
         border: none;
-        padding: var(--nav-item-padding-y) var(--nav-item-padding-x);
+        padding: var(--nav-item-padding-x) var(--nav-item-padding-y);
         margin: 0 auto;
         color: var(--nav-item-color);
         text-decoration: none;
@@ -80,8 +80,8 @@ nav {
 
         a {
           color: var(--nav-submenu-item-color);
-          padding: var(--nav-submenu-item-padding-y)
-            var(--nav-submenu-item-padding-x);
+          padding: var(--nav-submenu-item-padding-x)
+            var(--nav-submenu-item-padding-y);
           white-space: nowrap;
         }
       }
