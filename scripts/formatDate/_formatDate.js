@@ -1,7 +1,7 @@
 ﻿import months from "../months/_months.js";
 
 export const formatDate = (date) => {
-  const dayMonth = formatdayMonth(date),
+  const dayMonth = formatDayMonth(date),
     year = date.getFullYear();
 
   return dayMonth + " " + year;

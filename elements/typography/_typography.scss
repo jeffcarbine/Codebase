@@ -35,7 +35,6 @@ $levels: 15;
     --f#{$fontLevel}-line-height: calc(
       var(--f#{$fontLevel}-font-size) * var(--base-font-line-height-increase)
     );
-    --f#{$fontLevel}-font-weight: 300;
 
     @if $fontLevel <= 6 {
       --f#{$fontLevel}-margin: 0
@@ -56,12 +55,10 @@ html {
 @mixin fontValues($size, $height: $size, $weight: $size) {
   font-size: var(--f#{$size}-font-size);
   line-height: var(--f#{$height}-line-height);
-  font-weight: var(--f#{$weight}-font-weight);
 }
 
 body {
   @include fontValues(10, 6);
-  font-weight: 300;
 }
 
 p {
