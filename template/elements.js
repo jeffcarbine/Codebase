@@ -5,7 +5,8 @@ class ELEMENT {
     if (typeof params === "object") {
       if (Array.isArray(params)) {
         // if an array, then it's children
-        this.children = this.children.concat(params);
+        this.children =
+          this.children !== undefined ? this.children.concat(params) : params;
       } else {
         // otherwise, it's regular properties
         for (let key in params) {
@@ -263,11 +264,23 @@ export class UL extends ELEMENT {
     super(params);
 
     this.tagName = "ul";
-    this.children = [];
+  }
+}
 
-    for (let i = 0; i < params.children.length; i++) {
-      const child = params.children[i];
-      this.children.push(new LI(child));
+export class ULLI extends ELEMENT {
+  constructor(params) {
+    super(params);
+
+    this.tagName = "ul";
+
+    for (let i = 0; i < this.children.length; i++) {
+      let child = this.children[i];
+
+      const li = new LI({
+        child,
+      });
+
+      this.children[i] = li;
     }
   }
 }
@@ -486,10 +499,11 @@ export class NUMBER {
 }
 
 export class TEXT {
-  constructor({ type = "text" } = {}) {
+  constructor(params) {
+    params.type = "text";
     this.tagName = "label";
-    this.textContent = label;
-    this.child = new INPUT({ type });
+    this.textContent = params.label;
+    this.child = new INPUT(params);
   }
 }
 
@@ -519,6 +533,36 @@ export class PASSWORD {
   }
 }
 
+export class PHONE {
+  constructor({
+    type = "tel",
+    name = "phone",
+    id = "phone",
+    label = "Phone",
+  } = {}) {
+    this.tagName = "label";
+    this.textContent = label;
+    this.child = new INPUT({ type, name, id });
+  }
+}
+
+export class TEXTAREA extends ELEMENT {
+  constructor(params) {
+    super(params);
+
+    this.tagName = "textarea";
+    this.rows = params.rows || 4;
+  }
+}
+
+export class MESSAGE {
+  constructor({ name = "message", id = "message", label = "Message" } = {}) {
+    this.tagName = "label";
+    this.textContent = label;
+    this.child = new TEXTAREA({ name, id });
+  }
+}
+
 export class BUTTON extends ELEMENT {
   constructor(params) {
     super(params);
@@ -537,7 +581,7 @@ export class BTN extends ELEMENT {
     if (params.href !== undefined) {
       this.tagName = "a";
     } else {
-      this.tagName = "btn";
+      this.tagName = "button";
     }
 
     this.class = "btn" + (params.class !== undefined ? " " + params.class : "");

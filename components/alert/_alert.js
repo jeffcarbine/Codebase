@@ -1,5 +1,5 @@
-﻿import { createDynamicElement } from "../../scripts/createDynamicElement/_createDynamicElement.js";
-import { addEventDelegate } from "../../scripts/eventdelegate/_eventdelegate.js";
+﻿import { addEventDelegate } from "../../scripts/eventdelegate/_eventdelegate.js";
+import { renderTemplate } from "../../template/_renderTemplate.js";
 
 // ALERTS
 
@@ -31,7 +31,7 @@ export const toast = (message, params = {}, parent = document.body) => {
     status = params.status,
     alertId = "alert" + Date.now();
 
-  let alert = createDynamicElement({
+  let alert = renderTemplate({
     class: "alert toast dismissable",
     id: alertId,
     children: [
@@ -41,6 +41,7 @@ export const toast = (message, params = {}, parent = document.body) => {
       },
       {
         tagName: "button",
+        type: "button",
         class: "dismiss",
         "aria-label": "Dismiss",
       },

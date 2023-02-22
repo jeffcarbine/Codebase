@@ -117,6 +117,7 @@ input[type="number"] {
         --input-padding: 0.5rem;
         --select-padding: 0.25rem;
 
+        width: 100%;
         border: none;
         background: transparent;
         outline: none;
@@ -138,7 +139,6 @@ input[type="number"] {
         position: absolute;
         bottom: 0;
         left: 0;
-        width: 100%;
         height: calc(100% - 1rem);
         z-index: 0;
       }
