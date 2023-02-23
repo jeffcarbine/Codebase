@@ -1,4 +1,4 @@
-class ELEMENT {
+export class ELEMENT {
   constructor(params) {
     // we allow other classes to define what they do
     // with non-object params
@@ -201,7 +201,18 @@ export class P extends ELEMENT {
 
     this.tagName = "p";
 
-    if (typeof params === "string") {
+    if (typeof params !== "object") {
+      this.textContent = params;
+    }
+  }
+}
+export class EM extends ELEMENT {
+  constructor(params) {
+    super(params);
+
+    this.tagName = "em";
+
+    if (typeof params !== "object") {
       this.textContent = params;
     }
   }
@@ -585,6 +596,22 @@ export class BTN extends ELEMENT {
     }
 
     this.class = "btn" + (params.class !== undefined ? " " + params.class : "");
+  }
+}
+
+export class BTNCONTAINER {
+  constructor(params) {
+    this.class = "btn-container";
+    this.children = [];
+
+    const btns = Array.isArray(params) ? params : [params];
+
+    for (let i = 0; i < btns.length; i++) {
+      const markup = btns[i],
+        btn = new BTN(markup);
+
+      this.children.push(btn);
+    }
   }
 }
 
