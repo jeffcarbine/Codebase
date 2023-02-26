@@ -87,11 +87,46 @@ export function getSpotifyToken(mainCallback) {
         } else {
           console.log("spotify token invalid, time for a new one");
           // otherwise, let's get a new token
-          // refreshSpotifyToken();
+          refreshSpotifyToken(token, mainCallback);
         }
       }
     }
   });
+
+  const refreshSpotifyToken = (token, mainCallback) => {
+    const refresh_token = token.refresh_token;
+
+    request.post(
+      {
+        url: "https://accounts.spotify.com/api/token",
+        headers: {
+          Authorization:
+            "Basic " +
+            Buffer.from(
+              spotify_client_id + ":" + spotify_client_secret
+            ).toString("base64"),
+        },
+        form: {
+          grant_type: "refresh_token",
+          refresh_token,
+        },
+      },
+      (err, httpResponse, str) => {
+        if (err) {
+          console.log(err);
+        } else {
+          let body = JSON.parse(str);
+          console.log(body);
+
+          token.access_token = body.access_token;
+          token.expires = now.setHours(now.getHours() + 1);
+          token.save();
+
+          mainCallback(body.access_token);
+        }
+      }
+    );
+  };
 
   // async.waterfall(
   //   [
