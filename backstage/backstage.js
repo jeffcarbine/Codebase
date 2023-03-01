@@ -8,7 +8,13 @@ import {
 // import { events, addEvent, editEvent, deleteEvent } from "./routes/events.js";
 // import { fanart, post__fanartApprove } from "./routes/fanart.js";
 
-export default (app, express, __dirname, passport, connectEnsureLogin) => {
+export const backstage = (
+  app,
+  express,
+  __dirname,
+  passport,
+  connectEnsureLogin
+) => {
   app.use(
     "/backstage/styles",
     express.static(__dirname + "/periodic/backstage/styles")
@@ -27,7 +33,11 @@ export default (app, express, __dirname, passport, connectEnsureLogin) => {
     __dirname + "/periodic/backstage/views",
   ]);
 
-  app.get("/backstage", connectEnsureLogin.ensureLoggedIn(), dashboard);
+  app.get(
+    "/backstage",
+    connectEnsureLogin.ensureLoggedIn("/backstage/login"),
+    dashboard
+  );
   // app.get("/admin/events", connectEnsureLogin.ensureLoggedIn(), events);
   // app.post("/admin/events/add", connectEnsureLogin.ensureLoggedIn(), addEvent);
   // app.post(

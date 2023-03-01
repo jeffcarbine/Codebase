@@ -6,17 +6,20 @@
   justify-content: center;
 
   .login-form {
-    width: 40rem;
+    width: 30rem;
     max-width: 85%;
     margin: 0 auto;
     padding: 3rem;
     display: block;
-    border-radius: 50px;
-    background: #252422;
-    box-shadow: 20px 20px 60px #1f1f1d, -20px -20px 60px #2b2927;
+    background: var(--dark);
 
     header {
-      padding: 5rem 0;
+      padding: 2rem 0;
+      color: var(--light);
+    }
+
+    form {
+      box-sizing: border-box;
     }
 
     h1 {

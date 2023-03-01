@@ -1,19 +1,4 @@
-import {
-  HEADER,
-  BODY,
-  HTML,
-  IMG,
-  MAIN,
-  HEAD,
-  NAVIGATION,
-  SCRIPT,
-  MODULE,
-  STYLESHEET,
-  FOOTER,
-  P,
-  SPAN,
-  A,
-} from "../../template/elements.js";
+import * as e from "../../template/elements.js";
 
 export const base = (data, template, scripts) => {
   const html = {
@@ -22,53 +7,49 @@ export const base = (data, template, scripts) => {
     metas: [
       { name: "viewport", content: "width=device-width, initial-scale=1" },
     ],
-    children: [
-      new BODY({
+    body: [
+      new e.HEADER({
+        if: data.loggedIn,
+        id: "mainHeader",
         children: [
-          new HEADER({
-            if: data.loggedIn,
-            id: "mainHeader",
+          {
+            class: "branding",
             children: [
               {
                 class: "logo",
-                child: new IMG("/backstage/images/logo.svg"),
+                child: new e.IMG("/backstage/images/logo.svg"),
               },
-              new SPAN("x"),
+              new e.SPAN("x"),
               {
                 class: "client-logo",
-                child: new IMG("/images/logo-backstage.svg"),
+                child: new e.IMG("/images/logo-backstage.svg"),
               },
             ],
-          }),
-          {
-            class: "split",
-            children: [
-              new NAVIGATION({
-                if: data.loggedIn,
-                routes: {
-                  Home: "/backstage",
-                  Podcasts: "/backstage/podcasts",
-                  Events: "/backstage/events",
-                  Fanart: "/backstage/fanart",
-                },
-              }),
-              new MAIN(template || {}),
-            ],
           },
+          new e.NAVIGATION({
+            if: data.loggedIn,
+            routes: {
+              Home: "/backstage",
+              Podcasts: "/backstage/podcasts",
+              Events: "/backstage/events",
+              Fanart: "/backstage/fanart",
+            },
+          }),
         ],
       }),
-      new FOOTER({
+      new e.MAIN(template || {}),
+      new e.FOOTER({
         if: data.loggedIn,
         children: [
-          new P(
+          new e.P(
             "Backstage by Carbine Co. - Copyright " + new Date().getFullYear()
           ),
         ],
       }),
-      new MODULE({
+      new e.MODULE({
         src: "/scripts/backstage.js",
       }),
-      new MODULE({
+      new e.MODULE({
         src: "/periodic/elements/input/_input.js",
       }),
     ],
@@ -83,5 +64,5 @@ export const base = (data, template, scripts) => {
     }
   }
 
-  return new HTML(html);
+  return new e.HTML(html);
 };

@@ -11,9 +11,11 @@
 @import "../../components/alert/_alert.scss";
 
 // GLOBAL
+@import "text";
 @import "header";
 @import "nav";
 @import "fonts";
+@import "footer";
 
 // PAGES
 @import "login";
@@ -21,6 +23,7 @@
 
 :root {
   --base-font-family: "Poppins", sans-serif;
+  --base-font-increase: 1.12;
 }
 
 html {
@@ -30,22 +33,21 @@ html {
 
 body {
   height: 100%;
-}
+  display: flex;
+  flex-direction: column;
 
-.split {
-  height: calc(100vh - 7rem);
+  header {
+    flex: 0 0 auto;
+  }
+
+  main {
+    flex: 1 1 auto;
+  }
+
+  footer {
+    flex: 0 0 auto;
+  }
 }
 
 @media only screen and (min-width: $breakpoint-md) {
-  .split {
-    display: flex;
-
-    nav {
-      flex: 0 0 15rem;
-    }
-
-    main {
-      flex: 1 1 auto;
-    }
-  }
 }

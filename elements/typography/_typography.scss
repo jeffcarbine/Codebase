@@ -16,6 +16,7 @@ $levels: 15;
   --base-font-family: "Open Sans", sans-serif;
   --base-line-height: calc(var(--base-font-size) * 1.5);
   --base-font-weight: 300;
+
   // smalls screens, root is base
   // but on larger screens (below) we increase it
   --base-font-size: var(--root-font-size);

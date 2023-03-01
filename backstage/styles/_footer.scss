@@ -1,0 +1,14 @@
+footer {
+  height: 5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1rem;
+  box-sizing: border-box;
+
+  p {
+    @include fontValues(12);
+    text-align: right;
+    color: var(--midtone);
+  }
+}

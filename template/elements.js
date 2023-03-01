@@ -32,7 +32,9 @@ export class HTML extends ELEMENT {
       scripts: params.scripts,
     });
 
-    this.children.unshift(head);
+    const body = new BODY(params.body);
+
+    this.children = [head, body];
   }
 }
 
@@ -593,6 +595,10 @@ export class BTN extends ELEMENT {
       this.tagName = "a";
     } else {
       this.tagName = "button";
+    }
+
+    if (typeof params === "string") {
+      this.textContent = params;
     }
 
     this.class = "btn" + (params.class !== undefined ? " " + params.class : "");

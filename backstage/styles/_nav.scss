@@ -1,5 +1,11 @@
 nav {
-  background: var(--primary-step);
+  background: var(--dark-low);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  transform: translateX(-100%);
 
   ul {
     margin: 0;
@@ -14,6 +20,23 @@ nav {
         color: var(--light);
         display: block;
         padding: 0.5rem;
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: $breakpoint-md) {
+  nav {
+    position: relative;
+    transform: none;
+    width: auto;
+    height: auto;
+
+    ul {
+      li {
+        a {
+          @include fontValues(12);
+        }
       }
     }
   }
