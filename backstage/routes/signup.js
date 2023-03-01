@@ -1,4 +1,4 @@
-import User from "../models/user.js";
+import User from "../models/1user.js";
 import passport from "passport";
 import authRender from "./auth-render.js";
 import emailValidator from "email-validator";
