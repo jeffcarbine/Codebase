@@ -33,6 +33,7 @@ header {
 @media only screen and (min-width: $breakpoint-md) {
   header {
     position: fixed;
+    width: 10rem;
     top: 0;
     left: 0;
     height: 100%;

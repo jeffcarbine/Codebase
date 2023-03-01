@@ -343,6 +343,11 @@ export class NAVIGATION extends ELEMENT {
             textContent: route,
           }),
         });
+      } else if (Array.isArray(path)) {
+        navItem = new LI({
+          class: route.toLowerCase(),
+          children: path,
+        });
       } else {
         navItem = new LI({
           class: route.toLowerCase(),
@@ -644,5 +649,11 @@ export class BR extends ELEMENT {
   constructor(params) {
     super(params);
     this.tagName = "br";
+  }
+}
+
+export class ICON {
+  constructor(params) {
+    this.icon = params;
   }
 }

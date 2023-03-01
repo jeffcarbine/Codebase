@@ -9,17 +9,29 @@ nav {
 
   ul {
     margin: 0;
+    padding: 1rem;
 
     li {
       list-style-type: none;
-      padding: 1rem;
+      margin: 2rem auto;
 
       a {
         text-decoration: none;
-        text-align: center;
+        text-align: right;
         color: var(--light);
         display: block;
-        padding: 0.5rem;
+        padding: 0.5rem 3rem 0.5rem 0.5rem;
+        position: relative;
+
+        svg.icon {
+          position: absolute;
+          right: 0;
+          top: 50%;
+          transform: translateY(-50%);
+          fill: var(--light);
+          width: 2rem;
+          height: 2rem;
+        }
       }
     }
   }

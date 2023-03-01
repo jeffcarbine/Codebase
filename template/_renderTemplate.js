@@ -1,3 +1,5 @@
+import * as i from "../components/icon/_icon-list.js";
+
 export const renderTemplate = (obj, isServer = false) => {
   // TODO: check for an if property, and don't return
   // anything if the if is false
@@ -61,7 +63,7 @@ export const renderTemplate = (obj, isServer = false) => {
     // use a loop cause I don't know of a cleaner way to
     // do this
     for (let iconName in icon) {
-      const iconString = icon[iconName],
+      const iconString = i[icon],
         markup =
           "<svg class='icon icon-" +
           iconName +

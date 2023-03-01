@@ -29,10 +29,30 @@ export const base = (data, template, scripts) => {
           new e.NAVIGATION({
             if: data.loggedIn,
             routes: {
-              Home: "/backstage",
-              Podcasts: "/backstage/podcasts",
-              Events: "/backstage/events",
-              Fanart: "/backstage/fanart",
+              Home: [
+                new e.A({
+                  href: "/backstage",
+                  children: ["Home", new e.ICON("dashboard")],
+                }),
+              ],
+              Podcasts: [
+                new e.A({
+                  href: "/podcasts",
+                  children: ["Podcasts", new e.ICON("podcast")],
+                }),
+              ],
+              Events: [
+                new e.A({
+                  href: "/events",
+                  children: ["Events", new e.ICON("calendar")],
+                }),
+              ],
+              Fanart: [
+                new e.A({
+                  href: "/fanart",
+                  children: ["Fanart", new e.ICON("image")],
+                }),
+              ],
             },
           }),
         ],

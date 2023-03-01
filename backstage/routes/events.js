@@ -1,5 +1,4 @@
-import { get_admin_route } from "../../../modules/get_route.js";
-import Event from "../../../models/Event.js";
+import Event from "../../models/Event.js";
 import NodeGeocoder from "node-geocoder";
 import { google_maps_api_key } from "../../../apis/google_maps.js";
 
@@ -10,30 +9,32 @@ const options = {
 
 const geocoder = NodeGeocoder(options);
 
-export const events = (req, res, next) => {
-  get_admin_route(req, res, next, (mainCallback) => {
-    const now = new Date();
+export const get__backstage_events = (req, res, next) => {
+  const now = new Date();
 
-    Event.aggregate([
-      {
-        $match: {
-          date: {
-            $gt: now,
-          },
+  Event.aggregate([
+    {
+      $match: {
+        date: {
+          $gt: now,
         },
       },
-    ]).exec((err, events) => {
-      if (err) {
-        callback(err);
-      } else {
-        // sort the events by date
-        events.sort((a, b) => {
-          return new Date(a.date) - new Date(b.date);
-        });
+    },
+  ]).exec((err, events) => {
+    if (err) {
+      callback(err);
+    } else {
+      // sort the events by date
+      events.sort((a, b) => {
+        return new Date(a.date) - new Date(b.date);
+      });
 
-        return mainCallback("events", { events, path: "/admin/events" });
-      }
-    });
+      res.render("events", {
+        path: "/events",
+        subtitle: "Events",
+        events,
+      });
+    }
   });
 };
 

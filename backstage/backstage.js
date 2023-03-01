@@ -5,7 +5,12 @@ import {
   get__backstage_signup,
   post__backstage_signup,
 } from "./routes/signup.js";
-// import { events, addEvent, editEvent, deleteEvent } from "./routes/events.js";
+import {
+  get__backstage_events,
+  addEvent,
+  editEvent,
+  deleteEvent,
+} from "./routes/events.js";
 // import { fanart, post__fanartApprove } from "./routes/fanart.js";
 
 export const backstage = (
@@ -38,13 +43,24 @@ export const backstage = (
     connectEnsureLogin.ensureLoggedIn("/backstage/login"),
     dashboard
   );
-  // app.get("/admin/events", connectEnsureLogin.ensureLoggedIn(), events);
-  // app.post("/admin/events/add", connectEnsureLogin.ensureLoggedIn(), addEvent);
-  // app.post(
-  //   "/admin/events/edit",
-  //   connectEnsureLogin.ensureLoggedIn(),
-  //   editEvent
-  // );
+
+  // EVENTS
+  app.get(
+    "/backstage/events",
+    connectEnsureLogin.ensureLoggedIn(),
+    get__backstage_events
+  );
+  app.post(
+    "/backstage/events/add",
+    connectEnsureLogin.ensureLoggedIn(),
+    addEvent
+  );
+  app.post(
+    "/backstage/events/edit",
+    connectEnsureLogin.ensureLoggedIn(),
+    editEvent
+  );
+
   // app.post(
   //   "/admin/events/delete",
   //   connectEnsureLogin.ensureLoggedIn(),
