@@ -10,10 +10,17 @@ button {
   --btn-focus-color: var(--light);
   --btn-focus-background: var(--primary-step);
   --btn-font-weight: 400;
-  --btn-font-size: var(--f10-font-size);
-  --btn-line-height: var(--f10-line-height);
+  --btn-font-size: var(--f9-font-size);
+  --btn-line-height: var(--f9-line-height);
   --btn-padding-x: 1.125rem;
   --btn-padding-y: 1.5rem;
+
+  &.sm {
+    --btn-font-size: var(--f11-font-size);
+    --btn-line-height: var(--f11-line-height);
+    --btn-padding-x: 1.125rem;
+    --btn-padding-y: 1.5rem;
+  }
 
   outline: none;
   padding: var(--btn-padding-x) var(--btn-padding-y);
@@ -30,6 +37,7 @@ button {
   color: var(--btn-color);
   border-radius: var(--btn-border-radius);
   cursor: pointer;
+  box-sizing: border-box;
 
   &:focus,
   &:hover {
@@ -57,10 +65,19 @@ button {
   margin: 1rem 0;
 
   .btn {
-    max-width: 80%;
+    width: 100%;
+  }
+}
 
-    &:nth-of-type(n + 2) {
-      margin-left: 0.5rem;
+@media only screen and (min-width: $breakpoint-md) {
+  .btn-container {
+    .btn {
+      width: auto;
+      max-width: 80%;
+
+      &:nth-of-type(n + 2) {
+        margin-left: 0.5rem;
+      }
     }
   }
 }
