@@ -39,6 +39,14 @@ button {
   cursor: pointer;
   box-sizing: border-box;
 
+  svg.icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    fill: var(--btn-color);
+    transform: translateY(10%);
+    margin-right: 0.5rem;
+  }
+
   &:focus,
   &:hover {
     background: var(--btn-focus-background);

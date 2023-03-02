@@ -37,19 +37,19 @@ export const base = (data, template, scripts) => {
               ],
               Podcasts: [
                 new e.A({
-                  href: "/podcasts",
+                  href: "/backstage/podcasts",
                   children: ["Podcasts", new e.ICON("podcast")],
                 }),
               ],
               Events: [
                 new e.A({
-                  href: "/events",
+                  href: "/backstage/events",
                   children: ["Events", new e.ICON("calendar")],
                 }),
               ],
               Fanart: [
                 new e.A({
-                  href: "/fanart",
+                  href: "/backstage/fanart",
                   children: ["Fanart", new e.ICON("image")],
                 }),
               ],
@@ -67,7 +67,7 @@ export const base = (data, template, scripts) => {
         ],
       }),
       new e.MODULE({
-        src: "/scripts/backstage.js",
+        src: "/backstage/scripts/base.js",
       }),
       new e.MODULE({
         src: "/periodic/elements/input/_input.js",
@@ -80,7 +80,7 @@ export const base = (data, template, scripts) => {
     for (let i = 0; i < scripts.length; i++) {
       const script = scripts[i];
 
-      html.children.push(script);
+      html.body.push(script);
     }
   }
 

@@ -1,3 +1,5 @@
+import { capitalizeAll } from "../scripts/formatString/formatString.js";
+
 export class ELEMENT {
   constructor(params) {
     // we allow other classes to define what they do
@@ -509,19 +511,30 @@ export class LABEL extends ELEMENT {
 }
 
 export class NUMBER {
-  constructor({ type = "number" } = {}) {
+  constructor({ type = "number", value = 0 } = {}) {
     this.tagName = "label";
     this.textContent = label;
-    this.child = new INPUT({ type });
+    this.child = new INPUT({ type, value });
   }
 }
 
 export class TEXT {
   constructor(params) {
-    params.type = "text";
+    let inputParams = {},
+      labelText;
+
+    if (typeof params === "string") {
+      inputParams.name = params;
+      inputParams.id = params;
+      labelText = capitalizeAll(params);
+    } else {
+      inputParams = params;
+      labelText = params.label;
+    }
+
     this.tagName = "label";
-    this.textContent = params.label;
-    this.child = new INPUT(params);
+    this.textContent = labelText;
+    this.child = new INPUT(inputParams);
   }
 }
 
@@ -531,6 +544,7 @@ export class EMAIL {
     name = "email",
     id = "email",
     label = "Email",
+    value = "",
   } = {}) {
     this.tagName = "label";
     this.textContent = label;
@@ -544,6 +558,7 @@ export class PASSWORD {
     name = "password",
     id = "password",
     label = "Password",
+    value = "",
   } = {}) {
     this.tagName = "label";
     this.textContent = label;
@@ -557,6 +572,7 @@ export class PHONE {
     name = "phone",
     id = "phone",
     label = "Phone",
+    value = "",
   } = {}) {
     this.tagName = "label";
     this.textContent = label;
@@ -570,6 +586,20 @@ export class TEXTAREA extends ELEMENT {
 
     this.tagName = "textarea";
     this.rows = params.rows || 4;
+  }
+}
+
+export class DATE {
+  constructor({
+    type = "date",
+    name = "date",
+    id = "date",
+    label = "Date",
+    value = "",
+  } = {}) {
+    this.tagName = "label";
+    this.textContent = label;
+    this.child = new INPUT({ type, name, id, value });
   }
 }
 
@@ -655,5 +685,12 @@ export class BR extends ELEMENT {
 export class ICON {
   constructor(params) {
     this.icon = params;
+  }
+}
+
+export class DIALOG extends ELEMENT {
+  constructor(params) {
+    super(params);
+    this.tagName = "dialog";
   }
 }

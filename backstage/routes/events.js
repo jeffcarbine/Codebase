@@ -1,13 +1,4 @@
 import Event from "../../models/Event.js";
-import NodeGeocoder from "node-geocoder";
-import { google_maps_api_key } from "../../../apis/google_maps.js";
-
-const options = {
-  provider: "google",
-  apiKey: google_maps_api_key,
-};
-
-const geocoder = NodeGeocoder(options);
 
 export const get__backstage_events = (req, res, next) => {
   const now = new Date();
@@ -38,59 +29,33 @@ export const get__backstage_events = (req, res, next) => {
   });
 };
 
-const geocode = (body, callback) => {
-  const address =
-    body.street + " " + body.city + " " + body.region + " " + body.country;
-
-  geocoder
-    .geocode(address)
-    .then((location_geocode) => {
-      body.latitude = location_geocode[0].latitude;
-      body.longitude = location_geocode[0].longitude;
-
-      callback(null, body);
-    })
-    .catch((err) => {
-      callback(err);
-    });
-};
-
-export const addEvent = (req, res, next) => {
+export const post__backstage_events_add = (req, res, next) => {
   let body = req.body;
   body.date = new Date(req.body.date);
 
-  const createEvent = (err, body) => {
+  console.log(body);
+
+  Event.findOneAndUpdate(
+    {
+      date: body.date,
+    },
+    {
+      $set: body,
+    },
+    {
+      upsert: true,
+      new: true,
+    }
+  ).exec((err, event) => {
     if (err) {
       return res.status(500).send(err);
-    } else {
-      // add this event to the database
-      Event.findOneAndUpdate(
-        {
-          date: body.date,
-        },
-        {
-          $set: body,
-        },
-        {
-          upsert: true,
-          new: true,
-        }
-      ).exec((err, event) => {
-        if (err) {
-          return res.status(500).send(err);
-        }
-
-        return res.status(200).send("Event was successfully recorded!");
-      });
     }
-  };
 
-  if (body.street !== undefined && body.street !== "") {
-    geocode(body, createEvent);
-  }
+    return res.status(200).send("Event was successfully recorded!");
+  });
 };
 
-export const editEvent = (req, res, next) => {
+export const post__backstage_events_edit = (req, res, next) => {
   const updateEvent = (err, data) => {
     if (err) {
       return res.status(500).send(err);
@@ -145,7 +110,7 @@ export const editEvent = (req, res, next) => {
   }
 };
 
-export const deleteEvent = (req, res, next) => {
+export const post__backstage_events_delete = (req, res, next) => {
   // find the event in question and delete it
 
   const body = req.body,

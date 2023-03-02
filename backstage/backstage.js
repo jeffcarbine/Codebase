@@ -7,9 +7,9 @@ import {
 } from "./routes/signup.js";
 import {
   get__backstage_events,
-  addEvent,
-  editEvent,
-  deleteEvent,
+  post__backstage_events_add,
+  post__backstage_events_edit,
+  post__backstage_events_delete,
 } from "./routes/events.js";
 // import { fanart, post__fanartApprove } from "./routes/fanart.js";
 
@@ -24,10 +24,12 @@ export const backstage = (
     "/backstage/styles",
     express.static(__dirname + "/periodic/backstage/styles")
   );
+
   app.use(
     "/backstage/scripts",
     express.static(__dirname + "/periodic/backstage/scripts")
   );
+
   app.use(
     "/backstage/images",
     express.static(__dirname + "/periodic/backstage/images")
@@ -50,22 +52,25 @@ export const backstage = (
     connectEnsureLogin.ensureLoggedIn(),
     get__backstage_events
   );
+
   app.post(
     "/backstage/events/add",
     connectEnsureLogin.ensureLoggedIn(),
-    addEvent
+    post__backstage_events_add
   );
+
   app.post(
     "/backstage/events/edit",
     connectEnsureLogin.ensureLoggedIn(),
-    editEvent
+    post__backstage_events_edit
   );
 
-  // app.post(
-  //   "/admin/events/delete",
-  //   connectEnsureLogin.ensureLoggedIn(),
-  //   deleteEvent
-  // );
+  app.post(
+    "/backstage/events/delete",
+    connectEnsureLogin.ensureLoggedIn(),
+    post__backstage_events_delete
+  );
+
   // app.get("/admin/fanart", connectEnsureLogin.ensureLoggedIn(), fanart);
   // app.post(
   //   "/admin/fanart/approve",

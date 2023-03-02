@@ -1,27 +1,33 @@
 import { xhr } from "/periodic/scripts/xhr/_xhr.js";
 import { addEventDelegate } from "/periodic/scripts/eventdelegate/_eventdelegate.js";
+import { createModal } from "/periodic/components/modal/modal.js";
+import * as e from "/periodic/template/elements.js";
 
-const deleteEvent = (button) => {
-  const eventId = button.dataset.eventid;
-  console.log(eventId);
-
-  const data = {
-    eventId,
-  };
-
-  const success = (xhr) => {
-    window.location.reload();
-  };
-
-  const error = (xhr) => {
-    alert(xhr.status);
-  };
-
-  const failure = (xhr) => {
-    alert(xhr.status);
-  };
-
-  xhr("POST", "/admin/events/delete", success, error, failure, data);
+const createAddEventModal = (button) => {
+  createModal(
+    new e.FORM({
+      method: "POST",
+      action: "/backstage/events/add",
+      class: "style-inputs xhr",
+      "data-redirect": "/backstage/events",
+      children: [
+        new e.H2("Add Event"),
+        new e.TEXT("venue"),
+        new e.TEXT("street"),
+        new e.TEXT("city"),
+        new e.TEXT("region"),
+        new e.TEXT("country"),
+        new e.TEXT("festival"),
+        new e.DATE(),
+        new e.TEXT("tickets"),
+        new e.BTN({
+          id: "createEvent",
+          textContent: "Create Event",
+        }),
+      ],
+    }),
+    button
+  );
 };
 
-//addEventDelegate("click", "button.delete", deleteEvent);
+addEventDelegate("click", "#addEvent", createAddEventModal);
