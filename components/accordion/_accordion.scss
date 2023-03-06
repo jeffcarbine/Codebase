@@ -1,25 +1,31 @@
 .accordion {
-  --accordion-font-size: 1rem;
-  --accordion-toggle-background: var(--background-low);
-  --accordion-toggle-color: var(--foreground);
-  --accordion-toggle-font-size: var(--base-font-size);
-  --accordion-toggle-padding: 1rem;
+  --accordion-button-font-size: var(--f10-font-size);
+  --accordion-button-background: var(--background-low);
+  --accordion-button-color: var(--foreground);
+  --accordion-button-font-size: var(--base-font-size);
+  --accordion-button-padding: 1rem;
+  --carat-width: calc(var(--accordion-button-font-size) * 0.75);
   --accordion-body-background: var(--background);
   --accordion-body-color: var(--foreground);
   --accordion-highlight-body-background: var(--yellow-step);
   --accordion-border: 1px solid var(--border-color);
+
+  &.sm {
+    --accordion-button-padding: 0.25rem;
+    --accordion-button-font-size: var(--f12-font-size);
+  }
 
   display: block;
   border: var(--accordion-border);
   position: relative;
   overflow: hidden;
 
-  > button {
+  .accordion-button {
     cursor: pointer;
-    padding: var(--accordion-toggle-padding);
-    color: var(--accordion-toggle-color);
-    background: var(--accordion-toggle-background);
-    font-size: var(--accordion-font-size);
+    padding: var(--accordion-button-padding);
+    color: var(--accordion-button-color);
+    background: var(--accordion-button-background);
+    font-size: var(--accordion-button-font-size);
     position: relative;
     width: 100%;
     display: flex;
@@ -39,14 +45,16 @@
         display: block;
         position: absolute;
         top: 50%;
-        width: 0.5rem;
-        height: 2px;
-        background: var(--accordion-toggle-color);
+        width: var(--carat-width);
+        height: calc(var(--accordion-button-font-size) / 6);
+        background: var(--accordion-button-color);
         transition: all 0.5s ease;
       }
 
       &::before {
-        right: calc(1.5rem - 3px);
+        right: calc(
+          calc(1rem + var(--carat-width)) - calc(var(--carat-width) / 3)
+        );
         transform: translateY(-50%) rotate(45deg);
       }
 
@@ -59,12 +67,10 @@
     &.open {
       > * {
         &::before {
-          right: calc(1.5rem - 3px);
           transform: translateY(-50%) rotate(-45deg);
         }
 
         &::after {
-          right: 1rem;
           transform: translateY(-50%) rotate(45deg);
         }
       }

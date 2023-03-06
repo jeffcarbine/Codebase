@@ -1,4 +1,4 @@
-import * as e from "../../template/elements.js";
+import * as e from "../../elements/elements.js";
 
 export const _modal = (modalBody) => {
   return new e.DIALOG({

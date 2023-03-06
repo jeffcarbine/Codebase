@@ -10,7 +10,7 @@ import {
   IMG,
   SPAN,
   MODULE,
-} from "../../template/elements.js";
+} from "../../elements/elements.js";
 
 export default (data) => {
   return base(data, {

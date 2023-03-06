@@ -1,5 +1,5 @@
 import { base } from "./_backstage.template.js";
-import * as e from "../../template/elements.js";
+import * as e from "../../elements/elements.js";
 
 export default (data) => {
   return base(data, {

@@ -1,7 +1,7 @@
 import { xhr } from "/periodic/scripts/xhr/_xhr.js";
 import { addEventDelegate } from "/periodic/scripts/eventdelegate/_eventdelegate.js";
 import { createModal } from "/periodic/components/modal/modal.js";
-import * as e from "/periodic/template/elements.js";
+import * as e from "/periodic/elements/elements.js";
 
 const createAddEventModal = (button) => {
   createModal(

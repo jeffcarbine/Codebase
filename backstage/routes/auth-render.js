@@ -1,4 +1,4 @@
-import loggedIn from "../../components/auth/logged-in.js";
+import loggedIn from "../../modules/auth/logged-in.js";
 
 export default (req, res, path, values = {}, status = 200) => {
   values.loggedIn = loggedIn(req);
