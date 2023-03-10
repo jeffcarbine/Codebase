@@ -35,7 +35,12 @@ export const renderTemplate = (obj, isServer = false) => {
   // otherwise we'll use the document.createElement for
   // the frontend
   if (isServer) {
-    element = "<";
+    // if this is an HTML element, we need to add the doctype
+    if (obj.tagName == "html") {
+      element = "<!DOCTYPE html><";
+    } else {
+      element = "<";
+    }
   }
 
   // set the tagName
