@@ -73,19 +73,11 @@ button {
   margin: 1rem 0;
 
   .btn {
-    width: 100%;
-  }
-}
+    width: auto;
+    max-width: 80%;
 
-@media only screen and (min-width: $breakpoint-md) {
-  .btn-container {
-    .btn {
-      width: auto;
-      max-width: 80%;
-
-      &:nth-of-type(n + 2) {
-        margin-left: 0.5rem;
-      }
+    &:nth-of-type(n + 2) {
+      margin-left: 0.5rem;
     }
   }
 }

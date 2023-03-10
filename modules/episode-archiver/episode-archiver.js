@@ -6,7 +6,7 @@ import asyncLoop from "node-async-loop";
 import request from "request";
 import { getSpotifyToken } from "../../apis/spotify.js";
 // import { getPatreonToken } from "../../../apis/patreon.js";
-import Episode from "../../../models/Episode.js";
+import Episode from "../../models/Episode.js";
 // import { generateTitles } from "../../../modules/episodeFormatter.js";
 import pkg from "rss-to-json";
 const { parse } = pkg;
@@ -31,12 +31,12 @@ const processRSS = (rssFormatter, count = 1, asyncCallback) => {
       episodes,
       (episode, next) => {
         const formattedEpisode = rssFormatter(episode),
-          fullTitle = formattedEpisode.fullTitle;
+          episodeId = formattedEpisode.episodeId;
 
         // save to mongodb
         Episode.findOneAndUpdate(
           {
-            fullTitle,
+            episodeId,
           },
           {
             $set: formattedEpisode,
@@ -44,9 +44,9 @@ const processRSS = (rssFormatter, count = 1, asyncCallback) => {
           {
             upsert: true,
           }
-        ).exec(function (err, episode) {
+        ).exec((err) => {
           if (err) {
-            mainCallback(err);
+            asyncCallback(err);
           } else {
             next();
           }
@@ -57,10 +57,7 @@ const processRSS = (rssFormatter, count = 1, asyncCallback) => {
           console.log(err);
         } else {
           console.log("Succesfully updated RSS feed episodes");
-
-          if (asyncCallback) {
-            asyncCallback(null);
-          }
+          asyncCallback(null);
         }
       }
     );

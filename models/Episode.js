@@ -1,24 +1,25 @@
 import mongoose from "mongoose";
-const Schema = mongoose.Schema;
+var Schema = mongoose.Schema;
 
-// define the schema for our episode model
-const episodeSchema = new Schema({
-  rssId: String,
-  title: String,
+// define the schema for our user model
+var Episode = new Schema({
+  episodeId: String,
+  pubDate: Date,
+  fullTitle: String,
+  series: String,
   preTitle: String,
+  title: String,
   postTitle: String,
   description: String,
-  links: {
-    audio: String,
-    itunes: String,
-    spotify: String,
-  },
-  patreon: {
-    adfree: String,
-    aftershow: String,
-  },
-  published: Date,
+  audioLink: String,
+  itunesLink: String,
+  spotifyLink: String,
+  patreonLink: String,
+  patreonVideoLink: String,
+  patreonExclusive: Boolean,
+  shortRestLink: String,
+  aftershowLink: String,
 });
 
 // create the model for users and expose it to our app
-export default mongoose.model("Episode", episodeSchema);
+export default mongoose.model("Episode", Episode);
