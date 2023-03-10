@@ -19,9 +19,8 @@ export class ELEMENT {
   }
 }
 
-export class HTML extends ELEMENT {
+export class HTML {
   constructor(params) {
-    super(params);
     this.tagName = "html";
     this.lang = "en";
     this.style = "display: none;"; // avoids FOUC
@@ -32,6 +31,7 @@ export class HTML extends ELEMENT {
       links: params.links,
       stylesheets: params.stylesheets,
       scripts: params.scripts,
+      favicons: params.favicons,
     });
 
     const body = new BODY(params.body);
@@ -40,9 +40,8 @@ export class HTML extends ELEMENT {
   }
 }
 
-export class HEAD extends ELEMENT {
+export class HEAD {
   constructor(params) {
-    super(params);
     this.tagName = "head";
     this.children = [];
 
@@ -94,13 +93,18 @@ export class HEAD extends ELEMENT {
     if (params.scripts !== undefined && Array.isArray(params.scripts)) {
       for (let i = 0; i < params.scripts.length; i++) {
         const script = params.scripts[i],
-          scriptTag = new SCRIPT();
-
-        for (let key in script) {
-          scriptTag[key] = script[key];
-        }
+          scriptTag = new SCRIPT(script);
 
         this.children.push(scriptTag);
+      }
+    }
+
+    if (params.favicons !== undefined && Array.isArray(params.favicons)) {
+      for (let i = 0; i < params.favicons.length; i++) {
+        const favicon = params.favicons[i],
+          faviconTag = new LINK(favicon);
+
+        this.children.push(faviconTag);
       }
     }
   }
