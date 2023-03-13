@@ -1,1 +1,0 @@
-<svg class="icon" [ngClass]="iconName"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320.27 316.32" [innerHTML]="icon"></svg>
