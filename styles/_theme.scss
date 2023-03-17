@@ -47,6 +47,10 @@ html.darkmode {
   --border-color: rgba(255, 255, 255, 0.25);
 }
 
+html {
+  display: block !important; // handles FOUC
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
