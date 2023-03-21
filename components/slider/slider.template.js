@@ -48,13 +48,11 @@ export const sliderTemplate = (slideElements) => {
             class: "slider-control prev",
             "aria-label": "Next",
             "data-direction": "next",
-            textContent: "Next",
           }),
           new e.BUTTON({
             class: "slider-control next",
             "aria-label": "Prev",
             "data-direction": "prev",
-            textContent: "Prev",
           }),
         ],
       },
