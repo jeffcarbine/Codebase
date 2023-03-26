@@ -13,6 +13,8 @@ var Episode = new Schema({
   description: String,
   audioLink: String,
   itunesLink: String,
+  appleLink: String,
+  youTubeLink: String,
   spotifyLink: String,
   patreonLink: String,
   patreonVideoLink: String,

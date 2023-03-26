@@ -1,7 +1,12 @@
 import * as e from "../../elements/elements.js";
 
-export const sliderTemplate = (slideElements) => {
-  const slides = [];
+export const sliderTemplate = (slideElements, preSlides = null) => {
+  const slides = [],
+    children = [];
+
+  if (preSlides !== null) {
+    children.push(preSlides);
+  }
 
   for (let i = 0; i < slideElements.length; i++) {
     const slideElement = slideElements[i];
@@ -32,30 +37,33 @@ export const sliderTemplate = (slideElements) => {
     slides.push(slide);
   }
 
+  children.push(
+    new e.UL({
+      class: "slides",
+      "data-count": slides.length - 1, // to account for zero-index
+      "data-active": 0,
+      children: slides,
+    })
+  );
+
+  children.push({
+    class: "slider-controls",
+    children: [
+      new e.BUTTON({
+        class: "slider-control prev",
+        "aria-label": "Next",
+        "data-direction": "next",
+      }),
+      new e.BUTTON({
+        class: "slider-control next",
+        "aria-label": "Prev",
+        "data-direction": "prev",
+      }),
+    ],
+  });
+
   return {
     class: "slider",
-    children: [
-      new e.UL({
-        class: "slides",
-        "data-count": slides.length - 1, // to account for zero-index
-        "data-active": 0,
-        children: slides,
-      }),
-      {
-        class: "slider-controls",
-        children: [
-          new e.BUTTON({
-            class: "slider-control prev",
-            "aria-label": "Next",
-            "data-direction": "next",
-          }),
-          new e.BUTTON({
-            class: "slider-control next",
-            "aria-label": "Prev",
-            "data-direction": "prev",
-          }),
-        ],
-      },
-    ],
+    children,
   };
 };
