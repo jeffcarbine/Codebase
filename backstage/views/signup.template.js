@@ -1,59 +1,49 @@
 import { base } from "./_backstage.template.js";
-import {
-  SECTION,
-  H1,
-  FORM,
-  EMAIL,
-  PASSWORD,
-  BTN,
-  HEADER,
-  IMG,
-  SPAN,
-  MODULE,
-} from "../../elements/elements.js";
+import * as e from "../../elements/elements.js";
 
 export default (data) => {
-  return base(data, {
-    children: [
-      new SECTION({
-        id: "login",
-        child: {
-          class: "login-form",
-          children: [
-            new HEADER({
-              children: [
-                {
-                  class: "logo",
-                  child: new IMG("/backstage/images/logo.svg"),
-                },
-                new SPAN("x"),
-                {
-                  class: "client-logo",
-                  child: new IMG("/images/logo-backstage.svg"),
-                },
-              ],
-            }),
-            new H1("Sign Up for Backstage"),
-            new FORM({
-              action: "/backstage/signup",
-              class: "style-inputs",
-              children: [
-                new EMAIL({
-                  name: "username",
-                  id: "username",
-                }),
-                new PASSWORD(),
-                new PASSWORD({
-                  name: "passwordConfirm",
-                  id: "passwordConfirm",
-                  label: "Confirm Password",
-                }),
-                new BTN("Log In"),
-              ],
-            }),
-          ],
-        },
-      }),
-    ],
-  });
+  return base(
+    data,
+    {
+      children: [
+        new e.SECTION({
+          id: "login",
+          child: {
+            class: "login-form",
+            children: [
+              new e.HEADER({
+                children: [
+                  {
+                    class: "logo",
+                    child: new e.IMG("/backstage/images/logo.svg"),
+                  },
+                  new e.SPAN("x"),
+                  {
+                    class: "client-logo",
+                    child: new e.IMG("/images/logo-backstage.svg"),
+                  },
+                ],
+              }),
+              new e.H1("Sign Up for Backstage"),
+              new e.FORM({
+                action: "/backstage/signup",
+                class: "xhr style-inputs",
+                children: [
+                  new e.EMAIL(),
+                  new e.PASSWORD(),
+                  new e.PASSWORD({
+                    name: "passwordConfirm",
+                    id: "passwordConfirm",
+                    label: "Confirm Password",
+                  }),
+                  new e.BTN("Log In"),
+                ],
+              }),
+            ],
+          },
+        }),
+      ],
+    },
+    [new e.MODULE("/periodic/scripts/xhr/_xhrForm.js")]
+  );
 };

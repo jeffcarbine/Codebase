@@ -37,8 +37,8 @@ export const base = (data, template, scripts) => {
               ],
               Podcasts: [
                 new e.A({
-                  href: "/backstage/podcasts",
-                  children: ["Podcasts", new e.ICON("podcast")],
+                  href: "/backstage/shows",
+                  children: ["Shows", new e.ICON("podcast")],
                 }),
               ],
               Events: [

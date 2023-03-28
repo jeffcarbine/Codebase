@@ -16,13 +16,13 @@ h6 {
 
 h1 {
   margin-top: 2rem;
-  color: var(--primary);
+  color: var(--dark);
 
   svg.icon {
     width: 5rem;
     height: 5rem;
     margin-right: 0.5rem;
-    fill: var(--primary-step);
+    fill: var(--dark);
     transform: translateY(10%);
   }
 }

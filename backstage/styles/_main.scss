@@ -4,6 +4,8 @@ main {
 
 @media only screen and (min-width: $breakpoint-md) {
   main {
-    padding-left: 10rem;
+    border-radius: 0 0 0 50px;
+    background: rgba(0, 0, 0, 0.05);
+    margin-left: 10rem;
   }
 }

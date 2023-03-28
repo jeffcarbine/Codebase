@@ -28,5 +28,12 @@
     background: var(--modal-close-background);
     padding: 0.5rem;
     border-radius: 50%;
+
+    svg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
   }
 }

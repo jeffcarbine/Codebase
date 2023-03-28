@@ -12,6 +12,11 @@ import {
   post__backstage_events_delete,
 } from "./routes/events.js";
 // import { fanart, post__fanartApprove } from "./routes/fanart.js";
+import {
+  get__backstage_shows,
+  post__backstage_shows_add,
+  post__backstage_shows_edit,
+} from "./routes/shows.js";
 
 export const backstage = (
   app,
@@ -44,6 +49,25 @@ export const backstage = (
     "/backstage",
     connectEnsureLogin.ensureLoggedIn("/backstage/login"),
     dashboard
+  );
+
+  // SHOWS
+  app.get(
+    "/backstage/shows",
+    connectEnsureLogin.ensureLoggedIn(),
+    get__backstage_shows
+  );
+
+  app.post(
+    "/backstage/shows/add",
+    connectEnsureLogin.ensureLoggedIn(),
+    post__backstage_shows_add
+  );
+
+  app.post(
+    "/backstage/shows/edit",
+    connectEnsureLogin.ensureLoggedIn(),
+    post__backstage_shows_edit
   );
 
   // EVENTS
