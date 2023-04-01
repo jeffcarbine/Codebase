@@ -355,10 +355,9 @@ export class NAVIGATION extends ELEMENT {
             children: [new BUTTON(route), new ULLI(path)],
           };
         } else {
-          // check if a child is active
-          //const childActive = params.path.includes(path);
-          // console.log(params);
-          const childActive = false;
+          //check if a child is active
+          const childActive = Object.values(path).includes(params.path);
+          console.log(params.path, path);
 
           navItem = {
             class:
@@ -366,10 +365,10 @@ export class NAVIGATION extends ELEMENT {
               (childActive ? " active" : ""),
             children: [
               new BUTTON(route),
-              new ULLI({
+              {
                 class: "submenu",
-                children: createNavItems(path),
-              }),
+                child: new ULLI(createNavItems(path)),
+              },
             ],
           };
         }

@@ -11,6 +11,7 @@
   --nav-submenu-background: var(--accent);
   --nav-submenu-item-color: var(--foreground);
   --nav-submenu-item-background: transparent;
+  --nav-submenu-item-color-active: var(--accent);
   --nav-submenu-item-padding-y: 0.25rem;
   --nav-submenu-item-padding-x: 0.25rem;
 }
@@ -23,11 +24,12 @@ nav {
 
     li {
       list-style-type: none;
+      position: relative;
 
       a,
       button {
         cursor: pointer;
-        display: block;
+        display: inline-block;
         position: relative;
         z-index: 2;
         background: var(--nav-item-background);
@@ -37,7 +39,7 @@ nav {
         text-decoration: none;
 
         &.active,
-        &.page-active {
+        &.open {
           --nav-item-color: var(--nav-item-color-active);
         }
       }
@@ -56,23 +58,26 @@ nav {
         }
       }
     }
+  }
 
-    &.submenu {
-      min-width: 100%;
-      overflow: hidden;
-      box-sizing: border-box;
-      position: absolute;
-      visibility: hidden;
-      opacity: 0;
-      transition: height 0.5s ease;
+  .submenu {
+    min-width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    transition: height 0.5s ease;
+
+    &.open {
+      height: 0;
+      position: relative;
+      visibility: visible;
+      opacity: 1;
+    }
+
+    ul {
       background: var(--nav-submenu-background);
-
-      &.open {
-        height: 0;
-        position: relative;
-        visibility: visible;
-        opacity: 1;
-      }
 
       li {
         background: var(--nav-submenu-item-background);
@@ -82,6 +87,12 @@ nav {
           padding: var(--nav-submenu-item-padding-y)
             var(--nav-submenu-item-padding-x);
           white-space: nowrap;
+        }
+
+        &.active {
+          a {
+            color: var(--nav-submenu-item-color-active);
+          }
         }
       }
     }
@@ -121,11 +132,10 @@ nav {
           }
         }
 
-        ul.submenu {
+        .submenu {
           flex-direction: column;
           position: absolute;
           top: 100%;
-          background: var(--nav-submenu-background);
 
           &.open {
             position: absolute;
