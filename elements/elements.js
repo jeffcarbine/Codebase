@@ -348,16 +348,9 @@ export class NAVIGATION extends ELEMENT {
               textContent: route,
             }),
           };
-        } else if (Array.isArray(path)) {
-          // I don't know where I was going with this, exactly
-          navItem = {
-            class: route.toLowerCase(),
-            children: [new BUTTON(route), new ULLI(path)],
-          };
         } else {
           //check if a child is active
           const childActive = Object.values(path).includes(params.path);
-          console.log(params.path, path);
 
           navItem = {
             class:
