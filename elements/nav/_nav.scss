@@ -30,10 +30,9 @@ nav {
         display: block;
         position: relative;
         z-index: 2;
-        background: var(--nav-iten-background);
+        background: var(--nav-item-background);
         border: none;
         padding: var(--nav-item-padding-x) var(--nav-item-padding-y);
-        margin: 0 auto;
         color: var(--nav-item-color);
         text-decoration: none;
 
