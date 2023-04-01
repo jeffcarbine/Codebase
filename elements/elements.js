@@ -295,9 +295,7 @@ export class ULLI extends ELEMENT {
     for (let i = 0; i < this.children.length; i++) {
       let child = this.children[i];
 
-      const li = new LI({
-        child,
-      });
+      const li = new LI(child);
 
       this.children[i] = li;
     }
@@ -331,43 +329,58 @@ export class NAVIGATION extends ELEMENT {
     this.tagName = "nav";
     this.children = params.children || [];
 
-    const ul = new UL({
-      children: [],
-    });
+    const createNavItems = (routes) => {
+      const navItems = [];
 
-    for (let route in params.routes) {
-      let navItem;
+      for (let route in routes) {
+        let navItem;
 
-      const path = params.routes[route],
-        active = path === params.path;
+        const path = routes[route],
+          active = path === params.path;
 
-      if (typeof path === "string") {
-        navItem = new LI({
-          class: route.toLowerCase(),
-          child: new A({
-            href: path,
-            textContent: route,
-          }),
-        });
-      } else if (Array.isArray(path)) {
-        navItem = new LI({
-          class: route.toLowerCase(),
-          children: path,
-        });
-      } else {
-        navItem = new LI({
-          class: route.toLowerCase(),
-          child: path,
-        });
+        if (typeof path === "string") {
+          navItem = {
+            class:
+              route.toLowerCase().replaceAll(" ", "") +
+              (active ? " active" : ""),
+            child: new A({
+              href: path,
+              textContent: route,
+            }),
+          };
+        } else if (Array.isArray(path)) {
+          // I don't know where I was going with this, exactly
+          navItem = {
+            class: route.toLowerCase(),
+            children: [new BUTTON(route), new ULLI(path)],
+          };
+        } else {
+          // check if a child is active
+          //const childActive = params.path.includes(path);
+          // console.log(params);
+          const childActive = false;
+
+          navItem = {
+            class:
+              route.toLowerCase().replaceAll(" ", "") +
+              (childActive ? " active" : ""),
+            children: [
+              new BUTTON(route),
+              new ULLI({
+                class: "submenu",
+                children: createNavItems(path),
+              }),
+            ],
+          };
+        }
+
+        navItems.push(navItem);
       }
 
-      if (active) {
-        navItem.class = navItem.class + " active";
-      }
+      return navItems;
+    };
 
-      ul.children.push(navItem);
-    }
-
+    const ul = new ULLI(createNavItems(params.routes));
     this.children.unshift(ul);
   }
 }
