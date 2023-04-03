@@ -67,12 +67,30 @@ button {
     --btn-background: rgba(0, 0, 0, 0.1);
     --btn-focus-background: rgba(0, 0, 0, 0.2);
   }
+
+  &.icon-only {
+    --btn-padding-x: 0.5rem;
+    --btn-padding-y: 0.5rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    svg.icon {
+      width: 3rem;
+      height: 3rem;
+      transform: none;
+      margin: 0;
+    }
+  }
 }
 
 .btn-container {
   margin: 1rem 0;
+  display: flex;
+  justify-content: center;
 
-  .btn {
+  > .btn {
     width: auto;
     max-width: 80%;
 
