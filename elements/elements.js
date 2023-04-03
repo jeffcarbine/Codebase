@@ -650,8 +650,8 @@ export class BTN extends ELEMENT {
 }
 
 export class BTNCONTAINER {
-  constructor(params) {
-    this.class = "btn-container";
+  constructor(params, className = null) {
+    this.class = "btn-container " + className;
     this.children = [];
 
     const btns = Array.isArray(params) ? params : [params];

@@ -88,7 +88,10 @@ button {
 .btn-container {
   margin: 1rem 0;
   display: flex;
-  justify-content: center;
+
+  &.centered {
+    justify-content: center;
+  }
 
   > .btn {
     width: auto;
