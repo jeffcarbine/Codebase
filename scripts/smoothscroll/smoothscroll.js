@@ -1,17 +1,18 @@
-﻿import { addEventDelegate } from "../../scripts/eventdelegate/_eventdelegate.js";
+﻿import { addEventDelegate } from "../eventdelegate/_eventdelegate.js";
 
 /**
  * Smooth Scroll Click
  * Handles intercepting link clicks with hash hrefs
  * @param {node} link the link that contains the hash href
  */
-function smoothScrollClick(link) {
+const smoothScrollClick = (link) => {
+  console.log("smoothly scrolling");
   // get the href attribute of the link
   let hash = link.getAttribute("href");
 
   // and scroll to it
   smoothScroll(hash);
-}
+};
 
 /**
  * Smooth Scroll
@@ -93,7 +94,7 @@ function getScrollParent(target) {
 }
 
 // and set the event delegate
-addEventDelegate("click", "a[href^='#']", smoothScrollClick);
+addEventDelegate("click", "a[href^='#']", smoothScrollClick, true);
 
 // smooth-scroll with query selector instead of hash
 const params = new URLSearchParams(window.location.search),
