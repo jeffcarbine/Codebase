@@ -22,26 +22,20 @@
  *
  */
 
-export const xhr = (method, path, data = {}, callbacks = {}) => {
-  // set default methods
-  if (callbacks.success === undefined) {
-    callbacks.success = (request) => {
-      console.log(request.response);
-    };
-  }
+const defaultResponse = (request) => {
+  console.log(request.response);
+};
 
-  if (callbacks.error === undefined) {
-    callbacks.error = (request) => {
-      console.log(request.response);
-    };
-  }
-
-  if (callbacks.failure === undefined) {
-    callbacks.failure = (request) => {
-      console.log(request.response);
-    };
-  }
-
+export const xhr = ({
+  method = "POST",
+  path = "/",
+  body = {},
+  callbacks = {
+    success: defaultResponse,
+    error: defaultResponse,
+    failure: defaultResponse,
+  },
+} = {}) => {
   // start by creating a request
   let request = new XMLHttpRequest();
   request.open(method, path);
@@ -68,7 +62,7 @@ export const xhr = (method, path, data = {}, callbacks = {}) => {
     };
   }
 
-  const requestBody = JSON.stringify(data);
+  const requestBody = JSON.stringify(body);
 
   request.send(requestBody);
 };
