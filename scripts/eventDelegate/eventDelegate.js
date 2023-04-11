@@ -107,14 +107,14 @@ window.addEventListener(
 const onresizeFunctions = [];
 
 // the looping function for resize
-function runOnResize() {
+const runOnResize = () => {
   // simple loop to go through the array and execute
   // each function
   for (var i = 0; i < onresizeFunctions.length; i++) {
     let func = onresizeFunctions[i];
     func();
   }
-}
+};
 
 // registering the function to the window event
 window.onresize = runOnResize;
@@ -123,14 +123,14 @@ window.onresize = runOnResize;
 const onloadFunctions = [];
 
 // the looping function for load
-function runOnLoad() {
+const runOnLoad = () => {
   // simple loop to go through the array and execute
   // each function
   for (var i = 0; i < onloadFunctions.length; i++) {
     let func = onloadFunctions[i];
     func();
   }
-}
+};
 
 // registering the function to the window event
 window.addEventListener("load", function () {
@@ -233,7 +233,7 @@ export { addEventDelegate };
 // the delegate object that stores all of the events, targets and functions
 const delegate = {};
 
-function registerEvent(event, target, func, preventDefault) {
+const registerEvent = (event, target, func, preventDefault) => {
   // check to see if the object already has an instance of the event (which, if it does, it means we have already
   // registered an Event Listener for it)
   if (delegate[event] === undefined) {
@@ -256,7 +256,7 @@ function registerEvent(event, target, func, preventDefault) {
     func: func,
     preventDefault: preventDefault,
   };
-}
+};
 
 /**
  * Event Matches
@@ -283,7 +283,7 @@ function registerEvent(event, target, func, preventDefault) {
 // global target storage
 var target;
 
-let eventMatches = function (event, key) {
+const eventMatches = (event, key) => {
   // the element we are trying to match with is the
   // target of the event that we're looking at
   let elem = event.target;
@@ -317,7 +317,7 @@ let eventMatches = function (event, key) {
  * @param {Event} event the event that the Event Handler is evaluating
  */
 
-var eventHandler = function (event) {
+const eventHandler = (event) => {
   // empty eventObj so we can properly pass what
   // delegate event we are going to match this event to
   var eventObj;
@@ -410,7 +410,7 @@ const config = {
 };
 
 // check to see if an event is a mutation or not
-const isValidMutation = function (event) {
+const isValidMutation = (event) => {
   if (event === "childList" || event.includes("attributes")) {
     return true;
   } else {
@@ -419,7 +419,7 @@ const isValidMutation = function (event) {
 };
 
 // Callback function to execute when mutations are observed
-const callback = function (mutationsList) {
+const callback = (mutationsList) => {
   function runCallback() {
     for (var i = 0; i < mutationsList.length; i++) {
       let mutation = mutationsList[i];
@@ -437,19 +437,19 @@ const callback = function (mutationsList) {
 
 const observer = new MutationObserver(callback);
 
-function observeMutations() {
+const observeMutations = () => {
   // Select the node that will be observed for mutations
   const targetNode = document.querySelector("body");
 
   // Start observing the target node for configured mutations
   observer.observe(targetNode, config);
-}
+};
 
 // the previous mutation target, so that we
 // don't target the same node
 let prevMutationTarget;
 
-function executeCheck(mutation) {
+const executeCheck = (mutation) => {
   let mutationTarget = mutation.target;
 
   if (
@@ -493,7 +493,7 @@ function executeCheck(mutation) {
   }
 
   prevMutationTarget = mutationTarget;
-}
+};
 
 /**
  * Remove Event Delegate
@@ -502,7 +502,7 @@ function executeCheck(mutation) {
  *
  */
 
-function removeEventDelegate(event, target) {
+export const removeEventDelegate = (event, target) => {
   // first check to see if we have spaces,
   // ergo: multiple events to register
   if (event.indexOf(" ") >= 0) {
@@ -522,7 +522,7 @@ function removeEventDelegate(event, target) {
     // our delegate object
     deregisterEvent(event, target);
   }
-}
+};
 
 /**
  * DeRegister Event
@@ -532,6 +532,6 @@ function removeEventDelegate(event, target) {
  * @param {elemnet} target
  */
 
-function deregisterEvent(event, target) {
+const deregisterEvent = (event, target) => {
   delete delegate[event][target];
-}
+};

@@ -1,4 +1,4 @@
-import { addEventDelegate } from "/periodic/scripts/eventdelegate/_eventdelegate.js";
+import { addEventDelegate } from "/periodic/scripts/eventDelegate/eventDelegate.js";
 
 const stateSliderButton = (button) => {
   const target = document.querySelector();

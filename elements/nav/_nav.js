@@ -1,4 +1,4 @@
-import { addEventDelegate } from "../../scripts/eventdelegate/_eventdelegate.js";
+import { addEventDelegate } from "../../scripts/eventDelegate/eventDelegate.js";
 
 const toggleNav = (button) => {
   const nav = document.querySelector("nav");

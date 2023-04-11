@@ -1,6 +1,6 @@
 ﻿import { _modal } from "./modal.template.js";
 import { renderTemplate } from "/periodic/template/_renderTemplate.js";
-import { addEventDelegate } from "../../scripts/eventdelegate/_eventdelegate.js";
+import { addEventDelegate } from "../../scripts/eventDelegate/eventDelegate.js";
 
 export const createModal = (modalBody, sibling) => {
   console.log(modalBody);

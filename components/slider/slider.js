@@ -1,4 +1,4 @@
-import { addEventDelegate } from "/periodic/scripts/eventdelegate/_eventdelegate.js";
+import { addEventDelegate } from "/periodic/scripts/eventDelegate/eventDelegate.js";
 
 const changeSlider = (button) => {
   const direction = button.dataset.direction,
