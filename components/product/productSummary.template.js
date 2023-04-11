@@ -1,6 +1,6 @@
 import * as e from "../../elements/elements.js";
 import { squareTemplate } from "../square/square.template.js";
-import { formatCurrency } from "../../scripts/formatCurrency/_formatCurrency.js";
+import { formatCurrency } from "../../scripts/formatCurrency/formatCurrency.js";
 
 export const productSummaryTemplate = ({
   data = {
@@ -20,7 +20,7 @@ export const productSummaryTemplate = ({
 } = {}) => {
   return {
     tagName: placeholder ? "div" : "a",
-    href: "/products/" + data.handle || "",
+    href: "/shop/product/" + data.handle || "",
     class: "productSummary" + (placeholder ? " placeholder" : ""),
     children: [
       {

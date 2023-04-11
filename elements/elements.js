@@ -620,6 +620,21 @@ export class MESSAGE {
   }
 }
 
+export class RADIO {
+  constructor(params) {
+    params.type = "radio";
+    this.class = "radio";
+
+    this.children = [
+      new INPUT(params),
+      new LABEL({
+        textContent: params.label,
+        for: params.id,
+      }),
+    ];
+  }
+}
+
 export class BUTTON extends ELEMENT {
   constructor(params) {
     super(params);
