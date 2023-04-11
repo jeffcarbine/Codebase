@@ -130,7 +130,11 @@ export const formatProduct = (product) => {
               value.available = variant.available;
               value.price = variant.price;
               value.compareAtPrice = variant.compareAtPrice;
-              value.imageid = variant.image.id;
+              value.imageid =
+                "imageid" +
+                variant.image.id.substring(
+                  variant.image.id.lastIndexOf("/") + 1
+                );
 
               if (formattedProduct.price === null) {
                 formattedProduct.price = variant.price;

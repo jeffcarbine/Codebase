@@ -402,7 +402,7 @@ const config = {
     "id",
     "value",
     "data-icon",
-    "data-color-icon",
+    "data-active",
     "checked",
   ],
   childList: true,
@@ -452,47 +452,47 @@ let prevMutationTarget;
 const executeCheck = (mutation) => {
   let mutationTarget = mutation.target;
 
-  if (
-    mutationTarget !== prevMutationTarget &&
-    mutationTarget.dataset.mutated !== true
-  ) {
-    let type = mutation.type;
-    let attributeName = type === "attributes" ? mutation.attributeName : false;
+  // if (
+  //   mutationTarget !== prevMutationTarget
+  //   //&& mutationTarget.dataset.mutated !== true
+  // ) {
+  let type = mutation.type;
+  let attributeName = type === "attributes" ? mutation.attributeName : false;
 
-    let funcs = attributeName
-      ? delegate[type + ":" + attributeName]
-      : delegate[type];
+  let funcs = attributeName
+    ? delegate[type + ":" + attributeName]
+    : delegate[type];
 
-    for (var target in funcs) {
-      let func = funcs[target].func;
-      var nodes = mutationTarget.querySelectorAll(target);
-      var isMutation = false;
-      var existsInMutation = false;
+  for (var target in funcs) {
+    let func = funcs[target].func;
+    var nodes = mutationTarget.querySelectorAll(target);
+    var isMutation = false;
+    var existsInMutation = false;
 
-      // check to see if the element itself is the
-      // mutation or if the element exists as a child
-      // of the mutation
-      if (mutationTarget.matches(target)) {
-        isMutation = true;
-      }
+    // check to see if the element itself is the
+    // mutation or if the element exists as a child
+    // of the mutation
+    if (mutationTarget.matches(target)) {
+      isMutation = true;
+    }
 
-      if (!isMutation) {
-        existsInMutation = nodes.length > 0 ? true : false;
-      }
+    if (!isMutation) {
+      existsInMutation = nodes.length > 0 ? true : false;
+    }
 
-      if (isMutation) {
-        func(mutationTarget, mutation);
-        mutationTarget.dataset.mutated = true;
-      } else if (existsInMutation) {
-        nodes.forEach(function (node) {
-          func(node, mutation);
-          mutationTarget.dataset.mutated = true;
-        });
-      }
+    if (isMutation) {
+      func(mutationTarget, mutation);
+      //mutationTarget.dataset.mutated = true;
+    } else if (existsInMutation) {
+      nodes.forEach(function (node) {
+        func(node, mutation);
+        //mutationTarget.dataset.mutated = true;
+      });
     }
   }
+  // }
 
-  prevMutationTarget = mutationTarget;
+  // prevMutationTarget = mutationTarget;
 };
 
 /**

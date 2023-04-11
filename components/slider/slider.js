@@ -5,17 +5,15 @@ const changeSlider = (button) => {
     slider = button.parentNode.previousElementSibling;
 
   if (direction === "next") {
-    slide(slider, true);
+    changeActive(slider, true);
   } else {
-    slide(slider, false);
+    changeActive(slider, false);
   }
 };
 
-const slide = (slider, forwards) => {
+const changeActive = (slider, forwards) => {
   let activeSlide = parseInt(slider.dataset.active),
     slideCount = parseInt(slider.dataset.count);
-
-  const slides = slider.querySelectorAll(".slide");
 
   if (forwards) {
     // increase the slide value
@@ -33,9 +31,16 @@ const slide = (slider, forwards) => {
     }
   }
 
-  console.log(activeSlide);
-
   slider.dataset.active = activeSlide;
+};
+
+addEventDelegate("click", "button.slider-control", changeSlider);
+
+const slide = (slidesList) => {
+  console.log(slidesList);
+  const activeSlide = slidesList.dataset.active,
+    slideCount = slidesList.dataset.count,
+    slides = slidesList.childNodes;
 
   slides.forEach((slide) => {
     const i = slide.dataset.index;
@@ -70,4 +75,4 @@ const slide = (slider, forwards) => {
   });
 };
 
-addEventDelegate("click", "button.slider-control", changeSlider);
+addEventDelegate("attributes:data-active", ".slider .slides", slide);
