@@ -37,9 +37,8 @@ const changeActive = (slider, forwards) => {
 addEventDelegate("click", "button.slider-control", changeSlider);
 
 const slide = (slidesList) => {
-  console.log(slidesList);
-  const activeSlide = slidesList.dataset.active,
-    slideCount = slidesList.dataset.count,
+  const activeSlide = parseInt(slidesList.dataset.active),
+    slideCount = parseInt(slidesList.dataset.count),
     slides = slidesList.childNodes;
 
   slides.forEach((slide) => {

@@ -37,11 +37,11 @@ nav {
         padding: var(--nav-item-padding-x) var(--nav-item-padding-y);
         color: var(--nav-item-color);
         text-decoration: none;
+      }
 
-        &.active,
-        &.open {
-          --nav-item-color: var(--nav-item-color-active);
-        }
+      &.active,
+      &.open {
+        --nav-item-color: var(--nav-item-color-active);
       }
 
       button {

@@ -335,10 +335,10 @@ export class NAVIGATION extends ELEMENT {
       for (let route in routes) {
         let navItem;
 
-        const path = routes[route],
-          active = path === params.path;
+        const path = routes[route];
 
         if (typeof path === "string") {
+          const active = path === params.path;
           navItem = {
             class:
               route.toLowerCase().replaceAll(" ", "") +
@@ -348,8 +348,27 @@ export class NAVIGATION extends ELEMENT {
               textContent: route,
             }),
           };
+          // then we have textcontent
+        } else if (Array.isArray(path)) {
+          // the href is always the first array element
+          const href = path[0],
+            children = path.slice(1);
+
+          const active = href === params.path;
+
+          navItem = {
+            class:
+              route.toLowerCase().replaceAll(" ", "") +
+              (active ? " active" : ""),
+            child: new A({
+              href,
+              children,
+            }),
+          };
         } else {
-          //check if a child is active
+          // this is a submenu
+
+          // check
           const childActive = Object.values(path).includes(params.path);
 
           navItem = {

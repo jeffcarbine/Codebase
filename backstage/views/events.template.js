@@ -3,16 +3,7 @@ import * as e from "../../elements/elements.js";
 import { card } from "../../components/card/card.template.js";
 
 export default (data) => {
-  const children = [
-    card(
-      new e.BTNCONTAINER([
-        {
-          id: "addEvent",
-          children: [new e.ICON("plus"), "Add Event"],
-        },
-      ])
-    ),
-  ];
+  const children = [];
 
   for (let i = 0; i < data.events.length; i++) {
     const eventData = data.events[i],
@@ -71,8 +62,6 @@ export default (data) => {
         })
       );
 
-    console.log(eventDate);
-
     children.unshift(event);
   }
 
@@ -81,6 +70,15 @@ export default (data) => {
     {
       children: [
         new e.H1([new e.ICON("calendar"), "Events"]),
+        new e.BTNCONTAINER(
+          [
+            {
+              id: "addEvent",
+              children: [new e.ICON("plus"), "Add Event"],
+            },
+          ],
+          "centered"
+        ),
         new e.SECTION({
           id: "events",
           children,

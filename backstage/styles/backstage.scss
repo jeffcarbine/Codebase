@@ -5,11 +5,6 @@
 @import "../../elements/typography/typography";
 @import "../../styles/theme";
 @import "../../elements/button/button";
-
-.btn {
-  --btn-background: var(--dark);
-}
-
 @import "../../elements/nav/nav";
 @import "../../elements/form/form";
 @import "../../elements/input/input";
@@ -20,6 +15,7 @@
 @import "../../components/card/card";
 
 // GLOBAL
+@import "vars";
 @import "text";
 @import "header";
 @import "nav";

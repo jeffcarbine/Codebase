@@ -21,4 +21,18 @@
     width: 80%;
     max-width: 60rem;
   }
+
+  .cardGrid {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 1rem;
+    box-sizing: border-box;
+
+    .card {
+      flex: 0 0 calc(50% - 2rem);
+      width: auto;
+      max-width: none;
+      margin: 1rem;
+    }
+  }
 }

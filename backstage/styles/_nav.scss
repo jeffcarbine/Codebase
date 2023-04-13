@@ -1,5 +1,6 @@
 nav {
   --nav-item-color: var(--dark);
+  --nav-item-color-active: var(--primary-step);
 
   background: transparent;
   position: fixed;
@@ -33,6 +34,13 @@ nav {
           fill: var(--dark);
           width: 2rem;
           height: 2rem;
+        }
+      }
+
+      &.active,
+      &.open {
+        svg.icon {
+          fill: var(--nav-item-color-active);
         }
       }
     }

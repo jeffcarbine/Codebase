@@ -21,7 +21,7 @@ export const get__backstage_events = (req, res, next) => {
       });
 
       res.render("events", {
-        path: "/events",
+        path: "/backstage/events",
         subtitle: "Events",
         events,
       });

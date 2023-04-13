@@ -29,31 +29,12 @@ export const base = (data, template, scripts) => {
           new e.NAVIGATION({
             if: data.loggedIn,
             routes: {
-              Home: [
-                new e.A({
-                  href: "/backstage",
-                  children: ["Home", new e.ICON("dashboard")],
-                }),
-              ],
-              Podcasts: [
-                new e.A({
-                  href: "/backstage/shows",
-                  children: ["Shows", new e.ICON("podcast")],
-                }),
-              ],
-              Events: [
-                new e.A({
-                  href: "/backstage/events",
-                  children: ["Events", new e.ICON("calendar")],
-                }),
-              ],
-              Fanart: [
-                new e.A({
-                  href: "/backstage/fanart",
-                  children: ["Fanart", new e.ICON("image")],
-                }),
-              ],
+              Home: ["/backstage", "Home", new e.ICON("dashboard")],
+              Podcasts: ["/backstage/shows", "Shows", new e.ICON("podcast")],
+              Events: ["/backstage/events", "Events", new e.ICON("calendar")],
+              Fanart: ["/backstage/fanart", "Fanart", new e.ICON("image")],
             },
+            path: data.path,
           }),
         ],
       }),

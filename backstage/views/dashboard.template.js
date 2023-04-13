@@ -6,7 +6,7 @@ export default (data) => {
     children: [
       new e.SECTION({
         id: "dashboard",
-        children: [new e.H1("Dashboard")],
+        children: [new e.H1([new e.ICON("dashboard"), "Dashboard"])],
       }),
     ],
   });

@@ -1,4 +1,4 @@
-import { addEventDelegate } from "../eventdelegate/_eventdelegate.js";
+import { addEventDelegate } from "../eventDelegate/eventDelegate.js";
 import { xhr } from "./_xhr.js";
 import { toast } from "../../components/alert/_alert.js";
 
@@ -88,9 +88,11 @@ const xhrFormRecaptcha = (form) => {
   const recaptchaSiteKey = form.dataset.recaptchaSiteKey;
 
   grecaptcha.ready(() => {
-    grecaptcha.execute(recaptchaSiteKey, { action: "submit" }).then((recaptchaToken) => {
-      xhrForm(form, { recaptchaToken });
-    });
+    grecaptcha
+      .execute(recaptchaSiteKey, { action: "submit" })
+      .then((recaptchaToken) => {
+        xhrForm(form, { recaptchaToken });
+      });
   });
 };
 
