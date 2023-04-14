@@ -17,6 +17,8 @@ import {
   post__backstage_shows_add,
   post__backstage_shows_edit,
 } from "./routes/shows.js";
+import { get__backstage_pages } from "./routes/pages.js";
+import { get__backstage_widgets } from "./routes/widgets.js";
 
 export const backstage = (
   app,
@@ -49,6 +51,20 @@ export const backstage = (
     "/backstage",
     connectEnsureLogin.ensureLoggedIn("/backstage/login"),
     dashboard
+  );
+
+  // PAGES
+  app.get(
+    "/backstage/pages",
+    connectEnsureLogin.ensureLoggedIn(),
+    get__backstage_pages
+  );
+
+  // WIDGETS
+  app.get(
+    "/backstage/widgets",
+    connectEnsureLogin.ensureLoggedIn(),
+    get__backstage_widgets
   );
 
   // SHOWS

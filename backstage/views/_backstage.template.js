@@ -35,7 +35,7 @@ export const base = (data, template, scripts) => {
               Dashboard: ["/backstage", "Dashboard", new e.ICON("dashboard")],
               Pages: ["/backstage/pages", "Pages", new e.ICON("catalog")],
               Widgets: [
-                "/backstage/widgets/",
+                "/backstage/widgets",
                 "Widgets",
                 new e.ICON("components"),
               ],

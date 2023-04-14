@@ -4,6 +4,13 @@ header {
   position: fixed;
   z-index: 10;
   background: transparent;
+  transition: all 0.5s ease;
+  box-shadow: none;
+
+  &.scrolled {
+    background: var(--light);
+    box-shadow: var(--box-shadow);
+  }
 
   .branding {
     display: flex;
@@ -41,6 +48,11 @@ header {
     top: 0;
     left: 0;
     height: 100%;
+
+    &.scrolled {
+      background: transparent;
+      box-shadow: none;
+    }
 
     .branding {
       margin: 0 0.25rem;
