@@ -23,7 +23,7 @@ export class HTML {
   constructor(params) {
     this.tagName = "html";
     this.lang = "en";
-    this.style = "display: none;"; // avoids FOUC
+    // this.style = "display: none;"; // avoids FOUC
 
     const head = new HEAD({
       title: params.title,
