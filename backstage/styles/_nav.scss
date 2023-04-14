@@ -75,6 +75,9 @@ nav {
   }
 
   ul {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     margin: 0;
     padding: 1rem;
     flex-direction: column;
@@ -126,9 +129,6 @@ nav {
     box-shadow: none;
 
     ul {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
       justify-content: center;
       padding-bottom: 10rem;
       box-sizing: border-box;
