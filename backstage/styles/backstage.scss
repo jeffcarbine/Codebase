@@ -8,6 +8,7 @@
 
 .btn {
   --btn-border-radius: 25px;
+  box-shadow: var(--box-shadow);
 }
 
 @import "../../elements/nav/nav";

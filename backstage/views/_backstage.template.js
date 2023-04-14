@@ -10,7 +10,6 @@ export const base = (data, template, scripts) => {
     body: [
       new e.HEADER({
         if: data.loggedIn,
-        id: "mainHeader",
         children: [
           {
             class: "branding",
@@ -19,9 +18,12 @@ export const base = (data, template, scripts) => {
                 class: "logo",
                 child: new e.IMG("/backstage/images/logo.svg"),
               },
-              new e.SPAN("x"),
+              new e.SPAN({
+                class: "x",
+                textContent: "x",
+              }),
               {
-                class: "client-logo",
+                class: "logo client",
                 child: new e.IMG("/images/logo-backstage.svg"),
               },
             ],
@@ -40,6 +42,7 @@ export const base = (data, template, scripts) => {
               Podcasts: ["/backstage/shows", "Shows", new e.ICON("podcast")],
               Events: ["/backstage/events", "Events", new e.ICON("calendar")],
               Fanart: ["/backstage/fanart", "Fanart", new e.ICON("image")],
+              Account: ["/backstage/account", "Account", new e.ICON("user")],
             },
             path: data.path,
           }),

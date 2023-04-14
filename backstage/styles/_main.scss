@@ -14,5 +14,9 @@ main {
   main {
     border-radius: 50px 0 0 50px;
     margin: 2rem 0 0 10rem;
+
+    &.no-header {
+      border-radius: 50px;
+    }
   }
 }
