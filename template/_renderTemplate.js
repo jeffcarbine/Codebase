@@ -34,20 +34,12 @@ const clientRender = (template) => {
     // this is an icon, so we can ignore the rest
     const icon = template.icon;
 
-    // there should only be one key/value pair, but we
-    // use a loop cause I don't know of a cleaner way to
-    // do this
-    for (let iconName in icon) {
-      const iconString = i[icon],
-        markup =
-          "<svg class='icon icon-" +
-          iconName +
-          "' xmlns='http://www.w3.org/2000/svg' id='Layer_1' data-name='Layer 1' viewBox='0 0 320.27 316.32'>" +
-          iconString.replace(/cls/g, iconName) +
-          "</svg>";
+    const markup =
+      "<svg class='icon' xmlns='http://www.w3.org/2000/svg' id='Layer_1' data-name='Layer 1' viewBox='0 0 320.27 316.32'>" +
+      icon +
+      "</svg>";
 
-      element = new DOMParser().parseFromString(markup, "text/xml").firstChild;
-    }
+    element = new DOMParser().parseFromString(markup, "text/xml").firstChild;
   } else {
     // go through every key/value pair that is
     // an html property
@@ -195,17 +187,12 @@ const serverRender = (template) => {
     // there should only be one key/value pair, but we
     // use a loop cause I don't know of a cleaner way to
     // do this
-    for (let iconName in icon) {
-      const iconString = i[icon],
-        markup =
-          "<svg class='icon icon-" +
-          iconName +
-          "' xmlns='http://www.w3.org/2000/svg' id='Layer_1' data-name='Layer 1' viewBox='0 0 320.27 316.32'>" +
-          iconString.replace(/cls/g, iconName) +
-          "</svg>";
+    const markup =
+      "<svg class='icon' xmlns='http://www.w3.org/2000/svg' id='Layer_1' data-name='Layer 1' viewBox='0 0 320.27 316.32'>" +
+      icon +
+      "</svg>";
 
-      element = markup;
-    }
+    element = markup;
   } else {
     // go through every key/value pair that is
     // an html property

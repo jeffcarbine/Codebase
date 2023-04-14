@@ -538,6 +538,14 @@ export class LABEL extends ELEMENT {
   }
 }
 
+export class HIDDEN extends INPUT {
+  constructor(params) {
+    super(params);
+
+    this.type = "hidden";
+  }
+}
+
 export class NUMBER {
   constructor({ type = "number", value = 0 } = {}) {
     this.tagName = "label";
