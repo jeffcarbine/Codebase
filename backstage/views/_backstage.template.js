@@ -1,6 +1,8 @@
 import * as e from "../../elements/elements.js";
 
 export const base = (data, template, scripts) => {
+  console.log(data);
+
   const html = {
     title: "Backstage by Carbine Co.",
     stylesheets: ["/backstage/styles/backstage.min.css"],
@@ -29,7 +31,13 @@ export const base = (data, template, scripts) => {
           new e.NAVIGATION({
             if: data.loggedIn,
             routes: {
-              Home: ["/backstage", "Home", new e.ICON("dashboard")],
+              Dashboard: ["/backstage", "Dashboard", new e.ICON("dashboard")],
+              Pages: ["/backstage/pages", "Pages", new e.ICON("catalog")],
+              Constants: [
+                "/backstage/constants/",
+                "Constants",
+                new e.ICON("components"),
+              ],
               Podcasts: ["/backstage/shows", "Shows", new e.ICON("podcast")],
               Events: ["/backstage/events", "Events", new e.ICON("calendar")],
               Fanart: ["/backstage/fanart", "Fanart", new e.ICON("image")],

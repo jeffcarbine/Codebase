@@ -1,4 +1,5 @@
 import { capitalizeAll } from "../scripts/formatString/formatString.js";
+import * as i from "../components/icon/_icon-list.js";
 
 export class ELEMENT {
   constructor(params) {
@@ -735,7 +736,7 @@ export class BR extends ELEMENT {
 
 export class ICON {
   constructor(params) {
-    this.icon = params;
+    this.icon = i[params];
   }
 }
 

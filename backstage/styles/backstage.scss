@@ -5,6 +5,11 @@
 @import "../../elements/typography/typography";
 @import "../../styles/theme";
 @import "../../elements/button/button";
+
+.btn {
+  --btn-border-radius: 25px;
+}
+
 @import "../../elements/nav/nav";
 @import "../../elements/form/form";
 @import "../../elements/input/input";
@@ -13,6 +18,10 @@
 @import "../../components/alert/alert";
 @import "../../components/modal/modal";
 @import "../../components/card/card";
+
+.card {
+  border-radius: 25px;
+}
 
 // GLOBAL
 @import "vars";
@@ -28,8 +37,7 @@
 @import "dashboard";
 
 :root {
-  --base-font-family: "Poppins", sans-serif;
-  --base-font-increase: 1.15;
+  --base-font-increase: 1.12;
 }
 
 html {

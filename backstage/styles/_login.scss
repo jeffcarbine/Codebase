@@ -11,15 +11,37 @@
     margin: 0 auto;
     padding: 3rem;
     display: block;
-    background: var(--dark);
 
-    header {
-      padding: 2rem 0;
+    .logos {
       color: var(--light);
+      display: flex;
+      justify-content: center;
+
+      .logo {
+        flex: 0 0 4rem;
+
+        img {
+          height: 100%;
+          width: 100%;
+          object-fit: contain;
+        }
+      }
+
+      .x {
+        flex: 0 0 4rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        color: var(--dark);
+        opacity: 0.2;
+        @include fontValues(6);
+      }
     }
 
     form {
       box-sizing: border-box;
+      margin-top: 0;
     }
 
     h1 {

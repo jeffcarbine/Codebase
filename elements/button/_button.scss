@@ -40,11 +40,11 @@ button {
   box-sizing: border-box;
 
   svg.icon {
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 1rem;
+    height: 1rem;
     fill: var(--btn-color);
-    transform: translateY(10%);
-    margin-right: 0.5rem;
+    transform: translateY(10%) scale(1.5);
+    margin-right: 0.75rem;
   }
 
   &:focus,
