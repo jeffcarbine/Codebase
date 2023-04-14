@@ -33,15 +33,12 @@ export const observeViewportClassElements = () => {
     // check just in case there are no matching elements
     if (element) {
       // observe it!
-      
+
       // create the intersection observer for vclass
-      var vclassObserver = new IntersectionObserver(
-        observerCallback,
-        {
-          rootMargin: element.dataset.vclassMargin || "50px",
-          threshold: 0,
-        }
-      );
+      var vclassObserver = new IntersectionObserver(observerCallback, {
+        rootMargin: element.dataset.vclassMargin || "-200px",
+        threshold: 0,
+      });
 
       vclassObserver.observe(element);
       element.dataset.vclassObserved = true;
