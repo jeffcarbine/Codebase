@@ -1,12 +1,12 @@
 import Show from "../../models/Show.js";
 
-export const get__backstage_shows = (req, res, next) => {
+export const get__admin_shows = (req, res, next) => {
   Show.find().exec((err, shows) => {
     if (err) {
       return res.status(500).send(err);
     } else {
       return res.render("shows", {
-        path: "/backstage/shows",
+        path: "/admin/shows",
         subtitle: "Shows",
         shows,
       });
@@ -14,7 +14,7 @@ export const get__backstage_shows = (req, res, next) => {
   });
 };
 
-export const post__backstage_shows_add = (req, res, next) => {
+export const post__admin_shows_add = (req, res, next) => {
   let body = req.body;
 
   Show.findOneAndUpdate(
@@ -37,7 +37,7 @@ export const post__backstage_shows_add = (req, res, next) => {
   });
 };
 
-export const post__backstage_shows_edit = (req, res, next) => {
+export const post__admin_shows_edit = (req, res, next) => {
   let body = req.body;
 
   Show.findOneAndUpdate(

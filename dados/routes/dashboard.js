@@ -1,6 +1,6 @@
 export const dashboard = (req, res, next) => {
   res.render("dashboard", {
-    path: "/backstage",
+    path: "/admin",
     subtitle: "Dashboard",
   });
 };

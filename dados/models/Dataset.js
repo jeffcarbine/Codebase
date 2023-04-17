@@ -2,9 +2,9 @@ import mongoose from "mongoose";
 var Schema = mongoose.Schema;
 
 // define the schema for our user model
-var Page = new Schema({
+var Dataset = new Schema({
   name: String,
-  widgets: [
+  dataObjects: [
     {
       type: {
         type: String,
@@ -33,4 +33,4 @@ var Page = new Schema({
 */
 
 // create the model for users and expose it to our app
-export default mongoose.model("Page", Page);
+export default mongoose.model("Datset", Dataset);

@@ -7,9 +7,9 @@ const createAddEventModal = (button) => {
   createModal(
     new e.FORM({
       method: "POST",
-      action: "/backstage/events/add",
+      action: "/dados/events/add",
       class: "style-inputs xhr",
-      "data-redirect": "/backstage/events",
+      "data-redirect": "/dados/events",
       children: [
         new e.H2("Add Event"),
         new e.TEXT("venue"),

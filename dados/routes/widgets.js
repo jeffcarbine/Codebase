@@ -1,6 +1,6 @@
 import Event from "../../models/Event.js";
 
-export const get__backstage_pages = (req, res, next) => {
+export const get__admin_widgets = (req, res, next) => {
   const now = new Date();
 
   Event.aggregate([
@@ -20,8 +20,8 @@ export const get__backstage_pages = (req, res, next) => {
         return new Date(a.date) - new Date(b.date);
       });
 
-      res.render("pages", {
-        path: "/backstage/pages",
+      res.render("widgets", {
+        path: "/admin/widgets",
         subtitle: "Events",
         events,
       });
@@ -29,7 +29,7 @@ export const get__backstage_pages = (req, res, next) => {
   });
 };
 
-export const post__backstage_events_add = (req, res, next) => {
+export const post__admin_events_add = (req, res, next) => {
   let body = req.body;
   body.date = new Date(req.body.date);
 
@@ -55,7 +55,7 @@ export const post__backstage_events_add = (req, res, next) => {
   });
 };
 
-export const post__backstage_events_edit = (req, res, next) => {
+export const post__admin_events_edit = (req, res, next) => {
   const updateEvent = (err, data) => {
     if (err) {
       return res.status(500).send(err);
@@ -110,7 +110,7 @@ export const post__backstage_events_edit = (req, res, next) => {
   }
 };
 
-export const post__backstage_events_delete = (req, res, next) => {
+export const post__admin_events_delete = (req, res, next) => {
   // find the event in question and delete it
 
   const body = req.body,

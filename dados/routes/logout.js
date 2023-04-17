@@ -1,4 +1,4 @@
-export const get__backstage_logout = (req, res) => {
+export const get__admin_logout = (req, res) => {
   req.logout((err) => {
     if (err) {
       return next(err);

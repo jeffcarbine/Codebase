@@ -1,9 +1,11 @@
 import * as e from "../../elements/elements.js";
 
 export const base = (data, template, scripts) => {
+  console.log(data);
+
   const html = {
-    title: "Backstage by Carbine Co.",
-    stylesheets: ["/backstage/styles/backstage.min.css"],
+    title: "dados by Carbine Co.",
+    stylesheets: ["/admin/styles/dados.min.css"],
     metas: [
       { name: "viewport", content: "width=device-width, initial-scale=1" },
     ],
@@ -16,7 +18,7 @@ export const base = (data, template, scripts) => {
             children: [
               {
                 class: "logo",
-                child: new e.IMG("/backstage/images/logo.svg"),
+                child: new e.IMG("/admin/images/logo.svg"),
               },
               new e.SPAN({
                 class: "x",
@@ -24,7 +26,7 @@ export const base = (data, template, scripts) => {
               }),
               {
                 class: "logo client",
-                child: new e.IMG("/images/logo-backstage.svg"),
+                child: new e.IMG("/images/logo-dados.svg"),
               },
             ],
           },
@@ -32,17 +34,12 @@ export const base = (data, template, scripts) => {
           new e.NAVIGATION({
             if: data.loggedIn,
             routes: {
-              Dashboard: ["/backstage", "Dashboard", new e.ICON("dashboard")],
-              Pages: ["/backstage/pages", "Pages", new e.ICON("catalog")],
-              Widgets: [
-                "/backstage/widgets",
-                "Widgets",
-                new e.ICON("components"),
-              ],
-              Podcasts: ["/backstage/shows", "Shows", new e.ICON("podcast")],
-              Events: ["/backstage/events", "Events", new e.ICON("calendar")],
-              Fanart: ["/backstage/fanart", "Fanart", new e.ICON("image")],
-              Account: ["/backstage/account", "Account", new e.ICON("user")],
+              Dashboard: ["/admin", "Dashboard", new e.ICON("dashboard")],
+              Data: ["/admin/datasets", "Datasets", new e.ICON("data")],
+              Podcasts: ["/admin/shows", "Shows", new e.ICON("podcast")],
+              Events: ["/admin/events", "Events", new e.ICON("calendar")],
+              Fanart: ["/admin/fanart", "Fanart", new e.ICON("image")],
+              Account: ["/admin/account", "Account", new e.ICON("user")],
             },
             path: data.path,
           }),
@@ -53,12 +50,12 @@ export const base = (data, template, scripts) => {
         if: data.loggedIn,
         children: [
           new e.P(
-            "Backstage by Carbine Co. - Copyright " + new Date().getFullYear()
+            "dados by Carbine Co. - Copyright " + new Date().getFullYear()
           ),
         ],
       }),
       new e.MODULE({
-        src: "/backstage/scripts/base.js",
+        src: "/admin/scripts/base.js",
       }),
       new e.MODULE({
         src: "/periodic/elements/input/_input.js",

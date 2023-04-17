@@ -1,4 +1,4 @@
-import { base } from "./_backstage.template.js";
+import { base } from "./_dados.template.js";
 import * as e from "../../elements/elements.js";
 import { card } from "../../components/card/card.template.js";
 
@@ -16,9 +16,9 @@ export default (data) => {
       event = card(
         new e.FORM({
           method: "POST",
-          action: "/backstage/events/add",
+          action: "/dados/events/add",
           class: "style-inputs xhr",
-          "data-redirect": "/backstage/events",
+          "data-redirect": "/dados/events",
           children: [
             new e.TEXT({
               name: "venue",
@@ -86,7 +86,7 @@ export default (data) => {
       ],
     },
     [
-      new e.MODULE("/backstage/scripts/events.js"),
+      new e.MODULE("/dados/scripts/events.js"),
       new e.MODULE("/periodic/scripts/xhr/_xhrForm.js"),
     ]
   );

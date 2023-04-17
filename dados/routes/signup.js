@@ -1,13 +1,12 @@
 import User from "../../models/User.js";
 import passport from "passport";
-import authRender from "./auth-render.js";
 import emailValidator from "email-validator";
 
-export const get__backstage_signup = (req, res) => {
-  authRender(req, res, "signup", { subtitle: "Sign Up for Backstage Access" });
+export const get__admin_signup = (req, res) => {
+  res.render("signup", { subtitle: "Sign Up for dados Access" });
 };
 
-export const post__backstage_signup = (req, res) => {
+export const post__admin_signup = (req, res) => {
   // get the usernane and password from the request
   const username = req.body.email,
     password = req.body.password,
@@ -32,7 +31,7 @@ export const post__backstage_signup = (req, res) => {
       }
 
       passport.authenticate("local")(req, res, () => {
-        res.redirect("/backstage");
+        res.redirect("/dados");
       });
     }
   );

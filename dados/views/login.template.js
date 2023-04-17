@@ -1,4 +1,4 @@
-import { base } from "./_backstage.template.js";
+import { base } from "./_dados.template.js";
 import * as e from "../../elements/elements.js";
 
 export default (data) => {
@@ -15,7 +15,7 @@ export default (data) => {
               children: [
                 {
                   class: "logo",
-                  child: new e.IMG("/backstage/images/logo.svg"),
+                  child: new e.IMG("/dados/images/logo.svg"),
                 },
                 new e.SPAN({
                   class: "x",
@@ -23,12 +23,12 @@ export default (data) => {
                 }),
                 {
                   class: "logo client",
-                  child: new e.IMG("/images/logo-backstage.svg"),
+                  child: new e.IMG("/images/logo-dados.svg"),
                 },
               ],
             },
             new e.FORM({
-              action: "/backstage/login",
+              action: "/dados/login",
               class: "style-inputs",
               children: [
                 new e.EMAIL({
