@@ -674,21 +674,62 @@ export class BUTTON extends ELEMENT {
   }
 }
 
-export class BTN extends ELEMENT {
-  constructor(params) {
-    super(params);
+// export class BTN extends ELEMENT {
+//   constructor(params) {
+//     super(params);
 
+//     if (params.href !== undefined) {
+//       this.tagName = "a";
+//     } else {
+//       this.tagName = "button";
+//     }
+
+//     if (typeof params === "string") {
+//       this.textContent = params;
+//     }
+
+//     this.class = "btn" + (params.class !== undefined ? " " + params.class : "");
+//   }
+// }
+
+export class BTN {
+  constructor(params) {
+    // check if we have a href
     if (params.href !== undefined) {
       this.tagName = "a";
     } else {
       this.tagName = "button";
     }
 
-    if (typeof params === "string") {
-      this.textContent = params;
+    // create the span that will live inside the btn
+    let span = new SPAN();
+
+    // check if is object/array
+    if (typeof params === "object") {
+      if (Array.isArray(params)) {
+        // if an array, then it's children
+        span.children =
+          this.children !== undefined ? this.children.concat(params) : params;
+      } else {
+        // otherwise, it's regular properties
+        for (let key in params) {
+          if (key !== "textContent" && key !== "children" && key !== "child") {
+            this[key] = params[key];
+          } else {
+            span[key] = params[key];
+          }
+        }
+      }
+    } else {
+      // if it is just a string, it is the textContent
+      span.textContent = params;
     }
 
-    this.class = "btn" + (params.class !== undefined ? " " + params.class : "");
+    // add the btn class
+    this.class += " btn";
+
+    // and now make the span the only child of the btn
+    this.child = span;
   }
 }
 

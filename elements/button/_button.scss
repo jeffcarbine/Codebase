@@ -1,3 +1,9 @@
+@keyframes spinner {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
 button {
   outline: none;
   cursor: pointer;
@@ -38,6 +44,18 @@ button {
   border-radius: var(--btn-border-radius);
   cursor: pointer;
   box-sizing: border-box;
+  position: relative;
+
+  &.loading {
+    color: var(--btn-background);
+    --btn-focus-color: var(--btn-background);
+    --btn-focus-background: var(--btn-background);
+    --loader-color: var(--btn-color);
+  }
+
+  span {
+    display: block;
+  }
 
   svg.icon {
     width: 1rem;
