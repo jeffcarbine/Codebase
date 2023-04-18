@@ -16,9 +16,9 @@ export default (data) => {
       event = card(
         new e.FORM({
           method: "POST",
-          action: "/dados/events/add",
+          action: "/admin/events/add",
           class: "style-inputs xhr",
-          "data-redirect": "/dados/events",
+          "data-redirect": "/admin/events",
           children: [
             new e.TEXT({
               name: "venue",
@@ -86,7 +86,7 @@ export default (data) => {
       ],
     },
     [
-      new e.MODULE("/dados/scripts/events.js"),
+      new e.MODULE("/admin/scripts/events.js"),
       new e.MODULE("/periodic/scripts/xhr/_xhrForm.js"),
     ]
   );

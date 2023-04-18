@@ -31,7 +31,7 @@ export const post__admin_signup = (req, res) => {
       }
 
       passport.authenticate("local")(req, res, () => {
-        res.redirect("/dados");
+        res.redirect("/admin");
       });
     }
   );

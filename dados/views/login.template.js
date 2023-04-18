@@ -15,7 +15,7 @@ export default (data) => {
               children: [
                 {
                   class: "logo",
-                  child: new e.IMG("/dados/images/logo.svg"),
+                  child: new e.IMG("/admin/images/logo.svg"),
                 },
                 new e.SPAN({
                   class: "x",
@@ -28,7 +28,7 @@ export default (data) => {
               ],
             },
             new e.FORM({
-              action: "/dados/login",
+              action: "/admin/login",
               class: "style-inputs",
               children: [
                 new e.EMAIL({

@@ -1,11 +1,11 @@
-﻿import { _modal } from "./modal.template.js";
+﻿import { modalTemplate } from "./modal.template.js";
 import { renderTemplate } from "/periodic/template/_renderTemplate.js";
 import { addEventDelegate } from "../../scripts/eventDelegate/eventDelegate.js";
 
 export const createModal = (modalBody, sibling) => {
   console.log(modalBody);
 
-  const newModal = renderTemplate(_modal(modalBody));
+  const newModal = renderTemplate(modalTemplate(modalBody));
 
   sibling.after(newModal);
 
@@ -18,6 +18,18 @@ const closeModal = (button) => {
   const modal = button.parentNode;
 
   modal.remove();
+};
+
+const openModal = (button) => {
+  const modalId = button.dataset.modal,
+    modal = document.querySelector("#" + modalId);
+
+  modal.showModal();
+};
+
+export const initModals = () => {
+  addEventDelegate("click", "dialog .close", closeModal);
+  addEventDelegate("click", "button[data-modal]", openModal);
 };
 
 // let modals = document.querySelectorAll(".modal");

@@ -663,6 +663,45 @@ export class RADIO {
   }
 }
 
+export class OPTION {
+  constructor(params) {
+    this.tagName = "option";
+
+    if (typeof params === "string") {
+      this.value = params;
+      this.textContent = capitalizeAll(params);
+    } else {
+      for (let key in params) {
+        this[key] = params[key];
+      }
+    }
+  }
+}
+export class SELECT extends ELEMENT {
+  constructor(params) {
+    console.log(params);
+    super(params);
+
+    this.tagName = "select";
+
+    const options = [];
+
+    this.children.forEach((child) => {
+      const option = new OPTION(child);
+
+      if (child === params.selected) {
+        option.selected = true;
+      }
+
+      console.log(option);
+
+      options.push(option);
+    });
+
+    this.children = options;
+  }
+}
+
 export class BUTTON extends ELEMENT {
   constructor(params) {
     super(params);

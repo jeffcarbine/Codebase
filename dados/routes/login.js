@@ -4,5 +4,5 @@ export const get__admin_login = (req, res) => {
 
 export const post__admin_login = (req, res) => {
   console.log("trying to post to dados login!");
-  res.redirect("/dados");
+  res.redirect("/admin");
 };

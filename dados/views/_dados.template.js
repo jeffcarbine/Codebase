@@ -1,8 +1,6 @@
 import * as e from "../../elements/elements.js";
 
 export const base = (data, template, scripts) => {
-  console.log(data);
-
   const html = {
     title: "dados by Carbine Co.",
     stylesheets: ["/admin/styles/dados.min.css"],
@@ -35,11 +33,13 @@ export const base = (data, template, scripts) => {
             if: data.loggedIn,
             routes: {
               Dashboard: ["/admin", "Dashboard", new e.ICON("dashboard")],
+              // Pages: ["/admin/pages", "Pages", new e.ICON("webpage")],
               Data: ["/admin/datasets", "Datasets", new e.ICON("data")],
-              Podcasts: ["/admin/shows", "Shows", new e.ICON("podcast")],
-              Events: ["/admin/events", "Events", new e.ICON("calendar")],
-              Fanart: ["/admin/fanart", "Fanart", new e.ICON("image")],
-              Account: ["/admin/account", "Account", new e.ICON("user")],
+              // Podcasts: ["/admin/shows", "Shows", new e.ICON("podcast")],
+              // Events: ["/admin/events", "Events", new e.ICON("calendar")],
+              // Fanart: ["/admin/fanart", "Fanart", new e.ICON("image")],
+              // History: ["/admin/history", "History", new e.ICON("history")],
+              // Account: ["/admin/account", "Account", new e.ICON("user")],
             },
             path: data.path,
           }),

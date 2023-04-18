@@ -7,9 +7,9 @@ const createAddShowModal = (button) => {
   createModal(
     new e.FORM({
       method: "POST",
-      action: "/dados/shows/add",
+      action: "/admin/shows/add",
       class: "style-inputs xhr",
-      "data-redirect": "/dados/events",
+      "data-redirect": "/admin/events",
       children: [
         new e.H2("Add Show"),
         new e.TEXT("title"),

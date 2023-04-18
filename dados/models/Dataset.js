@@ -1,19 +1,21 @@
 import mongoose from "mongoose";
 var Schema = mongoose.Schema;
 
+const datapoint = {
+  type: {
+    type: String,
+    enum: ["text", "keyvalue", "image", "gallery", "event", "show", "table"],
+    default: "string",
+  },
+  id: String,
+};
+
 // define the schema for our user model
 var Dataset = new Schema({
   name: String,
-  dataObjects: [
-    {
-      type: {
-        type: String,
-        enum: ["text", "keyvalue", "image", "gallery"],
-        default: "string",
-      },
-      id: String,
-    },
-  ],
+  restricted: Boolean,
+  restrictedTo: datapoint,
+  datapoints: [datapoint],
 });
 
 /*

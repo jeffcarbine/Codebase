@@ -15,7 +15,7 @@ export default (data) => {
                 children: [
                   {
                     class: "logo",
-                    child: new e.IMG("/dados/images/logo.svg"),
+                    child: new e.IMG("/admin/images/logo.svg"),
                   },
                   new e.SPAN("x"),
                   {
@@ -26,7 +26,7 @@ export default (data) => {
               }),
               new e.H1("Sign Up for dados"),
               new e.FORM({
-                action: "/dados/signup",
+                action: "/admin/signup",
                 class: "xhr style-inputs",
                 children: [
                   new e.EMAIL(),

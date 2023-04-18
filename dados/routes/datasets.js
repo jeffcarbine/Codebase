@@ -1,41 +1,51 @@
 import Dataset from "../models/Dataset.js";
 
 export const get__admin_datasets = (req, res, next) => {
-  const now = new Date();
+  res.render("datasets", {
+    path: "/admin/datasets",
+    subtitle: "Datasets",
+  });
+};
 
-  Dataset.aggregate([
-    {
-      $match: {
-        date: {
-          $gt: now,
-        },
-      },
-    },
-  ]).exec((err, events) => {
+export const post__admin_datasets_retrieve = (req, res, next) => {
+  Dataset.find().exec((err, datasets) => {
+    if (err) {
+      return res.status(500).send();
+    } else {
+      return res.status(200).send(datasets);
+    }
+  });
+};
+
+export const get__admin_datasets_any = (req, res, next) => {
+  const _id = req.originalUrl.replace("/admin/datasets/", "").split("?")[0];
+
+  Dataset.findOne({ _id }).exec((err, dataset) => {
     if (err) {
       callback(err);
     } else {
-      // sort the events by date
-      events.sort((a, b) => {
-        return new Date(a.date) - new Date(b.date);
-      });
-
-      res.render("datasets", {
-        path: "/admin/datasets",
-        subtitle: "Datasets",
-        events,
+      res.render("dataset", {
+        path: "/admin/datasets/" + dataset._id,
+        subtitle: dataset.name,
+        dataset,
       });
     }
   });
 };
 
 export const post__admin_datasets_add = (req, res, next) => {
-  let body = req.body;
-  body.date = new Date(req.body.date);
+  const body = req.body,
+    name = body.name;
+
+  if (body.restricted) {
+    body.restricted = true;
+  }
+
+  console.log(body);
 
   Dataset.findOneAndUpdate(
     {
-      date: body.date,
+      name,
     },
     {
       $set: body,

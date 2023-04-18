@@ -14,7 +14,12 @@ import {
   post__admin_shows_add,
   post__admin_shows_edit,
 } from "./routes/shows.js";
-import { get__admin_datasets } from "./routes/datasets.js";
+import {
+  get__admin_datasets,
+  post__admin_datasets_add,
+  get__admin_datasets_any,
+  post__admin_datasets_retrieve,
+} from "./routes/datasets.js";
 
 export const init = ({
   app,
@@ -49,11 +54,29 @@ export const init = ({
     dashboard
   );
 
-  // DATA
+  // DATASETS
   app.get(
     "/admin/datasets",
     connectEnsureLogin.ensureLoggedIn(),
     get__admin_datasets
+  );
+
+  app.post(
+    "/admin/datasets/retrieve",
+    connectEnsureLogin.ensureLoggedIn(),
+    post__admin_datasets_retrieve
+  );
+
+  app.post(
+    "/admin/datasets/add",
+    connectEnsureLogin.ensureLoggedIn(),
+    post__admin_datasets_add
+  );
+
+  app.get(
+    "/admin/datasets/*",
+    connectEnsureLogin.ensureLoggedIn(),
+    get__admin_datasets_any
   );
 
   if (shows) {

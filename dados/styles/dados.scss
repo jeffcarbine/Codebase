@@ -15,10 +15,16 @@
 @import "../../elements/form/form";
 @import "../../elements/input/input";
 @import "../../components/toggleswitch/toggleswitch";
+
+.toggle {
+  --toggle-switch-active: var(--primary);
+}
+
 @import "../../components/tile/tile";
 @import "../../components/alert/alert";
 @import "../../components/modal/modal";
 @import "../../components/card/card";
+@import "../../components/loader/loader";
 
 .card {
   border-radius: 25px;
