@@ -18,7 +18,7 @@ const retrieveDatasets = () => {
             new e.H2(dataset.name),
             new e.BTN({
               textContent: "Edit",
-              href: "/admin/datasets/" + dataset._id,
+              href: "/admin/datasets/dataset/" + dataset._id,
             }),
           ],
         })
@@ -39,24 +39,16 @@ const retrieveDatasets = () => {
 
 retrieveDatasets();
 
-const showRestrictedTo = () => {
-  const restrictedTo = document.querySelector("#restrictedTo");
-
-  restrictedTo.classList.toggle("hidden");
-};
-
-addEventDelegate("input", "#restricted", showRestrictedTo);
-
 const submitAddDatasets = (form) => {
   const modal = form.parentNode;
 
   const formSuccess = (response) => {
     const dataset = JSON.parse(response);
 
-    window.location = "/admin/datasets/" + dataset._id;
+    window.location = "/admin/datasets/dataset/" + dataset._id;
   };
 
   xhrForm({ form, formSuccess });
 };
 
-addEventDelegate("submit", "#addDataset form", submitAddDatasets, true);
+addEventDelegate("submit", "#addEditDataset", submitAddDatasets, true);

@@ -17,15 +17,36 @@ export const post__admin_datasets_retrieve = (req, res, next) => {
   });
 };
 
-export const get__admin_datasets_any = (req, res, next) => {
-  const _id = req.originalUrl.replace("/admin/datasets/", "").split("?")[0];
+export const post__admin_datasets_add = (req, res, next) => {
+  const body = req.body,
+    name = body.name;
+
+  if (body.restricted) {
+    body.restricted = true;
+  } else {
+    body.restricted = false;
+  }
+
+  Dataset.create(body, (err, dataset) => {
+    if (err) {
+      return res.status(500).send(err);
+    }
+
+    return res.status(200).send(dataset);
+  });
+};
+
+export const get__admin_datasets_dataset_ = (req, res, next) => {
+  const _id = req.originalUrl
+    .replace("/admin/datasets/dataset/", "")
+    .split("?")[0];
 
   Dataset.findOne({ _id }).exec((err, dataset) => {
     if (err) {
       callback(err);
     } else {
       res.render("dataset", {
-        path: "/admin/datasets/" + dataset._id,
+        path: "/admin/datasets/dataset/" + dataset._id,
         subtitle: dataset.name,
         dataset,
       });
@@ -33,17 +54,26 @@ export const get__admin_datasets_any = (req, res, next) => {
   });
 };
 
-export const post__admin_datasets_add = (req, res, next) => {
+export const post__admin_datasets_dataset_edit = (req, res, next) => {
   const body = req.body,
-    name = body.name;
+    _id = req.body._id;
 
   if (body.restricted) {
     body.restricted = true;
+  } else {
+    body.restricted = false;
   }
 
   console.log(body);
 
-  Dataset.create(body, (err, dataset) => {
+  Dataset.findOneAndUpdate(
+    {
+      _id,
+    },
+    {
+      $set: body,
+    }
+  ).exec((err, dataset) => {
     if (err) {
       return res.status(500).send(err);
     }

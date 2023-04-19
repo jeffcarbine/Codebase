@@ -8,6 +8,7 @@ export const toggleSwitchTemplate = ({
   label = name,
   labelFor = name,
   checked = false,
+  dataTargets,
 } = {}) => {
   const checkboxData = {
     type: "checkbox",
@@ -18,6 +19,10 @@ export const toggleSwitchTemplate = ({
 
   if (checked) {
     checkboxData.checked = checked;
+  }
+
+  if (dataTargets !== undefined) {
+    checkboxData["data-targets"] = dataTargets;
   }
 
   return {

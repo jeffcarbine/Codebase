@@ -17,9 +17,11 @@ import {
 import {
   get__admin_datasets,
   post__admin_datasets_add,
-  get__admin_datasets_any,
   post__admin_datasets_retrieve,
+  get__admin_datasets_dataset_,
+  post__admin_datasets_dataset_edit,
 } from "./routes/datasets.js";
+import { post__admin_datapoints_add } from "./routes/datapoints.js";
 
 export const init = ({
   app,
@@ -74,9 +76,22 @@ export const init = ({
   );
 
   app.get(
-    "/admin/datasets/*",
+    "/admin/datasets/dataset/*",
     connectEnsureLogin.ensureLoggedIn(),
-    get__admin_datasets_any
+    get__admin_datasets_dataset_
+  );
+
+  app.post(
+    "/admin/datasets/dataset/edit",
+    connectEnsureLogin.ensureLoggedIn(),
+    post__admin_datasets_dataset_edit
+  );
+
+  // DATAPOINTS
+  app.post(
+    "/admin/datapoints/add",
+    connectEnsureLogin.ensureLoggedIn(),
+    post__admin_datapoints_add
   );
 
   if (shows) {

@@ -91,6 +91,26 @@ const toggleVisibilityWithSelect = (selectInput) => {
 
 addEventDelegate("change", "select[data-targets]", toggleVisibilityWithSelect);
 
+const toggleVisibilityWithCheckbox = (checkbox) => {
+  const query = checkbox.dataset.targets,
+    checked = checkbox.checked,
+    targets = document.querySelectorAll(query);
+
+  targets.forEach((target) => {
+    if (checked) {
+      target.classList.remove("hidden");
+    } else {
+      target.classList.add("hidden");
+    }
+  });
+};
+
+addEventDelegate(
+  "change",
+  "input[type='checkbox'][data-targets]",
+  toggleVisibilityWithCheckbox
+);
+
 // FORMAT PHONE NUMBERS
 // borrowed from http://www.kodyaz.com
 // and slightly modified to add space between

@@ -23,6 +23,21 @@
 @import "../../components/tile/tile";
 @import "../../components/alert/alert";
 @import "../../components/modal/modal";
+
+.modal {
+  --modal-padding: 4rem;
+
+  .hidden {
+    display: none !important;
+  }
+
+  form {
+    --form-max-width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+}
+
 @import "../../components/card/card";
 @import "../../components/loader/loader";
 

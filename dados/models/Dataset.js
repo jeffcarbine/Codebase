@@ -7,17 +7,12 @@ const datapointEnum = {
   default: "text",
 };
 
-const datapoint = {
-  type: datapointEnum,
-  id: String,
-};
-
 // define the schema for our user model
 var Dataset = new Schema({
   name: String,
   restricted: Boolean,
   restrictedTo: datapointEnum,
-  datapoints: [datapoint],
+  datapoints: Array,
 });
 
 /*

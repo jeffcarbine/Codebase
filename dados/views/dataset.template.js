@@ -4,16 +4,20 @@ import { card } from "../../components/card/card.template.js";
 import { modalTemplate } from "../../components/modal/modal.template.js";
 import { toggleSwitchTemplate } from "../../components/toggleswitch/toggleswitch.template.js";
 import { capitalize } from "../../scripts/formatString/formatString.js";
+import { createEditDatasetTemplate } from "../templates/createEditDataset.template.js";
 
 export default (data) => {
   const datapointForms = {
     text: [
+      new e.HIDDEN({ name: "type", value: "text" }),
       new e.LABEL({
         textContent: "Content",
-        child: new e.TEXTAREA({ name: "text" }),
+        child: new e.TEXTAREA({ name: "value" }),
       }),
+      new e.BTNCONTAINER(["Create Text"], "centered"),
     ],
     event: [
+      new e.HIDDEN({ name: "type", value: "event" }),
       new e.TEXT({
         name: "venue",
         label: "Venue",
@@ -41,8 +45,10 @@ export default (data) => {
         name: "tickets",
         label: "Tickets",
       }),
+      new e.BTNCONTAINER(["Create Event"], "centered"),
     ],
     show: [
+      new e.HIDDEN({ name: "type", value: "show" }),
       new e.TEXT({
         name: "title",
         label: "Title",
@@ -67,24 +73,55 @@ export default (data) => {
         name: "apple",
         label: "Apple",
       }),
+      new e.BTNCONTAINER(["Create Show"], "centered"),
     ],
   };
 
   const generateDatapointForm = () => {
-    const children = [
-      new e.H2(
-        "New " +
-          (data.dataset.restricted
-            ? capitalize(data.dataset.restrictedTo)
-            : "Datapoint")
-      ),
-      new e.TEXT("name"),
-    ];
+    const generateForms = () => {
+      const forms = [];
 
-    // if this is a restricted dataset, don't render the datasetSelector
-    if (!data.dataset.restricted) {
-      children.push(
+      for (let type in datapointForms) {
+        if (!data.dataset.restricted || data.dataset.restrictedTo === type) {
+          const datapointForm = [
+            new e.HIDDEN({ name: "datasetId", value: data.dataset._id }),
+          ].concat(datapointForms[type]);
+
+          forms.push(
+            new e.FORM({
+              method: "POST",
+              action: "/admin/datapoints/add",
+              id: type + "-form",
+              class:
+                type +
+                " datapointForm" +
+                (!data.dataset.restricted
+                  ? type !== "text"
+                    ? " hidden"
+                    : ""
+                  : ""),
+              children: datapointForm,
+            })
+          );
+        }
+      }
+
+      return {
+        children: forms,
+      };
+    };
+
+    return {
+      class: "style-inputs",
+      children: [
+        new e.H2(
+          "New " +
+            (data.dataset.restricted
+              ? capitalize(data.dataset.restrictedTo)
+              : "Datapoint")
+        ),
         new e.LABEL({
+          if: !data.dataset.restricted,
           textContent: "Type",
           child: new e.SELECT({
             id: "datasetSelector",
@@ -92,36 +129,10 @@ export default (data) => {
             "data-targets": ".datapointForm",
             children: ["text", "event", "show"],
           }),
-        })
-      );
-    }
-
-    // loop through the different datapointForms and push where applicable
-    for (let type in datapointForms) {
-      if (!data.dataset.restricted || data.dataset.restrictedTo === type) {
-        const datapointForm = datapointForms[type];
-        children.push({
-          id: type + "-form",
-          class:
-            type +
-            " datapointForm" +
-            (!data.dataset.restricted
-              ? type !== "text"
-                ? " hidden"
-                : ""
-              : ""),
-          children: datapointForm,
-        });
-      }
-    }
-
-    return new e.FORM({
-      method: "POST",
-      action: "/admin/datasets/add",
-      class: "style-inputs xhr",
-      "data-redirect": "/admin/datasets",
-      children,
-    });
+        }),
+        generateForms(),
+      ],
+    };
   };
 
   return base(
@@ -144,7 +155,13 @@ export default (data) => {
             {
               id: "addDatapoint",
               "data-modal": "addDatapointModal",
-              children: [new e.ICON("plus"), "Create New Datapoint"],
+              children: [
+                new e.ICON("plus"),
+                "Create New " +
+                  (data.dataset.restricted
+                    ? capitalize(data.dataset.restrictedTo)
+                    : "Datapoint"),
+              ],
             },
           ],
           "centered"
@@ -153,35 +170,7 @@ export default (data) => {
           id: "modals",
           children: [
             modalTemplate(
-              new e.FORM({
-                method: "POST",
-                action: "/admin/datasets/add",
-                class: "style-inputs xhr",
-                children: [
-                  new e.H2("Edit Dataset"),
-                  new e.TEXT({ name: "name", value: data.dataset.name }),
-                  toggleSwitchTemplate({
-                    name: "restricted",
-                    label: "Restrict to One Datapoint",
-                    checked: data.dataset.restricted,
-                  }),
-                  new e.LABEL({
-                    id: "restrictedTo",
-                    class:
-                      "active" + (data.dataset.restricted ? "" : " hidden"),
-                    textContent: "Dataset Restricted To",
-                    child: new e.SELECT({
-                      name: "restrictedTo",
-                      selected: data.dataset.restrictedTo.toString(),
-                      children: ["text", "image", "event", "show"],
-                    }),
-                  }),
-                  new e.BTN({
-                    id: "createDataset",
-                    textContent: "Saves Changes",
-                  }),
-                ],
-              }),
+              createEditDatasetTemplate(data.dataset),
               "editDatasetModal"
             ),
             modalTemplate(generateDatapointForm(), "addDatapointModal"),
