@@ -75,6 +75,22 @@ addEventDelegate(
   getPseudoXPos
 );
 
+const toggleVisibilityWithSelect = (selectInput) => {
+  const query = selectInput.dataset.targets,
+    value = selectInput.value,
+    targets = document.querySelectorAll(query);
+
+  targets.forEach((target) => {
+    if (target.classList.contains(value)) {
+      target.classList.remove("hidden");
+    } else {
+      target.classList.add("hidden");
+    }
+  });
+};
+
+addEventDelegate("change", "select[data-targets]", toggleVisibilityWithSelect);
+
 // FORMAT PHONE NUMBERS
 // borrowed from http://www.kodyaz.com
 // and slightly modified to add space between

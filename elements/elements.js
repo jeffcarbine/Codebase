@@ -1,4 +1,7 @@
-import { capitalizeAll } from "../scripts/formatString/formatString.js";
+import {
+  capitalize,
+  capitalizeAll,
+} from "../scripts/formatString/formatString.js";
 import * as i from "../components/icon/_icon-list.js";
 
 export class ELEMENT {
@@ -679,7 +682,6 @@ export class OPTION {
 }
 export class SELECT extends ELEMENT {
   constructor(params) {
-    console.log(params);
     super(params);
 
     this.tagName = "select";
@@ -687,13 +689,14 @@ export class SELECT extends ELEMENT {
     const options = [];
 
     this.children.forEach((child) => {
-      const option = new OPTION(child);
+      const option = new OPTION({
+        textContent: capitalize(child),
+        value: child,
+      });
 
       if (child === params.selected) {
         option.selected = true;
       }
-
-      console.log(option);
 
       options.push(option);
     });
@@ -765,7 +768,7 @@ export class BTN {
     }
 
     // add the btn class
-    this.class += " btn";
+    this.class = this.class !== undefined ? (this.class += " btn") : "btn";
 
     // and now make the span the only child of the btn
     this.child = span;

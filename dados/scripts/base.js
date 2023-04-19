@@ -3,7 +3,9 @@ import {
   enableToggleNav,
   enableSetNavBackground,
 } from "/periodic/elements/nav/_nav.js";
+import { initModals } from "/periodic/components/modal/modal.js";
 
+initModals();
 enableToggleNav();
 
 const setHeaderBackground = (scrollPos) => {

@@ -2,11 +2,12 @@ import { addEventDelegate } from "../eventDelegate/eventDelegate.js";
 import { xhr } from "./_xhr.js";
 import { toast } from "../../components/alert/_alert.js";
 
-const xhrForm = function (form, json = {}) {
+const xhrForm = (form) => {
   // get the data from the form
   const formData = new FormData(form),
     method = form.method,
-    action = form.action;
+    action = form.action,
+    json = {};
 
   // add the loading class to the form
   if (!form.classList.contains("loading")) {
@@ -77,7 +78,12 @@ const xhrForm = function (form, json = {}) {
 
   // and now pass this all to the xhr function
   setTimeout(() => {
-    xhr(method, action, json, { success, error, failure });
+    xhr({
+      method: method,
+      path: action,
+      body: json,
+      callbacks: { success, error, failure },
+    });
   }, 1000);
 };
 
@@ -96,7 +102,12 @@ const xhrFormRecaptcha = (form) => {
   });
 };
 
-addEventDelegate("submit", "form.xhrRecaptcha", xhrFormRecaptcha, true);
+addEventDelegate(
+  "submit",
+  "form[data-recaptchaSiteKey]",
+  xhrFormRecaptcha,
+  true
+);
 
 // // handle recaptcha forms
 // const recaptchaHandler = () => {

@@ -1,12 +1,14 @@
 import mongoose from "mongoose";
 var Schema = mongoose.Schema;
 
+const datapointEnum = {
+  type: String,
+  enum: ["text", "keyvalue", "image", "gallery", "event", "show", "table"],
+  default: "text",
+};
+
 const datapoint = {
-  type: {
-    type: String,
-    enum: ["text", "keyvalue", "image", "gallery", "event", "show", "table"],
-    default: "string",
-  },
+  type: datapointEnum,
   id: String,
 };
 
@@ -14,7 +16,7 @@ const datapoint = {
 var Dataset = new Schema({
   name: String,
   restricted: Boolean,
-  restrictedTo: datapoint,
+  restrictedTo: datapointEnum,
   datapoints: [datapoint],
 });
 
@@ -35,4 +37,4 @@ var Dataset = new Schema({
 */
 
 // create the model for users and expose it to our app
-export default mongoose.model("Datset", Dataset);
+export default mongoose.model("Dataset", Dataset);

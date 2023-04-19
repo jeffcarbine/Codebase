@@ -28,6 +28,8 @@
 
 .card {
   border-radius: 25px;
+  width: calc(100% - 2rem);
+  max-width: 60rem;
 }
 
 // GLOBAL
@@ -42,6 +44,7 @@
 // PAGES
 @import "login";
 @import "dashboard";
+@import "datasets";
 
 :root {
   --base-font-increase: 1.12;

@@ -43,22 +43,11 @@ export const post__admin_datasets_add = (req, res, next) => {
 
   console.log(body);
 
-  Dataset.findOneAndUpdate(
-    {
-      name,
-    },
-    {
-      $set: body,
-    },
-    {
-      upsert: true,
-      new: true,
-    }
-  ).exec((err, event) => {
+  Dataset.create(body, (err, dataset) => {
     if (err) {
       return res.status(500).send(err);
     }
 
-    return res.status(200).send("Dataset was successfully created!");
+    return res.status(200).send(dataset);
   });
 };
