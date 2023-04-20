@@ -23,7 +23,7 @@ export default (data) => {
         modalTemplate(createEditDatasetTemplate(), "addDataset"),
         new e.SECTION({
           id: "datasets",
-          class: "loading",
+          class: "card-canvas",
         }),
       ],
     },

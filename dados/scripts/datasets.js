@@ -5,9 +5,10 @@ import { xhr, xhrForm } from "/periodic/scripts/xhr/_xhr.js";
 import { renderTemplate } from "/periodic/template/_renderTemplate.js";
 
 const retrieveDatasets = () => {
-  const generateDatasetsCards = (datasets) => {
-    const datasetsTarget = document.querySelector("#datasets");
+  const datasetsTarget = document.querySelector("#datasets");
+  datasetsTarget.classList.add("loading");
 
+  const generateDatasetsCards = (datasets) => {
     datasetsTarget.classList.remove("loading");
     datasetsTarget.innerHTML = "";
 

@@ -40,7 +40,7 @@ export const createEditDatasetTemplate = (dataset = {}) => {
         child: new e.SELECT({
           name: "restrictedTo",
           selected: restrictedTo,
-          children: ["text", "image", "event", "show"],
+          children: ["text", "image"],
         }),
       }),
       new e.BTN({

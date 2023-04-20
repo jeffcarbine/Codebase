@@ -72,8 +72,76 @@ export const post__admin_datapoints_retrieve = (req, res, next) => {
     if (err) {
       return res.status(500).send(err);
     } else {
-      console.log(datapoints);
       return res.status(200).send(datapoints);
     }
   });
+};
+
+export const post__admin_datapoints_edit = (req, res, next) => {
+  const body = req.body,
+    type = body.type,
+    datasetId = body.datasetId,
+    name = body.name,
+    _id = body._id;
+
+  const newDatapoint = {
+    type,
+    datasetId,
+    name,
+  };
+
+  newDatapoint[type] = {};
+
+  for (let key in body) {
+    if (key !== "datasetId" && key !== "type") {
+      newDatapoint[type][key] = body[key];
+    }
+  }
+
+  console.log(newDatapoint);
+
+  async.waterfall(
+    [
+      (callback) => {
+        Datapoint.findOneAndUpdate(
+          {
+            _id,
+          },
+          {
+            $set: newDatapoint,
+          }
+        ).exec((err, datapoint) => {
+          if (err) {
+            callback(err);
+          } else {
+            callback(null, datapoint);
+          }
+        });
+      },
+      (datapoint) => {
+        Dataset.findOneAndUpdate(
+          {
+            _id: datasetId,
+          },
+          {
+            $addToSet: {
+              datapoints: datapoint._id,
+            },
+          },
+          {
+            new: true,
+          }
+        ).exec((err, dataset) => {
+          if (err) {
+            callback(err);
+          } else {
+            return res.status(200).send(dataset.datapoints);
+          }
+        });
+      },
+    ],
+    (err) => {
+      return res.status(500).send(err);
+    }
+  );
 };

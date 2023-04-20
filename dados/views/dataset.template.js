@@ -1,81 +1,11 @@
 import { base } from "./_dados.template.js";
 import * as e from "../../elements/elements.js";
-import { card } from "../../components/card/card.template.js";
 import { modalTemplate } from "../../components/modal/modal.template.js";
 import { capitalize } from "../../scripts/formatString/formatString.js";
 import { createEditDatasetTemplate } from "../templates/createEditDataset.template.js";
+import * as datapointForms from "../templates/datapointForms.template.js";
 
 export default (data) => {
-  const datapointForms = {
-    text: [
-      new e.HIDDEN({ name: "type", value: "text" }),
-      new e.LABEL({
-        textContent: "Content",
-        child: new e.TEXTAREA({ name: "value" }),
-      }),
-      new e.BTNCONTAINER(["Create Text"], "centered"),
-    ],
-    event: [
-      new e.HIDDEN({ name: "type", value: "event" }),
-      new e.TEXT({
-        name: "venue",
-        label: "Venue",
-      }),
-      new e.TEXT({
-        name: "street",
-        label: "Street",
-      }),
-      new e.TEXT({
-        name: "city",
-        label: "City",
-      }),
-      new e.TEXT({
-        name: "region",
-        label: "Region",
-      }),
-      new e.TEXT({
-        name: "country",
-        label: "Country",
-      }),
-      new e.DATE({
-        label: "Show Date",
-      }),
-      new e.TEXT({
-        name: "tickets",
-        label: "Tickets",
-      }),
-      new e.BTNCONTAINER(["Create Event"], "centered"),
-    ],
-    show: [
-      new e.HIDDEN({ name: "type", value: "show" }),
-      new e.TEXT({
-        name: "title",
-        label: "Title",
-      }),
-      new e.TEXT({
-        name: "rss",
-        label: "RSS",
-      }),
-      new e.TEXT({
-        name: "patreon",
-        label: "Patreon",
-      }),
-      new e.TEXT({
-        name: "spotify",
-        label: "Spotify",
-      }),
-      new e.TEXT({
-        name: "youTube",
-        label: "YouTube",
-      }),
-      new e.TEXT({
-        name: "apple",
-        label: "Apple",
-      }),
-      new e.BTNCONTAINER(["Create Show"], "centered"),
-    ],
-  };
-
   const generateDatapointForm = () => {
     const generateForms = () => {
       const forms = [];
@@ -127,7 +57,7 @@ export default (data) => {
             id: "datasetSelector",
             name: "datasetSelector",
             "data-targets": ".datapointForm",
-            children: ["text", "event", "show"],
+            children: ["text", "image"],
           }),
         }),
         generateForms(),
@@ -176,18 +106,16 @@ export default (data) => {
             modalTemplate(generateDatapointForm(), "addDatapointModal"),
           ],
         },
-
         new e.SECTION({
           id: "datapoints",
+          class: "card-canvas",
         }),
       ],
     },
     [
       new e.MODULE("/periodic/elements/input/_input.js"),
       new e.MODULE("/periodic/scripts/xhr/_xhrForm.js"),
-      new e.MODULE(
-        "/admin/scripts/dataset.js?" + JSON.stringify(data.dataset.datapoints)
-      ),
+      new e.MODULE("/admin/scripts/dataset.js?" + JSON.stringify(data.dataset)),
     ]
   );
 };

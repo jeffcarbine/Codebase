@@ -1,15 +1,14 @@
-import { card } from "/periodic/components/card/card.template.js";
 import { initModals } from "/periodic/components/modal/modal.js";
 import { addEventDelegate } from "/periodic/scripts/eventDelegate/eventDelegate.js";
 import { xhr, xhrForm } from "/periodic/scripts/xhr/_xhr.js";
 import { renderTemplate } from "/periodic/template/_renderTemplate.js";
-import * as e from "/periodic/elements/elements.js";
+import { datapointCardTemplate } from "/periodic/dados/templates/datapointCard.template.js";
 
 initModals();
 
-const datapointIds = JSON.parse(
-  decodeURIComponent(import.meta.url.split("?")[1])
-);
+const dataset = JSON.parse(decodeURIComponent(import.meta.url.split("?")[1])),
+  datapointIds = dataset.datapoints,
+  datasetId = dataset._id;
 
 const fetchDatapoints = (datapointIds) => {
   const datapointsArea = document.querySelector("#datapoints");
@@ -22,14 +21,8 @@ const fetchDatapoints = (datapointIds) => {
     const datapoints = JSON.parse(request.response);
 
     datapoints.forEach((datapoint) => {
-      console.log(datapoint);
       const datapointCard = renderTemplate(
-        card({
-          children: [
-            new e.H2(datapoint.name),
-            new e.BTNCONTAINER({ textContent: "Edit" }),
-          ],
-        })
+        datapointCardTemplate(datasetId, datapoint)
       );
 
       datapointsArea.appendChild(datapointCard);
@@ -69,3 +62,18 @@ const submitAddDatapoint = (form) => {
 };
 
 addEventDelegate("submit", ".datapointForm", submitAddDatapoint, true);
+
+const submitEditDatapoint = (form) => {
+  const modal = form.closest("dialog");
+
+  const formSuccess = (response) => {
+    modal.close();
+    const datapointIds = JSON.parse(response);
+
+    fetchDatapoints(datapointIds);
+  };
+
+  xhrForm({ form, formSuccess });
+};
+
+addEventDelegate("submit", ".editDatapoint", submitEditDatapoint, true);

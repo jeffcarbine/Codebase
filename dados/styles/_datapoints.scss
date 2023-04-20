@@ -1,0 +1,18 @@
+.datapoint {
+  display: flex;
+
+  .data {
+    flex: 1 1 auto;
+  }
+
+  .btn-container {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .btn {
+      max-width: none;
+    }
+  }
+}

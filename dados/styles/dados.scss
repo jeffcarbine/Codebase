@@ -9,6 +9,12 @@
 .btn {
   --btn-border-radius: 25px;
   box-shadow: var(--box-shadow);
+  transform: scale(1);
+
+  &:hover {
+    transform: scale(0.975);
+    box-shadow: none;
+  }
 }
 
 @import "../../elements/nav/nav";
@@ -47,6 +53,11 @@
   max-width: 60rem;
 }
 
+.card-canvas {
+  flex: 1 1 auto;
+  position: relative;
+}
+
 // GLOBAL
 @import "vars";
 @import "text";
@@ -60,6 +71,7 @@
 @import "login";
 @import "dashboard";
 @import "datasets";
+@import "datapoints";
 
 :root {
   --base-font-increase: 1.12;

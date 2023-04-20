@@ -64,8 +64,6 @@ export const post__admin_datasets_dataset_edit = (req, res, next) => {
     body.restricted = false;
   }
 
-  console.log(body);
-
   Dataset.findOneAndUpdate(
     {
       _id,

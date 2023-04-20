@@ -572,6 +572,10 @@ export class TEXT {
       labelText = params.label;
     }
 
+    if (params.value !== undefined && params.value !== "") {
+      this.class = "active";
+    }
+
     this.tagName = "label";
     this.textContent = labelText;
     this.child = new INPUT(inputParams);

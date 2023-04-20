@@ -35,8 +35,8 @@ export const base = (data, template, scripts) => {
               Dashboard: ["/admin", "Dashboard", new e.ICON("dashboard")],
               // Pages: ["/admin/pages", "Pages", new e.ICON("webpage")],
               Data: ["/admin/datasets", "Datasets", new e.ICON("data")],
-              // Podcasts: ["/admin/shows", "Shows", new e.ICON("podcast")],
-              // Events: ["/admin/events", "Events", new e.ICON("calendar")],
+              Podcasts: ["/admin/shows", "Shows", new e.ICON("podcast")],
+              //Events: ["/admin/events", "Events", new e.ICON("calendar")],
               // Fanart: ["/admin/fanart", "Fanart", new e.ICON("image")],
               // History: ["/admin/history", "History", new e.ICON("history")],
               // Account: ["/admin/account", "Account", new e.ICON("user")],
@@ -50,7 +50,7 @@ export const base = (data, template, scripts) => {
         if: data.loggedIn,
         children: [
           new e.P(
-            "dados by Carbine Co. - Copyright " + new Date().getFullYear()
+            "Dados by Carbine Co. - Copyright " + new Date().getFullYear()
           ),
         ],
       }),
