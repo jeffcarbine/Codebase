@@ -5,11 +5,13 @@ import Datapoint from "../models/Datapoint.js";
 export const post__admin_datapoints_add = (req, res, next) => {
   const body = req.body,
     type = body.type,
-    datasetId = body.datasetId;
+    datasetId = body.datasetId,
+    name = body.name;
 
   const newDatapoint = {
     type,
     datasetId,
+    name,
   };
 
   newDatapoint[type] = {};
@@ -40,12 +42,15 @@ export const post__admin_datapoints_add = (req, res, next) => {
             $addToSet: {
               datapoints: datapoint._id,
             },
+          },
+          {
+            new: true,
           }
         ).exec((err, dataset) => {
           if (err) {
             callback(err);
           } else {
-            return res.status(200).send(dataset);
+            return res.status(200).send(dataset.datapoints);
           }
         });
       },
@@ -54,4 +59,21 @@ export const post__admin_datapoints_add = (req, res, next) => {
       return res.status(500).send(err);
     }
   );
+};
+
+export const post__admin_datapoints_retrieve = (req, res, next) => {
+  const datapointIds = req.body;
+
+  Datapoint.find({
+    _id: {
+      $in: datapointIds,
+    },
+  }).exec((err, datapoints) => {
+    if (err) {
+      return res.status(500).send(err);
+    } else {
+      console.log(datapoints);
+      return res.status(200).send(datapoints);
+    }
+  });
 };

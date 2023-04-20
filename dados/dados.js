@@ -21,7 +21,10 @@ import {
   get__admin_datasets_dataset_,
   post__admin_datasets_dataset_edit,
 } from "./routes/datasets.js";
-import { post__admin_datapoints_add } from "./routes/datapoints.js";
+import {
+  post__admin_datapoints_add,
+  post__admin_datapoints_retrieve,
+} from "./routes/datapoints.js";
 
 export const init = ({
   app,
@@ -92,6 +95,12 @@ export const init = ({
     "/admin/datapoints/add",
     connectEnsureLogin.ensureLoggedIn(),
     post__admin_datapoints_add
+  );
+
+  app.post(
+    "/admin/datapoints/retrieve",
+    connectEnsureLogin.ensureLoggedIn(),
+    post__admin_datapoints_retrieve
   );
 
   if (shows) {

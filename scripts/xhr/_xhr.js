@@ -149,6 +149,9 @@ export const xhrForm = ({
   // };
 
   // and now pass this all to the xhr function
+
+  console.log(json);
+
   xhr({
     method: method,
     path: action,

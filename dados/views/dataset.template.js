@@ -2,7 +2,6 @@ import { base } from "./_dados.template.js";
 import * as e from "../../elements/elements.js";
 import { card } from "../../components/card/card.template.js";
 import { modalTemplate } from "../../components/modal/modal.template.js";
-import { toggleSwitchTemplate } from "../../components/toggleswitch/toggleswitch.template.js";
 import { capitalize } from "../../scripts/formatString/formatString.js";
 import { createEditDatasetTemplate } from "../templates/createEditDataset.template.js";
 
@@ -85,6 +84,7 @@ export default (data) => {
         if (!data.dataset.restricted || data.dataset.restrictedTo === type) {
           const datapointForm = [
             new e.HIDDEN({ name: "datasetId", value: data.dataset._id }),
+            new e.TEXT("name"),
           ].concat(datapointForms[type]);
 
           forms.push(
@@ -185,7 +185,9 @@ export default (data) => {
     [
       new e.MODULE("/periodic/elements/input/_input.js"),
       new e.MODULE("/periodic/scripts/xhr/_xhrForm.js"),
-      new e.MODULE("/admin/scripts/dataset.js"),
+      new e.MODULE(
+        "/admin/scripts/dataset.js?" + JSON.stringify(data.dataset.datapoints)
+      ),
     ]
   );
 };
