@@ -115,9 +115,23 @@ button {
   > .btn {
     width: auto;
     max-width: 80%;
+  }
 
-    &:nth-of-type(n + 2) {
-      margin-left: 0.5rem;
+  &.sm-space {
+    > .btn {
+      &:nth-of-type(n + 2) {
+        margin-left: 0.5rem;
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: $breakpoint-md) {
+  .btn-container {
+    > .btn {
+      &:nth-of-type(n + 2) {
+        margin-left: 0.5rem;
+      }
     }
   }
 }
