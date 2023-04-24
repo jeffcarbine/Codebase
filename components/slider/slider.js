@@ -15,7 +15,7 @@ const changeActive = (slider, forwards) => {
   let activeSlide = parseInt(slider.dataset.active),
     slideCount = parseInt(slider.dataset.count);
 
-  if (forwards) {
+  if (!forwards) {
     // increase the slide value
     if (activeSlide == slideCount) {
       activeSlide = 0;
