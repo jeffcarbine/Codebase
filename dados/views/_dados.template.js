@@ -58,7 +58,7 @@ export const base = (data, template, scripts) => {
         src: "/admin/scripts/base.js",
       }),
       new e.MODULE({
-        src: "/periodic/elements/input/_input.js",
+        src: "/periodic/elements/input/input.js",
       }),
     ],
   };

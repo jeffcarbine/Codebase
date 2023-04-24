@@ -113,7 +113,7 @@ export default (data) => {
       ],
     },
     [
-      new e.MODULE("/periodic/elements/input/_input.js"),
+      new e.MODULE("/periodic/elements/input/input.js"),
       new e.MODULE("/periodic/scripts/xhr/_xhrForm.js"),
       new e.MODULE("/admin/scripts/dataset.js?" + JSON.stringify(data.dataset)),
     ]

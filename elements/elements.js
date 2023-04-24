@@ -299,7 +299,7 @@ export class ULLI extends ELEMENT {
     for (let i = 0; i < this.children.length; i++) {
       let child = this.children[i];
 
-      const li = new LI(child);
+      const li = new LI({ child });
 
       this.children[i] = li;
     }
