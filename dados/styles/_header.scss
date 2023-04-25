@@ -1,0 +1,70 @@
+header {
+  color: var(--light);
+  width: 100%;
+  position: fixed;
+  z-index: 10;
+  background: transparent;
+  transition: all 0.5s ease;
+  box-shadow: none;
+
+  &.scrolled {
+    background: var(--light);
+    box-shadow: var(--box-shadow);
+  }
+
+  .branding {
+    display: flex;
+    padding: 1rem 2rem;
+    box-sizing: border-box;
+    justify-content: flex-end;
+
+    .logo {
+      flex: 0 0 2.5rem;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+    }
+
+    .x {
+      color: var(--dark);
+      opacity: 0.2;
+      flex: 0 0 2rem;
+      @include fontValues(8);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 0.25rem;
+      text-align: center;
+    }
+  }
+}
+
+@media only screen and (min-width: $breakpoint-md) {
+  header {
+    width: 10rem;
+    top: 0;
+    left: 0;
+    height: 100%;
+
+    &.scrolled {
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .branding {
+      margin: 0 0.25rem;
+      padding: 1.5rem;
+
+      .logo {
+        flex: 0 0 2rem;
+      }
+
+      span {
+        @include fontValues(11);
+      }
+    }
+  }
+}

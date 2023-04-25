@@ -1,4 +1,8 @@
-import { capitalizeAll } from "../scripts/formatString/formatString.js";
+import {
+  capitalize,
+  capitalizeAll,
+} from "../scripts/formatString/formatString.js";
+import * as i from "../components/icon/_icon-list.js";
 
 export class ELEMENT {
   constructor(params) {
@@ -295,9 +299,7 @@ export class ULLI extends ELEMENT {
     for (let i = 0; i < this.children.length; i++) {
       let child = this.children[i];
 
-      const li = new LI({
-        child,
-      });
+      const li = new LI({ child });
 
       this.children[i] = li;
     }
@@ -331,43 +333,69 @@ export class NAVIGATION extends ELEMENT {
     this.tagName = "nav";
     this.children = params.children || [];
 
-    const ul = new UL({
-      children: [],
-    });
+    const createNavItems = (routes) => {
+      const navItems = [];
 
-    for (let route in params.routes) {
-      let navItem;
+      for (let route in routes) {
+        let navItem;
 
-      const path = params.routes[route],
-        active = path === params.path;
+        const path = routes[route];
 
-      if (typeof path === "string") {
-        navItem = new LI({
-          class: route.toLowerCase(),
-          child: new A({
-            href: path,
-            textContent: route,
-          }),
-        });
-      } else if (Array.isArray(path)) {
-        navItem = new LI({
-          class: route.toLowerCase(),
-          children: path,
-        });
-      } else {
-        navItem = new LI({
-          class: route.toLowerCase(),
-          child: path,
-        });
+        if (typeof path === "string") {
+          const active = path === params.path;
+          navItem = {
+            class:
+              route.toLowerCase().replaceAll(" ", "") +
+              (active ? " active" : ""),
+            child: new A({
+              href: path,
+              textContent: route,
+            }),
+          };
+          // then we have textcontent
+        } else if (Array.isArray(path)) {
+          // the href is always the first array element
+          const href = path[0],
+            children = path.slice(1);
+
+          const active = href === params.path;
+
+          navItem = {
+            class:
+              route.toLowerCase().replaceAll(" ", "") +
+              (active ? " active" : ""),
+            child: new A({
+              href,
+              children,
+            }),
+          };
+        } else {
+          // this is a submenu
+
+          // check
+          const childActive = Object.values(path).includes(params.path);
+
+          navItem = {
+            class:
+              route.toLowerCase().replaceAll(" ", "") +
+              (childActive ? " active" : ""),
+            children: [
+              new BUTTON(route),
+              {
+                class: "submenu",
+                child: new ULLI(createNavItems(path)),
+              },
+            ],
+          };
+        }
+
+        navItems.push(navItem);
       }
 
-      if (active) {
-        navItem.class = navItem.class + " active";
-      }
+      return navItems;
+    };
 
-      ul.children.push(navItem);
-    }
-
+    const ul = new ULLI(createNavItems(params.routes));
     this.children.unshift(ul);
   }
 }
@@ -514,6 +542,14 @@ export class LABEL extends ELEMENT {
   }
 }
 
+export class HIDDEN extends INPUT {
+  constructor(params) {
+    super(params);
+
+    this.type = "hidden";
+  }
+}
+
 export class NUMBER {
   constructor({ type = "number", value = 0 } = {}) {
     this.tagName = "label";
@@ -534,6 +570,10 @@ export class TEXT {
     } else {
       inputParams = params;
       labelText = params.label;
+    }
+
+    if (params.value !== undefined && params.value !== "") {
+      this.class = "active";
     }
 
     this.tagName = "label";
@@ -615,6 +655,60 @@ export class MESSAGE {
   }
 }
 
+export class RADIO {
+  constructor(params) {
+    params.type = "radio";
+    this.class = "radio";
+
+    this.children = [
+      new INPUT(params),
+      new LABEL({
+        textContent: params.label,
+        for: params.id,
+      }),
+    ];
+  }
+}
+
+export class OPTION {
+  constructor(params) {
+    this.tagName = "option";
+
+    if (typeof params === "string") {
+      this.value = params;
+      this.textContent = capitalizeAll(params);
+    } else {
+      for (let key in params) {
+        this[key] = params[key];
+      }
+    }
+  }
+}
+export class SELECT extends ELEMENT {
+  constructor(params) {
+    super(params);
+
+    this.tagName = "select";
+
+    const options = [];
+
+    this.children.forEach((child) => {
+      const option = new OPTION({
+        textContent: capitalize(child),
+        value: child,
+      });
+
+      if (child === params.selected) {
+        option.selected = true;
+      }
+
+      options.push(option);
+    });
+
+    this.children = options;
+  }
+}
+
 export class BUTTON extends ELEMENT {
   constructor(params) {
     super(params);
@@ -626,27 +720,68 @@ export class BUTTON extends ELEMENT {
   }
 }
 
-export class BTN extends ELEMENT {
-  constructor(params) {
-    super(params);
+// export class BTN extends ELEMENT {
+//   constructor(params) {
+//     super(params);
 
+//     if (params.href !== undefined) {
+//       this.tagName = "a";
+//     } else {
+//       this.tagName = "button";
+//     }
+
+//     if (typeof params === "string") {
+//       this.textContent = params;
+//     }
+
+//     this.class = "btn" + (params.class !== undefined ? " " + params.class : "");
+//   }
+// }
+
+export class BTN {
+  constructor(params) {
+    // check if we have a href
     if (params.href !== undefined) {
       this.tagName = "a";
     } else {
       this.tagName = "button";
     }
 
-    if (typeof params === "string") {
-      this.textContent = params;
+    // create the span that will live inside the btn
+    let span = new SPAN();
+
+    // check if is object/array
+    if (typeof params === "object") {
+      if (Array.isArray(params)) {
+        // if an array, then it's children
+        span.children =
+          this.children !== undefined ? this.children.concat(params) : params;
+      } else {
+        // otherwise, it's regular properties
+        for (let key in params) {
+          if (key !== "textContent" && key !== "children" && key !== "child") {
+            this[key] = params[key];
+          } else {
+            span[key] = params[key];
+          }
+        }
+      }
+    } else {
+      // if it is just a string, it is the textContent
+      span.textContent = params;
     }
 
-    this.class = "btn" + (params.class !== undefined ? " " + params.class : "");
+    // add the btn class
+    this.class = this.class !== undefined ? (this.class += " btn") : "btn";
+
+    // and now make the span the only child of the btn
+    this.child = span;
   }
 }
 
 export class BTNCONTAINER {
-  constructor(params) {
-    this.class = "btn-container";
+  constructor(params, className = null) {
+    this.class = "btn-container " + className;
     this.children = [];
 
     const btns = Array.isArray(params) ? params : [params];
@@ -688,7 +823,7 @@ export class BR extends ELEMENT {
 
 export class ICON {
   constructor(params) {
-    this.icon = params;
+    this.icon = i[params];
   }
 }
 
@@ -696,5 +831,12 @@ export class DIALOG extends ELEMENT {
   constructor(params) {
     super(params);
     this.tagName = "dialog";
+  }
+}
+
+export class ARTICLE extends ELEMENT {
+  constructor(params) {
+    super(params);
+    this.tagName = "article";
   }
 }

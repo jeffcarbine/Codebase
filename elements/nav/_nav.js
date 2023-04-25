@@ -1,4 +1,4 @@
-import { addEventDelegate } from "../../scripts/eventdelegate/_eventdelegate.js";
+import { addEventDelegate } from "../../scripts/eventDelegate/eventDelegate.js";
 
 const toggleNav = (button) => {
   const nav = document.querySelector("nav");
@@ -48,8 +48,8 @@ const toggleSubmenu = (button) => {
 
     // add class of open
     submenu.classList.add("open");
-    button.classList.add("active");
-    listItem.classList.add("active");
+    button.classList.add("open");
+    listItem.classList.add("open");
 
     // and after the transition duration, change the inline
     // height to "auto" so that we aren't stuck at a pixel height
@@ -72,8 +72,8 @@ const toggleSubmenu = (button) => {
     // open class from the submenu
     setTimeout(() => {
       submenu.classList.remove("open");
-      button.classList.remove("active");
-      listItem.classList.remove("active");
+      button.classList.remove("open");
+      listItem.classList.remove("open");
     }, delay);
   }
 };

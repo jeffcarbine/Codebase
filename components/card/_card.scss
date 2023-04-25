@@ -3,11 +3,9 @@
   --card-background: var(--light);
 
   background: var(--card-background);
-  padding: 4rem;
+  padding: 1rem;
   box-shadow: var(--box-shadow);
   box-sizing: border-box;
-  width: 90%;
-  max-width: 40rem;
   margin: 1rem auto;
   position: relative;
 
@@ -16,9 +14,23 @@
   }
 }
 
-@media only screen and (min-width: $breakpoint-md) {
+@media only screen and (min-width: $breakpoint-lg) {
   .card {
     width: 80%;
     max-width: 60rem;
+  }
+
+  .cardGrid {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 1rem;
+    box-sizing: border-box;
+
+    .card {
+      flex: 0 0 calc(50% - 2rem);
+      width: auto;
+      max-width: none;
+      margin: 1rem;
+    }
   }
 }

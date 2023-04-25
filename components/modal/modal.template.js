@@ -1,8 +1,9 @@
 import * as e from "../../elements/elements.js";
 
-export const _modal = (modalBody) => {
+export const modalTemplate = (modalBody, id = "") => {
   return new e.DIALOG({
     class: "modal",
+    id,
     children: [
       new e.BUTTON({
         class: "close",

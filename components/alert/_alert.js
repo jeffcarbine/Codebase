@@ -1,4 +1,4 @@
-﻿import { addEventDelegate } from "../../scripts/eventdelegate/_eventdelegate.js";
+﻿import { addEventDelegate } from "../../scripts/eventDelegate/eventDelegate.js";
 import { renderTemplate } from "../../template/_renderTemplate.js";
 
 // ALERTS

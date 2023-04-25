@@ -12,7 +12,8 @@
   border-radius: var(--modal-border-radius);
   box-shadow: var(--box-shadow);
   box-sizing: border-box;
-  position: relative;
+  position: fixed;
+  padding: var(--modal-padding);
 
   &::backdrop {
     background: #000;
@@ -28,5 +29,12 @@
     background: var(--modal-close-background);
     padding: 0.5rem;
     border-radius: 50%;
+
+    svg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
   }
 }

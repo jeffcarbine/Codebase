@@ -4,6 +4,7 @@ var Schema = mongoose.Schema;
 // define the schema for our user model
 var Episode = new Schema({
   episodeId: String,
+  show: String,
   pubDate: Date,
   fullTitle: String,
   series: String,
@@ -11,8 +12,12 @@ var Episode = new Schema({
   title: String,
   postTitle: String,
   description: String,
+  thumbnail: String,
   audioLink: String,
+  rssLink: String,
   itunesLink: String,
+  appleLink: String,
+  youTubeLink: String,
   spotifyLink: String,
   patreonLink: String,
   patreonVideoLink: String,

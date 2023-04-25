@@ -1,4 +1,4 @@
-import { addEventDelegate } from "../eventdelegate/_eventdelegate.js";
+import { addEventDelegate } from "../eventDelegate/eventDelegate.js";
 import { xhr } from "./_xhr.js";
 
 const inputXhr = function (input) {

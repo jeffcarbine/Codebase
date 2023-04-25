@@ -1,0 +1,104 @@
+// PERIODIC
+@import "../../styles/reset";
+@import "../../styles/mixin";
+@import "../../styles/animations";
+@import "../../elements/typography/typography";
+@import "../../styles/theme";
+@import "../../elements/button/button";
+
+.btn {
+  --btn-border-radius: 25px;
+  box-shadow: var(--box-shadow);
+  transform: scale(1);
+
+  &:hover {
+    transform: scale(0.975);
+    box-shadow: none;
+  }
+}
+
+@import "../../elements/nav/nav";
+@import "../../elements/form/form";
+@import "../../elements/input/input";
+@import "../../components/toggleswitch/toggleswitch";
+
+.toggle {
+  --toggle-switch-active: var(--primary);
+}
+
+@import "../../components/tile/tile";
+@import "../../components/alert/alert";
+@import "../../components/modal/modal";
+
+.modal {
+  --modal-padding: 4rem;
+
+  .hidden {
+    display: none !important;
+  }
+
+  form {
+    --form-max-width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+}
+
+@import "../../components/card/card";
+@import "../../components/loader/loader";
+
+.card {
+  border-radius: 25px;
+  width: calc(100% - 2rem);
+  max-width: 60rem;
+}
+
+.card-canvas {
+  flex: 1 1 auto;
+  position: relative;
+}
+
+// GLOBAL
+@import "vars";
+@import "text";
+@import "header";
+@import "nav";
+@import "main";
+@import "fonts";
+@import "footer";
+
+// PAGES
+@import "login";
+@import "dashboard";
+@import "datasets";
+@import "datapoints";
+
+:root {
+  --base-font-increase: 1.12;
+}
+
+html {
+  display: block !important;
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  header {
+    flex: 0 0 auto;
+  }
+
+  main {
+    flex: 1 1 auto;
+  }
+
+  footer {
+    flex: 0 0 auto;
+  }
+}
+
+@media only screen and (min-width: $breakpoint-md) {
+}

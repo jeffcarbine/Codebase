@@ -1,4 +1,4 @@
-:root {
+.toggle {
   --toggle-switch-border-radius: 50px;
   --toggle-switch-background: var(--background-mid);
   --toggle-switch-color: var(--background-low);
@@ -6,9 +6,7 @@
   --toggle-switch-active: var(--positive);
   --toggle-switch-active-negative: var(--negative);
   --toggle-switch-focus-color: var(--accent);
-}
 
-.toggle {
   position: relative;
   display: flex;
 
