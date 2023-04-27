@@ -1,4 +1,4 @@
-import * as e from "/periodic/elements/elements.js";
+import * as e from "../../elements/elements.js";
 
 export const accordionTemplate = (title, content, className = "") => {
   const accordionBody = content;

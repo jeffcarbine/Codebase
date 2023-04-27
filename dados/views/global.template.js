@@ -10,12 +10,12 @@ export default (data) => {
     data,
     {
       children: [
-        new e.H1([new e.ICON("data"), "Datasets"]),
+        new e.H1([new e.ICON("globe"), "Global"]),
         new e.BTNCONTAINER(
           [
             {
               "data-modal": "addDataset",
-              children: [new e.ICON("plus"), "Create Dataset"],
+              children: [new e.ICON("plus"), "Create Global Datapoint"],
             },
           ],
           "centered"

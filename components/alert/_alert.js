@@ -25,14 +25,25 @@ addEventDelegate("click", ".alert button.dismiss", dismissToast);
 
 // TOAST
 
-export const toast = (message, params = {}, parent = document.body) => {
+export const toast = ({
+  message,
+  parent = document.body,
+  auto = true,
+  dismissable = false,
+  small = false,
+  status = "",
+}) => {
   const toastDelay = 100,
-    auto = params.auto !== undefined ? params.auto : true,
-    status = params.status,
     alertId = "alert" + Date.now();
 
   let alert = renderTemplate({
-    class: "alert toast dismissable",
+    class:
+      "alert toast " +
+      status +
+      " " +
+      (dismissable ? " dismissable" : "") +
+      (small ? " sm" : "") +
+      (auto ? " auto" : ""),
     id: alertId,
     children: [
       {
@@ -40,6 +51,7 @@ export const toast = (message, params = {}, parent = document.body) => {
         textContent: message,
       },
       {
+        if: dismissable,
         tagName: "button",
         type: "button",
         class: "dismiss",
@@ -56,14 +68,6 @@ export const toast = (message, params = {}, parent = document.body) => {
   }, toastDelay);
 
   if (auto === true) {
-    alert.classList.add("auto");
-  }
-
-  if (status !== null) {
-    alert.classList.add(status);
-  }
-
-  if (auto === true) {
     // we need to determine how long the
     // toast should appear for, based on
     // how many characters are in the toast
@@ -71,9 +75,8 @@ export const toast = (message, params = {}, parent = document.body) => {
     let contentLength = content.length;
 
     // we give the user one second for every
-    // twenty characters plus a base time of
-    // two seconds
-    let delay = 2 + Math.round(contentLength / 20);
+    // fifteen characters
+    let delay = Math.round(contentLength / 15);
     let transition = document.createElement("style");
     let head = document.querySelector("head");
 

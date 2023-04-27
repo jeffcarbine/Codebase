@@ -1,7 +1,7 @@
 import {
   capitalize,
   capitalizeAll,
-} from "../scripts/formatString/formatString.js";
+} from "../modules/formatString/formatString.js";
 import * as i from "../components/icon/_icon-list.js";
 
 export class ELEMENT {
@@ -343,7 +343,7 @@ export class NAVIGATION extends ELEMENT {
 
         if (typeof path === "string") {
           const active = path === params.path;
-          navItem = {
+          navItem = new LI({
             class:
               route.toLowerCase().replaceAll(" ", "") +
               (active ? " active" : ""),
@@ -351,7 +351,7 @@ export class NAVIGATION extends ELEMENT {
               href: path,
               textContent: route,
             }),
-          };
+          });
           // then we have textcontent
         } else if (Array.isArray(path)) {
           // the href is always the first array element
@@ -360,7 +360,7 @@ export class NAVIGATION extends ELEMENT {
 
           const active = href === params.path;
 
-          navItem = {
+          navItem = new LI({
             class:
               route.toLowerCase().replaceAll(" ", "") +
               (active ? " active" : ""),
@@ -368,14 +368,14 @@ export class NAVIGATION extends ELEMENT {
               href,
               children,
             }),
-          };
+          });
         } else {
           // this is a submenu
 
           // check
           const childActive = Object.values(path).includes(params.path);
 
-          navItem = {
+          navItem = new LI({
             class:
               route.toLowerCase().replaceAll(" ", "") +
               (childActive ? " active" : ""),
@@ -386,7 +386,7 @@ export class NAVIGATION extends ELEMENT {
                 child: new ULLI(createNavItems(path)),
               },
             ],
-          };
+          });
         }
 
         navItems.push(navItem);
@@ -395,7 +395,7 @@ export class NAVIGATION extends ELEMENT {
       return navItems;
     };
 
-    const ul = new ULLI(createNavItems(params.routes));
+    const ul = new UL(createNavItems(params.routes));
     this.children.unshift(ul);
   }
 }

@@ -1,10 +1,8 @@
 import Dataset from "../models/Dataset.js";
+import { rez } from "../modules/rez.js";
 
-export const get__admin_datasets = (req, res, next) => {
-  res.render("datasets", {
-    path: "/admin/datasets",
-    subtitle: "Datasets",
-  });
+export const get__admin_global = (req, res, next) => {
+  rez({ req, res, template: "global", data: { subtitle: "Datasets" } });
 };
 
 export const post__admin_datasets_retrieve = (req, res, next) => {
