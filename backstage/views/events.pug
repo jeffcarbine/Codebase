@@ -45,6 +45,9 @@ block content
               div.toggle.single
                 input(type="checkbox", id="event" + event._id, name="soldOut", checked=event.soldOut)
                 label(for="event" + event._id) Sold Out
+              label Date 
+                -let publishDate = event.publishDate.getFullYear() + "-" + ("0" + (event.publishDate.getMonth() + 1)).slice(-2) + "-" + ("0" + event.publishDate .getDate()).slice(-2);
+                input(type="date", name="publishDate", value=publishDate)
 
             .btn-centered
               button.btn.sm.delete(data-eventId=event._id) Delete Event
@@ -72,6 +75,8 @@ block content
               input(type="date", name="date")
             label Tickets 
               input(type="text", name="tickets")
+            label Publish Date
+              input(type="date", name="publishDate")
 
             button.btn Create Event
 
