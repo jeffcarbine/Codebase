@@ -58,35 +58,39 @@ export const addEvent = (req, res, next) => {
   const body = req.body,
     tickets = body.tickets;
 
-  const createEvent = (err, body) => {
+  console.log(body);
+
+  // const createEvent = (err, body) => {
+  // if (err) {
+  //   return res.status(500).send(err);
+  // } else {
+  // add this event to the database
+  Event.findOneAndUpdate(
+    {
+      tickets,
+    },
+    {
+      $set: body,
+    },
+    {
+      upsert: true,
+      new: true,
+    }
+  ).exec((err, event) => {
+    console.log(err);
+
     if (err) {
       return res.status(500).send(err);
-    } else {
-      // add this event to the database
-      Event.findOneAndUpdate(
-        {
-          tickets,
-        },
-        {
-          $set: body,
-        },
-        {
-          upsert: true,
-          new: true,
-        }
-      ).exec((err, event) => {
-        if (err) {
-          return res.status(500).send(err);
-        }
-
-        return res.status(200).send("Event was successfully recorded!");
-      });
     }
-  };
 
-  if (body.street !== undefined && body.street !== "") {
-    geocode(body, createEvent);
-  }
+    return res.status(200).send("Event was successfully recorded!");
+  });
+  //}
+  // };
+
+  // if (body.street !== undefined && body.street !== "") {
+  //   geocode(body, createEvent);
+  // }
 };
 
 export const editEvent = (req, res, next) => {
