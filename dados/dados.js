@@ -159,12 +159,12 @@ export const init = ({
   }
 
   if (fanart) {
-    app.get("/admin/fanart", connectEnsureLogin.ensureLoggedIn(), fanart);
-    app.post(
-      "/admin/fanart/approve",
-      connectEnsureLogin.ensureLoggedIn(),
-      post__fanartApprove
-    );
+    // app.get("/admin/fanart", connectEnsureLogin.ensureLoggedIn(), fanart);
+    // app.post(
+    //   "/admin/fanart/approve",
+    //   connectEnsureLogin.ensureLoggedIn(),
+    //   post__fanartApprove
+    // );
   }
 
   app.get("/admin/signup", get__admin_signup);
