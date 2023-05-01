@@ -73,6 +73,14 @@ block content
               input(type="text", name="festival")
             label Date 
               input(type="date", name="date")
+            .inlineInputs
+              label.xs Hours 
+                input(type="number", name="hours")
+              label.sm Minutes 
+                select(name="minutes")
+                  - const minutes = [0, 15, 30, 45];
+                  each val, index in minutes 
+                    option(value=val) #{displayMinutes}
             label Tickets 
               input(type="text", name="tickets")
             label Publish Date

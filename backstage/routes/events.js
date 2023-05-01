@@ -56,7 +56,7 @@ const geocode = (body, callback) => {
 
 export const addEvent = (req, res, next) => {
   const body = req.body,
-    tickets = body.tickets;
+    _id = body._id;
 
   console.log(body);
 
@@ -65,18 +65,7 @@ export const addEvent = (req, res, next) => {
   //   return res.status(500).send(err);
   // } else {
   // add this event to the database
-  Event.findOneAndUpdate(
-    {
-      tickets,
-    },
-    {
-      $set: body,
-    },
-    {
-      upsert: true,
-      new: true,
-    }
-  ).exec((err, event) => {
+  Event.create(body, (err, event) => {
     console.log(err);
 
     if (err) {
