@@ -8,6 +8,9 @@ export const base = (data, template, scripts) => {
       { name: "viewport", content: "width=device-width, initial-scale=1" },
     ],
     body: [
+      new e.SCRIPT({
+        textContent: "0",
+      }),
       new e.HEADER({
         if: data.loggedIn,
         children: [
@@ -33,13 +36,14 @@ export const base = (data, template, scripts) => {
             if: data.loggedIn,
             routes: {
               Dashboard: ["/admin", "Dashboard", new e.ICON("dashboard")],
-              // Pages: ["/admin/pages", "Pages", new e.ICON("webpage")],
-              Data: ["/admin/datasets", "Datasets", new e.ICON("data")],
-              Podcasts: ["/admin/shows", "Shows", new e.ICON("podcast")],
+              Global: ["/admin/global", "Global", new e.ICON("globe")],
+              Pages: ["/admin/pages", "Pages", new e.ICON("webpage")],
+              //Data: ["/admin/datasets", "Datasets", new e.ICON("data")],
+              Podcasts: ["/admin/shows", "Podcasts", new e.ICON("podcast")],
               //Events: ["/admin/events", "Events", new e.ICON("calendar")],
               // Fanart: ["/admin/fanart", "Fanart", new e.ICON("image")],
-              // History: ["/admin/history", "History", new e.ICON("history")],
-              // Account: ["/admin/account", "Account", new e.ICON("user")],
+              History: ["/admin/history", "History", new e.ICON("history")],
+              Account: ["/admin/account", "Account", new e.ICON("user")],
             },
             path: data.path,
           }),

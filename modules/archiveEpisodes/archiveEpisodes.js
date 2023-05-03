@@ -9,6 +9,7 @@ import Episode from "../../models/Episode.js";
 
 import { getSpotifyToken } from "../../apis/spotify.js";
 import { fetchYouTubePlaylist } from "../../apis/youtube.js";
+import { hyphenate } from "../../modules/formatString/formatString.js";
 
 const defaultRssArchiver = (show, count, callback) => {
   console.log("getting episodes from RSS feed");
@@ -23,7 +24,8 @@ const defaultRssArchiver = (show, count, callback) => {
     asyncLoop(
       episodes,
       (episode, next) => {
-        const pubDate = new Date(episode.published);
+        const pubDate = new Date(episode.published),
+          localPath = hyphenate(episode.title);
 
         // save to mongodb
         Episode.findOneAndUpdate(
@@ -38,6 +40,7 @@ const defaultRssArchiver = (show, count, callback) => {
               title: episode.title,
               description: episode.description,
               rssLink: episode.enclosures[0].url,
+              localPath,
             },
           },
           {
@@ -67,8 +70,8 @@ const defaultSpotifyArchiver = (show, count, callback) => {
   const fetchSpotifyEps = (spotify_access_token) => {
     let spotifyEps = [];
 
-    const spotifyUrl = show.spotify;
-    console.log(spotifyUrl);
+    const spotifyUrl =
+      "https://api.spotify.com/v1/shows/" + show.spotify + "/episodes?limit=50";
 
     // spotify goes in chronological order, so we have to request
     // ALL of them, then start counting from the back

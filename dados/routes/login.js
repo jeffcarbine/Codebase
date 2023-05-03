@@ -1,5 +1,7 @@
+import { rez } from "../modules/rez.js";
+
 export const get__admin_login = (req, res) => {
-  res.render("login", { subtitle: "dados Access" });
+  rez({ req, res, template: "login", data: { subtitle: "Dados Access" } });
 };
 
 export const post__admin_login = (req, res) => {

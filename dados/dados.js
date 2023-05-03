@@ -15,17 +15,17 @@ import {
   post__admin_shows_edit,
 } from "./routes/shows.js";
 import {
-  get__admin_datasets,
   post__admin_datasets_add,
   post__admin_datasets_retrieve,
   get__admin_datasets_dataset_,
   post__admin_datasets_dataset_edit,
-} from "./routes/datasets.js";
+} from "./routes/global.js";
 import {
   post__admin_datapoints_add,
   post__admin_datapoints_edit,
   post__admin_datapoints_retrieve,
 } from "./routes/datapoints.js";
+import { get__admin_global } from "./routes/global.js";
 
 export const init = ({
   app,
@@ -60,11 +60,11 @@ export const init = ({
     dashboard
   );
 
-  // DATASETS
+  // GLOBAL AND PAGES
   app.get(
-    "/admin/datasets",
+    "/admin/global",
     connectEnsureLogin.ensureLoggedIn(),
-    get__admin_datasets
+    get__admin_global
   );
 
   app.post(

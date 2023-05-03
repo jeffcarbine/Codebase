@@ -1,5 +1,7 @@
 ﻿:root {
   --alert-color: var(--foreground);
+  --alert-font-size: var(--f10-font-size);
+  --alert-font-size-sm: var(--f12-font-size);
   --alert-font-weight: 100;
   --alert-default-background: var(--background-mid);
   --alert-default-color: var(--foreground-mid);
@@ -12,6 +14,7 @@
 }
 
 .alert {
+  font-size: var(--alert-font-size);
   font-weight: var(--alert-font-weight);
   border: 1px solid;
   margin: 0.5rem;
@@ -24,6 +27,10 @@
   box-sizing: border-box;
   color: var(--alert-color);
   border-radius: 10rem;
+
+  &.sm {
+    font-size: var(--alert-font-size-sm);
+  }
 
   p,
   li {
@@ -119,7 +126,7 @@
   &.toast {
     position: absolute;
     z-index: 8;
-    width: 100%;
+    width: auto;
     max-width: 30rem;
     bottom: 0.5rem;
     left: 50%;
@@ -127,6 +134,7 @@
     transform: translate(-50%, 120%);
     transition: all 0.25s ease;
     opacity: 0;
+    box-shadow: var(--box-shadow);
 
     &.visible {
       transform: translate(-50%, 0);

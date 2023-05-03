@@ -24,6 +24,7 @@ var Episode = new Schema({
   patreonExclusive: Boolean,
   shortRestLink: String,
   aftershowLink: String,
+  localPath: String,
 });
 
 // create the model for users and expose it to our app

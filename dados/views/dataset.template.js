@@ -1,7 +1,7 @@
 import { base } from "./_dados.template.js";
 import * as e from "../../elements/elements.js";
 import { modalTemplate } from "../../components/modal/modal.template.js";
-import { capitalize } from "../../scripts/formatString/formatString.js";
+import { capitalize } from "../../modules/formatString/formatString.js";
 import { createEditDatasetTemplate } from "../templates/createEditDataset.template.js";
 import * as datapointForms from "../templates/datapointForms.template.js";
 

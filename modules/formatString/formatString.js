@@ -30,3 +30,7 @@ export const camelize = (str) => {
     })
     .replace(/[^A-Z0-9]+/gi, "");
 };
+
+export const hyphenate = (str) => {
+  return str.replace(/[\W_]+/g, "-").toLowerCase();
+};

@@ -51,6 +51,10 @@ button {
     --btn-focus-color: var(--btn-background);
     --btn-focus-background: var(--btn-background);
     --loader-color: var(--btn-color);
+
+    svg.icon {
+      opacity: 0;
+    }
   }
 
   span {
@@ -119,7 +123,7 @@ button {
 
   &.sm-space {
     > .btn {
-      &:nth-of-type(n + 2) {
+      &:nth-child(n + 2) {
         margin-left: 0.5rem;
       }
     }
@@ -129,7 +133,7 @@ button {
 @media only screen and (min-width: $breakpoint-md) {
   .btn-container {
     > .btn {
-      &:nth-of-type(n + 2) {
+      &:nth-child(n + 2) {
         margin-left: 0.5rem;
       }
     }

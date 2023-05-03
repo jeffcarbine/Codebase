@@ -1,5 +1,5 @@
 import { addEventDelegate } from "../../scripts/eventDelegate/eventDelegate.js";
-import { smoothScroll } from "../../scripts/smoothscroll/_smoothscroll.js";
+import { smoothScroll } from "../../scripts/smoothScroll/smoothScroll.js";
 
 /**
  * Toggle Accordions

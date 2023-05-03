@@ -2,10 +2,15 @@
 import { renderTemplate } from "/periodic/template/_renderTemplate.js";
 import { addEventDelegate } from "../../scripts/eventDelegate/eventDelegate.js";
 
-export const createModal = (modalBody, sibling) => {
+export const createModal = ({
+  modalBody,
+  sibling,
+  className = "",
+  id = "",
+} = {}) => {
   console.log(modalBody);
 
-  const newModal = renderTemplate(modalTemplate(modalBody));
+  const newModal = renderTemplate(modalTemplate({ modalBody, className, id }));
 
   sibling.after(newModal);
 
