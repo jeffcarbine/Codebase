@@ -13,6 +13,8 @@ block content
           .tile-body
             form.inputXhr(method="POST", action="/admin/events/edit")
               input(type="hidden", name="id", value=event._id)
+              label Title 
+                input(type="text", name="title", value=event.title)
               label Venue 
                 input(type="text", name="venue", value=event.venue)
               label Street 
@@ -58,7 +60,8 @@ block content
 
         .tile-body 
           form.xhr(method="POST", action="/admin/events/add", data-redirect="/admin/events")
-            input(type="hidden", name="id")
+            label Title 
+              input(type="text", name="title")
             label Venue 
               input(type="text", name="venue")
             label Street 
