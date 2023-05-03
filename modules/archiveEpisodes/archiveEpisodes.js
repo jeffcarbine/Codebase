@@ -16,7 +16,9 @@ const defaultRssArchiver = (show, count, callback) => {
   const url = show.rss;
 
   parse(url).then((feed) => {
-    const episodes = feed.items;
+    let episodes = feed.items;
+    episodes = episodes.reverse();
+
     if (episodes.length > count) {
       episodes.length = count;
     }
