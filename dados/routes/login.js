@@ -1,10 +1,30 @@
 import { rez } from "../modules/rez.js";
+import User from "../models/User.js";
 
 export const get__admin_login = (req, res) => {
-  rez({ req, res, template: "login", data: { subtitle: "Dados Access" } });
+  // check to see if there are any users
+  User.find().exec((err, users) => {
+    if (err) {
+    } else {
+      if (users.length > 0) {
+        rez({
+          req,
+          res,
+          template: "login",
+          data: { subtitle: "Dados Access" },
+        });
+      } else {
+        rez({
+          req,
+          res,
+          template: "signup",
+          data: { subtitle: "Dados Access" },
+        });
+      }
+    }
+  });
 };
 
 export const post__admin_login = (req, res) => {
-  console.log("trying to post to dados login!");
   res.redirect("/admin");
 };

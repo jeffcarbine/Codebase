@@ -1,7 +1,12 @@
+import User from "./models/User.js";
+import passport from "passport";
+import session from "express-session";
+import MongoStore from "connect-mongo";
+import connectEnsureLogin from "connect-ensure-login";
+
 import { dashboard } from "./routes/dashboard.js";
 import { get__admin_login, post__admin_login } from "./routes/login.js";
 import { get__admin_logout } from "./routes/logout.js";
-import { get__admin_signup, post__admin_signup } from "./routes/signup.js";
 import {
   get__admin_events,
   post__admin_events_add,
@@ -31,12 +36,30 @@ export const init = ({
   app,
   express,
   __dirname,
-  passport,
-  connectEnsureLogin,
+  database,
   shows = true,
   events = true,
   fanart = true,
 } = {}) => {
+  /**
+   * Authentication
+   */
+
+  app.use(
+    session({
+      secret: "wearealljustrollinwithit",
+      resave: false,
+      saveUninitialized: true,
+      cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 },
+      store: MongoStore.create({ mongoUrl: database }),
+    })
+  );
+  app.use(passport.initialize());
+  app.use(passport.session());
+  passport.use(User.createStrategy());
+  passport.serializeUser(User.serializeUser());
+  passport.deserializeUser(User.deserializeUser());
+
   app.use(
     "/admin/styles",
     express.static(__dirname + "/periodic/dados/styles")
@@ -167,8 +190,6 @@ export const init = ({
     // );
   }
 
-  app.get("/admin/signup", get__admin_signup);
-  app.post("/admin/signup", post__admin_signup);
   app.get("/admin/login", get__admin_login);
   app.post("/admin/login", passport.authenticate("local"), post__admin_login);
   app.get("/admin/logout", get__admin_logout);
