@@ -2,7 +2,7 @@ import Dataset from "../models/Dataset.js";
 import { rez } from "../modules/rez.js";
 
 export const get__admin_global = (req, res, next) => {
-  rez({ req, res, template: "global", data: { subtitle: "Datasets" } });
+  rez({ req, res, template: "global", data: { subtitle: "Global" } });
 };
 
 export const post__admin_datasets_retrieve = (req, res, next) => {

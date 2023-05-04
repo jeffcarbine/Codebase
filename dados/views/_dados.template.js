@@ -2,7 +2,7 @@ import * as e from "../../elements/elements.js";
 
 export const base = (data, template, scripts) => {
   const html = {
-    title: "dados by Carbine Co.",
+    title: "Dados by Carbine Co.",
     stylesheets: ["/admin/styles/dados.min.css"],
     metas: [
       { name: "viewport", content: "width=device-width, initial-scale=1" },
@@ -12,7 +12,6 @@ export const base = (data, template, scripts) => {
         textContent: "0",
       }),
       new e.HEADER({
-        if: data.loggedIn,
         children: [
           {
             class: "branding",

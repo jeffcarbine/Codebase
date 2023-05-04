@@ -3,7 +3,7 @@ import { renderTemplate } from "../../template/_renderTemplate.js";
 
 // ALERTS
 
-function removeToast(alert, head = null) {
+function removeToast(alert, head = null, transition = null) {
   alert.classList.remove("visible");
 
   if (head !== null) {
@@ -91,7 +91,7 @@ export const toast = ({
     }, toastDelay);
 
     let timeout = setTimeout(function () {
-      removeToast(alert, head);
+      removeToast(alert, head, transition);
     }, delay * 1000);
 
     let stopTimeout = function () {

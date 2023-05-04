@@ -1,6 +1,10 @@
 import * as e from "../../elements/elements.js";
 
-export const modalTemplate = ({ modalBody, id = "", className = "" } = {}) => {
+export const modalTemplate = ({
+  modalBody = {},
+  id = "",
+  className = "",
+} = {}) => {
   return new e.DIALOG({
     class: "modal " + className,
     id,

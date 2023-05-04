@@ -11,20 +11,8 @@ export default (data) => {
           child: {
             class: "login-form",
             children: [
-              new e.HEADER({
-                children: [
-                  {
-                    class: "logo",
-                    child: new e.IMG("/admin/images/logo.svg"),
-                  },
-                  new e.SPAN("x"),
-                  {
-                    class: "client-logo",
-                    child: new e.IMG("/images/logo-dados.svg"),
-                  },
-                ],
-              }),
-              new e.H1("Sign Up for dados"),
+              new e.H1("Welcome to Dados!"),
+              new e.H2("Create an Account"),
               new e.FORM({
                 action: "/admin/signup",
                 class: "xhr style-inputs",
@@ -36,7 +24,7 @@ export default (data) => {
                     id: "passwordConfirm",
                     label: "Confirm Password",
                   }),
-                  new e.BTN("Log In"),
+                  new e.BTN("Create Account"),
                 ],
               }),
             ],

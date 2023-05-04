@@ -7,6 +7,7 @@ export const get__admin_signup = (req, res) => {
 };
 
 export const post__admin_signup = (req, res) => {
+  console.log(req.body);
   // get the usernane and password from the request
   const username = req.body.email,
     password = req.body.password,

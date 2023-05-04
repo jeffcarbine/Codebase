@@ -204,3 +204,11 @@
 .toast-parent {
   position: relative;
 }
+
+// specific positioning for toasts in forms
+form {
+  .alert.toast {
+    width: 100%;
+    bottom: 0;
+  }
+}

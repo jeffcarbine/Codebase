@@ -1,26 +1,54 @@
 import mongoose from "mongoose";
 var Schema = mongoose.Schema;
 
+const defaultDatapoints = [
+  "text",
+  "image",
+  "group",
+  "podcast",
+  "episode",
+  "person",
+];
+
+const wildcardDatapoints = [
+  "wildcardEpisode",
+  "wildcardPodcast",
+  "wildcardGroup",
+];
+
+const datapointList = [...defaultDatapoints, ...wildcardDatapoints];
+
 const datapointEnum = {
   type: String,
-  enum: ["text", "keyvalue", "image", "gallery", "table"],
+  enum: datapointList,
   default: "text",
 };
 
 const datapoint = {
+  name: String,
   type: datapointEnum,
-  id: String,
+  name: String,
+  text: String,
+  src: String,
+  alt: String,
+  group: Array,
+  wildcardGroup: Array,
+  wildcardGroupId: String,
+  podcast: String,
+  wildcardPodcast: Boolean,
+  episode: String,
+  wildcardEpisode: Boolean,
+  bio: String,
+  links: [
+    {
+      title: String,
+      href: String,
+    },
+  ],
 };
 
 // define the schema for our user model
-var Datapoint = new Schema({
-  name: String,
-  type: datapointEnum,
-  // different places for different values
-  text: {
-    value: String,
-  },
-});
+var Datapoint = new Schema(datapoint);
 
 // create the model for users and expose it to our app
 export default mongoose.model("Datapoint", Datapoint);

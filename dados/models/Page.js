@@ -5,11 +5,10 @@ var Schema = mongoose.Schema;
 var Page = new Schema({
   name: String,
   path: String,
-  template: String,
-  datasets: [
+  wildcard: Boolean,
+  datapoints: [
     {
       id: String,
-      global: Boolean,
     },
   ],
 });

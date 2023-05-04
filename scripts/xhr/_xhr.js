@@ -4,24 +4,6 @@ import { toast } from "../../components/alert/_alert.js";
  * XHR
  * Simplifies making XMLHttpRequests
  *
- * example:
- *
- * const data = { foo: "bar" }
- *
- * const success = function(xhr) {
- *    console.log(xhr.status);
- * };
- *
- * const error = function(xhr) {
- *    console.warn(xhr.status);
- * }
- *
- * const failure = function(xhr) {
- *    console.warn(xhr.status);
- * }
- *
- * xhr("POST", "https://testurl.com/test", success, error, failure, data);
- *
  */
 
 const defaultResponse = (request) => {
@@ -32,11 +14,10 @@ export const xhr = ({
   method = "POST",
   path = "/",
   body = {},
-  callbacks = {
-    success: defaultResponse,
-    error: defaultResponse,
-    failure: defaultResponse,
-  },
+  success = defaultResponse,
+  error = defaultResponse,
+  failure = defaultResponse,
+  progress,
 } = {}) => {
   // start by creating a request
   let request = new XMLHttpRequest();
@@ -46,21 +27,21 @@ export const xhr = ({
 
   request.onload = () => {
     if (request.status === 200) {
-      callbacks.success(request);
+      success(request);
     } else if (request.status === 500) {
-      callbacks.failure(request);
+      failure(request);
     } else {
-      callbacks.error(request);
+      error(request);
     }
   };
 
   request.onerror = () => {
-    callbacks.error(request.response);
+    error(request.response);
   };
 
-  if (callbacks.progress !== undefined) {
+  if (progress !== undefined) {
     request.onprogress = (event) => {
-      callbacks.progress(event);
+      progress(event);
     };
   }
 
@@ -69,10 +50,10 @@ export const xhr = ({
   request.send(requestBody);
 };
 
-const toastResponse = (string, status) => {
+const toastResponse = (string, status, form) => {
   form.classList.remove("loading");
 
-  toast(string, { status }, form);
+  toast({ message: string, dismissable: true, status, parent: form });
 };
 
 export const xhrForm = ({
@@ -112,36 +93,30 @@ export const xhrForm = ({
 
   // default behaviours for success, error and failure
   const success = (request) => {
-    const redirect = form.dataset.redirect !== undefined;
-
-    if (redirect) {
-      window.location = form.dataset.redirect;
-    } else {
-      formSuccess(request.response, "success");
-      form.reset();
-    }
+    formSuccess(request.response, "success", form);
+    form.reset();
   };
 
-  const error = function (request) {
+  const error = (request) => {
     let message = request.response;
 
-    if (request.status === 400) {
-      if (form.dataset.http400 !== undefined) {
-        message = form.dataset.http400;
-      }
-    }
+    // if (request.status === 400) {
+    //   if (form.dataset.http400 !== undefined) {
+    //     message = form.dataset.http400;
+    //   }
+    // }
 
-    if (request.status === 401) {
-      if (form.dataset.http401 !== undefined) {
-        message = form.dataset.http401;
-      }
-    }
+    // if (request.status === 401) {
+    //   if (form.dataset.http401 !== undefined) {
+    //     message = form.dataset.http401;
+    //   }
+    // }
 
-    formError(message, "error");
+    formError(message, "error", form);
   };
 
   const failure = (request) => {
-    formFailure(request.response, "failure");
+    formFailure(request.response, "failure", form);
   };
 
   // const progress = (event) => {
@@ -150,13 +125,13 @@ export const xhrForm = ({
 
   // and now pass this all to the xhr function
 
-  console.log(json);
-
   xhr({
     method: method,
     path: action,
     body: json,
-    callbacks: { success, error, failure },
+    success,
+    error,
+    failure,
   });
 };
 

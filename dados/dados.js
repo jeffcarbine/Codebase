@@ -1,4 +1,6 @@
 import User from "./models/User.js";
+import Page from "./models/Page.js";
+
 import passport from "passport";
 import session from "express-session";
 import MongoStore from "connect-mongo";
@@ -6,6 +8,7 @@ import connectEnsureLogin from "connect-ensure-login";
 
 import { dashboard } from "./routes/dashboard.js";
 import { get__admin_login, post__admin_login } from "./routes/login.js";
+import { post__admin_signup } from "./routes/signup.js";
 import { get__admin_logout } from "./routes/logout.js";
 import {
   get__admin_events,
@@ -30,7 +33,16 @@ import {
   post__admin_datapoints_edit,
   post__admin_datapoints_retrieve,
 } from "./routes/datapoints.js";
+
 import { get__admin_global } from "./routes/global.js";
+import {
+  get__admin_pages,
+  get__admin_pages_$,
+  post__admin_pages_add,
+  post__admin_pages_retrieve,
+} from "./routes/pages.js";
+import { rez } from "./modules/rez.js";
+import { camelize } from "../modules/formatString/formatString.js";
 
 export const init = ({
   app,
@@ -88,6 +100,30 @@ export const init = ({
     "/admin/global",
     connectEnsureLogin.ensureLoggedIn(),
     get__admin_global
+  );
+
+  app.get(
+    "/admin/pages",
+    connectEnsureLogin.ensureLoggedIn(),
+    get__admin_pages
+  );
+
+  app.get(
+    "/admin/pages/*",
+    connectEnsureLogin.ensureLoggedIn(),
+    get__admin_pages_$
+  );
+
+  app.post(
+    "/admin/pages/retrieve",
+    connectEnsureLogin.ensureLoggedIn(),
+    post__admin_pages_retrieve
+  );
+
+  app.post(
+    "/admin/pages/add",
+    connectEnsureLogin.ensureLoggedIn(),
+    post__admin_pages_add
   );
 
   app.post(
@@ -190,7 +226,30 @@ export const init = ({
     // );
   }
 
+  app.post("/admin/signup", post__admin_signup);
   app.get("/admin/login", get__admin_login);
   app.post("/admin/login", passport.authenticate("local"), post__admin_login);
   app.get("/admin/logout", get__admin_logout);
+
+  // GENERATE ROUTES FROM PAGES
+  app.get("*", (req, res) => {
+    const path = req.url;
+
+    Page.findOne({
+      path,
+    }).exec((err, page) => {
+      let template, title, datapoints;
+
+      if (err || page === null) {
+        template = "error";
+        title = "Page Not Found";
+      } else {
+        template = camelize(page.name);
+        title = page.name;
+        datapoints = page.datapoints;
+      }
+
+      rez({ req, res, template, data: { title }, datapoints });
+    });
+  });
 };

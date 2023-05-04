@@ -46,6 +46,7 @@
 
 @import "../../components/card/card";
 @import "../../components/loader/loader";
+@include loadingDots();
 
 .card {
   border-radius: 25px;
