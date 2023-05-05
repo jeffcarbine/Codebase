@@ -25,6 +25,10 @@ export const sliderTemplate = (slideElements, preSlides = null) => {
       state = "farNext";
     } else if (i === slideElements.length - 2 && slideElements.length >= 5) {
       state = "farPrev";
+    } else if (i === 3 && slideElements.length >= 7) {
+      state = "farFarNext";
+    } else if (i === slideElements.length - 3 && slideElements.length >= 7) {
+      state = "farFarPrev";
     }
 
     const slide = new e.LI({
