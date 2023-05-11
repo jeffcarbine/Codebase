@@ -1,4 +1,5 @@
 import {
+  camelize,
   capitalize,
   capitalizeAll,
 } from "../modules/formatString/formatString.js";
@@ -695,7 +696,7 @@ export class SELECT extends ELEMENT {
     this.children.forEach((child) => {
       const option = new OPTION({
         textContent: capitalize(child),
-        value: child,
+        value: camelize(child),
       });
 
       if (child === params.selected) {
