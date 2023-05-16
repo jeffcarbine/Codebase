@@ -69,10 +69,10 @@ export const xhr = ({
   request.send(requestBody);
 };
 
-const toastResponse = (string, status) => {
+const toastResponse = (form, message, status) => {
   form.classList.remove("loading");
 
-  toast(string, { status }, form);
+  toast({ message, status, parent: form });
 };
 
 export const xhrForm = ({
@@ -117,7 +117,7 @@ export const xhrForm = ({
     if (redirect) {
       window.location = form.dataset.redirect;
     } else {
-      formSuccess(request.response, "success");
+      formSuccess(form, request.response, "success");
       form.reset();
     }
   };
@@ -137,11 +137,11 @@ export const xhrForm = ({
       }
     }
 
-    formError(message, "error");
+    formError(form, message, "error");
   };
 
   const failure = (request) => {
-    formFailure(request.response, "failure");
+    formFailure(form, request.response, "failure");
   };
 
   // const progress = (event) => {
