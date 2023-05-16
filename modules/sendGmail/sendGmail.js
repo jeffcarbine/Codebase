@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-export const sendEmail = ({
+export const sendGmail = ({
   to = process.env.EMAILADDRESS,
   subject = "You received a message",
   message = "Somebody has sent you a message from your website",
