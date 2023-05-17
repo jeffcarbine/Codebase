@@ -1,4 +1,5 @@
 import {
+  camelize,
   capitalize,
   capitalizeAll,
 } from "../modules/formatString/formatString.js";
@@ -27,7 +28,11 @@ export class HTML {
   constructor(params) {
     this.tagName = "html";
     this.lang = "en";
-    // this.style = "display: none;"; // avoids FOUC
+    if (params.style === undefined) {
+      this.style = "display: none;"; // avoids FOUC
+    } else {
+      this.style = params.style;
+    }
 
     const head = new HEAD({
       title: params.title,
@@ -695,7 +700,7 @@ export class SELECT extends ELEMENT {
     this.children.forEach((child) => {
       const option = new OPTION({
         textContent: capitalize(child),
-        value: child,
+        value: camelize(child),
       });
 
       if (child === params.selected) {
@@ -838,5 +843,12 @@ export class ARTICLE extends ELEMENT {
   constructor(params) {
     super(params);
     this.tagName = "article";
+  }
+}
+
+export class SVG extends ELEMENT {
+  constructor(params) {
+    super(params);
+    this.tagName = "svg";
   }
 }

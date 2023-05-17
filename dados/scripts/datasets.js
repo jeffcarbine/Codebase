@@ -1,7 +1,7 @@
 import { addEventDelegate } from "/periodic/scripts/eventDelegate/eventDelegate.js";
 import * as e from "/periodic/elements/elements.js";
 import { card } from "/periodic/components/card/card.template.js";
-import { xhr, xhrForm } from "/periodic/scripts/xhr/_xhr.js";
+import { xhr, xhrForm } from "/periodic/scripts/xhr/xhr.js";
 import { renderTemplate } from "/periodic/template/_renderTemplate.js";
 
 const retrieveDatasets = () => {
