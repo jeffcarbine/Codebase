@@ -32,11 +32,9 @@ export const xhr = ({
   method = "POST",
   path = "/",
   body = {},
-  callbacks = {
-    success: defaultResponse,
-    error: defaultResponse,
-    failure: defaultResponse,
-  },
+  success = defaultResponse,
+  error = defaultResponse,
+  failure = defaultResponse,
 } = {}) => {
   // start by creating a request
   let request = new XMLHttpRequest();
@@ -46,23 +44,23 @@ export const xhr = ({
 
   request.onload = () => {
     if (request.status === 200) {
-      callbacks.success(request);
+      success(request);
     } else if (request.status === 500) {
-      callbacks.failure(request);
+      failure(request);
     } else {
-      callbacks.error(request);
+      error(request);
     }
   };
 
   request.onerror = () => {
-    callbacks.error(request.response);
+    error(request.response);
   };
 
-  if (callbacks.progress !== undefined) {
-    request.onprogress = (event) => {
-      callbacks.progress(event);
-    };
-  }
+  // if (progress !== undefined) {
+  //   request.onprogress = (event) => {
+  //     progress(event);
+  //   };
+  // }
 
   const requestBody = JSON.stringify(body);
 

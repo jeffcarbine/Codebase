@@ -1,4 +1,3 @@
-import * as i from "../components/icon/_icon-list.js";
 import { camelToHyphen } from "../modules/formatString/formatString.js";
 
 const clientRender = (template) => {
@@ -132,7 +131,10 @@ const clientRender = (template) => {
               if (typeof value !== "object") {
                 element.appendChild(document.createTextNode(value));
               } else {
-                element.appendChild(clientRender(value));
+                const childElement = clientRender(value);
+                if (childElement !== null) {
+                  element.appendChild(childElement);
+                }
               }
             }
           }

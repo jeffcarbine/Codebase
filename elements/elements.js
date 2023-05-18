@@ -287,6 +287,22 @@ export class LAZYIMG extends IMG {
   }
 }
 
+export class FIGURE extends ELEMENT {
+  constructor(params) {
+    super(params);
+
+    this.tagName = "figure";
+  }
+}
+
+export class FIGCAPTION extends ELEMENT {
+  constructor(params) {
+    super(params);
+
+    this.tagName = "figcaption";
+  }
+}
+
 export class UL extends ELEMENT {
   constructor(params) {
     super(params);
