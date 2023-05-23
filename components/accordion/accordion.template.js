@@ -6,7 +6,10 @@ export const accordionTemplate = ({
   body = "",
 } = {}) => {
   const accordionBody = body;
-  accordionBody.class += " accordion-body";
+  accordionBody.class =
+    accordionBody.class === undefined
+      ? "accordion-body"
+      : accordionBody.class + " accordion-body";
 
   return {
     class: "accordion " + className,
