@@ -380,6 +380,7 @@ export class NAVIGATION extends ELEMENT {
 
         if (typeof path === "string") {
           const active = path === params.path;
+
           navItem = new LI({
             class:
               route.toLowerCase().replaceAll(" ", "") +
@@ -395,6 +396,8 @@ export class NAVIGATION extends ELEMENT {
           const href = path[0],
             children = path.slice(1);
 
+          console.log(href, params.path);
+
           const active = href === params.path;
 
           navItem = new LI({
@@ -407,8 +410,6 @@ export class NAVIGATION extends ELEMENT {
             }),
           });
         } else {
-          // this is a submenu
-
           // check
           const childActive = Object.values(path).includes(params.path);
 
@@ -420,7 +421,7 @@ export class NAVIGATION extends ELEMENT {
               new BUTTON(route),
               {
                 class: "submenu",
-                child: new ULLI(createNavItems(path)),
+                child: new UL(createNavItems(path)),
               },
             ],
           });
