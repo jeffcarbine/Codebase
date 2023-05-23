@@ -601,8 +601,8 @@ export class TEXT {
       labelText;
 
     if (typeof params === "string") {
-      inputParams.name = params;
-      inputParams.id = params;
+      inputParams.name = camelize(params);
+      inputParams.id = camelize(params);
       labelText = capitalizeAll(params);
     } else {
       inputParams = params;
