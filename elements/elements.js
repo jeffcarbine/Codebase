@@ -327,6 +327,22 @@ export class ULLI extends ELEMENT {
   }
 }
 
+export class OLLI extends ELEMENT {
+  constructor(params) {
+    super(params);
+
+    this.tagName = "ol";
+
+    for (let i = 0; i < this.children.length; i++) {
+      let child = this.children[i];
+
+      const li = new LI({ child });
+
+      this.children[i] = li;
+    }
+  }
+}
+
 export class LI extends ELEMENT {
   constructor(params) {
     super(params);
@@ -705,19 +721,35 @@ export class OPTION {
     }
   }
 }
+
 export class SELECT extends ELEMENT {
   constructor(params) {
     super(params);
 
     this.tagName = "select";
+  }
+}
+
+export class SELECTOPTION extends SELECT {
+  constructor(params) {
+    super(params);
 
     const options = [];
 
     this.children.forEach((child) => {
-      const option = new OPTION({
-        textContent: capitalize(child),
-        value: camelize(child),
-      });
+      let option;
+
+      if (typeof child === "string") {
+        option = new OPTION({
+          textContent: capitalize(child),
+          value: camelize(child),
+        });
+      } else {
+        option = new OPTION({
+          textContent: child.title,
+          value: child.value,
+        });
+      }
 
       if (child === params.selected) {
         option.selected = true;

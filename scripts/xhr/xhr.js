@@ -75,9 +75,9 @@ const toastResponse = (form, message, status) => {
 
 export const xhrForm = ({
   form,
-  formSuccess = toastResponse,
-  formError = toastResponse,
-  formFailure = toastResponse,
+  success = toastResponse,
+  error = toastResponse,
+  failure = toastResponse,
   body = {},
 }) => {
   // get the data from the form
@@ -109,18 +109,18 @@ export const xhrForm = ({
   });
 
   // default behaviours for success, error and failure
-  const success = (request) => {
+  const formSuccess = (request) => {
     const redirect = form.dataset.redirect !== undefined;
 
     if (redirect) {
       window.location = form.dataset.redirect;
     } else {
-      formSuccess(form, request.response, "success");
+      success(form, request.response, "success");
       form.reset();
     }
   };
 
-  const error = function (request) {
+  const formError = function (request) {
     let message = request.response;
 
     if (request.status === 400) {
@@ -135,11 +135,11 @@ export const xhrForm = ({
       }
     }
 
-    formError(form, message, "error");
+    error(form, message, "error");
   };
 
-  const failure = (request) => {
-    formFailure(form, request.response, "failure");
+  const formFailure = (request) => {
+    failure(form, request.response, "failure");
   };
 
   // const progress = (event) => {
@@ -152,7 +152,9 @@ export const xhrForm = ({
     method,
     path: action,
     body,
-    callbacks: { success, error, failure },
+    success: formSuccess,
+    error: formError,
+    failure: formFailure,
   });
 };
 
