@@ -2,7 +2,7 @@ import { addEventDelegate } from "/periodic/scripts/eventDelegate/eventDelegate.
 import * as e from "/periodic/elements/elements.js";
 import { card } from "/periodic/components/card/card.template.js";
 import { xhr, xhrForm } from "/periodic/scripts/xhr/xhr.js";
-import { renderTemplate } from "/periodic/template/_renderTemplate.js";
+import { renderTemplate } from "/periodic/template/renderTemplate.js";
 
 const retrieveDatasets = () => {
   const datasetsTarget = document.querySelector("#datasets");
