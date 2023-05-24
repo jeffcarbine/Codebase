@@ -396,8 +396,6 @@ export class NAVIGATION extends ELEMENT {
           const href = path[0],
             children = path.slice(1);
 
-          console.log(href, params.path);
-
           const active = href === params.path;
 
           navItem = new LI({
