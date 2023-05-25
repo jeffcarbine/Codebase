@@ -36,6 +36,7 @@ export const productSummaryTemplate = ({
           new e.IMG({
             if: !placeholder,
             src: data.images[0].src || "",
+            alt: data.title,
           }),
           {
             if: placeholder,
