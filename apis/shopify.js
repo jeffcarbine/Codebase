@@ -66,6 +66,7 @@ export const formatProduct = (product) => {
       id: product.id,
       images: product.images,
       tags: product.tags,
+      type: product.productType,
     },
     organizedOptions = [];
 

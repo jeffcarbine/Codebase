@@ -34,3 +34,10 @@ export const camelize = (str) => {
 export const hyphenate = (str) => {
   return str.replace(/[\W_]+/g, "-").toLowerCase();
 };
+
+export const camelToHyphen = (str) => {
+  const deCamelized = deCamelize(str),
+    hyphenated = hyphenate(deCamelized);
+
+  return hyphenated;
+};

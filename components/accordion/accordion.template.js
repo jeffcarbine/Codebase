@@ -1,8 +1,15 @@
 import * as e from "../../elements/elements.js";
 
-export const accordionTemplate = (title, content, className = "") => {
-  const accordionBody = content;
-  accordionBody.class += " accordion-body";
+export const accordionTemplate = ({
+  className = "",
+  title = "",
+  body = "",
+} = {}) => {
+  const accordionBody = body;
+  accordionBody.class =
+    accordionBody.class === undefined
+      ? "accordion-body"
+      : accordionBody.class + " accordion-body";
 
   return {
     class: "accordion " + className,

@@ -62,6 +62,7 @@ nav {
 
   .submenu {
     min-width: 100%;
+    background: var(--nav-submenu-background);
     overflow: hidden;
     box-sizing: border-box;
     position: absolute;
@@ -80,9 +81,9 @@ nav {
       background: var(--nav-submenu-background);
 
       li {
-        background: var(--nav-submenu-item-background);
-
         a {
+          display: block;
+          background: var(--nav-submenu-item-background);
           color: var(--nav-submenu-item-color);
           padding: var(--nav-submenu-item-padding-y)
             var(--nav-submenu-item-padding-x);
@@ -111,7 +112,7 @@ nav {
   nav {
     width: 100%;
 
-    ul {
+    > ul {
       display: flex;
       margin: 0;
 

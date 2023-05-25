@@ -5,8 +5,6 @@ dotenv.config();
 const secret = process.env.RECAPTCHASECRET;
 
 export const verifyRecaptcha = (response, callback) => {
-  console.log(response);
-
   // send recaptchaResponse to Google
   request.post(
     {

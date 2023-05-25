@@ -1,4 +1,4 @@
-import * as i from "../components/icon/_icon-list.js";
+import { camelToHyphen } from "../modules/formatString/formatString.js";
 
 const clientRender = (template) => {
   // start by creating the element
@@ -131,7 +131,10 @@ const clientRender = (template) => {
               if (typeof value !== "object") {
                 element.appendChild(document.createTextNode(value));
               } else {
-                element.appendChild(clientRender(value));
+                const childElement = clientRender(value);
+                if (childElement !== null) {
+                  element.appendChild(childElement);
+                }
               }
             }
           }
@@ -208,9 +211,23 @@ const serverRender = (template) => {
           key !== "tagName" &&
           key !== "textContent" &&
           key !== "innerHTML" &&
-          key !== "if"
+          key !== "if" &&
+          key !== "style"
         ) {
           element = element + " " + key + "='" + value + "'";
+        } else if (key === "style") {
+          let style = "";
+          // for styles, we can accept either a string or an object
+          if (typeof value === "string") {
+            style = value;
+          } else if (typeof value === "object") {
+            for (let key in value) {
+              const property = camelToHyphen(key);
+              style = style + property + ":" + value[key] + ";";
+            }
+          }
+
+          element = element + " style='" + style + "'";
         }
       }
     }

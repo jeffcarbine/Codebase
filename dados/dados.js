@@ -218,6 +218,7 @@ export const init = ({
   }
 
   if (fanart) {
+    console.log("enable fanart here!");
     // app.get("/admin/fanart", connectEnsureLogin.ensureLoggedIn(), fanart);
     // app.post(
     //   "/admin/fanart/approve",

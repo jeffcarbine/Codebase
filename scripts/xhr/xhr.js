@@ -58,15 +58,15 @@ const toastResponse = (string, status, form) => {
 
 export const xhrForm = ({
   form,
-  formSuccess = toastResponse,
-  formError = toastResponse,
-  formFailure = toastResponse,
+  success = toastResponse,
+  error = toastResponse,
+  failure = toastResponse,
+  body = {},
 }) => {
   // get the data from the form
   const formData = new FormData(form),
     method = form.method,
-    action = form.action,
-    json = {};
+    action = form.action;
 
   // add the loading class to the form
   if (!form.classList.contains("loading")) {
@@ -81,13 +81,13 @@ export const xhrForm = ({
         child = key.split(".")[1];
 
       // and if the parent is undefined, define it
-      if (json[parent] === undefined) {
-        json[parent] = {};
+      if (body[parent] === undefined) {
+        body[parent] = {};
       }
 
-      json[parent][child] = value;
+      body[parent][child] = value;
     } else {
-      json[key] = value;
+      body[key] = value;
     }
   });
 
@@ -126,7 +126,7 @@ export const xhrForm = ({
   // and now pass this all to the xhr function
 
   xhr({
-    method: method,
+    method,
     path: action,
     body: json,
     success,
@@ -142,7 +142,7 @@ export const xhrFormRecaptcha = (form) => {
     grecaptcha
       .execute(recaptchaSiteKey, { action: "submit" })
       .then((recaptchaToken) => {
-        xhrForm(form, { recaptchaToken });
+        xhrForm({ form, body: { recaptchaToken } });
       });
   });
 };

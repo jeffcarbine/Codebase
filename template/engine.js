@@ -1,4 +1,4 @@
-import { renderTemplate } from "./_renderTemplate.js";
+import { renderTemplate } from "./renderTemplate.js";
 
 export const template_js_engine = (app) => {
   app.engine("template.js", (filePath, options, callback) => {

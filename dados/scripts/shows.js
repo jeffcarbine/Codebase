@@ -1,4 +1,4 @@
-import { xhr } from "/periodic/scripts/xhr/_xhr.js";
+import { xhr } from "/periodic/scripts/xhr/xhr.js";
 import { addEventDelegate } from "/periodic/scripts/eventDelegate/eventDelegate.js";
 import { createModal } from "/periodic/components/modal/modal.js";
 import * as e from "/periodic/elements/elements.js";

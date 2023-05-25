@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-export const sendEmail = ({
+export const sendGmail = ({
   to = process.env.EMAILADDRESS,
   subject = "You received a message",
   message = "Somebody has sent you a message from your website",
@@ -40,6 +40,7 @@ export const sendEmail = ({
     .then(() => {
       // and return a 200 if response was provided
       if (res) {
+        console.log("success!");
         return res.status(200).send(successMessage);
       }
     })

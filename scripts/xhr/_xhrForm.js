@@ -1,5 +1,5 @@
 import { addEventDelegate } from "../eventDelegate/eventDelegate.js";
-import { xhr } from "./_xhr.js";
+import { xhr } from "./xhr.js";
 import { toast } from "../../components/alert/_alert.js";
 
 const xhrForm = (form) => {

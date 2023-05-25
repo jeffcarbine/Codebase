@@ -1,4 +1,5 @@
 import { addEventDelegate } from "/periodic/scripts/eventDelegate/eventDelegate.js";
+import { detectSwipe } from "../../modules/detectSwipe/detectSwipe.js";
 
 const changeSlider = (button) => {
   const direction = button.dataset.direction,
@@ -34,7 +35,23 @@ const changeActive = (slider, forwards) => {
   slider.dataset.active = activeSlide;
 };
 
+const slideForwards = (slider) => {
+  const slides = slider.querySelector(".slides");
+  changeActive(slides, true);
+};
+
+const slideBackwards = (slider) => {
+  const slides = slider.querySelector(".slides");
+  changeActive(slides, false);
+};
+
 addEventDelegate("click", "button.slider-control", changeSlider);
+
+detectSwipe({
+  target: ".slider",
+  left: slideForwards,
+  right: slideBackwards,
+});
 
 const slide = (slidesList) => {
   const activeSlide = parseInt(slidesList.dataset.active),
@@ -68,6 +85,26 @@ const slide = (slidesList) => {
       slides.length >= 5
     ) {
       slide.dataset.state = "farPrev";
+    } else if (
+      i ==
+        (activeSlide + 3 > slideCount
+          ? activeSlide === slideCount
+            ? 2
+            : activeSlide === slideCount - 1
+            ? 1
+            : 0
+          : activeSlide + 3) &&
+      slides.length >= 7
+    ) {
+      slide.dataset.state = "farFarNext";
+    } else if (
+      i ==
+        (activeSlide - 3 < 0
+          ? slideCount + (activeSlide - 2)
+          : activeSlide - 3) &&
+      slides.length >= 7
+    ) {
+      slide.dataset.state = "farFarPrev";
     } else {
       slide.dataset.state = "inactive";
     }

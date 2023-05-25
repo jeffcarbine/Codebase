@@ -18,6 +18,12 @@ export const productSummaryTemplate = ({
   },
   placeholder = false,
 } = {}) => {
+  const price = data.variants[0].price.value,
+    hasCompareAtPrice = data.variants[0].compareAtPrice !== null,
+    compareAtPrice = hasCompareAtPrice
+      ? data.variants[0].compareAtPrice.value
+      : price;
+
   return {
     tagName: placeholder ? "div" : "a",
     href: "/shop/product/" + data.handle || "",
@@ -30,6 +36,7 @@ export const productSummaryTemplate = ({
           new e.IMG({
             if: !placeholder,
             src: data.images[0].src || "",
+            alt: data.title,
           }),
           {
             if: placeholder,
@@ -54,14 +61,9 @@ export const productSummaryTemplate = ({
         class: "pricing",
         children: [
           {
-            if:
-              !placeholder &&
-              data.variants[0].compareAtPrice.amount !==
-                data.variants[0].price.amount,
+            if: !placeholder && hasCompareAtPrice && compareAtPrice !== price,
             class: "compareAt",
-            textContent: formatCurrency(
-              data.variants[0].compareAtPrice.amount || ""
-            ),
+            textContent: formatCurrency(compareAtPrice),
           },
           {
             if: !placeholder,

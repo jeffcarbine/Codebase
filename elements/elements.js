@@ -1,4 +1,5 @@
 import {
+  camelize,
   capitalize,
   capitalizeAll,
 } from "../modules/formatString/formatString.js";
@@ -27,7 +28,11 @@ export class HTML {
   constructor(params) {
     this.tagName = "html";
     this.lang = "en";
-    // this.style = "display: none;"; // avoids FOUC
+    if (params.style === undefined) {
+      this.style = "display: none;"; // avoids FOUC
+    } else {
+      this.style = params.style;
+    }
 
     const head = new HEAD({
       title: params.title,
@@ -282,6 +287,22 @@ export class LAZYIMG extends IMG {
   }
 }
 
+export class FIGURE extends ELEMENT {
+  constructor(params) {
+    super(params);
+
+    this.tagName = "figure";
+  }
+}
+
+export class FIGCAPTION extends ELEMENT {
+  constructor(params) {
+    super(params);
+
+    this.tagName = "figcaption";
+  }
+}
+
 export class UL extends ELEMENT {
   constructor(params) {
     super(params);
@@ -295,6 +316,22 @@ export class ULLI extends ELEMENT {
     super(params);
 
     this.tagName = "ul";
+
+    for (let i = 0; i < this.children.length; i++) {
+      let child = this.children[i];
+
+      const li = new LI({ child });
+
+      this.children[i] = li;
+    }
+  }
+}
+
+export class OLLI extends ELEMENT {
+  constructor(params) {
+    super(params);
+
+    this.tagName = "ol";
 
     for (let i = 0; i < this.children.length; i++) {
       let child = this.children[i];
@@ -343,6 +380,7 @@ export class NAVIGATION extends ELEMENT {
 
         if (typeof path === "string") {
           const active = path === params.path;
+
           navItem = new LI({
             class:
               route.toLowerCase().replaceAll(" ", "") +
@@ -370,8 +408,6 @@ export class NAVIGATION extends ELEMENT {
             }),
           });
         } else {
-          // this is a submenu
-
           // check
           const childActive = Object.values(path).includes(params.path);
 
@@ -383,7 +419,7 @@ export class NAVIGATION extends ELEMENT {
               new BUTTON(route),
               {
                 class: "submenu",
-                child: new ULLI(createNavItems(path)),
+                child: new UL(createNavItems(path)),
               },
             ],
           });
@@ -564,8 +600,8 @@ export class TEXT {
       labelText;
 
     if (typeof params === "string") {
-      inputParams.name = params;
-      inputParams.id = params;
+      inputParams.name = camelize(params);
+      inputParams.id = camelize(params);
       labelText = capitalizeAll(params);
     } else {
       inputParams = params;
@@ -684,19 +720,35 @@ export class OPTION {
     }
   }
 }
+
 export class SELECT extends ELEMENT {
   constructor(params) {
     super(params);
 
     this.tagName = "select";
+  }
+}
+
+export class SELECTOPTION extends SELECT {
+  constructor(params) {
+    super(params);
 
     const options = [];
 
     this.children.forEach((child) => {
-      const option = new OPTION({
-        textContent: capitalize(child),
-        value: child,
-      });
+      let option;
+
+      if (typeof child === "string") {
+        option = new OPTION({
+          textContent: capitalize(child),
+          value: camelize(child),
+        });
+      } else {
+        option = new OPTION({
+          textContent: child.title,
+          value: child.value,
+        });
+      }
 
       if (child === params.selected) {
         option.selected = true;
@@ -838,5 +890,12 @@ export class ARTICLE extends ELEMENT {
   constructor(params) {
     super(params);
     this.tagName = "article";
+  }
+}
+
+export class SVG extends ELEMENT {
+  constructor(params) {
+    super(params);
+    this.tagName = "svg";
   }
 }
