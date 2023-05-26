@@ -9,6 +9,7 @@ var Page = new Schema({
   datapoints: [
     {
       id: String,
+      name: String,
     },
   ],
 });

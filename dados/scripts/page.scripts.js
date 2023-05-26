@@ -3,40 +3,10 @@ import { addEventDelegate } from "/periodic/scripts/eventDelegate/eventDelegate.
 import { xhr, xhrForm } from "/periodic/scripts/xhr/xhr.js";
 import { renderTemplate } from "/periodic/template/renderTemplate.js";
 import { datapointCardTemplate } from "/periodic/dados/templates/datapointCard.template.js";
+import { handleDatapointForm } from "../modules/handle-datapoint-form.module.js";
 
 initModals();
-
-const dataset = JSON.parse(decodeURIComponent(import.meta.url.split("?")[1])),
-  datapointIds = dataset.datapoints,
-  datasetId = dataset._id;
-
-const fetchDatapoints = (datapointIds) => {
-  const datapointsArea = document.querySelector("#datapoints");
-  datapointsArea.innerHTML = "";
-  datapointsArea.classList.add("loading");
-
-  const success = (request) => {
-    datapointsArea.classList.remove("loading");
-
-    const datapoints = JSON.parse(request.response);
-
-    datapoints.forEach((datapoint) => {
-      const datapointCard = renderTemplate(
-        datapointCardTemplate(datasetId, datapoint)
-      );
-
-      datapointsArea.appendChild(datapointCard);
-    });
-  };
-
-  xhr({
-    path: "/admin/datapoints/retrieve",
-    body: datapointIds,
-    callbacks: { success },
-  });
-};
-
-fetchDatapoints(datapointIds);
+handleDatapointForm();
 
 const submitEditDatasets = (form) => {
   const formSuccess = (response) => {
@@ -51,14 +21,14 @@ addEventDelegate("submit", "#addEditDataset", submitEditDatasets, true);
 const submitAddDatapoint = (form) => {
   const modal = form.closest("dialog");
 
-  const formSuccess = (response) => {
+  const success = (response) => {
     modal.close();
     const datapointIds = JSON.parse(response);
 
     fetchDatapoints(datapointIds);
   };
 
-  xhrForm({ form, formSuccess });
+  xhrForm({ form, success });
 };
 
 addEventDelegate("submit", ".datapointForm", submitAddDatapoint, true);
@@ -66,14 +36,14 @@ addEventDelegate("submit", ".datapointForm", submitAddDatapoint, true);
 const submitEditDatapoint = (form) => {
   const modal = form.closest("dialog");
 
-  const formSuccess = (response) => {
+  const success = (response) => {
     modal.close();
     const datapointIds = JSON.parse(response);
 
     fetchDatapoints(datapointIds);
   };
 
-  xhrForm({ form, formSuccess });
+  xhrForm({ form, success });
 };
 
 addEventDelegate("submit", ".editDatapoint", submitEditDatapoint, true);

@@ -29,7 +29,7 @@ export default (data) => {
     },
     [
       new e.MODULE("/periodic/elements/input/input.js"),
-      new e.MODULE("/admin/scripts/pages.js"),
+      new e.MODULE("/admin/scripts/pages.scripts.js"),
     ]
   );
 };

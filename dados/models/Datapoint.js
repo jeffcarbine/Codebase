@@ -5,18 +5,18 @@ const defaultDatapoints = [
   "text",
   "image",
   "group",
-  "podcast",
-  "episode",
-  "person",
+  // "podcast",
+  // "episode",
+  // "person",
 ];
 
 const wildcardDatapoints = [
-  "wildcardEpisode",
-  "wildcardPodcast",
-  "wildcardGroup",
+  // "wildcardEpisode",
+  // "wildcardPodcast",
+  // "wildcardGroup",
 ];
 
-const datapointList = [...defaultDatapoints, ...wildcardDatapoints];
+export const datapointList = [...defaultDatapoints, ...wildcardDatapoints];
 
 const datapointEnum = {
   type: String,
@@ -28,7 +28,7 @@ const datapoint = {
   name: String,
   type: datapointEnum,
   name: String,
-  text: String,
+  body: String,
   src: String,
   alt: String,
   group: Array,

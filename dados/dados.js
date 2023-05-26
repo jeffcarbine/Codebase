@@ -83,6 +83,16 @@ export const init = ({
   );
 
   app.use(
+    "/admin/modules",
+    express.static(__dirname + "/periodic/dados/modules")
+  );
+
+  app.use(
+    "/admin/templates",
+    express.static(__dirname + "/periodic/dados/templates")
+  );
+
+  app.use(
     "/admin/images",
     express.static(__dirname + "/periodic/dados/images")
   );

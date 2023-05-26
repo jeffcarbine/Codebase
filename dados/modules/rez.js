@@ -7,9 +7,9 @@ export const rez = ({ req, res, template, data = {} } = {}) => {
   }
 
   // gives the route to the data
-  //data.path = req.url;
-  console.log(template);
-  console.log(data);
+  data.path = req.url;
+  // console.log(template);
+  // console.log(data);
 
   // fetch all datapoints associated to this route
 

@@ -568,6 +568,18 @@ export class INPUT extends ELEMENT {
   constructor(params) {
     super(params);
     this.tagName = "input";
+
+    if (typeof params === "string") {
+      this.name = params;
+      this.id = params;
+    }
+  }
+}
+
+export class FILE extends INPUT {
+  constructor(params) {
+    super(params);
+    this.type = "file";
   }
 }
 
@@ -666,6 +678,11 @@ export class TEXTAREA extends ELEMENT {
 
     this.tagName = "textarea";
     this.rows = params.rows || 4;
+
+    if (typeof params === "string") {
+      this.name = params;
+      this.id = params;
+    }
   }
 }
 

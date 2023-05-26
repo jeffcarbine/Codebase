@@ -1,7 +1,6 @@
 import { card } from "/periodic/components/card/card.template.js";
 import * as e from "/periodic/elements/elements.js";
 import { modalTemplate } from "/periodic/components/modal/modal.template.js";
-import * as datapointForms from "/periodic/dados/templates/datapointForms.template.js";
 
 export const datapointCardTemplate = (datasetId, datapoint) => {
   const generateCardContent = () => {

@@ -3,69 +3,10 @@ import * as e from "../../elements/elements.js";
 import { modalTemplate } from "../../components/modal/modal.template.js";
 import { capitalize } from "../../modules/formatString/formatString.js";
 import { createEditPageTemplate } from "../templates/createEditPage.template.js";
-import * as datapointForms from "../templates/datapointForms.template.js";
+import { datapointFormTemplate } from "../templates/datapointForm.template.js";
 
 export default (data) => {
   console.log(data);
-
-  const generateDatapointForm = () => {
-    const generateForms = () => {
-      const forms = [];
-
-      for (let type in datapointForms) {
-        if (!data.page.restricted || data.page.restrictedTo === type) {
-          const datapointForm = [
-            new e.HIDDEN({ name: "pageId", value: data.page._id }),
-            new e.TEXT("name"),
-          ].concat(datapointForms[type]);
-
-          forms.push(
-            new e.FORM({
-              method: "POST",
-              action: "/admin/datapoints/add",
-              id: type + "-form",
-              class:
-                type +
-                " datapointForm" +
-                (!data.page.restricted
-                  ? type !== "text"
-                    ? " hidden"
-                    : ""
-                  : ""),
-              children: datapointForm,
-            })
-          );
-        }
-      }
-
-      return {
-        children: forms,
-      };
-    };
-
-    return {
-      class: "style-inputs",
-      children: [
-        new e.H2(
-          "New " +
-            (data.page.restricted
-              ? capitalize(data.page.restrictedTo)
-              : "Datapoint")
-        ),
-        new e.LABEL({
-          if: !data.page.restricted,
-          textContent: "Type",
-          child: new e.SELECT({
-            id: "pageSelector",
-            name: "pageSelector",
-            "data-targets": ".datapointForm",
-            children: ["text", "image"],
-          }),
-        }),
-        generateForms(),
-      ],
-    };
-  };
 
   return base(
     data,
@@ -112,7 +53,7 @@ export default (data) => {
               id: "editPageModal",
             }),
             modalTemplate({
-              modalBody: generateDatapointForm(),
+              modalBody: datapointFormTemplate(data.page._id),
               id: "addDatapointModal",
             }),
           ],
@@ -126,7 +67,9 @@ export default (data) => {
     [
       new e.MODULE("/periodic/elements/input/input.js"),
       new e.MODULE("/periodic/scripts/xhr/_xhrForm.js"),
-      new e.MODULE("/admin/scripts/page.js?" + JSON.stringify(data.page)),
+      new e.MODULE(
+        "/admin/scripts/page.scripts.js?" + JSON.stringify(data.page)
+      ),
     ]
   );
 };

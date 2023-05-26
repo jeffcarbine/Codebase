@@ -1,8 +1,8 @@
 import { addEventDelegate } from "/periodic/scripts/eventDelegate/eventDelegate.js";
 import * as e from "/periodic/elements/elements.js";
 import { card } from "/periodic/components/card/card.template.js";
-import { xhr, xhrForm } from "/periodic/scripts/xhr/_xhr.js";
-import { renderTemplate } from "/periodic/template/_renderTemplate.js";
+import { xhr, xhrForm } from "/periodic/scripts/xhr/xhr.js";
+import { renderTemplate } from "/periodic/template/renderTemplate.js";
 
 const retrievePages = () => {
   const pagesTarget = document.querySelector("#pages");
@@ -41,13 +41,13 @@ const retrievePages = () => {
 retrievePages();
 
 const submitAddPages = (form) => {
-  const formSuccess = (response) => {
+  const success = (response) => {
     const pageId = JSON.parse(response);
 
     window.location = "/admin/pages/" + pageId;
   };
 
-  xhrForm({ form, formSuccess });
+  xhrForm({ form, success });
 };
 
 addEventDelegate("submit", "#addEditPage", submitAddPages, true);

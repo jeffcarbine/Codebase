@@ -433,3 +433,11 @@ input[type="number"] {
     }
   }
 }
+
+.hidden-input-group {
+  display: none;
+
+  &.visible {
+    display: block;
+  }
+}

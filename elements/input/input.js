@@ -82,12 +82,19 @@ const toggleVisibilityWithSelect = (selectInput) => {
 
   targets.forEach((target) => {
     if (target.classList.contains(value)) {
-      target.classList.remove("hidden");
+      target.classList.add("visible");
     } else {
-      target.classList.add("hidden");
+      target.classList.remove("visible");
     }
   });
 };
+
+// make the first hidden input group visible
+const firstHiddenInputGroup = document.querySelector(".hidden-input-group");
+
+if (firstHiddenInputGroup !== null) {
+  firstHiddenInputGroup.classList.add("visible");
+}
 
 addEventDelegate("change", "select[data-targets]", toggleVisibilityWithSelect);
 

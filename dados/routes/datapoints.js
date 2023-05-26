@@ -1,31 +1,18 @@
 import async from "async";
 import Dataset from "../models/Dataset.js";
 import Datapoint from "../models/Datapoint.js";
+import Page from "../models/Page.js";
 
 export const post__admin_datapoints_add = (req, res, next) => {
   const body = req.body,
-    type = body.type,
-    datasetId = body.datasetId,
-    name = body.name;
+    pageId = req.body.pageId;
 
-  const newDatapoint = {
-    type,
-    datasetId,
-    name,
-  };
-
-  newDatapoint[type] = {};
-
-  for (let key in body) {
-    if (key !== "datasetId" && key !== "type") {
-      newDatapoint[type][key] = body[key];
-    }
-  }
+  console.log(body);
 
   async.waterfall(
     [
       (callback) => {
-        Datapoint.create(newDatapoint, (err, datapoint) => {
+        Datapoint.create(body, (err, datapoint) => {
           if (err) {
             callback(err);
           } else {
@@ -34,13 +21,16 @@ export const post__admin_datapoints_add = (req, res, next) => {
         });
       },
       (datapoint) => {
-        Dataset.findOneAndUpdate(
+        Page.findOneAndUpdate(
           {
-            _id: datasetId,
+            _id: pageId,
           },
           {
             $addToSet: {
-              datapoints: datapoint._id,
+              datapoints: {
+                id: datapoint._id,
+                name: datapoint.name,
+              },
             },
           },
           {
