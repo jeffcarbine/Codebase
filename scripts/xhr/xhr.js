@@ -92,12 +92,12 @@ export const xhrForm = ({
   });
 
   // default behaviours for success, error and failure
-  const success = (request) => {
-    formSuccess(request.response, "success", form);
+  const formSuccess = (request) => {
+    success(request.response, "success", form);
     form.reset();
   };
 
-  const error = (request) => {
+  const formError = (request) => {
     let message = request.response;
 
     // if (request.status === 400) {
@@ -112,11 +112,11 @@ export const xhrForm = ({
     //   }
     // }
 
-    formError(message, "error", form);
+    error(message, "error", form);
   };
 
-  const failure = (request) => {
-    formFailure(request.response, "failure", form);
+  const formFailure = (request) => {
+    failure(request.response, "failure", form);
   };
 
   // const progress = (event) => {
@@ -129,9 +129,9 @@ export const xhrForm = ({
     method,
     path: action,
     body: json,
-    success,
-    error,
-    failure,
+    success: formSuccess,
+    error: formError,
+    failure: formFailure,
   });
 };
 

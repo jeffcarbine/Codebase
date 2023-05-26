@@ -68,6 +68,108 @@ const defaultRssArchiver = (show, count, callback) => {
   });
 };
 
+const defaultPatreonArchiver = (show, count, callback) => {
+  async.waterfall(
+    [
+      // step 1: get patreon access_token
+      (callback) => {
+        console.log("trying to get patreon token");
+        getPatreonToken(callback);
+      },
+      // step 5: get patreon posts
+      (patreon_access_token, callback) => {
+        let patreonPosts = [];
+
+        const getPatreonPosts = (patreonUrl) => {
+          request(
+            {
+              url: patreonUrl,
+              headers: {
+                Authorization: "Bearer " + patreon_access_token,
+              },
+            },
+            (err, result, body) => {
+              if (err) {
+                console.log(err);
+              } else {
+                body = JSON.parse(body);
+
+                // store those episodes in the patreonPosts array
+                patreonPosts = patreonPosts.concat(body.data);
+
+                if (getAll) {
+                  // then we are getting all of them to do a full refresh
+
+                  // check to see if there is a next value
+                  if (
+                    body.links !== undefined &&
+                    body.links.next !== undefined
+                  ) {
+                    getPatreonPosts(body.links.next);
+                  } else {
+                    const posts = patreonPosts;
+
+                    callback(null, posts);
+                  }
+                } else {
+                  const posts = patreonPosts;
+
+                  callback(null, posts);
+                }
+              }
+            }
+          );
+        };
+
+        getPatreonPosts(
+          "https://www.patreon.com/api/oauth2/v2/campaigns/1730986/posts?fields%5Bpost%5D=title%2Curl%2Cpublished_at%2Ccontent"
+        );
+      },
+      (posts, callback) => {
+        // now we need to go through all the patreon posts we pulled
+        // and check if any match the titles in our database
+        asyncLoop(
+          posts,
+          (post, next) => {
+            // standard values for any post
+
+            const title = post.attributes.title;
+
+            Episode.findOneAndUpdate(
+              {
+                title,
+              },
+              {
+                $set: {
+                  patreonLink: post.attributes.url,
+                },
+              }
+            ).exec((err) => {
+              if (err) {
+                console.log(err);
+              } else {
+                next();
+              }
+            });
+          },
+          (err) => {
+            if (err) {
+              console.log(err);
+            } else {
+              console.log("Successfully updated Patreon posts");
+            }
+          }
+        );
+      },
+    ],
+    (err) => {
+      if (err) {
+        console.log(err);
+      }
+    }
+  );
+};
+
 const defaultSpotifyArchiver = (show, count, callback) => {
   const fetchSpotifyEps = (spotify_access_token) => {
     let spotifyEps = [];
@@ -269,6 +371,7 @@ const defaultAppleArchiver = (show, count, callback) => {
 export const archiveEpisodes = ({
   count = 1,
   rssArchiver = defaultRssArchiver,
+  patreonArchiver = defaultPatreonArchiver,
   spotifyArchiver = defaultSpotifyArchiver,
   youTubeArchiver = defaultYouTubeArchiver,
   appleArchiver = defaultAppleArchiver,
@@ -284,6 +387,7 @@ export const archiveEpisodes = ({
           show,
           count,
           rssArchiver,
+          patreonArchiver,
           spotifyArchiver,
           youTubeArchiver,
           appleArchiver
@@ -297,6 +401,7 @@ const archiveLatestEpisode = (
   show,
   count,
   rssArchiver,
+  patreonArchiver,
   spotifyArchiver,
   youTubeArchiver,
   appleArchiver
