@@ -244,7 +244,7 @@ export const init = ({
 
   // GENERATE ROUTES FROM PAGES
   app.get("*", (req, res) => {
-    const path = req.url.toLowerCase();
+    const path = req.url;
 
     Page.findOne({
       path,
@@ -255,10 +255,12 @@ export const init = ({
         template = "error";
         title = "Page Not Found";
       } else {
-        template = camelize(page.name);
+        template = camelize(page.name.toLowerCase());
         title = page.name;
         datapoints = page.datapoints;
       }
+
+      console.log(template);
 
       rez({ req, res, template, data: { title }, datapoints });
     });
