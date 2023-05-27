@@ -33,8 +33,6 @@ export const post__admin_events_add = (req, res, next) => {
   let body = req.body;
   body.date = new Date(req.body.date);
 
-  console.log(body);
-
   Event.findOneAndUpdate(
     {
       date: body.date,

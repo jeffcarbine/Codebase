@@ -4,9 +4,11 @@ export const template_js_engine = (app) => {
   app.engine("template.js", (filePath, options, callback) => {
     import(filePath)
       .then((obj) => {
-        const html = renderTemplate(obj.default(options), true);
+        const html = renderTemplate(obj.default(options));
         return callback(null, html);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+      });
   });
 };

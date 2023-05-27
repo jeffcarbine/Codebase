@@ -1,7 +1,9 @@
 import async from "async";
 import Page from "../models/Page.js";
+import Datapoint from "../models/Datapoint.js";
 import { hyphenate } from "../../modules/formatString/formatString.js";
 import { rez } from "../modules/rez.js";
+import asyncLoop from "node-async-loop";
 
 export const get__admin_pages = (req, res, next) => {
   rez({ req, res, template: "pages", data: { subtitle: "Pages" } });
@@ -12,8 +14,6 @@ export const post__admin_pages_add = (req, res, next) => {
     path = "/" + (body.path || hyphenate(body.name)),
     name = body.name,
     wildcard = body.wildcard === "wildcard";
-
-  console.log(body);
 
   const newPage = {
     path,
@@ -72,7 +72,31 @@ export const get__admin_pages_$ = (req, res, next) => {
     if (err) {
       console.log(err);
     } else {
-      rez({ req, res, template: "page", data: { title: page.name, page } });
+      // retrieve all of the datapoints for this page too
+      const datapointIds = page.datapoints,
+        datapoints = [];
+
+      asyncLoop(
+        datapointIds,
+        (datapointId, next) => {
+          Datapoint.findOne({ _id: datapointId }).exec((err, datapoint) => {
+            datapoints.push(datapoint);
+            next();
+          });
+        },
+        (err) => {
+          if (err) {
+            console.log(err);
+          } else {
+            rez({
+              req,
+              res,
+              template: "page",
+              data: { title: page.name, page, datapoints },
+            });
+          }
+        }
+      );
     }
   });
 };

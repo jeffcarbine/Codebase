@@ -13,7 +13,7 @@ export const handleDatapointForm = () => {
 
   addEventDelegate(
     "submit",
-    "#addEditDatapoint form",
+    ".addEditDatapoint form",
     submitDatapointForm,
     true
   );

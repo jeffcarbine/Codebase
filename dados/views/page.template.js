@@ -4,9 +4,36 @@ import { modalTemplate } from "../../components/modal/modal.template.js";
 import { capitalize } from "../../modules/formatString/formatString.js";
 import { createEditPageTemplate } from "../templates/createEditPage.template.js";
 import { datapointFormTemplate } from "../templates/datapointForm.template.js";
+import { card } from "../../components/card/card.template.js";
 
 export default (data) => {
-  console.log(data);
+  const datapoints = data.datapoints,
+    page = data.page,
+    pageId = page._id;
+
+  const generateDatapointCards = () => {
+    const datapointCards = [];
+
+    datapoints.forEach((datapoint) => {
+      const datapointCard = card({
+        children: [
+          new e.H2(datapoint.name),
+          new e.BTN({
+            children: [new e.ICON("edit"), "Edit"],
+            "data-modal": "_" + datapoint._id,
+          }),
+          modalTemplate({
+            modalBody: datapointFormTemplate(pageId, datapoint),
+            id: "_" + datapoint._id,
+          }),
+        ],
+      });
+
+      datapointCards.push(datapointCard);
+    });
+
+    return datapointCards;
+  };
 
   return base(
     data,
@@ -60,7 +87,8 @@ export default (data) => {
         },
         new e.SECTION({
           id: "datapoints",
-          class: "card-canvas loading",
+          class: "card-canvas",
+          children: generateDatapointCards(),
         }),
       ],
     },

@@ -2,53 +2,61 @@ import async from "async";
 import Dataset from "../models/Dataset.js";
 import Datapoint from "../models/Datapoint.js";
 import Page from "../models/Page.js";
+import { P } from "../../elements/elements.js";
 
-export const post__admin_datapoints_add = (req, res, next) => {
+export const post__admin_datapoints = (req, res, next) => {
   const body = req.body,
-    pageId = req.body.pageId;
+    pageId = req.body.pageId,
+    _id = req.body._id;
 
-  console.log(body);
-
-  async.waterfall(
-    [
-      (callback) => {
-        Datapoint.create(body, (err, datapoint) => {
-          if (err) {
-            callback(err);
-          } else {
-            callback(null, datapoint);
-          }
-        });
-      },
-      (datapoint) => {
-        Page.findOneAndUpdate(
-          {
-            _id: pageId,
-          },
-          {
-            $addToSet: {
-              datapoints: {
-                id: datapoint._id,
-                name: datapoint.name,
+  if (_id) {
+    // then we are updating a preexisting datapoint
+    Datapoint.findOneAndUpdate({ _id }, { $set: body }).exec((err) => {
+      if (err) {
+        return res.status(500).send(err);
+      } else {
+        return res.status(200).send();
+      }
+    });
+  } else if (pageId) {
+    async.waterfall(
+      [
+        (callback) => {
+          Datapoint.create(body, (err, datapoint) => {
+            if (err) {
+              callback(err);
+            } else {
+              callback(null, datapoint);
+            }
+          });
+        },
+        (datapoint) => {
+          Page.findOneAndUpdate(
+            {
+              _id: pageId,
+            },
+            {
+              $addToSet: {
+                datapoints: datapoint._id,
               },
             },
-          },
-          {
-            new: true,
-          }
-        ).exec((err, dataset) => {
-          if (err) {
-            callback(err);
-          } else {
-            return res.status(200).send(dataset.datapoints);
-          }
-        });
-      },
-    ],
-    (err) => {
-      return res.status(500).send(err);
-    }
-  );
+            {
+              new: true,
+            }
+          ).exec((err, dataset) => {
+            if (err) {
+              callback(err);
+            } else {
+              return res.status(200).send(dataset.datapoints);
+            }
+          });
+        },
+      ],
+      (err) => {
+        return res.status(500).send(err);
+      }
+    );
+  }
 };
 
 export const post__admin_datapoints_retrieve = (req, res, next) => {
@@ -87,8 +95,6 @@ export const post__admin_datapoints_edit = (req, res, next) => {
       newDatapoint[type][key] = body[key];
     }
   }
-
-  console.log(newDatapoint);
 
   async.waterfall(
     [

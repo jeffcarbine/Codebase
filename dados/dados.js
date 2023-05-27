@@ -29,7 +29,7 @@ import {
   post__admin_datasets_dataset_edit,
 } from "./routes/global.js";
 import {
-  post__admin_datapoints_add,
+  post__admin_datapoints,
   post__admin_datapoints_edit,
   post__admin_datapoints_retrieve,
 } from "./routes/datapoints.js";
@@ -162,9 +162,9 @@ export const init = ({
 
   // DATAPOINTS
   app.post(
-    "/admin/datapoints/add",
+    "/admin/datapoints",
     connectEnsureLogin.ensureLoggedIn(),
-    post__admin_datapoints_add
+    post__admin_datapoints
   );
 
   app.post(

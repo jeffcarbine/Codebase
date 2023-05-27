@@ -6,12 +6,7 @@ var Page = new Schema({
   name: String,
   path: String,
   wildcard: Boolean,
-  datapoints: [
-    {
-      id: String,
-      name: String,
-    },
-  ],
+  datapoints: Array,
 });
 
 // create the model for users and expose it to our app
