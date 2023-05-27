@@ -76,27 +76,36 @@ export const get__admin_pages_$ = (req, res, next) => {
       const datapointIds = page.datapoints,
         datapoints = [];
 
-      asyncLoop(
-        datapointIds,
-        (datapointId, next) => {
-          Datapoint.findOne({ _id: datapointId }).exec((err, datapoint) => {
-            datapoints.push(datapoint);
-            next();
-          });
-        },
-        (err) => {
-          if (err) {
-            console.log(err);
-          } else {
-            rez({
-              req,
-              res,
-              template: "page",
-              data: { title: page.name, page, datapoints },
+      if (datapointIds.length > 0) {
+        asyncLoop(
+          datapointIds,
+          (datapointId, next) => {
+            Datapoint.findOne({ _id: datapointId }).exec((err, datapoint) => {
+              datapoints.push(datapoint);
+              next();
             });
+          },
+          (err) => {
+            if (err) {
+              console.log(err);
+            } else {
+              rez({
+                req,
+                res,
+                template: "page",
+                data: { title: page.name, page, datapoints },
+              });
+            }
           }
-        }
-      );
+        );
+      } else {
+        rez({
+          req,
+          res,
+          template: "page",
+          data: { title: page.name, page, datapoints },
+        });
+      }
     }
   });
 };

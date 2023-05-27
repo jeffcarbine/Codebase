@@ -14,6 +14,8 @@ export default (data) => {
   const generateDatapointCards = () => {
     const datapointCards = [];
 
+    console.log(datapoints);
+
     datapoints.forEach((datapoint) => {
       const datapointCard = cardTemplate({
         body: {

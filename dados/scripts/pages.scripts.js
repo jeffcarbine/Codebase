@@ -46,6 +46,7 @@ retrievePages();
 const submitAddPages = (form) => {
   const success = (response) => {
     const pageId = JSON.parse(response);
+    console.log(pageId);
 
     window.location = "/admin/pages/" + pageId;
   };
