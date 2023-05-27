@@ -23,7 +23,7 @@ export const rez = ({ req, res, template, data = {} } = {}) => {
     if (err) {
       console.log(err);
     } else {
-      if (page !== null) {
+      if (page !== null && page.datapoints.length > 0) {
         const datapointIds = page.datapoints;
 
         asyncLoop(
