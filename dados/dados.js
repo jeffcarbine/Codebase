@@ -244,7 +244,7 @@ export const init = ({
 
   // GENERATE ROUTES FROM PAGES
   app.get("*", (req, res) => {
-    const path = req.url;
+    const path = req.url.toLowerCase();
 
     Page.findOne({
       path,
