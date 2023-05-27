@@ -12,7 +12,7 @@ const spotify_client_id = process.env.SPOTIFYCLIENTID,
   spotify_client_secret = process.env.SPOTIFYCLIENTSECRET,
   spotify_access_code = process.env.SPOTIFYACCESSCODE;
 
-const generateSpotifyToken = () => {
+const generateSpotifyToken = (mainCallback) => {
   request.post(
     {
       url: "https://accounts.spotify.com/api/token",
@@ -52,12 +52,15 @@ const generateSpotifyToken = () => {
           },
           {
             upsert: true,
+            new: true,
           }
-        ).exec((err) => {
+        ).exec((err, token) => {
           if (err) {
             console.log(err);
           } else {
             console.log("Succesfully generated Token for Spotify");
+            console.log(token);
+            mainCallback(token.access_token);
           }
         });
       }
@@ -83,7 +86,7 @@ export function getSpotifyToken(mainCallback) {
         // if the token is null, we don't have one so we need to generate a token
         if (token === null) {
           console.log("No Spotify token found. Generating one.");
-          generateSpotifyToken();
+          generateSpotifyToken(mainCallback);
         } else {
           console.log("spotify token invalid, time for a new one");
           // otherwise, let's get a new token

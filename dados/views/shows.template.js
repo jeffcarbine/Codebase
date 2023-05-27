@@ -1,6 +1,7 @@
 import { base } from "./_dados.template.js";
 import * as e from "../../elements/elements.js";
 import { card } from "../../components/card/card.template.js";
+import { modalTemplate } from "../../components/modal/modal.template.js";
 
 export default (data) => {
   const showList = () => {
@@ -71,12 +72,37 @@ export default (data) => {
         new e.BTNCONTAINER(
           [
             {
-              id: "addShow",
+              "data-modal": "addShow",
               children: [new e.ICON("plus"), "Add Show"],
             },
           ],
           "centered"
         ),
+        modalTemplate({
+          modalBody: new e.FORM({
+            method: "POST",
+            action: "/admin/shows/add",
+            class: "style-inputs xhr",
+            "data-redirect": "/admin/events",
+            children: [
+              new e.H2("Add Show"),
+              new e.TEXT("title"),
+              new e.TEXT({
+                label: "RSS",
+                name: "rss",
+              }),
+              new e.TEXT("patreon"),
+              new e.TEXT("spotify"),
+              new e.TEXT("youTube"),
+              new e.TEXT("apple"),
+              new e.BTN({
+                id: "createEvent",
+                textContent: "Create Show",
+              }),
+            ],
+          }),
+          id: "addShow",
+        }),
         new e.SECTION({
           id: "events",
           children,
