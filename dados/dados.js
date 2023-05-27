@@ -59,7 +59,7 @@ export const init = ({
 
   app.use(
     session({
-      secret: "wearealljustrollinwithit",
+      secret: "carbineycarbineycarbine",
       resave: false,
       saveUninitialized: true,
       cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 },
