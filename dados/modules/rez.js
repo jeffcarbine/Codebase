@@ -1,3 +1,8 @@
+import asyncLoop from "node-async-loop";
+import Page from "../models/Page.js";
+import Datapoint from "../models/Datapoint.js";
+import { camelize } from "../../modules/formatString/formatString.js";
+
 export const rez = ({ req, res, template, data = {} } = {}) => {
   // check if we are logged in or not
   if (req.user) {
@@ -7,13 +12,39 @@ export const rez = ({ req, res, template, data = {} } = {}) => {
   }
 
   // gives the route to the data
-  data.path = req.url;
+  const path = req.url;
+  data.path = path;
+  data.points = {};
   // console.log(template);
   // console.log(data);
 
   // fetch all datapoints associated to this route
+  Page.findOne({ path }).exec((err, page) => {
+    if (err) {
+      console.log(err);
+    } else {
+      if (page !== null) {
+        const datapointIds = page.datapoints;
 
-  // fetch all global datapoints
-
-  res.render(template, data);
+        asyncLoop(
+          datapointIds,
+          (datapointId, next) => {
+            Datapoint.findOne({ _id: datapointId }).exec((err, datapoint) => {
+              data.points[camelize(datapoint.name)] = datapoint;
+              next();
+            });
+          },
+          (err) => {
+            if (err) {
+              console.log(err);
+            } else {
+              res.render(template, data);
+            }
+          }
+        );
+      } else {
+        res.render(template, data);
+      }
+    }
+  });
 };

@@ -1,6 +1,6 @@
 import { addEventDelegate } from "/periodic/scripts/eventDelegate/eventDelegate.js";
 import * as e from "/periodic/elements/elements.js";
-import { card } from "/periodic/components/card/card.template.js";
+import { cardTemplate } from "/periodic/components/card/card.template.js";
 import { xhr, xhrForm } from "/periodic/scripts/xhr/xhr.js";
 import { renderTemplate } from "/periodic/template/renderTemplate.js";
 
@@ -14,14 +14,17 @@ const retrievePages = () => {
 
     pages.forEach((page) => {
       const pageCard = renderTemplate(
-        card({
-          children: [
-            new e.H2(page.name),
-            new e.BTN({
-              href: "/admin/pages/" + page._id,
-              children: [new e.ICON("edit"), "Edit"],
-            }),
-          ],
+        cardTemplate({
+          body: {
+            children: [
+              new e.H2(page.name),
+              new e.BTN({
+                href: "/admin/pages/" + page._id,
+                children: [new e.ICON("edit"), "Edit"],
+              }),
+            ],
+          },
+          className: "edit",
         })
       );
 

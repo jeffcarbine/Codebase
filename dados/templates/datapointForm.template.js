@@ -15,6 +15,19 @@ const datapointInputs = {
       ]),
     ];
   },
+  html: (datapoint) => {
+    const body = datapoint !== undefined ? datapoint.body : "";
+
+    return [
+      new e.LABEL([
+        "Body",
+        new e.TEXTAREA({
+          name: "body",
+          textContent: body,
+        }),
+      ]),
+    ];
+  },
   image: () => {
     return [
       new e.LABEL(["File", new e.FILE("src")]),

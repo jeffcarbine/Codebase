@@ -1,21 +1,19 @@
-.datasets {
-  .card {
-    > div {
-      width: 100%;
+.card.edit {
+  > div {
+    width: 100%;
+    display: flex;
+
+    h2 {
+      flex: 1 1 auto;
+      margin: 0;
+      padding-left: 1rem;
       display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
 
-      h2 {
-        flex: 1 1 auto;
-        margin: 0;
-        padding-left: 1rem;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-      }
-
-      .btn {
-        flex: 0 0 auto;
-      }
+    .btn {
+      flex: 0 0 auto;
     }
   }
 }

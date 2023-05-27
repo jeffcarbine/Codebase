@@ -3,6 +3,7 @@ var Schema = mongoose.Schema;
 
 const defaultDatapoints = [
   "text",
+  "html",
   "image",
   "group",
   // "podcast",

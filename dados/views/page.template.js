@@ -4,7 +4,7 @@ import { modalTemplate } from "../../components/modal/modal.template.js";
 import { capitalize } from "../../modules/formatString/formatString.js";
 import { createEditPageTemplate } from "../templates/createEditPage.template.js";
 import { datapointFormTemplate } from "../templates/datapointForm.template.js";
-import { card } from "../../components/card/card.template.js";
+import { cardTemplate } from "../../components/card/card.template.js";
 
 export default (data) => {
   const datapoints = data.datapoints,
@@ -15,18 +15,21 @@ export default (data) => {
     const datapointCards = [];
 
     datapoints.forEach((datapoint) => {
-      const datapointCard = card({
-        children: [
-          new e.H2(datapoint.name),
-          new e.BTN({
-            children: [new e.ICON("edit"), "Edit"],
-            "data-modal": "_" + datapoint._id,
-          }),
-          modalTemplate({
-            modalBody: datapointFormTemplate(pageId, datapoint),
-            id: "_" + datapoint._id,
-          }),
-        ],
+      const datapointCard = cardTemplate({
+        body: {
+          children: [
+            new e.H2(datapoint.name),
+            new e.BTN({
+              children: [new e.ICON("edit"), "Edit"],
+              "data-modal": "_" + datapoint._id,
+            }),
+            modalTemplate({
+              modalBody: datapointFormTemplate(pageId, datapoint),
+              id: "_" + datapoint._id,
+            }),
+          ],
+        },
+        className: "edit",
       });
 
       datapointCards.push(datapointCard);
