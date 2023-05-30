@@ -30,8 +30,7 @@ import {
 } from "./routes/global.js";
 import {
   post__admin_datapoints,
-  post__admin_datapoints_edit,
-  post__admin_datapoints_retrieve,
+  post__admin_datapoints_remove,
 } from "./routes/datapoints.js";
 
 import { get__admin_global } from "./routes/global.js";
@@ -168,15 +167,9 @@ export const init = ({
   );
 
   app.post(
-    "/admin/datapoints/retrieve",
+    "/admin/datapoints/remove",
     connectEnsureLogin.ensureLoggedIn(),
-    post__admin_datapoints_retrieve
-  );
-
-  app.post(
-    "/admin/datapoints/edit",
-    connectEnsureLogin.ensureLoggedIn(),
-    post__admin_datapoints_edit
+    post__admin_datapoints_remove
   );
 
   if (shows) {

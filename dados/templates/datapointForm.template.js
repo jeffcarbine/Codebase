@@ -1,36 +1,37 @@
 import * as e from "../../elements/elements.js";
+import { base64ImageInputComponent } from "../../elements/input/base64ImageInput.component.js";
 import { datapointList } from "../models/Datapoint.js";
 
 const datapointInputs = {
   text: (datapoint) => {
-    const body = datapoint !== undefined ? datapoint.body : "";
+    const text = datapoint !== undefined ? datapoint.text : "";
 
     return [
       new e.LABEL([
-        "Body",
+        "Text Content",
         new e.TEXTAREA({
-          name: "body",
-          textContent: body,
+          name: "text",
+          textContent: text,
         }),
       ]),
     ];
   },
   html: (datapoint) => {
-    const body = datapoint !== undefined ? datapoint.body : "";
+    const html = datapoint !== undefined ? datapoint.html : "";
 
     return [
       new e.LABEL([
-        "Body",
+        "HTML Content",
         new e.TEXTAREA({
-          name: "body",
-          textContent: body,
+          name: "html",
+          textContent: html,
         }),
       ]),
     ];
   },
   image: () => {
     return [
-      new e.LABEL(["File", new e.FILE("src")]),
+      base64ImageInputComponent("src"),
       new e.TEXT({ name: "alt", label: "Alt Text" }),
     ];
   },
@@ -40,11 +41,7 @@ const datapointInputs = {
 };
 
 export const generateDatapointForms = (pageId, datapoint) => {
-  let children = [
-    new e.H2(
-      datapoint !== undefined ? "Edit " + datapoint.name : "New Datapoint"
-    ),
-  ];
+  let children = [];
 
   const generateDatapointForm = (datapointType, datapoint) => {
     const name = datapoint !== undefined ? datapoint.name : "",
@@ -57,6 +54,7 @@ export const generateDatapointForms = (pageId, datapoint) => {
       children: [
         ...[
           new e.HIDDEN({ name: hiddenName, value: hiddenValue }),
+          new e.HIDDEN({ name: "type", value: datapointType }),
           new e.TEXT({
             label: "Name",
             name: "name",

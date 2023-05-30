@@ -14,8 +14,6 @@ export default (data) => {
   const generateDatapointCards = () => {
     const datapointCards = [];
 
-    console.log(datapoints);
-
     datapoints.forEach((datapoint) => {
       const datapointCard = cardTemplate({
         body: {
@@ -26,7 +24,21 @@ export default (data) => {
               "data-modal": "_" + datapoint._id,
             }),
             modalTemplate({
-              modalBody: datapointFormTemplate(pageId, datapoint),
+              modalBody: {
+                children: [
+                  new e.H2("Edit Datapoint"),
+                  datapointFormTemplate(pageId, datapoint),
+                  new e.BTNCONTAINER(
+                    {
+                      class: "removeDatapoint accent",
+                      "data-id": datapoint._id,
+                      "data-pageId": pageId,
+                      textContent: "Delete Datapoint",
+                    },
+                    "center"
+                  ),
+                ],
+              },
               id: "_" + datapoint._id,
             }),
           ],
@@ -85,7 +97,12 @@ export default (data) => {
               id: "editPageModal",
             }),
             modalTemplate({
-              modalBody: datapointFormTemplate(data.page._id),
+              modalBody: {
+                children: [
+                  new e.H2("Add New Datapoint"),
+                  datapointFormTemplate(data.page._id),
+                ],
+              },
               id: "addDatapointModal",
             }),
           ],

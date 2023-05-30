@@ -30,7 +30,9 @@ export const rez = ({ req, res, template, data = {} } = {}) => {
           datapointIds,
           (datapointId, next) => {
             Datapoint.findOne({ _id: datapointId }).exec((err, datapoint) => {
-              data.points[camelize(datapoint.name)] = datapoint;
+              const type = datapoint.type,
+                datapointData = datapoint[type];
+              data.points[camelize(datapoint.name)] = datapointData;
               next();
             });
           },

@@ -118,6 +118,22 @@ addEventDelegate(
   toggleVisibilityWithCheckbox
 );
 
+// handle base64 image inputs
+const imageToBase64 = (input) => {
+  if (!input.files || !input.files[0]) return;
+
+  const FR = new FileReader();
+
+  FR.addEventListener("load", function (evt) {
+    const hiddenInput = input.parentNode.nextElementSibling;
+    hiddenInput.value = evt.target.result;
+  });
+
+  FR.readAsDataURL(input.files[0]);
+};
+
+addEventDelegate("change", "input.base64ImageFile", imageToBase64);
+
 // FORMAT PHONE NUMBERS
 // borrowed from http://www.kodyaz.com
 // and slightly modified to add space between

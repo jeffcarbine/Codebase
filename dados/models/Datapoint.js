@@ -29,23 +29,13 @@ const datapoint = {
   name: String,
   type: datapointEnum,
   name: String,
-  body: String,
-  src: String,
-  alt: String,
+  text: String,
+  html: String,
+  image: {
+    src: String,
+    alt: String,
+  },
   group: Array,
-  wildcardGroup: Array,
-  wildcardGroupId: String,
-  podcast: String,
-  wildcardPodcast: Boolean,
-  episode: String,
-  wildcardEpisode: Boolean,
-  bio: String,
-  links: [
-    {
-      title: String,
-      href: String,
-    },
-  ],
 };
 
 // define the schema for our user model

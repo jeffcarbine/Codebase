@@ -1,4 +1,4 @@
-import { card } from "/periodic/components/card/card.template.js";
+import { cardTemplate } from "/periodic/components/card/card.template.js";
 import * as e from "/periodic/elements/elements.js";
 import { modalTemplate } from "/periodic/components/modal/modal.template.js";
 
@@ -18,7 +18,7 @@ export const datapointCardTemplate = (datasetId, datapoint) => {
     return cardContent;
   };
 
-  return card({
+  return cardTemplate({
     class: "datapoint style-inputs",
     children: [
       generateCardContent(),
