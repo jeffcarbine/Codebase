@@ -56,6 +56,7 @@ export const generateDatapointForms = (pageId, datapoint) => {
           new e.HIDDEN({ name: hiddenName, value: hiddenValue }),
           new e.HIDDEN({ name: "type", value: datapointType }),
           new e.TEXT({
+            if: pageId === undefined,
             label: "Name",
             name: "name",
             value: name,

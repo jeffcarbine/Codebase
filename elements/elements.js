@@ -609,6 +609,8 @@ export class NUMBER {
 
 export class TEXT {
   constructor(params) {
+    this.if = params.if;
+
     let inputParams = {},
       labelText;
 

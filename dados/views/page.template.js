@@ -60,7 +60,7 @@ export default (data) => {
             modalTemplate({
               modalBody: {
                 children: [
-                  new e.H2("Edit Datapoint"),
+                  new e.H2(`Edit ${datapoint.name}`),
                   datapointFormTemplate(pageId, datapoint),
                   new e.BTNCONTAINER(
                     {
