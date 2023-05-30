@@ -3,17 +3,33 @@
     width: 100%;
     display: flex;
 
-    h2 {
+    .title-preview {
       flex: 1 1 auto;
       margin: 0;
       padding-left: 1rem;
       display: flex;
       flex-direction: column;
       justify-content: center;
+
+      .preview {
+        img {
+          width: auto;
+          display: block;
+          margin: 1rem auto;
+          height: 20rem;
+          object-fit: contain;
+          box-shadow: var(--box-shadow);
+          border-radius: var(--border-radius);
+        }
+      }
     }
 
-    .btn {
+    .edit {
       flex: 0 0 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-left: 1rem;
     }
   }
 }

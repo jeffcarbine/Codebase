@@ -15,14 +15,48 @@ export default (data) => {
     const datapointCards = [];
 
     datapoints.forEach((datapoint) => {
+      let preview;
+      const type = datapoint.type;
+
+      switch (type) {
+        case "html":
+          preview = new e.PRECODE(datapoint.html);
+          break;
+        case "text":
+          preview = new e.P(datapoint.text);
+          break;
+        case "image":
+          preview = new e.LAZYIMG({
+            src: datapoint.image.src,
+            alt: datapoint.image.alt,
+          });
+          break;
+        default:
+          preview = new e.P(
+            "Something went wrong and the preview cannot be rendered."
+          );
+      }
+
       const datapointCard = cardTemplate({
         body: {
           children: [
-            new e.H2(datapoint.name),
-            new e.BTN({
-              children: [new e.ICON("edit"), "Edit"],
-              "data-modal": "_" + datapoint._id,
-            }),
+            {
+              class: "title-preview",
+              children: [
+                new e.H2(datapoint.name),
+                {
+                  class: "preview",
+                  child: preview,
+                },
+              ],
+            },
+            {
+              class: "edit",
+              child: new e.BTN({
+                children: [new e.ICON("edit"), "Edit"],
+                "data-modal": "_" + datapoint._id,
+              }),
+            },
             modalTemplate({
               modalBody: {
                 children: [
@@ -30,12 +64,12 @@ export default (data) => {
                   datapointFormTemplate(pageId, datapoint),
                   new e.BTNCONTAINER(
                     {
-                      class: "removeDatapoint accent",
+                      class: "rremoveDatapoint accent sm",
                       "data-id": datapoint._id,
                       "data-pageId": pageId,
-                      textContent: "Delete Datapoint",
+                      textContent: "Remove Datapoint",
                     },
-                    "center"
+                    "centered"
                   ),
                 ],
               },

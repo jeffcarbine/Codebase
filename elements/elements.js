@@ -2,6 +2,7 @@ import {
   camelize,
   capitalize,
   capitalizeAll,
+  htmlize,
 } from "../modules/formatString/formatString.js";
 import * as i from "../components/icon/_icon-list.js";
 
@@ -914,5 +915,15 @@ export class SVG extends ELEMENT {
   constructor(params) {
     super(params);
     this.tagName = "svg";
+  }
+}
+
+export class PRECODE {
+  constructor(params) {
+    this.tagName = "pre";
+    this.child = {
+      tagName: "code",
+      textContent: htmlize(params),
+    };
   }
 }

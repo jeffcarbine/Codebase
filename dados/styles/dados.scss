@@ -101,5 +101,15 @@ body {
   }
 }
 
+pre {
+  white-space: break-spaces;
+  font-family: monospace;
+  background: var(--dark-low);
+  color: var(--light);
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  @include fontValues(11, 8);
+}
+
 @media only screen and (min-width: $breakpoint-md) {
 }
