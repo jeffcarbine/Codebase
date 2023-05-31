@@ -11,12 +11,13 @@ export default (data) => {
     page = data.page,
     pageId = page._id;
 
-  const generateDatapointCards = (datapoints) => {
+  const generateDatapointCards = (datapoints, parentId, isChild) => {
     const datapointCards = [];
 
     datapoints.forEach((datapoint) => {
       let preview;
-      const type = datapoint.type;
+      const type = datapoint.type,
+        parentModel = isChild ? "datapoint" : "page";
 
       switch (type) {
         case "html":
@@ -49,7 +50,11 @@ export default (data) => {
               }),
               {
                 class: "children-datapoints",
-                children: generateDatapointCards(datapoint.datapoints),
+                children: generateDatapointCards(
+                  datapoint.datapoints,
+                  datapoint._id,
+                  true
+                ),
               },
             ],
           };
@@ -89,7 +94,8 @@ export default (data) => {
                     {
                       class: "removeDatapoint accent sm",
                       "data-id": datapoint._id,
-                      "data-pageId": pageId,
+                      "data-parentid": parentId,
+                      "data-parentmodel": parentModel,
                       textContent: "Remove Datapoint",
                     },
                     "centered"
@@ -167,7 +173,7 @@ export default (data) => {
         new e.SECTION({
           id: "datapoints",
           class: "card-canvas",
-          children: generateDatapointCards(datapoints),
+          children: generateDatapointCards(datapoints, pageId),
         }),
       ],
     },

@@ -10,14 +10,19 @@ handleDatapointForm();
 
 const removeDatapoint = (button) => {
   const _id = button.dataset.id,
-    pageId = button.dataset.pageid;
+    parentId = button.dataset.parentid,
+    parentModel = button.dataset.parentmodel;
 
   const success = () => {
     // refresh the page
     window.location.reload();
   };
 
-  xhr({ path: "/admin/datapoints/remove", body: { _id, pageId }, success });
+  xhr({
+    path: "/admin/datapoints/remove",
+    body: { _id, parentId, parentModel },
+    success,
+  });
 };
 
 addEventDelegate("click", ".removeDatapoint", removeDatapoint);

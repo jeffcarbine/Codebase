@@ -60,10 +60,10 @@
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 const client = new S3Client({ region: "us-east-2" });
 
-export const uploadBase64ToS3 = async (url, prefix, suffix, callback) => {
+export const uploadBase64ToS3 = async (url, filename, callback) => {
   // Getting the file type, ie: jpeg, png or gif
   const type = url.split(";")[0].split("/")[1],
-    fileName = `${prefix.toString()}.${suffix.toString()}.${type}`;
+    fileName = `${filename.toString()}.${type}`;
 
   const command = new PutObjectCommand({
     Bucket: "naddpod",

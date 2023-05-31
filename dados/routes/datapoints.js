@@ -25,20 +25,15 @@ export const post__admin_datapoints = (req, res, next) => {
 
   if (datapointValid) {
     // handle sending image to s3
-    const uploadToS3 = (body, callback) => {
-      uploadBase64ToS3(
-        body.src,
-        body.pageId,
-        camelize(body.name),
-        (err, fileName, response) => {
-          if (err) {
-            console.log(err);
-          } else {
-            body.src = cloudfrontURL + fileName;
-            callback(null);
-          }
+    const uploadToS3 = (body, filename, callback) => {
+      uploadBase64ToS3(body.src, filename, (err, fileName, response) => {
+        if (err) {
+          console.log(err);
+        } else {
+          body.src = cloudfrontURL + fileName;
+          callback(null);
         }
-      );
+      });
     };
 
     // start by creating the datapoint so we have access
@@ -102,12 +97,15 @@ export const post__admin_datapoints = (req, res, next) => {
         },
         (newDatapoint, callback) => {
           if (body.type === "image") {
-            uploadToS3(body, newDatapoint._id, callback);
+            uploadToS3(body, newDatapoint._id, () => {
+              callback(null, newDatapoint);
+            });
           } else {
             callback(null, newDatapoint);
           }
         },
         (newDatapoint, callback) => {
+          console.log(newDatapoint);
           const newDatapointId = newDatapoint._id.toString();
 
           if (pageId) {
@@ -168,17 +166,27 @@ export const post__admin_datapoints = (req, res, next) => {
 export const post__admin_datapoints_remove = (req, res, next) => {
   const body = req.body,
     _id = body._id,
-    pageId = body.pageId;
+    parentId = body.parentId,
+    parentModel = body.parentModel;
 
   console.log(body);
 
-  Page.findOneAndUpdate(
+  let Parent;
+
+  if (parentModel === "page") {
+    Parent = Page;
+  } else if (parentModel === "datapoint") {
+    Parent = Datapoint;
+  }
+
+  Parent.findOneAndUpdate(
     {
-      _id: pageId,
+      _id: parentId,
     },
     {
       $pull: {
         datapoints: _id,
+        group: _id,
       },
     }
   ).exec((err) => {

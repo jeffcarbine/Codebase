@@ -86,8 +86,17 @@ export const get__admin_pages_$ = (req, res, next) => {
               // check if the datapoint is a group
               if (datapoint.type === "group") {
                 datapoint.datapoints = [];
-                // then we need to retrieve the children datapoints
-                retrieveDatapoints(datapoint.group, datapoint.datapoints, next);
+
+                if (datapoint.group.length > 0) {
+                  // then we need to retrieve the children datapoints
+                  retrieveDatapoints(
+                    datapoint.group,
+                    datapoint.datapoints,
+                    next
+                  );
+                } else {
+                  next();
+                }
               } else {
                 next();
               }
