@@ -48,12 +48,27 @@
 @import "../../components/loader/loader";
 @include loadingDots();
 
+@keyframes morph {
+  from {
+    transform: scale(0.99);
+    box-shadow: none;
+  }
+
+  to {
+    transform: scale(1);
+    box-shadow: 12px 12px 24px rgba(0, 0, 0, 0.125), -12px -12px 24px #fff;
+  }
+}
+
 .card {
   border-radius: 25px;
   width: calc(100% - 2rem);
   max-width: 60rem;
   background: var(--light-low);
-  box-shadow: 12px 12px 24px rgba(0, 0, 0, 0.125), -12px -12px 24px #fff;
+  transform: scale(0.99);
+  box-shadow: none;
+  animation: morph 0.75s forwards;
+  animation-delay: 0.125s;
 }
 
 .card-canvas {
