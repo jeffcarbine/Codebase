@@ -11,7 +11,7 @@ export default (data) => {
     page = data.page,
     pageId = page._id;
 
-  const generateDatapointCards = () => {
+  const generateDatapointCards = (datapoints) => {
     const datapointCards = [];
 
     datapoints.forEach((datapoint) => {
@@ -47,6 +47,10 @@ export default (data) => {
                 },
                 id: `addTo${datapoint._id}`,
               }),
+              {
+                class: "children-datapoints",
+                children: generateDatapointCards(datapoint.datapoints),
+              },
             ],
           };
           break;
@@ -163,7 +167,7 @@ export default (data) => {
         new e.SECTION({
           id: "datapoints",
           class: "card-canvas",
-          children: generateDatapointCards(),
+          children: generateDatapointCards(datapoints),
         }),
       ],
     },

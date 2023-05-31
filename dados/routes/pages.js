@@ -76,28 +76,42 @@ export const get__admin_pages_$ = (req, res, next) => {
       const datapointIds = page.datapoints,
         datapoints = [];
 
-      if (datapointIds.length > 0) {
+      const retrieveDatapoints = (ids, parent, callback) => {
         asyncLoop(
-          datapointIds,
+          ids,
           (datapointId, next) => {
             Datapoint.findOne({ _id: datapointId }).exec((err, datapoint) => {
-              datapoints.push(datapoint);
-              next();
+              parent.push(datapoint);
+
+              // check if the datapoint is a group
+              if (datapoint.type === "group") {
+                datapoint.datapoints = [];
+                // then we need to retrieve the children datapoints
+                retrieveDatapoints(datapoint.group, datapoint.datapoints, next);
+              } else {
+                next();
+              }
             });
           },
           (err) => {
             if (err) {
               console.log(err);
             } else {
-              rez({
-                req,
-                res,
-                template: "page",
-                data: { title: page.name, page, datapoints },
-              });
+              callback();
             }
           }
         );
+      };
+
+      if (datapointIds.length > 0) {
+        retrieveDatapoints(datapointIds, datapoints, () => {
+          rez({
+            req,
+            res,
+            template: "page",
+            data: { title: page.name, page, datapoints },
+          });
+        });
       } else {
         rez({
           req,
