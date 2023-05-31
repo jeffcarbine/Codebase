@@ -1,3 +1,4 @@
+import { modalTemplate } from "../../components/modal/modal.template.js";
 import * as e from "../../elements/elements.js";
 import { base64ImageInputComponent } from "../../elements/input/base64ImageInput.component.js";
 import { datapointList } from "../models/Datapoint.js";
@@ -29,7 +30,7 @@ const datapointInputs = {
       ]),
     ];
   },
-  image: () => {
+  image: (datapoint) => {
     return [
       base64ImageInputComponent("src"),
       new e.TEXT({ name: "alt", label: "Alt Text" }),
@@ -40,13 +41,33 @@ const datapointInputs = {
   },
 };
 
-export const generateDatapointForms = (pageId, datapoint) => {
+export const generateDatapointForms = ({
+  pageId = null,
+  datapointId = null,
+  datapoint,
+} = {}) => {
   let children = [];
 
-  const generateDatapointForm = (datapointType, datapoint) => {
-    const name = datapoint !== undefined ? datapoint.name : "",
-      hiddenName = datapoint !== undefined ? "_id" : "pageId",
-      hiddenValue = datapoint !== undefined ? datapoint._id : pageId;
+  let hiddenName, hiddenValue;
+
+  if (pageId !== null) {
+    hiddenName = "pageId";
+    hiddenValue = pageId;
+  } else if (datapointId !== null) {
+    hiddenName = "datapointId";
+    hiddenValue = datapointId;
+  } else {
+    hiddenName = "id";
+    hiddenValue = datapoint._id;
+  }
+
+  const generateDatapointForm = (
+    datapointType,
+    hiddenName,
+    hiddenValue,
+    datapoint
+  ) => {
+    const name = datapoint !== undefined ? datapoint.name : "";
 
     return new e.FORM({
       method: "POST",
@@ -56,7 +77,7 @@ export const generateDatapointForms = (pageId, datapoint) => {
           new e.HIDDEN({ name: hiddenName, value: hiddenValue }),
           new e.HIDDEN({ name: "type", value: datapointType }),
           new e.TEXT({
-            if: pageId === undefined,
+            if: datapoint === undefined,
             label: "Name",
             name: "name",
             value: name,
@@ -75,7 +96,9 @@ export const generateDatapointForms = (pageId, datapoint) => {
   // if the datapoint type is provided, we only
   // render that datapoint form
   if (datapoint !== undefined) {
-    children.push(generateDatapointForm(datapoint.type, datapoint));
+    children.push(
+      generateDatapointForm(datapoint.type, hiddenName, hiddenValue, datapoint)
+    );
   } else {
     // we need to push the datapoint form selector
     // and then each individual datapoint form
@@ -91,7 +114,11 @@ export const generateDatapointForms = (pageId, datapoint) => {
     );
 
     for (let datapointType in datapointInputs) {
-      const datapointForm = generateDatapointForm(datapointType);
+      const datapointForm = generateDatapointForm(
+        datapointType,
+        hiddenName,
+        hiddenValue
+      );
 
       children.push({
         class: "hidden-input-group datapointForm " + datapointType,
@@ -103,9 +130,13 @@ export const generateDatapointForms = (pageId, datapoint) => {
   return children;
 };
 
-export const datapointFormTemplate = (pageId, datapoint) => {
+export const datapointFormTemplate = ({
+  pageId = null,
+  datapointId = null,
+  datapoint,
+}) => {
   return {
     class: "addEditDatapoint style-inputs",
-    children: generateDatapointForms(pageId, datapoint),
+    children: generateDatapointForms({ pageId, datapointId, datapoint }),
   };
 };

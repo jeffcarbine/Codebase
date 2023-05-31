@@ -31,6 +31,25 @@ export default (data) => {
             alt: datapoint.image.alt,
           });
           break;
+        case "group":
+          preview = {
+            children: [
+              new e.BTNCONTAINER({
+                textContent: `Add Datapoint to ${datapoint.name}`,
+                "data-modal": `addTo${datapoint._id}`,
+              }),
+              modalTemplate({
+                modalBody: {
+                  children: [
+                    new e.H2(`Add Datapoint to ${datapoint.name}`),
+                    datapointFormTemplate({ datapointId: datapoint._id }),
+                  ],
+                },
+                id: `addTo${datapoint._id}`,
+              }),
+            ],
+          };
+          break;
         default:
           preview = new e.P(
             "Something went wrong and the preview cannot be rendered."
@@ -61,10 +80,10 @@ export default (data) => {
               modalBody: {
                 children: [
                   new e.H2(`Edit ${datapoint.name}`),
-                  datapointFormTemplate(pageId, datapoint),
+                  datapointFormTemplate({ pageId, datapoint }),
                   new e.BTNCONTAINER(
                     {
-                      class: "rremoveDatapoint accent sm",
+                      class: "removeDatapoint accent sm",
                       "data-id": datapoint._id,
                       "data-pageId": pageId,
                       textContent: "Remove Datapoint",
@@ -134,7 +153,7 @@ export default (data) => {
               modalBody: {
                 children: [
                   new e.H2("Add New Datapoint"),
-                  datapointFormTemplate(data.page._id),
+                  datapointFormTemplate({ pageId: data.page._id }),
                 ],
               },
               id: "addDatapointModal",

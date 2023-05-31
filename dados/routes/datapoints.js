@@ -10,12 +10,15 @@ import { mongoose } from "mongoose";
 const cloudfrontURL = process.env.CLOUDFRONTURL;
 
 export const post__admin_datapoints = (req, res, next) => {
+  console.log(req.body);
+
   // get the values from the body
   const body = req.body,
     type = req.body.type,
     name = req.body.name,
     pageId = req.body.pageId,
-    _id = req.body._id;
+    _id = req.body._id,
+    datapointId = req.body.datapointId;
 
   // get the value from the datapointList
   const datapointValid = datapointList.includes(type);
@@ -45,6 +48,7 @@ export const post__admin_datapoints = (req, res, next) => {
         (callback) => {
           let datapoint = {
             name,
+            type,
           };
 
           // start by formatting the body
@@ -62,6 +66,10 @@ export const post__admin_datapoints = (req, res, next) => {
               };
               break;
           }
+
+          // note: groups don't have any special
+          // values outside of name upon creation,
+          // so we don't need to modify the datapoint variable
 
           callback(null, datapoint);
         },
@@ -81,7 +89,8 @@ export const post__admin_datapoints = (req, res, next) => {
                 callback(null, newDatapoint);
               }
             });
-          } else if (pageId) {
+          } else {
+            // then we are creating a new datapoint
             Datapoint.create(datapoint, (err, newDatapoint) => {
               if (err) {
                 callback(err);
@@ -99,27 +108,52 @@ export const post__admin_datapoints = (req, res, next) => {
           }
         },
         (newDatapoint, callback) => {
-          const datapointId = newDatapoint._id.toString();
+          const newDatapointId = newDatapoint._id.toString();
 
-          Page.findOneAndUpdate(
-            {
-              _id: pageId,
-            },
-            {
-              $addToSet: {
-                datapoints: datapointId,
+          if (pageId) {
+            // then this datapoint is being added to a page
+            Page.findOneAndUpdate(
+              {
+                _id: pageId,
               },
-            },
-            {
-              new: true,
-            }
-          ).exec((err, dataset) => {
-            if (err) {
-              callback(err);
-            } else {
-              return res.status(200).send();
-            }
-          });
+              {
+                $addToSet: {
+                  datapoints: newDatapointId,
+                },
+              },
+              {
+                new: true,
+              }
+            ).exec((err, dataset) => {
+              if (err) {
+                callback(err);
+              } else {
+                return res.status(200).send();
+              }
+            });
+          } else if (datapointId) {
+            console.log("adding to group!");
+            // then this datapoint is being added to a group
+            Datapoint.findOneAndUpdate(
+              {
+                _id: datapointId,
+              },
+              {
+                $addToSet: {
+                  group: newDatapointId,
+                },
+              },
+              {
+                new: true,
+              }
+            ).exec((err, dataset) => {
+              if (err) {
+                callback(err);
+              } else {
+                return res.status(200).send();
+              }
+            });
+          }
         },
       ],
       (err) => {

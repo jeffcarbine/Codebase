@@ -39,6 +39,6 @@ const openModal = (button) => {
 };
 
 export const initModals = () => {
-  addEventDelegate("click", "dialog .close", closeModal);
-  addEventDelegate("click", "button[data-modal]", openModal);
+  addEventDelegate("click", "dialog .close", closeModal, true);
+  addEventDelegate("click", "button[data-modal]", openModal, true);
 };
