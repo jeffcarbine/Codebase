@@ -10,8 +10,6 @@ import { mongoose } from "mongoose";
 const cloudfrontURL = process.env.CLOUDFRONTURL;
 
 export const post__admin_datapoints = (req, res, next) => {
-  console.log(req.body);
-
   // get the values from the body
   const body = req.body,
     type = req.body.type,
@@ -69,8 +67,6 @@ export const post__admin_datapoints = (req, res, next) => {
           callback(null, datapoint);
         },
         (datapoint, callback) => {
-          console.log(datapoint);
-
           if (_id) {
             // then we are updating a preexisting datapoint
             Datapoint.findOneAndUpdate(
@@ -105,7 +101,6 @@ export const post__admin_datapoints = (req, res, next) => {
           }
         },
         (newDatapoint, callback) => {
-          console.log(newDatapoint);
           const newDatapointId = newDatapoint._id.toString();
 
           if (pageId) {
@@ -130,7 +125,6 @@ export const post__admin_datapoints = (req, res, next) => {
               }
             });
           } else if (datapointId) {
-            console.log("adding to group!");
             // then this datapoint is being added to a group
             Datapoint.findOneAndUpdate(
               {
@@ -168,8 +162,6 @@ export const post__admin_datapoints_remove = (req, res, next) => {
     _id = body._id,
     parentId = body.parentId,
     parentModel = body.parentModel;
-
-  console.log(body);
 
   let Parent;
 

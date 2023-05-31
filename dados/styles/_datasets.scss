@@ -1,34 +1,60 @@
 .card.edit {
   > div {
     width: 100%;
-    display: flex;
 
-    .title-preview {
+    .title-edit {
       flex: 1 1 auto;
       margin: 0;
-      padding-left: 1rem;
       display: flex;
-      flex-direction: column;
-      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 0.5rem;
 
-      .preview {
-        img {
-          width: auto;
-          display: block;
-          margin: 1rem auto;
-          height: 20rem;
-          object-fit: contain;
-          border-radius: var(--border-radius);
-        }
+      h2 {
+        flex: 0 0 100%;
+        margin: 0.5rem;
+        word-break: break-word;
+        order: 2;
+      }
+
+      .edit {
+        flex: 0 0 100%;
+        order: 1;
       }
     }
 
-    .edit {
-      flex: 0 0 auto;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      margin-left: 1rem;
+    .preview {
+      padding-left: 0.5rem;
+
+      img {
+        height: 20rem;
+        width: auto;
+        max-width: 100%;
+        display: block;
+        object-fit: contain;
+        border-radius: var(--border-radius);
+      }
+
+      .btn-container {
+        margin-top: 0;
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: $breakpoint-md) {
+  .card.edit {
+    > div {
+      .title-edit {
+        h2 {
+          flex: 1 1 auto;
+          order: 1;
+        }
+
+        .edit {
+          flex: 0 0 auto;
+          order: 2;
+        }
+      }
     }
   }
 }

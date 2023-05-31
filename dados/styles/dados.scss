@@ -52,6 +52,8 @@
   border-radius: 25px;
   width: calc(100% - 2rem);
   max-width: 60rem;
+  background: var(--light-low);
+  box-shadow: 12px 12px 24px rgba(0, 0, 0, 0.125), -12px -12px 24px #fff;
 }
 
 .card-canvas {
@@ -104,7 +106,7 @@ body {
 pre {
   white-space: break-spaces;
   font-family: monospace;
-  background: var(--light-low);
+  background: var(--light);
   border: 1px solid var(--border-color);
   padding: 1rem;
   border-radius: var(--border-radius);

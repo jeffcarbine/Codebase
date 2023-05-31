@@ -19,25 +19,25 @@ const retrievePages = () => {
           body: {
             children: [
               {
-                class: "title-preview",
+                class: "title-edit",
                 children: [
                   new e.H2(page.name),
                   {
-                    class: "preview",
-                    child: new e.P(
-                      `${page.datapoints.length} datapoint${
-                        page.datapoints.length === 1 ? "" : "s"
-                      }`
-                    ),
+                    class: "edit",
+                    child: new e.BTN({
+                      href: "/admin/pages/" + page._id,
+                      children: [new e.ICON("edit"), "Edit"],
+                    }),
                   },
                 ],
               },
               {
-                class: "edit",
-                child: new e.BTN({
-                  href: "/admin/pages/" + page._id,
-                  children: [new e.ICON("edit"), "Edit"],
-                }),
+                class: "preview",
+                child: new e.P(
+                  `${page.datapoints.length} datapoint${
+                    page.datapoints.length === 1 ? "" : "s"
+                  }`
+                ),
               },
             ],
           },

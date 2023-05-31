@@ -69,21 +69,21 @@ export default (data) => {
         body: {
           children: [
             {
-              class: "title-preview",
+              class: "title-edit",
               children: [
                 new e.H2(datapoint.name),
                 {
-                  class: "preview",
-                  child: preview,
+                  class: "edit",
+                  child: new e.BTN({
+                    children: [new e.ICON("edit"), "Edit"],
+                    "data-modal": "_" + datapoint._id,
+                  }),
                 },
               ],
             },
             {
-              class: "edit",
-              child: new e.BTN({
-                children: [new e.ICON("edit"), "Edit"],
-                "data-modal": "_" + datapoint._id,
-              }),
+              class: "preview",
+              child: preview,
             },
             modalTemplate({
               modalBody: {
