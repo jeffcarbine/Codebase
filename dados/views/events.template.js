@@ -8,6 +8,100 @@ import { toggleSwitchTemplate } from "../../components/toggleswitch/toggleswitch
 export default (data) => {
   const children = [];
 
+  const addEditEventForm = (eventData = {}) => {
+    const _id = eventData._id || null,
+      venue = eventData.venue || null,
+      title = eventData.title || null,
+      street = eventData.street || null,
+      city = eventData.city || null,
+      region = eventData.region || null,
+      country = eventData.country || null,
+      date =
+        eventData.date !== undefined
+          ? eventData.date.getFullYear() +
+            "-" +
+            ("0" + (eventData.date.getMonth() + 1)).slice(-2) +
+            "-" +
+            ("0" + eventData.date.getDate()).slice(-2)
+          : null,
+      publishDate =
+        eventData.publishDate !== undefined
+          ? eventData.publishDate.getFullYear() +
+            "-" +
+            ("0" + (eventData.publishDate.getMonth() + 1)).slice(-2) +
+            "-" +
+            ("0" + eventData.publishDate.getDate()).slice(-2)
+          : null,
+      tickets = eventData.tickets || null,
+      soldOut = eventData.soldOut || false;
+
+    const formChildren = [
+      new e.TEXT({
+        name: "venue",
+        label: "Venue",
+        value: venue,
+      }),
+      new e.TEXT({
+        name: "title",
+        label: "Title",
+        value: title,
+      }),
+      new e.TEXT({
+        name: "street",
+        label: "Street",
+        value: street,
+      }),
+      new e.TEXT({
+        name: "city",
+        label: "City",
+        value: city,
+      }),
+      new e.TEXT({
+        name: "region",
+        label: "Region",
+        value: region,
+      }),
+      new e.TEXT({
+        name: "country",
+        label: "Country",
+        value: country,
+      }),
+      new e.DATE({
+        label: "Show Date",
+        value: date,
+      }),
+      new e.DATE({
+        label: "Publish Date",
+        value: publishDate,
+      }),
+      new e.TEXT({
+        name: "tickets",
+        label: "Tickets",
+        value: tickets,
+      }),
+      toggleSwitchTemplate({
+        name: "soldOut",
+        label: "Mark tickets as 'Sold Out'",
+        checked: soldOut,
+      }),
+      new e.BTN({
+        id: "createEvent",
+        textContent: "Save Changes",
+      }),
+    ];
+
+    if (eventData._id !== undefined) {
+      formChildren.unshift(new e.HIDDEN({ name: "_id", value: _id }));
+    }
+
+    return new e.FORM({
+      method: "POST",
+      action: "/admin/events",
+      class: "style-inputs addEditEvent",
+      children: formChildren,
+    });
+  };
+
   for (let i = 0; i < data.events.length; i++) {
     const eventData = data.events[i],
       eventDate =
@@ -37,70 +131,16 @@ export default (data) => {
           {
             class: "preview",
             children: [
-              new e.H3(eventData.venue),
-              new e.P(
-                `${eventData.street}, ${eventData.city} ${eventData.region}, ${eventData.country}`
-              ),
+              new e.P([
+                new e.STRONG(eventData.venue),
+                `: ${eventData.street}, ${eventData.city} ${eventData.region}, ${eventData.country}`,
+              ]),
               new e.P(`${formatDate(eventData.date)}`),
             ],
           },
           modalTemplate({
             modalBody: {
-              children: [
-                new e.H2("Edit Event"),
-                new e.FORM({
-                  method: "POST",
-                  action: "/admin/events",
-                  class: "style-inputs xhr",
-                  "data-redirect": "/admin/events",
-                  children: [
-                    new e.HIDDEN({ name: "id", value: eventData._id }),
-                    new e.TEXT({
-                      name: "venue",
-                      label: "Venue",
-                      value: eventData.venue,
-                    }),
-                    new e.TEXT({
-                      name: "street",
-                      label: "Street",
-                      value: eventData.street,
-                    }),
-                    new e.TEXT({
-                      name: "city",
-                      label: "City",
-                      value: eventData.city,
-                    }),
-                    new e.TEXT({
-                      name: "region",
-                      label: "Region",
-                      value: eventData.region,
-                    }),
-                    new e.TEXT({
-                      name: "country",
-                      label: "Country",
-                      value: eventData.country,
-                    }),
-                    new e.DATE({
-                      label: "Show Date",
-                      value: eventDate,
-                    }),
-                    new e.TEXT({
-                      name: "tickets",
-                      label: "Tickets",
-                      value: eventData.tickets,
-                    }),
-                    toggleSwitchTemplate({
-                      name: "soldOut",
-                      label: "Mark tickets as 'Sold Out'",
-                      checked: eventData.soldOut,
-                    }),
-                    new e.BTN({
-                      id: "createEvent",
-                      textContent: "Save Changes",
-                    }),
-                  ],
-                }),
-              ],
+              children: [new e.H2("Edit Event"), addEditEventForm(eventData)],
             },
             id: "_" + eventData._id,
           }),
@@ -120,20 +160,24 @@ export default (data) => {
           [
             {
               id: "addEvent",
+              "data-modal": "addEventModal",
               children: [new e.ICON("plus"), "Add Event"],
             },
           ],
           "centered"
         ),
+        modalTemplate({
+          modalBody: {
+            children: [new e.H2("Add Event"), addEditEventForm()],
+          },
+          id: "addEventModal",
+        }),
         new e.SECTION({
           id: "events",
           children,
         }),
       ],
     },
-    [
-      new e.MODULE("/admin/scripts/events.js"),
-      new e.MODULE("/periodic/scripts/xhr/_xhrForm.js"),
-    ]
+    [new e.MODULE("/admin/scripts/events.js")]
   );
 };

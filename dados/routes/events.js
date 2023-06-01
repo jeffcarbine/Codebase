@@ -29,84 +29,97 @@ export const get__admin_events = (req, res, next) => {
   });
 };
 
-export const post__admin_events_add = (req, res, next) => {
-  let body = req.body;
-  body.date = new Date(req.body.date);
-
-  Event.findOneAndUpdate(
-    {
-      date: body.date,
-    },
-    {
-      $set: body,
-    },
-    {
-      upsert: true,
-      new: true,
-    }
-  ).exec((err, event) => {
-    if (err) {
-      return res.status(500).send(err);
-    }
-
-    return res.status(200).send("Event was successfully recorded!");
-  });
-};
-
-export const post__admin_events_edit = (req, res, next) => {
-  const updateEvent = (err, data) => {
-    if (err) {
-      return res.status(500).send(err);
-    } else {
-      // update event in database
-      Event.findOneAndUpdate(
-        {
-          _id: data.id,
-        },
-        {
-          $set: data,
-        }
-      ).exec((err, event) => {
-        if (err) {
-          return res.status(500).send(err);
-        }
-
-        return res.status(200).send("Event change was successfully recorded!");
-      });
-    }
-  };
-
+export const post__admin_events = (req, res, next) => {
   let body = req.body,
-    data = {
-      ...body.hidden,
-      ...body.data,
-    };
+    _id = req.body._id;
 
-  // check to see if this is an address change
-  if (
-    data.street !== undefined ||
-    data.city !== undefined ||
-    data.region !== undefined ||
-    data.country !== undefined
-  ) {
-    // then we need to generate new coordinates
-    Event.findOne({
-      _id: data.id,
-    }).exec((err, event) => {
-      // update the corresponding value
-      for (let key in data) {
-        event[key] = data[key];
+  body.date = new Date(req.body.date);
+  body.soldOut = body.soldOut !== undefined;
+
+  if (_id === undefined) {
+    Event.create(body, (err) => {
+      if (err) {
+        return res.status(500).send(err);
       }
 
-      // and create the new
-
-      // and now geocode it, and update the event
-      geocode(event, updateEvent);
+      return res.status(200).send();
     });
   } else {
-    updateEvent(null, data);
+    Event.findOneAndUpdate(
+      {
+        _id,
+      },
+      {
+        $set: body,
+      },
+      {
+        upsert: true,
+        new: true,
+      }
+    ).exec((err, event) => {
+      if (err) {
+        return res.status(500).send(err);
+      }
+
+      return res.status(200).send();
+    });
   }
 };
+
+// export const post__admin_events_edit = (req, res, next) => {
+//   const updateEvent = (err, data) => {
+//     if (err) {
+//       return res.status(500).send(err);
+//     } else {
+//       // update event in database
+//       Event.findOneAndUpdate(
+//         {
+//           _id: data.id,
+//         },
+//         {
+//           $set: data,
+//         }
+//       ).exec((err, event) => {
+//         if (err) {
+//           return res.status(500).send(err);
+//         }
+
+//         return res.status(200).send("Event change was successfully recorded!");
+//       });
+//     }
+//   };
+
+//   let body = req.body,
+//     data = {
+//       ...body.hidden,
+//       ...body.data,
+//     };
+
+//   // check to see if this is an address change
+//   if (
+//     data.street !== undefined ||
+//     data.city !== undefined ||
+//     data.region !== undefined ||
+//     data.country !== undefined
+//   ) {
+//     // then we need to generate new coordinates
+//     Event.findOne({
+//       _id: data.id,
+//     }).exec((err, event) => {
+//       // update the corresponding value
+//       for (let key in data) {
+//         event[key] = data[key];
+//       }
+
+//       // and create the new
+
+//       // and now geocode it, and update the event
+//       geocode(event, updateEvent);
+//     });
+//   } else {
+//     updateEvent(null, data);
+//   }
+// };
 
 export const post__admin_events_delete = (req, res, next) => {
   // find the event in question and delete it

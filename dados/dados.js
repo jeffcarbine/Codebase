@@ -12,8 +12,7 @@ import { post__admin_signup } from "./routes/signup.js";
 import { get__admin_logout } from "./routes/logout.js";
 import {
   get__admin_events,
-  post__admin_events_add,
-  post__admin_events_edit,
+  post__admin_events,
   post__admin_events_delete,
 } from "./routes/events.js";
 // import { fanart, post__fanartApprove } from "./routes/fanart.js";
@@ -177,15 +176,9 @@ export const init = ({
     );
 
     app.post(
-      "/admin/events/add",
+      "/admin/events",
       connectEnsureLogin.ensureLoggedIn(),
-      post__admin_events_add
-    );
-
-    app.post(
-      "/admin/events/edit",
-      connectEnsureLogin.ensureLoggedIn(),
-      post__admin_events_edit
+      post__admin_events
     );
 
     app.post(
