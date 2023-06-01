@@ -35,19 +35,6 @@ export default (data) => {
         case "group":
           preview = {
             children: [
-              new e.BTNCONTAINER({
-                textContent: `Add Datapoint to ${datapoint.name}`,
-                "data-modal": `addTo${datapoint._id}`,
-              }),
-              modalTemplate({
-                modalBody: {
-                  children: [
-                    new e.H2(`Add Datapoint to ${datapoint.name}`),
-                    datapointFormTemplate({ datapointId: datapoint._id }),
-                  ],
-                },
-                id: `addTo${datapoint._id}`,
-              }),
               {
                 class: "children-datapoints",
                 children: generateDatapointCards(
@@ -65,6 +52,34 @@ export default (data) => {
           );
       }
 
+      let editChildren = [
+        new e.BTN({
+          children: [new e.ICON("edit"), "Edit"],
+          "data-modal": "_" + datapoint._id,
+        }),
+      ];
+
+      if (datapoint.type === "group") {
+        const addChildren = [
+          new e.BTN({
+            class: "accent",
+            children: [new e.ICON("plus"), "Add"],
+            "data-modal": `addTo${datapoint._id}`,
+          }),
+          modalTemplate({
+            modalBody: {
+              children: [
+                new e.H2(`Add Datapoint to ${datapoint.name}`),
+                datapointFormTemplate({ datapointId: datapoint._id }),
+              ],
+            },
+            id: `addTo${datapoint._id}`,
+          }),
+        ];
+
+        editChildren = addChildren.concat(editChildren);
+      }
+
       const datapointCard = cardTemplate({
         body: {
           children: [
@@ -74,10 +89,7 @@ export default (data) => {
                 new e.H2(datapoint.name),
                 {
                   class: "edit",
-                  child: new e.BTN({
-                    children: [new e.ICON("edit"), "Edit"],
-                    "data-modal": "_" + datapoint._id,
-                  }),
+                  children: editChildren,
                 },
               ],
             },
@@ -92,14 +104,33 @@ export default (data) => {
                   datapointFormTemplate({ pageId, datapoint }),
                   new e.BTNCONTAINER(
                     {
-                      class: "removeDatapoint accent sm",
-                      "data-id": datapoint._id,
-                      "data-parentid": parentId,
-                      "data-parentmodel": parentModel,
+                      class: "accent sm",
+                      "data-modal": `remove-${datapoint._id}`,
                       textContent: "Remove Datapoint",
                     },
                     "centered"
                   ),
+                  modalTemplate({
+                    modalBody: {
+                      children: [
+                        new e.H2("Are you sure?"),
+                        new e.P(
+                          `This will permanently remove ${datapoint.name}.`
+                        ),
+                        new e.BTNCONTAINER(
+                          {
+                            class: "removeDatapoint",
+                            "data-id": datapoint._id,
+                            "data-parentid": parentId,
+                            "data-parentmodel": parentModel,
+                            textContent: "Yes, remove datapoint",
+                          },
+                          "centered"
+                        ),
+                      ],
+                    },
+                    id: `remove-${datapoint._id}`,
+                  }),
                 ],
               },
               id: "_" + datapoint._id,

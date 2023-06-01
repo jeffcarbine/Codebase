@@ -88,14 +88,33 @@ export default (data) => {
                   datapointFormTemplate({ datapoint }),
                   new e.BTNCONTAINER(
                     {
-                      class: "removeDatapoint accent sm",
-                      "data-id": datapoint._id,
-                      "data-parentid": parentId,
-                      "data-parentmodel": parentModel,
+                      class: "accent sm",
+                      "data-modal": `remove-${datapoint._id}`,
                       textContent: "Remove Datapoint",
                     },
                     "centered"
                   ),
+                  modalTemplate({
+                    modalBody: {
+                      children: [
+                        new e.H2("Are you sure?"),
+                        new e.P(
+                          `This will permanently remove ${datapoint.name}.`
+                        ),
+                        new e.BTNCONTAINER(
+                          {
+                            class: "removeDatapoint",
+                            "data-id": datapoint._id,
+                            "data-parentid": parentId,
+                            "data-parentmodel": parentModel,
+                            textContent: "Yes, remove datapoint",
+                          },
+                          "centered"
+                        ),
+                      ],
+                    },
+                    id: `remove-${datapoint._id}`,
+                  }),
                 ],
               },
               id: "_" + datapoint._id,
