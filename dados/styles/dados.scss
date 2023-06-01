@@ -75,14 +75,15 @@
 
   to {
     transform: scale(1);
-    box-shadow: 12px 12px 24px rgba(0, 0, 0, 0.125), -12px -12px 24px #fff;
+    box-shadow: 12px 12px 24px rgba(0, 0, 0, 0.125),
+      -12px -12px 24px var(--light);
   }
 }
 
 .card {
   border-radius: 25px;
   width: calc(100% - 2rem);
-  max-width: 60rem;
+  max-width: 80rem;
   background: var(--light-low);
   transform: scale(0.99);
   box-shadow: none;

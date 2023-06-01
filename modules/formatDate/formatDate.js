@@ -2,7 +2,7 @@
  *  Takes a date object and returns a Month Day, Year format (January 5th, 2024 for example)
  */
 // import our months array
-import months from "../months/_months.js";
+import months from "../months/months.js";
 
 export const formatDate = (date) => {
   // get the month name and appropriate suffix for the day
