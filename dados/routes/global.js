@@ -1,79 +1,85 @@
-import Dataset from "../models/Dataset.js";
+import Datapoint from "../models/Datapoint.js";
 import { rez } from "../modules/rez.js";
+import asyncLoop from "node-async-loop";
 
 export const get__admin_global = (req, res, next) => {
-  rez({ req, res, template: "global", data: { subtitle: "Global" } });
-};
-
-export const post__admin_datasets_retrieve = (req, res, next) => {
-  Dataset.find().exec((err, datasets) => {
+  Datapoint.find({
+    global: true,
+  }).exec((err, datapoints) => {
     if (err) {
-      return res.status(500).send();
+      console.log(err);
     } else {
-      return res.status(200).send(datasets);
+      const retrieveDatapoints = (ids, parent, callback) => {
+        asyncLoop(
+          ids,
+          (datapointId, next) => {
+            Datapoint.findOne({ _id: datapointId }).exec((err, datapoint) => {
+              parent.push(datapoint);
+
+              // check if the datapoint is a group
+              if (datapoint.type === "group") {
+                datapoint.datapoints = [];
+
+                if (datapoint.group.length > 0) {
+                  // then we need to retrieve the children datapoints
+                  retrieveDatapoints(
+                    datapoint.group,
+                    datapoint.datapoints,
+                    next
+                  );
+                } else {
+                  next();
+                }
+              } else {
+                next();
+              }
+            });
+          },
+          (err) => {
+            if (err) {
+              console.log(err);
+            } else {
+              callback();
+            }
+          }
+        );
+      };
+
+      if (datapoints.length > 0) {
+        asyncLoop(
+          datapoints,
+          (datapoint, next) => {
+            if (datapoint.type === "group" && datapoint.group.length > 0) {
+              // then we need to retrieve the datapoints
+              // in this group
+              datapoint.datapoints = [];
+              retrieveDatapoints(datapoint.group, datapoint.datapoints, next);
+            } else {
+              next();
+            }
+          },
+          (err) => {
+            if (err) {
+              return res.status(500).send(err);
+            } else {
+              return rez({
+                req,
+                res,
+                template: "global",
+                data: { datapoints },
+              });
+            }
+          }
+        );
+      } else {
+        console.log("no datapoints");
+        return rez({
+          req,
+          res,
+          template: "global",
+          data: { datapoints: [] },
+        });
+      }
     }
-  });
-};
-
-export const post__admin_datasets_add = (req, res, next) => {
-  const body = req.body,
-    name = body.name;
-
-  if (body.restricted) {
-    body.restricted = true;
-  } else {
-    body.restricted = false;
-  }
-
-  Dataset.create(body, (err, dataset) => {
-    if (err) {
-      return res.status(500).send(err);
-    }
-
-    return res.status(200).send(dataset);
-  });
-};
-
-export const get__admin_datasets_dataset_ = (req, res, next) => {
-  const _id = req.originalUrl
-    .replace("/admin/datasets/dataset/", "")
-    .split("?")[0];
-
-  Dataset.findOne({ _id }).exec((err, dataset) => {
-    if (err) {
-      callback(err);
-    } else {
-      res.render("dataset", {
-        path: "/admin/datasets/dataset/" + dataset._id,
-        subtitle: dataset.name,
-        dataset,
-      });
-    }
-  });
-};
-
-export const post__admin_datasets_dataset_edit = (req, res, next) => {
-  const body = req.body,
-    _id = req.body._id;
-
-  if (body.restricted) {
-    body.restricted = true;
-  } else {
-    body.restricted = false;
-  }
-
-  Dataset.findOneAndUpdate(
-    {
-      _id,
-    },
-    {
-      $set: body,
-    }
-  ).exec((err, dataset) => {
-    if (err) {
-      return res.status(500).send(err);
-    }
-
-    return res.status(200).send(dataset);
   });
 };

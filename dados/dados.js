@@ -22,18 +22,11 @@ import {
   post__admin_shows_add,
   post__admin_shows_edit,
 } from "./routes/shows.js";
-import {
-  post__admin_datasets_add,
-  post__admin_datasets_retrieve,
-  get__admin_datasets_dataset_,
-  post__admin_datasets_dataset_edit,
-} from "./routes/global.js";
+import { get__admin_global } from "./routes/global.js";
 import {
   post__admin_datapoints,
   post__admin_datapoints_remove,
 } from "./routes/datapoints.js";
-
-import { get__admin_global } from "./routes/global.js";
 import {
   get__admin_pages,
   get__admin_pages_$,
@@ -135,28 +128,10 @@ export const init = ({
     post__admin_pages_add
   );
 
-  app.post(
-    "/admin/datasets/retrieve",
-    connectEnsureLogin.ensureLoggedIn(),
-    post__admin_datasets_retrieve
-  );
-
-  app.post(
-    "/admin/datasets/add",
-    connectEnsureLogin.ensureLoggedIn(),
-    post__admin_datasets_add
-  );
-
   app.get(
-    "/admin/datasets/dataset/*",
+    "/admin/global",
     connectEnsureLogin.ensureLoggedIn(),
-    get__admin_datasets_dataset_
-  );
-
-  app.post(
-    "/admin/datasets/dataset/edit",
-    connectEnsureLogin.ensureLoggedIn(),
-    post__admin_datasets_dataset_edit
+    get__admin_global
   );
 
   // DATAPOINTS

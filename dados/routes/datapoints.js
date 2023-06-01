@@ -15,8 +15,11 @@ export const post__admin_datapoints = (req, res, next) => {
     type = req.body.type,
     name = req.body.name,
     pageId = req.body.pageId,
-    _id = req.body._id,
-    datapointId = req.body.datapointId;
+    _id = req.body.id,
+    datapointId = req.body.datapointId,
+    global = req.body.global;
+
+  console.log(body);
 
   // get the value from the datapointList
   const datapointValid = datapointList.includes(type);
@@ -58,6 +61,12 @@ export const post__admin_datapoints = (req, res, next) => {
                 alt: body.alt,
               };
               break;
+          }
+
+          // if global isn't undefined, then we need
+          // to pass the global value
+          if (global !== undefined) {
+            datapoint.global = global;
           }
 
           // note: groups don't have any special
@@ -145,6 +154,10 @@ export const post__admin_datapoints = (req, res, next) => {
                 return res.status(200).send();
               }
             });
+          } else {
+            // then it's a global datapoint and we can
+            // just return 200
+            return res.status(200).send();
           }
         },
       ],
@@ -163,32 +176,54 @@ export const post__admin_datapoints_remove = (req, res, next) => {
     parentId = body.parentId,
     parentModel = body.parentModel;
 
-  let Parent;
+  console.log(body);
 
-  if (parentModel === "page") {
-    Parent = Page;
-  } else if (parentModel === "datapoint") {
-    Parent = Datapoint;
-  }
+  if (parentModel !== "global") {
+    let Parent;
 
-  Parent.findOneAndUpdate(
-    {
-      _id: parentId,
-    },
-    {
-      $pull: {
-        datapoints: _id,
-        group: _id,
+    if (parentModel === "page") {
+      Parent = Page;
+    } else if (parentModel === "datapoint") {
+      Parent = Datapoint;
+    }
+
+    Parent.findOneAndUpdate(
+      {
+        _id: parentId,
       },
-    }
-  ).exec((err) => {
-    if (err) {
-      console.log(err);
-      return res.status(500).send(err);
-    } else {
-      return res.status(200).send();
-    }
-  });
+      {
+        $pull: {
+          datapoints: _id,
+          group: _id,
+        },
+      }
+    ).exec((err) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).send(err);
+      } else {
+        return res.status(200).send();
+      }
+    });
+  } else {
+    Datapoint.findOneAndUpdate(
+      {
+        _id,
+      },
+      {
+        $set: {
+          global: false,
+        },
+      }
+    ).exec((err) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).send(err);
+      } else {
+        return res.status(200).send();
+      }
+    });
+  }
 };
 
 // export const post__admin_datapoints_retrieve = (req, res, next) => {

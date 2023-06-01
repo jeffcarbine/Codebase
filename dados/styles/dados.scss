@@ -30,8 +30,27 @@
 @import "../../components/alert/alert";
 @import "../../components/modal/modal";
 
+@keyframes zeldaIn {
+  from {
+    opacity: 0;
+    transform: scale(1.5);
+    filter: blur(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+
 .modal {
   --modal-padding: 4rem;
+  animation: zeldaIn 0.5s forwards;
+  animation-delay: 0.125s;
+  opacity: 0;
+  transform: scale(1.5);
+  filter: blur(10px);
 
   .hidden {
     display: none !important;

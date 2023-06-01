@@ -28,6 +28,7 @@ const datapointEnum = {
 const datapoint = {
   name: String,
   type: datapointEnum,
+  global: Boolean,
   name: String,
   text: String,
   html: String,

@@ -44,6 +44,7 @@ const datapointInputs = {
 export const generateDatapointForms = ({
   pageId = null,
   datapointId = null,
+  global = false,
   datapoint,
 } = {}) => {
   let children = [];
@@ -56,6 +57,9 @@ export const generateDatapointForms = ({
   } else if (datapointId !== null) {
     hiddenName = "datapointId";
     hiddenValue = datapointId;
+  } else if (global) {
+    hiddenName = "global";
+    hiddenValue = true;
   } else {
     hiddenName = "id";
     hiddenValue = datapoint._id;
@@ -133,10 +137,16 @@ export const generateDatapointForms = ({
 export const datapointFormTemplate = ({
   pageId = null,
   datapointId = null,
+  global = false,
   datapoint,
 }) => {
   return {
     class: "addEditDatapoint style-inputs",
-    children: generateDatapointForms({ pageId, datapointId, datapoint }),
+    children: generateDatapointForms({
+      pageId,
+      datapointId,
+      global,
+      datapoint,
+    }),
   };
 };
