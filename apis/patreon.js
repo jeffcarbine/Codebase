@@ -8,7 +8,7 @@ import Token from "../models/Token.js";
 import request from "request";
 import async from "async";
 
-// www.patreon.com/oauth2/authorize?response_type=code&client_id=1rv0lIpRtuuxETnfpl0NfQTqcY7iHGJ_r7uWGB6cNXQYh8VfhySFzZW-nTxeX0VQ&redirect_uri=https://carbine.co
+// https://www.patreon.com/oauth2/authorize?response_type=code&client_id=4ibZacSRcGKp5h7fexulL_n5rJodXTVzk7LCkviIsmF_fAGphFcVeov5ohoJM9wL&redirect_uri=https://carbine.co&scope=identity%20identity%5Bemail%5D%20campaigns%20campaigns.posts
 
 const patreonClientId = process.env.PATREONCLIENTID,
   patreonClientSecret = process.env.PATREONCLIENTSECRET,
@@ -54,31 +54,27 @@ const saveAndReturnPatreonToken = (
 const generateNewPatreonToken = (callback, mainCallback) => {
   request.post(
     {
-      url:
-        "https://www.patreon.com/api/oauth2/token?code=" +
-        patreonOneTimeCode +
-        "&grant_type=authorization_code&client_id=" +
-        patreonClientId +
-        "&client_secret=" +
-        patreonClientSecret +
-        "&redirect_uri=https://carbine.co",
+      url: `https://www.patreon.com/api/oauth2/token?code=${patreonOneTimeCode}&grant_type=authorization_code&client_id=${patreonClientId}&client_secret=${patreonClientSecret}&redirect_uri=https://carbine.co`,
       headers: "Content-Type: application/x-www-form-urlencoded",
     },
-    function (err, httpResponse, str) {
+    (err, httpResponse, str) => {
       if (err) {
         callback(err);
       } else {
         let body = JSON.parse(str);
 
-        console.log(body);
-
-        return saveAndReturnPatreonToken(
-          body.access_token,
-          body.refresh_token,
-          body.expires_in,
-          callback,
-          mainCallback
-        );
+        if (body.access_token) {
+          return saveAndReturnPatreonToken(
+            body.access_token,
+            body.refresh_token,
+            body.expires_in,
+            callback,
+            mainCallback
+          );
+        } else {
+          console.log("Error generating Patreon token:");
+          console.log(body);
+        }
       }
     }
   );
