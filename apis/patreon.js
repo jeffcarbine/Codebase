@@ -145,7 +145,12 @@ export const getPatreonToken = (mainCallback) => {
       },
       // step 3: update the token in the database
       (access_token, refresh_token, expires_in, callback) => {
-        saveAndReturnPatreonToken(access_token, refresh_token, expires_in);
+        saveAndReturnPatreonToken(
+          access_token,
+          refresh_token,
+          expires_in,
+          mainCallback
+        );
       },
     ],
     function (err) {
