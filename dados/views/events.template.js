@@ -73,6 +73,7 @@ export default (data) => {
       new e.DATE({
         label: "Publish Date",
         value: publishDate,
+        name: publishDate,
       }),
       new e.TEXT({
         name: "tickets",
