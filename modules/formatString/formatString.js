@@ -4,6 +4,14 @@ export const lowerAlphaNumOnly = (str) => {
   return formattedStr;
 };
 
+export const alphaNum = (str) => {
+  return str.replace(/[^a-zA-Z0-9 ]/g, "");
+};
+
+export const lowerAlphaNum = (str) => {
+  return alphaNum(str).toLowerCase();
+};
+
 export const capitalize = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
@@ -32,7 +40,15 @@ export const camelize = (str) => {
 };
 
 export const hyphenate = (str) => {
-  return str.replace(/[\W_]+/g, "-").toLowerCase();
+  const trimmed = str.trim();
+  return trimmed.replace(/[\W_]+/g, "-").toLowerCase();
+};
+
+export const urlHyphenate = (str) => {
+  const alphaNum = lowerAlphaNum(str),
+    urlHyphenated = hyphenate(alphaNum);
+
+  return urlHyphenated;
 };
 
 export const camelToHyphen = (str) => {

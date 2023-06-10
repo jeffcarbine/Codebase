@@ -9,7 +9,10 @@ import Episode from "../../models/Episode.js";
 
 import { getSpotifyToken } from "../../apis/spotify.js";
 import { fetchYouTubePlaylist } from "../../apis/youtube.js";
-import { hyphenate } from "../../modules/formatString/formatString.js";
+import {
+  hyphenate,
+  urlHyphenate,
+} from "../../modules/formatString/formatString.js";
 
 const defaultRssArchiver = (show, count, callback) => {
   console.log("getting episodes from RSS feed");
@@ -27,7 +30,7 @@ const defaultRssArchiver = (show, count, callback) => {
       episodes,
       (episode, next) => {
         const pubDate = new Date(episode.published),
-          localPath = hyphenate(episode.title);
+          localPath = urlHyphenate(episode.title);
 
         // save to mongodb
         Episode.findOneAndUpdate(

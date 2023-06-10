@@ -202,6 +202,11 @@ const serverRender = (template) => {
     for (var key in template) {
       const value = template[key];
 
+      // TODO: check here for link tags that are loading
+      // a .css file - if they are, then we should load
+      // the file using fs and then read the contents of
+      // the style and inject it as inline css instead
+
       if (value !== null) {
         if (
           key !== "children" &&
@@ -214,6 +219,22 @@ const serverRender = (template) => {
           key !== "if" &&
           key !== "style"
         ) {
+          // check if this is a link tag that has a src property
+          if (tagName === "link" && template.src !== undefined) {
+            // and now we can check for the .css
+            if (template.src.includes(".css")) {
+              // change this to a style tag
+              tagName = "style";
+              element = "<style>";
+
+              // now load the contents of the file requested
+              let cssContent;
+
+              // and then inject it into the element
+              element = element + cssContent;
+            }
+          }
+
           element = element + " " + key + "='" + value + "'";
         } else if (key === "style") {
           let style = "";
