@@ -36,7 +36,7 @@ export const rez = ({ req, res, template, data = {} } = {}) => {
                 const type = datapoint.type,
                   datapointData = datapoint[type];
 
-                if (type === "group") {
+                if (type === "group" && datapointData.length > 0) {
                   // then we need to recursively find the datapoints
                   // in the group
                   fetchDatapoints(datapointData, (groupDatapoints) => {
