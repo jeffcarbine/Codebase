@@ -68,10 +68,11 @@
     .name {
       flex: 0 0 100%;
       @include fontValues(9);
+      text-align: center;
     }
 
     .play-container {
-      flex: 0 0 2rem;
+      flex: 0 0 3rem;
 
       .toggle-play {
         cursor: pointer;

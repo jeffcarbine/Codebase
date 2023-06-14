@@ -19,8 +19,6 @@ export const post__admin_datapoints = (req, res, next) => {
     datapointId = req.body.datapointId,
     global = req.body.global;
 
-  console.log(body);
-
   // get the value from the datapointList
   const datapointValid = datapointList.includes(type);
 
@@ -175,8 +173,6 @@ export const post__admin_datapoints_remove = (req, res, next) => {
     _id = body._id,
     parentId = body.parentId,
     parentModel = body.parentModel;
-
-  console.log(body);
 
   if (parentModel !== "global") {
     let Parent;

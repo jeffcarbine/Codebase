@@ -26,24 +26,43 @@ export const rez = ({ req, res, template, data = {} } = {}) => {
       if (page !== null && page.datapoints.length > 0) {
         const datapointIds = page.datapoints;
 
-        asyncLoop(
-          datapointIds,
-          (datapointId, next) => {
-            Datapoint.findOne({ _id: datapointId }).exec((err, datapoint) => {
-              const type = datapoint.type,
-                datapointData = datapoint[type];
-              data.points[camelize(datapoint.name)] = datapointData;
-              next();
-            });
-          },
-          (err) => {
-            if (err) {
-              console.log(err);
-            } else {
-              res.render(template, data);
+        const fetchDatapoints = (datapointIds, callback) => {
+          const datapoints = {};
+
+          asyncLoop(
+            datapointIds,
+            (datapointId, next) => {
+              Datapoint.findOne({ _id: datapointId }).exec((err, datapoint) => {
+                const type = datapoint.type,
+                  datapointData = datapoint[type];
+
+                if (type === "group") {
+                  // then we need to recursively find the datapoints
+                  // in the group
+                  fetchDatapoints(datapointData, (groupDatapoints) => {
+                    datapoints[camelize(datapoint.name)] = groupDatapoints;
+                    next();
+                  });
+                } else {
+                  datapoints[camelize(datapoint.name)] = datapointData;
+                  next();
+                }
+              });
+            },
+            (err) => {
+              if (err) {
+                console.log(err);
+              } else {
+                callback(datapoints);
+              }
             }
-          }
-        );
+          );
+        };
+
+        fetchDatapoints(datapointIds, (datapoints) => {
+          data.points = datapoints;
+          res.render(template, data);
+        });
       } else {
         res.render(template, data);
       }
