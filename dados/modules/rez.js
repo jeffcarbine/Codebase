@@ -12,7 +12,7 @@ export const rez = ({ req, res, template, data = {} } = {}) => {
   }
 
   // gives the route to the data
-  const path = req.url;
+  const path = req.url.split("?")[0];
   data.path = path;
   data.points = {};
   // console.log(template);

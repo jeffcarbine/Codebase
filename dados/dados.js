@@ -205,7 +205,8 @@ export const init = ({
 
   // GENERATE ROUTES FROM PAGES
   app.get("*", (req, res) => {
-    const path = req.url;
+    // get the path and cut out query strings
+    const path = req.url.split("?")[0];
 
     Page.findOne({
       path,
