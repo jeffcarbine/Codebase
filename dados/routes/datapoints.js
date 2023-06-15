@@ -52,7 +52,11 @@ export const post__admin_datapoints = (req, res, next) => {
         // step 1: upload image to s3 if applicable
         (callback) => {
           console.log("made it to upload stage");
-          if (type === "image") {
+          if (
+            type === "image" &&
+            body.base64Image !== undefined &&
+            body.base64Image !== ""
+          ) {
             uploadToS3(body, callback);
           } else {
             callback(null);
@@ -76,7 +80,7 @@ export const post__admin_datapoints = (req, res, next) => {
               datapoint.html = body.html;
               break;
             case "image":
-              datapoint.image = body.image;
+              datapoint.image = body.image || {};
               datapoint.image.alt = body.alt;
               break;
           }
@@ -105,8 +109,6 @@ export const post__admin_datapoints = (req, res, next) => {
               { $set: datapoint },
               { new: true }
             ).exec((err, newDatapoint) => {
-              console.log(newDatapoint);
-
               if (err) {
                 return res.status(500).send(err);
               } else {

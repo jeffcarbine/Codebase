@@ -31,9 +31,12 @@ const datapointInputs = {
     ];
   },
   image: (datapoint) => {
+    const alt = datapoint !== undefined ? datapoint.image.alt : "",
+      src = datapoint !== undefined ? datapoint.image.src : "";
+
     return [
       base64ImageInputComponent("base64Image"),
-      new e.TEXT({ name: "alt", label: "Alt Text" }),
+      new e.TEXT({ name: "alt", label: "Alt Text", value: alt }),
     ];
   },
   group: () => {

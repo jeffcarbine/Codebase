@@ -27,10 +27,15 @@ export default (data) => {
           preview = new e.P(datapoint.text);
           break;
         case "image":
-          preview = new e.LAZYIMG({
-            src: datapoint.image.src,
-            alt: datapoint.image.alt,
-          });
+          preview = {
+            children: [
+              new e.LAZYIMG({
+                src: datapoint.image.src,
+                alt: datapoint.image.alt,
+              }),
+              new e.P(datapoint.image.alt),
+            ],
+          };
           break;
         case "group":
           preview = {
