@@ -7,8 +7,8 @@ export const base64ImageInputComponent = (id, label = "Image") => {
       new e.LABEL([
         label,
         new e.FILE({
-          name: "base64ImageFile",
-          class: "base64ImageFile",
+          name: "imageFile",
+          class: "imageFile",
           "data-hiddenInput": id,
         }),
       ]),

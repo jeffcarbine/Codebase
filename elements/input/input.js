@@ -132,7 +132,7 @@ const imageToBase64 = (input) => {
   FR.readAsDataURL(input.files[0]);
 };
 
-addEventDelegate("change", "input.base64ImageFile", imageToBase64);
+addEventDelegate("change", ".base64ImageInput input.imageFile", imageToBase64);
 
 // FORMAT PHONE NUMBERS
 // borrowed from http://www.kodyaz.com

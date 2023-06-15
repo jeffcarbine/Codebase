@@ -101,7 +101,11 @@ export default (data) => {
               modalBody: {
                 children: [
                   new e.H2(`Edit ${datapoint.name}`),
-                  datapointFormTemplate({ pageId, datapoint }),
+                  datapointFormTemplate({
+                    datapointId: datapoint._id,
+                    datapoint,
+                    editing: true,
+                  }),
                   new e.BTNCONTAINER(
                     {
                       class: "accent sm",

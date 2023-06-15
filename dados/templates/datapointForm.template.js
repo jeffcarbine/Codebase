@@ -32,7 +32,7 @@ const datapointInputs = {
   },
   image: (datapoint) => {
     return [
-      base64ImageInputComponent("src"),
+      base64ImageInputComponent("base64Image"),
       new e.TEXT({ name: "alt", label: "Alt Text" }),
     ];
   },
@@ -45,19 +45,20 @@ export const generateDatapointForms = ({
   pageId = null,
   datapointId = null,
   global = false,
+  editing = false,
   datapoint,
 } = {}) => {
   let children = [];
 
   let hiddenName, hiddenValue;
 
-  if (pageId !== null) {
+  if (pageId !== null && !editing) {
     hiddenName = "pageId";
     hiddenValue = pageId;
-  } else if (datapointId !== null) {
+  } else if (datapointId !== null && !editing) {
     hiddenName = "datapointId";
     hiddenValue = datapointId;
-  } else if (global) {
+  } else if (global && !editing) {
     hiddenName = "global";
     hiddenValue = true;
   } else {
@@ -138,6 +139,7 @@ export const datapointFormTemplate = ({
   pageId = null,
   datapointId = null,
   global = false,
+  editing = false,
   datapoint,
 }) => {
   return {
@@ -147,6 +149,7 @@ export const datapointFormTemplate = ({
       datapointId,
       global,
       datapoint,
+      editing,
     }),
   };
 };
