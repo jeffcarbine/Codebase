@@ -26,6 +26,14 @@ export default (data) => {
         case "text":
           preview = new e.P(datapoint.text);
           break;
+        case "link":
+          preview = {
+            children: [
+              new e.P(datapoint.link.href),
+              new e.P(datapoint.link.title),
+            ],
+          };
+          break;
         case "image":
           preview = {
             children: [

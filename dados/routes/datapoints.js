@@ -20,6 +20,8 @@ export const post__admin_datapoints = (req, res, next) => {
     datapointId = req.body.datapointId,
     global = req.body.global;
 
+  console.log(body);
+
   // get the value from the datapointList
   const datapointValid = datapointList.includes(type);
 
@@ -75,6 +77,12 @@ export const post__admin_datapoints = (req, res, next) => {
           switch (type) {
             case "text":
               datapoint.text = body.text;
+              break;
+            case "link":
+              datapoint.link = {
+                href: body.href,
+                title: body.title,
+              };
               break;
             case "html":
               datapoint.html = body.html;

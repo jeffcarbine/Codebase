@@ -3,6 +3,7 @@ var Schema = mongoose.Schema;
 
 const defaultDatapoints = [
   "text",
+  "link",
   "html",
   "image",
   "group",
@@ -31,6 +32,10 @@ const datapoint = {
   global: Boolean,
   name: String,
   text: String,
+  link: {
+    title: String,
+    href: String,
+  },
   html: String,
   image: {
     src: String,

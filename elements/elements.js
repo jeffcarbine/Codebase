@@ -577,17 +577,120 @@ export class INPUT extends ELEMENT {
   }
 }
 
-export class FILE extends INPUT {
-  constructor(params) {
-    super(params);
-    this.type = "file";
-  }
-}
-
 export class LABEL extends ELEMENT {
   constructor(params) {
     super(params);
     this.tagName = "label";
+  }
+}
+
+export class LABELINPUT {
+  constructor(params) {
+    this.if = params.if;
+
+    let inputParams = {},
+      labelText;
+
+    if (typeof params === "string") {
+      inputParams.name = camelize(params);
+      inputParams.id = camelize(params);
+      labelText = capitalizeAll(params);
+    } else {
+      inputParams = params;
+      labelText = params.label;
+    }
+
+    if (params.value !== undefined && params.value !== "") {
+      this.class = "active";
+    }
+
+    this.tagName = "label";
+    this.textContent = labelText;
+    this.child = new INPUT(inputParams);
+  }
+}
+export class TEXTAREA extends ELEMENT {
+  constructor(params) {
+    super(params);
+
+    this.tagName = "textarea";
+    this.rows = params.rows || 5;
+
+    if (typeof params === "string") {
+      this.name = params;
+      this.id = params;
+    }
+  }
+}
+
+export class LABELTEXTAREA {
+  constructor(params) {
+    this.if = params.if;
+
+    let textareaParams = {},
+      labelText;
+
+    if (typeof params === "string") {
+      textareaParams.name = camelize(params);
+      textareaParams.id = camelize(params);
+      labelText = capitalizeAll(params);
+    } else {
+      textareaParams = params;
+      labelText = params.label;
+    }
+
+    if (params.value !== undefined && params.value !== "") {
+      this.class = "active";
+    }
+
+    this.tagName = "label";
+    this.textContent = labelText;
+    this.child = new TEXTAREA(textareaParams);
+  }
+}
+
+export class EMAIL extends LABELINPUT {
+  constructor(params) {
+    params.type = "email";
+
+    if (params.name === undefined) {
+      params.name = "email";
+    }
+
+    if (params.id === undefined) {
+      params.id = "email";
+    }
+
+    if (params.label === undefined) {
+      params.label = "Email";
+    }
+
+    super(params);
+  }
+}
+
+export class MESSAGE extends LABELTEXTAREA {
+  constructor(params) {
+    if (params.name === undefined) {
+      params.name = "message";
+    }
+
+    if (params.id === undefined) {
+      params.id = "message";
+    }
+
+    if (params.label === undefined) {
+      params.label = "Message";
+    }
+
+    super(params);
+  }
+}
+
+export class FILE extends INPUT {
+  constructor(params) {
+    super(params);
+    this.type = "file";
   }
 }
 
@@ -632,21 +735,6 @@ export class TEXT {
     this.child = new INPUT(inputParams);
   }
 }
-
-export class EMAIL {
-  constructor({
-    type = "email",
-    name = "email",
-    id = "email",
-    label = "Email",
-    value = "",
-  } = {}) {
-    this.tagName = "label";
-    this.textContent = label;
-    this.child = new INPUT({ type, name, id });
-  }
-}
-
 export class PASSWORD {
   constructor({
     type = "password",
@@ -675,20 +763,6 @@ export class PHONE {
   }
 }
 
-export class TEXTAREA extends ELEMENT {
-  constructor(params) {
-    super(params);
-
-    this.tagName = "textarea";
-    this.rows = params.rows || 4;
-
-    if (typeof params === "string") {
-      this.name = params;
-      this.id = params;
-    }
-  }
-}
-
 export class DATE {
   constructor({
     type = "date",
@@ -700,14 +774,6 @@ export class DATE {
     this.tagName = "label";
     this.textContent = label;
     this.child = new INPUT({ type, name, id, value });
-  }
-}
-
-export class MESSAGE {
-  constructor({ name = "message", id = "message", label = "Message" } = {}) {
-    this.tagName = "label";
-    this.textContent = label;
-    this.child = new TEXTAREA({ name, id });
   }
 }
 

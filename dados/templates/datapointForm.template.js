@@ -17,6 +17,29 @@ const datapointInputs = {
       ]),
     ];
   },
+  link: (datapoint) => {
+    const href = datapoint !== undefined ? datapoint.link.href : "",
+      title = datapoint !== undefined ? datapoint.link.title : "";
+
+    return [
+      new e.LABEL([
+        "URL",
+        new e.INPUT({
+          type: "text",
+          name: "href",
+          value: href,
+        }),
+      ]),
+      new e.LABEL([
+        "Title",
+        new e.INPUT({
+          type: "text",
+          name: "title",
+          value: title,
+        }),
+      ]),
+    ];
+  },
   html: (datapoint) => {
     const html = datapoint !== undefined ? datapoint.html : "";
 
