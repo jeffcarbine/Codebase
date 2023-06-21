@@ -5,7 +5,12 @@ var Schema = mongoose.Schema;
 var Page = new Schema({
   name: String,
   path: String,
-  wildcard: Boolean,
+  wildcard: {
+    type: String,
+    enum: ["none", "podcast", "episode"],
+    default: "none",
+  },
+  homepage: Boolean,
   datapoints: Array,
 });
 

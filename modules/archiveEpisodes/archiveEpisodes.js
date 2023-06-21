@@ -14,6 +14,8 @@ import {
   urlHyphenate,
 } from "../../modules/formatString/formatString.js";
 
+import { getPatreonToken } from "../../apis/patreon.js";
+
 const defaultRssArchiver = (show, count, callback) => {
   console.log("getting episodes from RSS feed");
   const url = show.rss;
@@ -46,6 +48,7 @@ const defaultRssArchiver = (show, count, callback) => {
               description: episode.description,
               rssLink: episode.enclosures[0].url,
               localPath,
+              patreonExclusive: false,
             },
           },
           {
@@ -100,20 +103,9 @@ const defaultPatreonArchiver = (show, count, callback) => {
                 // store those episodes in the patreonPosts array
                 patreonPosts = patreonPosts.concat(body.data);
 
-                if (getAll) {
-                  // then we are getting all of them to do a full refresh
-
-                  // check to see if there is a next value
-                  if (
-                    body.links !== undefined &&
-                    body.links.next !== undefined
-                  ) {
-                    getPatreonPosts(body.links.next);
-                  } else {
-                    const posts = patreonPosts;
-
-                    callback(null, posts);
-                  }
+                // check to see if there is a next value
+                if (body.links !== undefined && body.links.next !== undefined) {
+                  getPatreonPosts(body.links.next);
                 } else {
                   const posts = patreonPosts;
 

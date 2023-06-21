@@ -40,7 +40,11 @@ export const rez = ({ req, res, template, data = {} } = {}) => {
                   // then we need to recursively find the datapoints
                   // in the group
                   fetchDatapoints(datapointData, (groupDatapoints) => {
-                    datapoints[camelize(datapoint.name)] = groupDatapoints;
+                    datapoints[camelize(datapoint.name)] = {
+                      name: datapoint.name,
+                      group: groupDatapoints,
+                    };
+
                     next();
                   });
                 } else {

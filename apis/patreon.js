@@ -8,7 +8,7 @@ import Token from "../models/Token.js";
 import request from "request";
 import async from "async";
 
-// https://www.patreon.com/oauth2/authorize?response_type=code&client_id=4ibZacSRcGKp5h7fexulL_n5rJodXTVzk7LCkviIsmF_fAGphFcVeov5ohoJM9wL&redirect_uri=https://carbine.co&scope=identity%20identity%5Bemail%5D%20campaigns%20campaigns.posts
+// https://www.patreon.com/oauth2/authorize?response_type=code&client_id=VFwd4Mix4Vce-cqXqKYEMjrHiSeD3UAEOZ4U3ssfRwZ33RyaysQ3KsMh9d6iv2gC&redirect_uri=https://carbine.co&scope=identity%20identity%5Bemail%5D%20campaigns%20campaigns.posts
 
 const patreonClientId = process.env.PATREONCLIENTID,
   patreonClientSecret = process.env.PATREONCLIENTSECRET,
@@ -93,6 +93,11 @@ export const getPatreonToken = (mainCallback) => {
           } else {
             if (token === null) {
               console.log("No Patreon token found, requesting new one");
+              console.log(
+                patreonClientId,
+                patreonClientSecret,
+                patreonOneTimeCode
+              );
               generateNewPatreonToken(callback, mainCallback);
             } else {
               // check expiration

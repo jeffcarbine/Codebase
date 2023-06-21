@@ -53,7 +53,7 @@ export const post__admin_datapoints = (req, res, next) => {
       [
         // step 1: upload image to s3 if applicable
         (callback) => {
-          console.log("made it to upload stage");
+          // console.log("made it to upload stage");
           if (
             type === "image" &&
             body.base64Image !== undefined &&
@@ -66,7 +66,7 @@ export const post__admin_datapoints = (req, res, next) => {
         },
         // step 2: set up the datapoint object
         (callback) => {
-          console.log("made it to format datapoint stage");
+          // console.log("made it to format datapoint stage");
           // base datapoint object
           let datapoint = {
             name,
@@ -137,7 +137,7 @@ export const post__admin_datapoints = (req, res, next) => {
         },
         // step 4: add the datapoint to a page or group if applicable
         (newDatapoint, callback) => {
-          console.log("made it to updage page or group stage");
+          // console.log("made it to updage page or group stage");
 
           const newDatapointId = newDatapoint._id.toString();
 

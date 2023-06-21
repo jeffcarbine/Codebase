@@ -1,6 +1,6 @@
 import { base } from "./_dados.template.js";
 import * as e from "../../elements/elements.js";
-import { card } from "../../components/card/card.template.js";
+import { cardTemplate } from "../../components/card/card.template.js";
 import { modalTemplate } from "../../components/modal/modal.template.js";
 
 export default (data) => {
@@ -12,7 +12,7 @@ export default (data) => {
 
     for (let i = 0; i < data.shows.length; i++) {
       const showData = data.shows[i],
-        event = card(
+        event = cardTemplate(
           new e.FORM({
             method: "POST",
             action: "/admin/shows/edit",

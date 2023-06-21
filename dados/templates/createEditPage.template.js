@@ -7,7 +7,8 @@ export const createEditPageTemplate = (page = {}) => {
     title = pageProvided ? "Edit Page" : "New Page",
     saveText = pageProvided ? "Save Changes" : "Create New Page",
     name = pageProvided ? page.name : "",
-    wildcard = pageProvided ? page.wildcard : false;
+    wildcard = pageProvided ? page.wildcard : false,
+    homepage = pageProvided ? page.homepage : false;
 
   return new e.FORM({
     id: "addEditPage",
@@ -17,10 +18,15 @@ export const createEditPageTemplate = (page = {}) => {
     children: [
       new e.H2(title),
       new e.TEXT({ name: "name", label: "Name", value: name }),
+      // toggleSwitchTemplate({
+      //   name: "wildcard",
+      //   label: "Use Wildcard",
+      //   checked: wildcard,
+      // }),
       toggleSwitchTemplate({
-        name: "wildcard",
-        label: "Use Wildcard",
-        checked: wildcard,
+        name: "homepage",
+        label: "Set as Homepage",
+        checked: homepage,
       }),
       new e.HIDDEN({
         if: pageProvided,

@@ -208,10 +208,22 @@ export const init = ({
     // get the path and cut out query strings
     const path = req.url.split("?")[0];
 
-    Page.findOne({
-      path,
-    }).exec((err, page) => {
+    let query;
+
+    if (path === "/") {
+      query = {
+        homepage: true,
+      };
+    } else {
+      query = {
+        path,
+      };
+    }
+
+    Page.findOne(query).exec((err, page) => {
       let template, title, datapoints;
+
+      console.log(page);
 
       if (err || page === null) {
         template = "error";
@@ -222,9 +234,13 @@ export const init = ({
         datapoints = page.datapoints;
       }
 
-      console.log(template);
+      const data = { title };
 
-      rez({ req, res, template, data: { title }, datapoints });
+      if (path === "/") {
+        data.homepage = true;
+      }
+
+      rez({ req, res, template, data, datapoints });
     });
   });
 };
