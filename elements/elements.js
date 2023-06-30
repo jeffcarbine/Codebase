@@ -650,7 +650,7 @@ export class LABELTEXTAREA {
 }
 
 export class EMAIL extends LABELINPUT {
-  constructor(params) {
+  constructor(params = {}) {
     params.type = "email";
 
     if (params.name === undefined) {

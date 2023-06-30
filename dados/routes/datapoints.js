@@ -20,8 +20,6 @@ export const post__admin_datapoints = (req, res, next) => {
     datapointId = req.body.datapointId,
     global = req.body.global;
 
-  console.log(body);
-
   // get the value from the datapointList
   const datapointValid = datapointList.includes(type);
 

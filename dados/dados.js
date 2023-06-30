@@ -221,9 +221,7 @@ export const init = ({
     }
 
     Page.findOne(query).exec((err, page) => {
-      let template, title, datapoints;
-
-      console.log(page);
+      let template, title, datapointIds;
 
       if (err || page === null) {
         template = "error";
@@ -231,7 +229,7 @@ export const init = ({
       } else {
         template = camelize(page.name.toLowerCase());
         title = page.name;
-        datapoints = page.datapoints;
+        datapointIds = page.datapoints;
       }
 
       const data = { title };
@@ -240,7 +238,7 @@ export const init = ({
         data.homepage = true;
       }
 
-      rez({ req, res, template, data, datapoints });
+      rez({ req, res, template, data, datapointIds });
     });
   });
 };

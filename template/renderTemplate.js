@@ -1,6 +1,10 @@
 import { camelToHyphen } from "../modules/formatString/formatString.js";
 
 const clientRender = (template) => {
+  if (template === null) {
+    return null;
+  }
+
   // start by creating the element
   let element;
 
@@ -147,6 +151,10 @@ const clientRender = (template) => {
 };
 
 const serverRender = (template) => {
+  if (template === null) {
+    return null;
+  }
+
   // start by creating the element
   let element;
 
