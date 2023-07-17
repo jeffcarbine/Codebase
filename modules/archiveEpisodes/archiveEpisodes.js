@@ -117,7 +117,7 @@ const defaultPatreonArchiver = (show, count, callback) => {
         };
 
         getPatreonPosts(
-          "https://www.patreon.com/api/oauth2/v2/campaigns/1730986/posts?fields%5Bpost%5D=title%2Curl%2Cpublished_at%2Ccontent"
+          `https://www.patreon.com/api/oauth2/v2/campaigns/${show.patreon}/posts?fields%5Bpost%5D=title%2Curl%2Cpublished_at%2Ccontent`
         );
       },
       (posts, callback) => {
@@ -169,16 +169,15 @@ const defaultSpotifyArchiver = (show, count, callback) => {
   const fetchSpotifyEps = (spotify_access_token) => {
     let spotifyEps = [];
 
-    const spotifyUrl =
-      "https://api.spotify.com/v1/shows/" + show.spotify + "/episodes?limit=50";
+    const spotifyUrl = `https://api.spotify.com/v1/shows/${show.spotify}/episodes?limit=50`;
 
     // spotify goes in chronological order, so we have to request
     // ALL of them, then start counting from the back
 
-    const getSpotifyEps = (next) => {
+    const getSpotifyEps = (url) => {
       request.get(
         {
-          url: next,
+          url,
           headers: {
             Authorization: "Bearer " + spotify_access_token,
           },
@@ -411,14 +410,6 @@ const archiveLatestEpisode = (
           callback(null);
         }
       },
-      // Patreon
-      (callback) => {
-        if (show.patreon !== "") {
-          patreonArchiver(show, count, callback);
-        } else {
-          callback(null);
-        }
-      },
       // Spotify
       (callback) => {
         if (show.spotify !== "") {
@@ -439,6 +430,14 @@ const archiveLatestEpisode = (
       (callback) => {
         if (show.apple !== "") {
           appleArchiver(show, count, callback);
+        } else {
+          callback(null);
+        }
+      },
+      // Patreon
+      (callback) => {
+        if (show.patreon !== "") {
+          patreonArchiver(show, count, callback);
         } else {
           callback(null);
         }

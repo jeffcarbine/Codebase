@@ -18,11 +18,13 @@ export const createEditPageTemplate = (page = {}) => {
     children: [
       new e.H2(title),
       new e.TEXT({ name: "name", label: "Name", value: name }),
-      // toggleSwitchTemplate({
-      //   name: "wildcard",
-      //   label: "Use Wildcard",
-      //   checked: wildcard,
-      // }),
+      new e.LABEL({
+        textContent: "Wildcard",
+        child: new e.SELECTOPTION({
+          name: "wildcard",
+          children: ["none", "podcast", "episode"],
+        }),
+      }),
       toggleSwitchTemplate({
         name: "homepage",
         label: "Set as Homepage",

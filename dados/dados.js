@@ -6,6 +6,9 @@ import session from "express-session";
 import MongoStore from "connect-mongo";
 import connectEnsureLogin from "connect-ensure-login";
 
+import asyncLoop from "node-async-loop";
+import Datapoint from "./models/Datapoint.js";
+
 import { dashboard } from "./routes/dashboard.js";
 import { get__admin_login, post__admin_login } from "./routes/login.js";
 import { post__admin_signup } from "./routes/signup.js";
@@ -34,6 +37,7 @@ import {
 } from "./routes/pages.js";
 import { rez } from "./modules/rez.js";
 import { camelize } from "../modules/formatString/formatString.js";
+import { generateRoutes } from "./modules/generateRoutes.js";
 
 export const init = ({
   app,
@@ -203,42 +207,6 @@ export const init = ({
   app.post("/admin/login", passport.authenticate("local"), post__admin_login);
   app.get("/admin/logout", get__admin_logout);
 
-  // GENERATE ROUTES FROM PAGES
-  app.get("*", (req, res) => {
-    // get the path and cut out query strings
-    const path = req.url.split("?")[0];
-
-    let query;
-
-    if (path === "/") {
-      query = {
-        homepage: true,
-      };
-    } else {
-      query = {
-        path,
-      };
-    }
-
-    Page.findOne(query).exec((err, page) => {
-      let template, title, datapointIds;
-
-      if (err || page === null) {
-        template = "error";
-        title = "Page Not Found";
-      } else {
-        template = camelize(page.name.toLowerCase());
-        title = page.name;
-        datapointIds = page.datapoints;
-      }
-
-      const data = { title };
-
-      if (path === "/") {
-        data.homepage = true;
-      }
-
-      rez({ req, res, template, data, datapointIds });
-    });
-  });
+  // GENERATE USER ROUTES
+  generateRoutes(app);
 };

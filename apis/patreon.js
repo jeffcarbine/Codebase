@@ -51,7 +51,7 @@ const saveAndReturnPatreonToken = (
   });
 };
 
-const generateNewPatreonToken = (callback, mainCallback) => {
+export const generateNewPatreonToken = (callback, mainCallback) => {
   request.post(
     {
       url: `https://www.patreon.com/api/oauth2/token?code=${patreonOneTimeCode}&grant_type=authorization_code&client_id=${patreonClientId}&client_secret=${patreonClientSecret}&redirect_uri=https://carbine.co`,
@@ -64,6 +64,7 @@ const generateNewPatreonToken = (callback, mainCallback) => {
         let body = JSON.parse(str);
 
         if (body.access_token) {
+          console.log("Successfully generated Patreon token");
           return saveAndReturnPatreonToken(
             body.access_token,
             body.refresh_token,

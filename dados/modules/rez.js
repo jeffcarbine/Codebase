@@ -2,6 +2,10 @@ import asyncLoop from "node-async-loop";
 import Page from "../models/Page.js";
 import Datapoint from "../models/Datapoint.js";
 import { camelize } from "../../modules/formatString/formatString.js";
+import { splitAtNthInstance } from "../../modules/splitAtNthInstance/splitAtNthInstance.js";
+
+import Episode from "../../models/Episode.js";
+import Show from "../../models/Show.js";
 
 export const rez = ({
   req,
@@ -20,8 +24,6 @@ export const rez = ({
   }
 
   // gives the route to the data
-  const path = req.url.split("?")[0];
-  data.path = path;
   data.points = {};
   // console.log(template);
   // console.log(data);
@@ -80,6 +82,33 @@ export const rez = ({
 
   fetchDatapoints(datapointIds, (datapoints) => {
     data.points = datapoints;
-    res.render(template, data);
+
+    if (data.wildcard !== "none") {
+      if (data.wildcard === "episode") {
+        Episode.find({
+          localPath: data.wildcardString,
+        }).exec((err, episode) => {
+          if (err) {
+            console.log(err);
+          } else {
+            data.episode = episode;
+          }
+
+          res.render(template, data);
+        });
+      } else if (data.wildcard === "podcast") {
+        Show.find({
+          _id: data.wildcardString,
+        }).exex((err, show) => {
+          if (err) {
+            console.log(err);
+          } else {
+            data.podcast = show;
+          }
+
+          res.render(template, data);
+        });
+      }
+    }
   });
 };

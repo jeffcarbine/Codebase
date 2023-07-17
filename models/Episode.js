@@ -10,6 +10,7 @@ var Episode = new Schema({
   title: String,
   description: String,
   thumbnail: String,
+  thumbnailSmall: String,
 
   rssLink: String,
   appleLink: String,

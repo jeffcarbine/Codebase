@@ -13,13 +13,13 @@ export const post__admin_pages_add = (req, res, next) => {
   const body = req.body,
     path = "/" + (body.path || hyphenate(body.name)),
     name = body.name,
-    wildcard = body.wildcard === "wildcard",
+    wildcard = body.wildcard,
     homepage = body.homepage === "homepage";
 
   const newPage = {
     path,
     name,
-    // wildcard,
+    wildcard,
     homepage,
   };
 
