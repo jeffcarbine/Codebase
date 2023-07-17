@@ -1,3 +1,4 @@
+import Datapoint from "../models/Datapoint.js";
 import Page from "../models/Page.js";
 import Episode from "../../models/Episode.js";
 import Show from "../../models/Show.js";
