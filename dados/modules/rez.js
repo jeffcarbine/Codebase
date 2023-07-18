@@ -13,9 +13,8 @@ export const rez = ({
   template,
   data = {},
   datapointIds = [],
+  page,
 } = {}) => {
-  //console.log(req.url);
-
   // check if we are logged in or not
   if (req.user) {
     data.loggedIn = true;
@@ -25,20 +24,14 @@ export const rez = ({
 
   // gives the route to the data
   data.points = {};
-  // console.log(template);
-  // console.log(data);
 
-  //console.log(datapointIds);
-
+  // method for fetching datapoints for the page
   const fetchDatapoints = (datapointIds, callback) => {
     const datapoints = {};
 
     asyncLoop(
       datapointIds,
       (datapointId, next) => {
-        // console.log(`Next datapoint id!`);
-        // console.log(datapointId);
-
         // i'm not 100% sure why we are getting undefeined datapointIds
         // in our lists, but hopefully this will skip them and
         // allow the page to still render
@@ -50,9 +43,6 @@ export const rez = ({
             if (type === "group" && datapointData.length > 0) {
               // then we need to recursively find the datapoints
               // in the group
-              // console.log(`${datapointId} is a group`);
-              // console.log(`This is ${datapointId}'s data:`);
-              // console.log(datapointData);
               fetchDatapoints(datapointData, (groupDatapoints) => {
                 datapoints[camelize(datapoint.name)] = {
                   name: datapoint.name,
@@ -80,35 +70,60 @@ export const rez = ({
     );
   };
 
-  fetchDatapoints(datapointIds, (datapoints) => {
-    data.points = datapoints;
+  // fetch datapoints if applicable
+  if (page !== undefined && datapointIds.length > 0) {
+    fetchDatapoints(datapointIds, (datapoints) => {
+      // store the datapoints to the points key (haha so funny)
+      data.points = datapoints;
 
-    if (data.wildcard !== "none") {
-      if (data.wildcard === "episode") {
-        Episode.find({
-          localPath: data.wildcardString,
-        }).exec((err, episode) => {
-          if (err) {
-            console.log(err);
-          } else {
-            data.episode = episode;
-          }
+      // if the page has a wildcard value, retrieve the
+      // value from the database
+      if (page.wildcard !== "none") {
+        // if episode, retrieve episode
+        if (page.wildcard === "episode") {
+          // get the localpath from the wildcard
+          const localPath = req.url
+            .substring(req.url.lastIndexOf("/") + 1)
+            .split("?")[0];
 
-          res.render(template, data);
-        });
-      } else if (data.wildcard === "podcast") {
-        Show.find({
-          _id: data.wildcardString,
-        }).exex((err, show) => {
-          if (err) {
-            console.log(err);
-          } else {
-            data.podcast = show;
-          }
+          Episode.findOne({
+            localPath,
+          }).exec((err, episode) => {
+            if (err) {
+              console.log(err);
+              data.episode = {};
+            } else {
+              data.episode = episode;
+            }
 
-          res.render(template, data);
-        });
+            res.render(template, data);
+          });
+          // otherwise, if podcast, retrieve podcast
+        } else if (page.wildcard === "podcast") {
+          // get the id for the show
+          const _id = req.url
+            .substring(req.url.lastIndexOf("/") + 1)
+            .split("?")[0];
+
+          Show.find({
+            _id,
+          }).exex((err, show) => {
+            if (err) {
+              console.log(err);
+              data.podcast = {};
+            } else {
+              data.podcast = show;
+            }
+
+            res.render(template, data);
+          });
+        }
+      } else {
+        // and if nothing, render as normal
+        res.render(template, data);
       }
-    }
-  });
+    });
+  } else {
+    res.render(template, data);
+  }
 };

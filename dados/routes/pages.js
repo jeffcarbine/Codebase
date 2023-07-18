@@ -40,19 +40,25 @@ export const post__admin_pages_add = (req, res, next) => {
         });
       },
       (callback) => {
-        // if there is already a homepage set, unset it
-        Page.findOneAndUpdate(
-          {
-            homepage: true,
-          },
-          { $set: { homepage: false } }
-        ).exec((err) => {
-          if (err) {
-            callback(err);
-          } else {
-            callback(null);
-          }
-        });
+        // if this is a new homepage, find the old one
+        // and unset it
+
+        if (homepage) {
+          Page.findOneAndUpdate(
+            {
+              homepage: true,
+            },
+            { $set: { homepage: false } }
+          ).exec((err) => {
+            if (err) {
+              callback(err);
+            } else {
+              callback(null);
+            }
+          });
+        } else {
+          callback(null);
+        }
       },
       (callback) => {
         Page.create(newPage, (err, page) => {
