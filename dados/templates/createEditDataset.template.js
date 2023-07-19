@@ -1,4 +1,4 @@
-import { toggleSingleTemplate } from "../../components/toggleswitch/toggleswitch.template.js";
+import { toggleSingleTemplate } from "../../components/toggle/toggleSingle.template.js";
 import * as e from "../../elements/elements.js";
 
 export const createEditDatasetTemplate = (dataset = {}) => {
