@@ -14,6 +14,11 @@ import { get__admin_login, post__admin_login } from "./routes/login.js";
 import { post__admin_signup } from "./routes/signup.js";
 import { get__admin_logout } from "./routes/logout.js";
 import {
+  get__admin_tools,
+  post__admin_tools_merchClubCSV,
+} from "./routes/tools.routes.js";
+
+import {
   get__admin_events,
   post__admin_events,
   post__admin_events_delete,
@@ -170,6 +175,18 @@ export const init = ({
       post__admin_shows_edit
     );
   }
+
+  app.get(
+    "/admin/tools",
+    connectEnsureLogin.ensureLoggedIn(),
+    get__admin_tools
+  );
+
+  app.post(
+    "/admin/tools/merchClubCSV",
+    connectEnsureLogin.ensureLoggedIn(),
+    post__admin_tools_merchClubCSV
+  );
 
   if (events) {
     // EVENTS
