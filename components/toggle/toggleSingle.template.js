@@ -1,12 +1,13 @@
 import * as e from "../../elements/elements.js";
 import { capitalizeAll } from "../../modules/formatString/formatString.js";
+import { generateUniqueId } from "../../modules/generateUniqueId/generateUniqueId.js";
 
 export const toggleSingleTemplate = ({
   name,
-  id = name,
+  id = generateUniqueId(),
   value = name,
   label = name,
-  labelFor = name,
+  labelFor = id,
   checked = false,
   dataTargets,
 } = {}) => {

@@ -190,3 +190,14 @@ export const formatProduct = (product) => {
 
   return formattedProduct;
 };
+
+// TODO: finish this
+// adding attributes (like is merch club or is gift)
+export const modifyAttributes = (key, value) => {
+  const checkoutId = req.cookies["checkoutId"],
+    input = { customAttributes: [{ key, value }] };
+
+  client.checkout.updateAttributes(checkoutId, input).then((checkout) => {
+    // Do something with the updated checkout
+  });
+};
