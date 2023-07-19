@@ -380,7 +380,9 @@ export class NAVIGATION extends ELEMENT {
         const path = routes[route] || "";
 
         if (typeof path === "string") {
-          const active = path === params.path || params.path.includes(path);
+          const active =
+            path === params.path ||
+            (path !== "/" && params.path.includes(path));
 
           navItem = new LI({
             class:
