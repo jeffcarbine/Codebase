@@ -1,4 +1,4 @@
-import { toggleSwitchTemplate } from "../../components/toggleswitch/toggleswitch.template.js";
+import { toggleSingleTemplate } from "../../components/toggleswitch/toggleswitch.template.js";
 import * as e from "../../elements/elements.js";
 
 export const createEditDatasetTemplate = (dataset = {}) => {
@@ -27,7 +27,7 @@ export const createEditDatasetTemplate = (dataset = {}) => {
         name: "_id",
         value: dataset._id,
       }),
-      toggleSwitchTemplate({
+      toggleSingleTemplate({
         name: "restricted",
         label: "Restrict to One Datapoint",
         dataTargets: "#restrictedTo",

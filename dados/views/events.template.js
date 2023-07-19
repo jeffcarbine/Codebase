@@ -3,7 +3,7 @@ import * as e from "../../elements/elements.js";
 import { cardTemplate } from "../../components/card/card.template.js";
 import { modalTemplate } from "../../components/modal/modal.template.js";
 import { formatDate } from "../../modules/formatDate/formatDate.js";
-import { toggleSwitchTemplate } from "../../components/toggleswitch/toggleswitch.template.js";
+import { toggleSingleTemplate } from "../../components/toggleswitch/toggleswitch.template.js";
 
 export default (data) => {
   const children = [];
@@ -80,7 +80,7 @@ export default (data) => {
         label: "Tickets",
         value: tickets,
       }),
-      toggleSwitchTemplate({
+      toggleSingleTemplate({
         name: "soldOut",
         label: "Mark tickets as 'Sold Out'",
         checked: soldOut,

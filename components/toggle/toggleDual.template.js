@@ -4,7 +4,7 @@ import {
   capitalizeAll,
 } from "../../modules/formatString/formatString.js";
 
-export const toggleSwitchDualTemplate = ({
+export const toggleDualTemplate = ({
   name,
   label1,
   id1 = camelize(label1),

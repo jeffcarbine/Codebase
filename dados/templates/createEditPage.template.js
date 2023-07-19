@@ -1,4 +1,4 @@
-import { toggleSwitchTemplate } from "../../components/toggleswitch/toggleswitch.template.js";
+import { toggleSingleTemplate } from "../../components/toggleswitch/toggleswitch.template.js";
 import * as e from "../../elements/elements.js";
 
 export const createEditPageTemplate = (page = {}) => {
@@ -25,7 +25,7 @@ export const createEditPageTemplate = (page = {}) => {
           children: ["none", "podcast", "episode"],
         }),
       }),
-      toggleSwitchTemplate({
+      toggleSingleTemplate({
         name: "homepage",
         label: "Set as Homepage",
         checked: homepage,

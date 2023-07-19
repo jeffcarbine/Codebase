@@ -1,7 +1,7 @@
 import * as e from "../../elements/elements.js";
 import { capitalizeAll } from "../../modules/formatString/formatString.js";
 
-export const toggleSwitchTemplate = ({
+export const toggleSingleTemplate = ({
   name,
   id = name,
   value = name,
