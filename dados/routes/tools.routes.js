@@ -1,4 +1,4 @@
-import MerchClubData from "../../../models/MerchClubData.js";
+import MerchClubData from "../../models/MerchClubData.js";
 import emailValidator from "email-validator";
 import parsePhoneNumber from "libphonenumber-js";
 import { rez } from "../modules/rez.js";
