@@ -25,12 +25,13 @@ export const getCart = (req, res) => {
   // whether or not this checkout has been completed or not
   const verifyCheckout = (checkoutId) => {
     return shopify.checkout.fetch(checkoutId).then((checkout) => {
+      // verify that checkoutId is valid
       // check to see if the checkout has already been completed
-      if (checkout.completedAt !== null) {
+      if (checkout === null || checkout.completedAt !== null) {
         // then let's clear the checkoutId cookie
         req.cookies["checkoutId"] = null;
         // and re-fetch the cart
-        fetch_cart(req, res);
+        getCart(req, res);
       } else {
         // otherwise, we're good and can send the checkout
         return res.status(200).send(checkout);
