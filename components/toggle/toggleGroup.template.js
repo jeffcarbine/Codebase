@@ -1,6 +1,6 @@
 import { camelize } from "../../modules/formatString/formatString.js";
 
-export const toggleGroupTemplate = ({ name, values = [] }) => {
+export const toggleGroupTemplate = ({ name, values = [], checked }) => {
   const children = [];
 
   values.forEach((value) => {
@@ -14,6 +14,10 @@ export const toggleGroupTemplate = ({ name, values = [] }) => {
       value: camelize(value),
       id,
     };
+
+    if (checked === value) {
+      radio.checked = true;
+    }
 
     children.push(radio);
 
@@ -29,7 +33,7 @@ export const toggleGroupTemplate = ({ name, values = [] }) => {
 
   children.push({
     tagName: "span",
-    class: "switch",
+    class: "pill",
   });
 
   return {

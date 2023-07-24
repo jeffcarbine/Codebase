@@ -1,8 +1,10 @@
 ﻿:root {
   --primary: hsl(197, 37%, 24%);
   --primary-step: hsl(197, 37%, 34%);
+  --primary-on: var(--light);
   --accent: hsl(344, 20%, 63%);
   --accent-step: hsl(344, 20%, 73%);
+  --accent-on: var(--dark);
 
   --dark: #252422;
   --dark-low: #383736;
