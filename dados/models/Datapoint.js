@@ -1,29 +1,20 @@
 import mongoose from "mongoose";
 var Schema = mongoose.Schema;
 
-const defaultDatapoints = [
-  "text",
-  "link",
-  "html",
-  "image",
-  "group",
-  // "podcast",
-  // "episode",
-  // "person",
-];
-
-const wildcardDatapoints = [
-  // "wildcardEpisode",
-  // "wildcardPodcast",
-  // "wildcardGroup",
-];
-
-export const datapointList = [...defaultDatapoints, ...wildcardDatapoints];
+export const datapointList = ["text", "link", "html", "image", "group"];
 
 const datapointEnum = {
   type: String,
   enum: datapointList,
   default: "text",
+};
+
+export const groupTypes = ["object", "array"];
+
+const groupTypeEnum = {
+  type: String,
+  enum: groupTypes,
+  default: "object",
 };
 
 const datapoint = {
@@ -41,6 +32,7 @@ const datapoint = {
     src: String,
     alt: String,
   },
+  groupType: groupTypeEnum,
   group: Array,
 };
 

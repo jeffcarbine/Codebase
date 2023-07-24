@@ -1,7 +1,7 @@
 import { modalTemplate } from "../../components/modal/modal.template.js";
 import * as e from "../../elements/elements.js";
 import { base64ImageInputComponent } from "../../elements/input/base64ImageInput.component.js";
-import { datapointList } from "../models/Datapoint.js";
+import { datapointList, groupTypes } from "../models/Datapoint.js";
 
 const datapointInputs = {
   text: (datapoint) => {
@@ -63,7 +63,15 @@ const datapointInputs = {
     ];
   },
   group: () => {
-    return [];
+    return [
+      new e.LABEL({
+        textContent: "Group Type",
+        child: new e.SELECTOPTION({
+          name: "groupType",
+          children: groupTypes,
+        }),
+      }),
+    ];
   },
 };
 

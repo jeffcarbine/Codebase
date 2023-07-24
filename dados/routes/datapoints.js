@@ -89,6 +89,8 @@ export const post__admin_datapoints = (req, res, next) => {
               datapoint.image = body.image || {};
               datapoint.image.alt = body.alt;
               break;
+            case "group":
+              datapoint.groupType = body.groupType || "";
           }
 
           // if global isn't undefined, then we need
@@ -96,10 +98,6 @@ export const post__admin_datapoints = (req, res, next) => {
           if (global !== undefined) {
             datapoint.global = global;
           }
-
-          // note: groups don't have any special
-          // values outside of name upon creation,
-          // so we don't need to modify the datapoint variable
 
           callback(null, datapoint);
         },

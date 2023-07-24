@@ -26,8 +26,14 @@ export const rez = ({
   data.points = {};
 
   // method for fetching datapoints for the page
-  const fetchDatapoints = (datapointIds, callback) => {
-    const datapoints = {};
+  const fetchDatapoints = (datapointIds, callback, isArray = false) => {
+    let datapoints;
+
+    if (isArray) {
+      datapoints = [];
+    } else {
+      datapoints = {};
+    }
 
     asyncLoop(
       datapointIds,
@@ -43,16 +49,27 @@ export const rez = ({
             if (type === "group" && datapointData.length > 0) {
               // then we need to recursively find the datapoints
               // in the group
-              fetchDatapoints(datapointData, (groupDatapoints) => {
-                datapoints[camelize(datapoint.name)] = {
-                  name: datapoint.name,
-                  group: groupDatapoints,
-                };
 
-                next();
-              });
+              let isArray = datapoint.groupType === "array";
+
+              fetchDatapoints(
+                datapointData,
+                (groupDatapoints) => {
+                  datapoints[camelize(datapoint.name)] = {
+                    name: datapoint.name,
+                    group: groupDatapoints,
+                  };
+
+                  next();
+                },
+                isArray
+              );
             } else {
-              datapoints[camelize(datapoint.name)] = datapointData;
+              if (isArray) {
+                datapoints.push(datapoint);
+              } else {
+                datapoints[camelize(datapoint.name)] = datapointData;
+              }
               next();
             }
           });

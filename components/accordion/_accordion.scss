@@ -1,9 +1,8 @@
 .accordion {
-  --accordion-button-font-size: var(--f10-font-size);
+  --accordion-button-font-size: var(--f8-font-size);
   --accordion-button-background: var(--background-low);
   --accordion-button-color: var(--foreground);
-  --accordion-button-font-size: var(--base-font-size);
-  --accordion-button-padding: 1rem;
+  --accordion-button-padding: 1.5rem;
   --carat-width: calc(var(--accordion-button-font-size) * 0.75);
   --accordion-body-background: var(--background);
   --accordion-body-color: var(--foreground);
@@ -31,6 +30,7 @@
     display: flex;
     justify-content: center;
     border: none;
+    box-sizing: border-box;
 
     > * {
       flex: 0 0 auto;
@@ -87,6 +87,7 @@
     box-sizing: border-box;
     transition: height 0.5s ease;
     z-index: -1;
+    padding: 0 2rem;
 
     &.open {
       height: 0;
