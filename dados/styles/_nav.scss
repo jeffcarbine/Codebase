@@ -56,7 +56,7 @@
 
 nav {
   --nav-item-color: var(--dark);
-  --nav-item-color-active: var(--primary-step);
+  --nav-item-color-active: var(--light);
 
   background: var(--light);
   position: fixed;
@@ -90,27 +90,56 @@ nav {
       display: flex;
       flex-direction: column;
       justify-content: center;
+      position: relative;
 
       a {
         text-decoration: none;
         text-align: right;
         display: block;
-        padding: 0.5rem 3rem 0.5rem 0.5rem;
         position: relative;
 
         svg.icon {
           position: absolute;
-          right: 0;
           top: 50%;
-          transform: translateY(-55%);
-          fill: var(--dark);
+          fill: var(--nav-item-color);
           width: 2rem;
           height: 2rem;
         }
       }
 
+      &::before {
+        content: "";
+        display: block;
+        position: absolute;
+        width: calc(100% + 2.5rem);
+        height: 100%;
+        left: -1rem;
+        background: var(--primary);
+        display: none;
+      }
+
+      &::after {
+        content: "";
+        display: block;
+        position: absolute;
+        @include triangle("right", var(--primary-step), 0.5rem, 1);
+        right: -1.5rem;
+        bottom: -0.5rem;
+        z-index: -1;
+        display: none;
+      }
+
+      &:hover:not(.active):not(.open) {
+        --nav-item-color: var(--primary);
+      }
+
       &.active,
       &.open {
+        &::before,
+        &::after {
+          display: block;
+        }
+
         svg.icon {
           fill: var(--nav-item-color-active);
         }

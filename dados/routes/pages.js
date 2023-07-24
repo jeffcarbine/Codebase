@@ -6,7 +6,12 @@ import { rez } from "../modules/rez.js";
 import asyncLoop from "node-async-loop";
 
 export const get__admin_pages = (req, res, next) => {
-  rez({ req, res, template: "pages", data: { subtitle: "Pages" } });
+  rez({
+    req,
+    res,
+    template: "pages",
+    data: { subtitle: "Pages", path: "/admin/pages" },
+  });
 };
 
 export const post__admin_pages_add = (req, res, next) => {
@@ -141,7 +146,12 @@ export const get__admin_pages_$ = (req, res, next) => {
             req,
             res,
             template: "page",
-            data: { title: page.name, page, datapoints },
+            data: {
+              title: page.name,
+              page,
+              datapoints,
+              path: `/admin/pages/${_id}`,
+            },
           });
         });
       } else {
@@ -149,7 +159,12 @@ export const get__admin_pages_$ = (req, res, next) => {
           req,
           res,
           template: "page",
-          data: { title: page.name, page, datapoints },
+          data: {
+            title: page.name,
+            page,
+            datapoints,
+            path: `/admin/pages/${_id}`,
+          },
         });
       }
     }

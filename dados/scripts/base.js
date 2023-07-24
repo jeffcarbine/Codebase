@@ -19,3 +19,25 @@ const setHeaderBackground = (scrollPos) => {
 };
 
 addEventDelegate("scroll", window, setHeaderBackground);
+
+const showFullNav = () => {
+  clearTimeout(fullNavTimeout);
+
+  const body = document.querySelector("body");
+
+  body.classList.add("fullNav");
+};
+
+addEventDelegate("mouseover", "header", showFullNav);
+
+let fullNavTimeout;
+
+const hideFullNav = () => {
+  const body = document.querySelector("body");
+
+  fullNavTimeout = setTimeout(() => {
+    body.classList.remove("fullNav");
+  }, 1000);
+};
+
+addEventDelegate("mouseout", "header", hideFullNav);
