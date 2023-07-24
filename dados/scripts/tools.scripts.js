@@ -201,7 +201,7 @@ const submitMerchClubCSV = (form) => {
           : entry.csv.phone || " ";
 
       let note =
-        "Your latest Merch Club rewards are ready! Complete this order if you need to update your address, or if you want to get your items a little early. Otherwise, your items will process in 48 hours";
+        "Your latest Merch Club rewards are ready! Complete this order if you need to update your address or if you want to get your items a little early. Otherwise your items will process in 48 hours!";
 
       // now, we need to loop over the SKUs and generate them
       for (var e = 0; e < skus.length; e++) {
