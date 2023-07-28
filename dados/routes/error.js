@@ -1,3 +1,5 @@
+import { rez } from "../modules/rez.js";
+
 export default (req, res, next) => {
-  res.render("error", { path: "404" });
+  return rez({ req, res, template: "error", data: { path: "/error" } });
 };

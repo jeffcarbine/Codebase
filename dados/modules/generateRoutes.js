@@ -18,7 +18,7 @@ export const generateRoutes = (app) => {
             pages,
             (page, next) => {
               // get the template, title, homepage and datapointIds fof this page
-              const template = camelize(page.name.toLowerCase()),
+              const template = page.path.replace(/^\/+/, ""),
                 title = page.name,
                 datapointIds = page.datapoints,
                 homepage = page.homepage;
@@ -37,7 +37,6 @@ export const generateRoutes = (app) => {
 
               // now register the route with express
               app.get(path, (req, res) => {
-                console.log(`getting ${path}`);
                 rez({ req, res, template, data, datapointIds, page });
               });
 

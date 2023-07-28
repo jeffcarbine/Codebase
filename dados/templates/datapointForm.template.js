@@ -2,6 +2,7 @@ import { modalTemplate } from "../../components/modal/modal.template.js";
 import * as e from "../../elements/elements.js";
 import { base64ImageInputComponent } from "../../elements/input/base64ImageInput.component.js";
 import { datapointList, groupTypes } from "../models/Datapoint.js";
+import { toggleSingleTemplate } from "../../components/toggle/toggleSingle.template.js";
 
 const datapointInputs = {
   text: (datapoint) => {
@@ -106,7 +107,8 @@ export const generateDatapointForms = ({
     hiddenValue,
     datapoint
   ) => {
-    const name = datapoint !== undefined ? datapoint.name : "";
+    const name = datapoint !== undefined ? datapoint.name : "",
+      isActive = datapoint !== undefined ? datapoint.active : true;
 
     return new e.FORM({
       method: "POST",
@@ -120,6 +122,12 @@ export const generateDatapointForms = ({
             label: "Name",
             name: "name",
             value: name,
+          }),
+          toggleSingleTemplate({
+            name: "active",
+            value: "active",
+            label: "Active",
+            checked: isActive,
           }),
         ],
         ...datapointInputs[datapointType](datapoint),

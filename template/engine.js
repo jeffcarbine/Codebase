@@ -1,7 +1,7 @@
 import { renderTemplate } from "./renderTemplate.js";
 
-export const template_js_engine = (app) => {
-  app.engine("template.js", (filePath, options, callback) => {
+export const enableTemplateEngine = (app) => {
+  app.engine("view.js", (filePath, options, callback) => {
     import(filePath)
       .then((obj) => {
         const html = renderTemplate(obj.default(options));

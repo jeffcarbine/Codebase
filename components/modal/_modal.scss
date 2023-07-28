@@ -1,9 +1,9 @@
 ﻿.modal {
-  --modal-padding: 1rem;
+  --modal-padding: 4rem;
   --modal-background: var(--light);
   --modal-border: none;
   --modal-border-radius: 10px;
-  --modal-close-background: var(--light-low);
+  --modal-close-background: transparent;
 
   width: 90%;
   max-width: 40rem;
@@ -29,6 +29,7 @@
     background: var(--modal-close-background);
     padding: 0.5rem;
     border-radius: 50%;
+    border: none;
 
     svg {
       position: absolute;

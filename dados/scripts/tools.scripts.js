@@ -9,6 +9,7 @@ const cuts = ["U", "L"],
     name: "Name",
     command: "Command",
     note: "Note",
+    tags: "Tags",
     sendInvoice: "Send Invoice",
     sendInvoiceTo: "Send Invoice: To",
     sendInvoiceFrom: "Send Invoice From",
@@ -32,6 +33,7 @@ const cuts = ["U", "L"],
     lineName: "Line: Name",
     lineSku: "Line: SKU",
     lineQuantity: "Line: Quantity",
+    linePrice: "Line: Price",
     lineDiscount: "Line: Discount",
     lineRequiresShipping: "Line: Requires Shipping",
   };
@@ -180,8 +182,8 @@ const submitMerchClubCSV = (form) => {
             ? entry.csv.Addressee.replace(/[^\w\s]/gi, "")
             : entry.csv.Name.replace(/[^\w\s]/gi, "");
 
-      // skip if the street is null
-      if (entry.csv.Street === undefined) {
+      // skip if the street is null (hopefully skips people with no addresses)
+      if (entry.csv.Street === undefined || entry.csv.Street === "") {
         continue;
       }
 
@@ -228,6 +230,7 @@ const submitMerchClubCSV = (form) => {
           name: "MC" + quarter + year + "-" + pad(i, 4),
           command: "NEW",
           note: note,
+          tags: "merch club",
           sendInvoice: "TRUE",
           sendInvoiceTo: entry.csv.Email,
           sendInvoiceFrom: "",
@@ -251,6 +254,7 @@ const submitMerchClubCSV = (form) => {
           lineName: productName,
           lineSku: sku,
           lineQuantity: 1,
+          linePrice: 0,
           lineDiscount: 1000,
           lineRequiresShipping: "TRUE",
         };
@@ -282,11 +286,12 @@ const submitMerchClubCSV = (form) => {
         row: skus.length + 1,
         topRow: "TRUE",
         lineType: "Shipping Line",
-        lineTitle: "Free Shipping",
-        lineName: "Free Shipping",
+        lineTitle: "Merch Club Free Shipping",
+        lineName: "Merch Club Free Shipping",
         lineSku: " ",
         lineQuantity: " ",
-        lineDiscount: 1000,
+        linePrice: 0,
+        lineDiscount: " ",
         lineRequiresShipping: " ",
       };
 

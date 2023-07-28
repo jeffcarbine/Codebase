@@ -18,7 +18,8 @@ export const post__admin_datapoints = (req, res, next) => {
     pageId = req.body.pageId,
     _id = req.body.id,
     datapointId = req.body.datapointId,
-    global = req.body.global;
+    global = req.body.global,
+    active = req.body.active !== undefined;
 
   // get the value from the datapointList
   const datapointValid = datapointList.includes(type);
@@ -69,6 +70,7 @@ export const post__admin_datapoints = (req, res, next) => {
           let datapoint = {
             name,
             type,
+            active,
           };
 
           // next, format the body depending on datapoint type
@@ -103,10 +105,7 @@ export const post__admin_datapoints = (req, res, next) => {
         },
         // step 3: create or update the datapoint
         (datapoint, callback) => {
-          console.log("got to datapoint creation step");
-
           if (_id) {
-            console.log("datapoint exists, so we're updating");
             // then we are updating a preexisting datapoint
             Datapoint.findOneAndUpdate(
               { _id },
@@ -120,7 +119,6 @@ export const post__admin_datapoints = (req, res, next) => {
               }
             });
           } else {
-            console.log("this is a new datapoint");
             // then we are creating a new datapoint
             Datapoint.create(datapoint, (err, newDatapoint) => {
               if (err) {
@@ -137,7 +135,8 @@ export const post__admin_datapoints = (req, res, next) => {
 
           const newDatapointId = newDatapoint._id.toString();
 
-          if (pageId) {
+          // temp fix, I'll have to figure this out later
+          if (pageId && pageId !== "global") {
             // then this datapoint is being added to a page
             Page.findOneAndUpdate(
               {

@@ -28,7 +28,7 @@ const showFullNav = () => {
   body.classList.add("fullNav");
 };
 
-addEventDelegate("mouseover", "header", showFullNav);
+addEventDelegate("mouseover", "nav", showFullNav);
 
 let fullNavTimeout;
 
@@ -40,4 +40,4 @@ const hideFullNav = () => {
   }, 1000);
 };
 
-addEventDelegate("mouseout", "header", hideFullNav);
+addEventDelegate("mouseout", "nav", hideFullNav);

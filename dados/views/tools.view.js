@@ -1,4 +1,4 @@
-import { base } from "./_dados.template.js";
+import { base } from "./_dados.view.js";
 import * as e from "../../elements/elements.js";
 import { modalTemplate } from "../../components/modal/modal.template.js";
 import { createEditPageTemplate } from "../templates/createEditPage.template.js";

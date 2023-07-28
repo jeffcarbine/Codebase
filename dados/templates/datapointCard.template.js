@@ -6,7 +6,13 @@ export const datapointCardTemplate = (datasetId, datapoint) => {
   const generateCardContent = () => {
     const type = datapoint.type,
       cardContent = {
-        children: [new e.H2(datapoint.name)],
+        children: [
+          new e.H2(
+            `${datapoint.name}${
+              datapoint.active === false ? " (Inactive)" : ""
+            }`
+          ),
+        ],
       };
 
     switch (type) {
@@ -19,7 +25,9 @@ export const datapointCardTemplate = (datasetId, datapoint) => {
   };
 
   return cardTemplate({
-    class: "datapoint style-inputs",
+    class: `datapoint style-inputs ${
+      datapoint.active === false ? "inactive" : ""
+    }`,
     children: [
       generateCardContent(),
       new e.BTNCONTAINER({

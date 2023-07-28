@@ -4,6 +4,7 @@ import Datapoint from "../models/Datapoint.js";
 import { hyphenate } from "../../modules/formatString/formatString.js";
 import { rez } from "../modules/rez.js";
 import asyncLoop from "node-async-loop";
+import mongoose from "mongoose";
 
 export const get__admin_pages = (req, res, next) => {
   rez({
@@ -14,71 +15,96 @@ export const get__admin_pages = (req, res, next) => {
   });
 };
 
-export const post__admin_pages_add = (req, res, next) => {
+export const post__admin_pages = (req, res, next) => {
   const body = req.body,
-    path = "/" + (body.path || hyphenate(body.name)),
+    pageId = req.body._id,
+    path = body.path || "/" + hyphenate(body.name),
     name = body.name,
     wildcard = body.wildcard,
     homepage = body.homepage === "homepage";
 
-  const newPage = {
+  const pageData = {
     path,
     name,
     wildcard,
     homepage,
   };
 
-  async.waterfall(
-    [
-      (callback) => {
-        // first, let's check if there is page that already exists
-        Page.findOne({ path }).exec((err, page) => {
-          if (err) {
-            callback(err);
-          } else {
-            if (page === null) {
-              callback(null);
-            } else {
-              callback("Page name is already taken. Please try another name.");
-            }
-          }
-        });
-      },
-      (callback) => {
-        // if this is a new homepage, find the old one
-        // and unset it
+  // check if we have an _id or not - if so, then we are updating
+  // an existing page
+  if (pageId !== undefined) {
+    const _id = new mongoose.Types.ObjectId(pageId);
 
-        if (homepage) {
-          Page.findOneAndUpdate(
-            {
-              homepage: true,
-            },
-            { $set: { homepage: false } }
-          ).exec((err) => {
+    // find and update this page
+    Page.findOneAndUpdate(
+      {
+        _id,
+      },
+      {
+        $set: pageData,
+      }
+    ).exec((err, page) => {
+      if (err) {
+        return res.status(500).send(err);
+      } else {
+        return res.status(200).send(page._id);
+      }
+    });
+  } else {
+    async.waterfall(
+      [
+        (callback) => {
+          // first, let's check if there is page that already exists
+          Page.findOne({ path }).exec((err, page) => {
             if (err) {
               callback(err);
             } else {
-              callback(null);
+              if (page === null) {
+                callback(null);
+              } else {
+                callback(
+                  "Page path is already taken. Please try another path."
+                );
+              }
             }
           });
-        } else {
-          callback(null);
-        }
-      },
-      (callback) => {
-        Page.create(newPage, (err, page) => {
-          if (err) {
-            callback(err);
+        },
+        (callback) => {
+          // if this is a new homepage, find the old one
+          // and unset it
+
+          if (homepage) {
+            Page.findOneAndUpdate(
+              {
+                homepage: true,
+              },
+              { $set: { homepage: false } }
+            ).exec((err) => {
+              if (err) {
+                callback(err);
+              } else {
+                callback(null);
+              }
+            });
           } else {
-            return res.status(200).send(page._id);
+            callback(null);
           }
-        });
-      },
-    ],
-    (err) => {
-      return res.status(500).send(err);
-    }
-  );
+        },
+        (callback) => {
+          Page.create(pageData, (err, page) => {
+            if (err) {
+              callback(err);
+            } else {
+              return res.status(200).send(page._id);
+            }
+          });
+        },
+      ],
+      (err) => {
+        return res.status(500).send(err);
+      }
+    );
+  }
 };
 
 export const post__admin_pages_retrieve = (req, res, next) => {
@@ -86,13 +112,21 @@ export const post__admin_pages_retrieve = (req, res, next) => {
     if (err) {
       callback(err);
     } else {
+      // sort the pages alphabetically
+      pages.sort(function (a, b) {
+        const textA = a.name.toUpperCase(),
+          textB = b.name.toUpperCase();
+        return textA < textB ? -1 : textA > textB ? 1 : 0;
+      });
+
       return res.status(200).send(pages);
     }
   });
 };
 
 export const get__admin_pages_$ = (req, res, next) => {
-  const _id = req.originalUrl.replace("/admin/pages/", "").split("?")[0];
+  const pageId = req.originalUrl.replace("/admin/pages/", "").split("?")[0],
+    _id = new mongoose.Types.ObjectId(pageId);
 
   Page.findOne({
     _id,
@@ -148,7 +182,7 @@ export const get__admin_pages_$ = (req, res, next) => {
             template: "page",
             data: {
               title: page.name,
-              page,
+              pageData: page,
               datapoints,
               path: `/admin/pages/${_id}`,
             },
@@ -161,7 +195,7 @@ export const get__admin_pages_$ = (req, res, next) => {
           template: "page",
           data: {
             title: page.name,
-            page,
+            pageData: page,
             datapoints,
             path: `/admin/pages/${_id}`,
           },

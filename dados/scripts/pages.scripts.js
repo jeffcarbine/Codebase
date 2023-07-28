@@ -13,7 +13,10 @@ const retrievePages = () => {
     pagesTarget.innerHTML = "";
 
     pages.forEach((page) => {
-      console.log(page);
+      const heading = page.homepage
+        ? [new e.ICON("home"), page.name]
+        : page.name;
+
       const pageCard = renderTemplate(
         cardTemplate({
           body: {
@@ -21,7 +24,7 @@ const retrievePages = () => {
               {
                 class: "title-edit",
                 children: [
-                  new e.H2(page.name),
+                  new e.H2(heading),
                   {
                     class: "edit",
                     child: new e.BTN({
@@ -45,7 +48,11 @@ const retrievePages = () => {
         })
       );
 
-      pagesTarget.appendChild(pageCard);
+      if (page.homepage) {
+        pagesTarget.prepend(pageCard);
+      } else {
+        pagesTarget.appendChild(pageCard);
+      }
     });
   };
 

@@ -40,7 +40,6 @@ export const sendGmail = ({
     .then(() => {
       // and return a 200 if response was provided
       if (res) {
-        console.log("success!");
         return res.status(200).send(successMessage);
       }
     })

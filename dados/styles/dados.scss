@@ -50,7 +50,6 @@
 }
 
 .modal {
-  --modal-padding: 4rem;
   animation: zeldaIn 0.5s forwards;
   animation-delay: 0.125s;
   opacity: 0;
@@ -94,6 +93,20 @@
   box-shadow: none;
   animation: morph 0.75s forwards;
   animation-delay: 0.125s;
+
+  &.inactive {
+    opacity: 0.75;
+  }
+
+  h2 {
+    svg.icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      margin-right: 1rem;
+      display: inline;
+      transform: translateY(12%);
+    }
+  }
 }
 
 .card-canvas {

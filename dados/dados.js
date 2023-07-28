@@ -36,8 +36,8 @@ import {
 } from "./routes/datapoints.js";
 import {
   get__admin_pages,
+  post__admin_pages,
   get__admin_pages_$,
-  post__admin_pages_add,
   post__admin_pages_retrieve,
 } from "./routes/pages.js";
 import { rez } from "./modules/rez.js";
@@ -131,9 +131,9 @@ export const init = ({
   );
 
   app.post(
-    "/admin/pages/add",
+    "/admin/pages",
     connectEnsureLogin.ensureLoggedIn(),
-    post__admin_pages_add
+    post__admin_pages
   );
 
   app.get(

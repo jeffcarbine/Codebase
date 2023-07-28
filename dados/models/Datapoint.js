@@ -20,6 +20,10 @@ const groupTypeEnum = {
 const datapoint = {
   name: String,
   type: datapointEnum,
+  active: {
+    type: Boolean,
+    default: true,
+  },
   global: Boolean,
   name: String,
   text: String,
