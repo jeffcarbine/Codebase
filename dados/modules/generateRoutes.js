@@ -14,14 +14,15 @@ export const generateRoutes = (app) => {
         Page.find({}).exec((err, pages) => {
           // loop through each page
 
-          asyncLoop(
-            pages,
-            (page, next) => {
-              // get the template, title, homepage and datapointIds fof this page
-              const template = page.path.replace(/^\/+/, ""),
-                title = page.name,
-                datapointIds = page.datapoints,
-                homepage = page.homepage;
+          if (pages.length > 0) {
+            asyncLoop(
+              pages,
+              (page, next) => {
+                // get the template, title, homepage and datapointIds fof this page
+                const template = page.path.replace(/^\/+/, ""),
+                  title = page.name,
+                  datapointIds = page.datapoints,
+                  homepage = page.homepage;
 
                 // set the path value as / if homepage, otherwise
                 // set it as path value
@@ -35,10 +36,10 @@ export const generateRoutes = (app) => {
                 // construct the data object
                 const data = { title, path, homepage };
 
-              // now register the route with express
-              app.get(path, (req, res) => {
-                rez({ req, res, template, data, datapointIds, page });
-              });
+                // now register the route with express
+                app.get(path, (req, res) => {
+                  rez({ req, res, template, data, datapointIds, page });
+                });
 
                 next();
               },
