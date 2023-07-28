@@ -64,6 +64,7 @@ export const base = (data, template, scripts) => {
               // History: ["/admin/history", "History", new e.ICON("history")],
               // Account: ["/admin/account", "Account", new e.ICON("user")],
             },
+            basePath: "/admin",
             path: data.path,
           }),
         ],

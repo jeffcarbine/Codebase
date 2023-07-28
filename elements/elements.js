@@ -377,7 +377,8 @@ export class NAVIGATION extends ELEMENT {
       for (let route in routes) {
         let navItem;
 
-        const path = routes[route] || "";
+        const path = routes[route] || "",
+          basePath = params.basePath || "/";
 
         if (typeof path === "string") {
           const active =
@@ -401,7 +402,11 @@ export class NAVIGATION extends ELEMENT {
           const href = path[0],
             children = path.slice(1);
 
-          const active = href === params.path;
+          const active =
+            href === params.path ||
+            (href !== basePath &&
+              params.path !== undefined &&
+              params.path.includes(href));
 
           navItem = new LI({
             class:

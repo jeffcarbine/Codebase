@@ -65,13 +65,14 @@ nav {
   width: auto;
   height: 100dvh;
   transform: translateX(-120%);
-  transition: transform 0.5s ease;
+  transition: all 0.5s ease;
   z-index: 9;
   padding-top: 5rem;
-  box-shadow: 0 0px 1rem 1rem rgba(0, 0, 0, 0.1);
+  box-shadow: none;
 
   &.open {
     transform: translateX(0);
+    box-shadow: 0 0px 20rem 1rem rgba(0, 0, 0, 0.7);
   }
 
   ul {
