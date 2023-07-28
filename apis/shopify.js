@@ -2,7 +2,8 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 // SHOPIFY
-import Client from "shopify-buy";
+//import Client from "shopify-buy";
+import Client from "shopify-buy-with-tags-updated/index.unoptimized.umd.js";
 import fetch from "node-fetch";
 global.fetch = fetch;
 
@@ -55,6 +56,19 @@ export const getCart = (req, res) => {
   }
 };
 
+const simpleTags = (tagsArray) => {
+  const tags = [];
+
+  for (let i = 0; i < tagsArray.length; i++) {
+    const tagObject = tagsArray[i],
+      tag = tagObject.value;
+
+    tags.push(tag);
+  }
+
+  return tags;
+};
+
 export const formatProduct = (product) => {
   // first, we need to structure the object
   let formattedProduct = {
@@ -66,8 +80,9 @@ export const formatProduct = (product) => {
       values: [],
       id: product.id,
       images: product.images,
-      tags: product.tags,
+      tags: simpleTags(product.tags),
       type: product.productType,
+      metafields: product.metafields,
     },
     organizedOptions = [];
 
@@ -133,10 +148,12 @@ export const formatProduct = (product) => {
               value.price = variant.price;
               value.compareAtPrice = variant.compareAtPrice;
               value.imageid =
-                "imageid" +
-                variant.image.id.substring(
-                  variant.image.id.lastIndexOf("/") + 1
-                );
+                variant.image !== null
+                  ? "imageid" +
+                    variant.image.id.substring(
+                      variant.image.id.lastIndexOf("/") + 1
+                    )
+                  : "";
 
               if (formattedProduct.price === null) {
                 formattedProduct.price = variant.price;
@@ -191,6 +208,49 @@ export const formatProduct = (product) => {
 
   return formattedProduct;
 };
+
+export const getProductTotalInventory = (productId, mainCallback) => {
+  const productsQuery = shopify.graphQLClient.query((root) => {
+    root.addConnection("products", { args: { first: 249 } }, (product) => {
+      product.add("title");
+      product.add("totalInventory");
+      product.add(
+        "metafields",
+        {
+          args: {
+            identifiers: [{ namespace: "custom", key: "crowdfund_goal" }],
+          },
+        },
+        (metafield) => {
+          metafield.add("namespace");
+          metafield.add("key");
+          metafield.add("value");
+        }
+      );
+    });
+  });
+
+  // Call the send method with the custom products query
+  shopify.graphQLClient.send(productsQuery).then(({ model, data }) => {
+    const products = model.products,
+      product = products.find((o) => o.id === productId),
+      inventory = product.totalInventory,
+      crowdfund_goal = parseInt(product.metafields[0].value);
+
+    mainCallback(inventory, crowdfund_goal);
+  });
+};
+
+async function getProductsGraphql4(productId) {
+  const productsQuery = shopify.graphQLClient.query((root) => {
+    root.addConnection("products", { args: { first: 250 } }, (product) => {
+      product.add("title");
+      product.add("totalInventory");
+    });
+  });
+  let result = await shopify.graphQLClient.send(productsQuery);
+  return result.data.products.edges.find((p) => p.node.id === productId).node;
+}
 
 // TODO: finish this
 // adding attributes (like is merch club or is gift)

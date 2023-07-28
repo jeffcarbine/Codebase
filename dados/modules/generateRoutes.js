@@ -23,33 +23,36 @@ export const generateRoutes = (app) => {
                 datapointIds = page.datapoints,
                 homepage = page.homepage;
 
-              // set the path value as / if homepage, otherwise
-              // set it as path value
-              let path = homepage ? "/" : page.path;
+                // set the path value as / if homepage, otherwise
+                // set it as path value
+                let path = homepage ? "/" : page.path;
 
-              // and if we are a wildcard, add theh /* to the path
-              if (page.wildcard !== "none") {
-                path = path + "/*";
-              }
+                // and if we are a wildcard, add theh /* to the path
+                if (page.wildcard !== "none") {
+                  path = path + "/*";
+                }
 
-              // construct the data object
-              const data = { title, path, homepage };
+                // construct the data object
+                const data = { title, path, homepage };
 
               // now register the route with express
               app.get(path, (req, res) => {
                 rez({ req, res, template, data, datapointIds, page });
               });
 
-              next();
-            },
-            (err) => {
-              if (err) {
-                callback(err);
-              } else {
-                callback(null);
+                next();
+              },
+              (err) => {
+                if (err) {
+                  callback(err);
+                } else {
+                  callback(null);
+                }
               }
-            }
-          );
+            );
+          } else {
+            console.log("No pages created yet");
+          }
         });
       },
       () => {
