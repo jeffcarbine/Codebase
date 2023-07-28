@@ -97,6 +97,7 @@ nav {
         text-align: right;
         display: block;
         position: relative;
+        padding-right: 3rem;
 
         svg.icon {
           position: absolute;
@@ -104,6 +105,8 @@ nav {
           fill: var(--nav-item-color);
           width: 2rem;
           height: 2rem;
+          transform: translateY(-50%);
+          right: 0;
         }
       }
 
