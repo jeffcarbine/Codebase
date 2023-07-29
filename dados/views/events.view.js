@@ -123,7 +123,10 @@ export default (data) => {
               {
                 class: "edit",
                 child: new e.BTN({
-                  children: [new e.ICON("edit"), "Edit"],
+                  children: [
+                    new e.ICON("edit"),
+                    new e.SPAN({ class: "text", textContent: "Edit" }),
+                  ],
                   "data-modal": "_" + eventData._id,
                 }),
               },

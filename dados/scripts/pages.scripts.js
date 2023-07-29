@@ -29,7 +29,10 @@ const retrievePages = () => {
                     class: "edit",
                     child: new e.BTN({
                       href: "/admin/pages/" + page._id,
-                      children: [new e.ICON("edit"), "Edit"],
+                      children: [
+                        new e.ICON("edit"),
+                        new e.SPAN({ class: "text", textContent: "Edit" }),
+                      ],
                     }),
                   },
                 ],

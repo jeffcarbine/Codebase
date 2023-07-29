@@ -32,7 +32,10 @@ export const datapointCardTemplate = (datasetId, datapoint) => {
       generateCardContent(),
       new e.BTNCONTAINER({
         "data-modal": "modal" + datapoint._id,
-        children: [new e.ICON("edit"), "Edit"],
+        children: [
+          new e.ICON("edit"),
+          new e.SPAN({ class: "text", textContent: "Edit" }),
+        ],
       }),
       modalTemplate(
         {

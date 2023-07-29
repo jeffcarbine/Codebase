@@ -6,24 +6,30 @@
       flex: 1 1 auto;
       margin: 0;
       display: flex;
-      flex-wrap: wrap;
       margin-bottom: 0.5rem;
 
       h2 {
-        flex: 0 0 100%;
+        flex: 0 0 calc(100% - 4rem);
         margin: 0.5rem 0;
         word-break: break-word;
-        order: 2;
       }
 
       .edit {
-        flex: 0 0 100%;
-        order: 1;
+        flex: 0 0 4rem;
         display: flex;
+        flex-direction: column;
         justify-content: center;
 
         .btn {
           margin-left: 0.5rem;
+
+          svg.icon {
+            margin-right: 0;
+          }
+
+          .text {
+            display: none;
+          }
         }
       }
     }
@@ -58,6 +64,16 @@
           flex: 0 0 auto;
           order: 2;
           justify-content: flex-end;
+
+          .btn {
+            svg.icon {
+              margin-right: 1rem;
+            }
+
+            .text {
+              display: inline;
+            }
+          }
         }
       }
     }

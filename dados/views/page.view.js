@@ -67,7 +67,10 @@ export default (data) => {
 
       let editChildren = [
         new e.BTN({
-          children: [new e.ICON("edit"), "Edit"],
+          children: [
+            new e.ICON("edit"),
+            new e.SPAN({ class: "text", textContent: "Edit" }),
+          ],
           "data-modal": "_" + datapoint._id,
         }),
       ];
@@ -76,7 +79,10 @@ export default (data) => {
         const addChildren = [
           new e.BTN({
             class: "accent",
-            children: [new e.ICON("plus"), "Add"],
+            children: [
+              new e.ICON("plus"),
+              new e.SPAN({ class: "text", textContent: "Add" }),
+            ],
             "data-modal": `addTo${datapoint._id}`,
           }),
           modalTemplate({
@@ -195,7 +201,7 @@ export default (data) => {
               id: "viewPage",
               href: data.pageData.path,
               target: "blank",
-              children: [new e.ICON("peek"), "View Page"],
+              children: [new e.ICON("eye"), "View Page"],
             },
           ],
           "centered"
