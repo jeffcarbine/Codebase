@@ -14,12 +14,12 @@ header {
 
   .branding {
     display: flex;
-    padding: 1rem 2rem;
+    padding: 0.25rem 1rem;
     box-sizing: border-box;
     justify-content: flex-end;
 
     .logo {
-      flex: 0 0 2.5rem;
+      flex: 0 0 4rem;
 
       img {
         width: 100%;
@@ -31,7 +31,7 @@ header {
     .x {
       color: var(--dark);
       opacity: 0.2;
-      flex: 0 0 2rem;
+      flex: 0 0 1.5rem;
       @include fontValues(8);
       display: flex;
       flex-direction: column;
@@ -55,10 +55,10 @@ header {
 
     .branding {
       margin: 0 0.25rem;
-      padding: 1.5rem 1.25rem;
+      padding: 1.5rem 0.75rem;
 
       .logo {
-        flex: 0 0 2rem;
+        flex: 0 0 3.5rem;
       }
 
       span {

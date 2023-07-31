@@ -1,4 +1,4 @@
-import { base } from "./_dados.view.js";
+import { base } from "./_podbak.view.js";
 import * as e from "../../elements/elements.js";
 import { cardTemplate } from "../../components/card/card.template.js";
 import { modalTemplate } from "../../components/modal/modal.template.js";
@@ -68,7 +68,7 @@ export default (data) => {
     data,
     {
       children: [
-        new e.H1([new e.ICON("podcast"), "Shows"]),
+        new e.H1([new e.ICON("rss"), "Shows"]),
         new e.BTNCONTAINER(
           [
             {

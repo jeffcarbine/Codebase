@@ -23,8 +23,7 @@ body {
       transition: all 0.5s ease;
 
       .branding {
-        .x,
-        .logo.dados {
+        .logo.client {
           visibility: hidden;
           opacity: 0;
           transition: all 0.5s ease;
@@ -68,8 +67,7 @@ body {
       width: 10rem;
 
       .branding {
-        .x,
-        .logo.dados {
+        .logo.client {
           visibility: visible;
           opacity: 1;
         }

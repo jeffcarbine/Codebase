@@ -18,28 +18,36 @@ import {
   post__admin_tools_merchClubCSV,
 } from "./routes/tools.routes.js";
 
+import { get__admin_settings } from "./routes/settings.routes.js";
+
 import {
   get__admin_events,
   post__admin_events,
   post__admin_events_delete,
 } from "./routes/events.js";
+
 // import { fanart, post__fanartApprove } from "./routes/fanart.js";
+
 import {
   get__admin_shows,
   post__admin_shows_add,
   post__admin_shows_edit,
 } from "./routes/shows.js";
+
 import { get__admin_global } from "./routes/global.js";
+
 import {
   post__admin_datapoints,
   post__admin_datapoints_remove,
 } from "./routes/datapoints.js";
+
 import {
   get__admin_pages,
   post__admin_pages,
   get__admin_pages_$,
   post__admin_pages_retrieve,
 } from "./routes/pages.js";
+
 import { rez } from "./modules/rez.js";
 import { camelize } from "../modules/formatString/formatString.js";
 import { generateRoutes } from "./modules/generateRoutes.js";
@@ -49,7 +57,6 @@ export const init = ({
   express,
   __dirname,
   database,
-  shows = true,
   events = true,
   fanart = true,
 } = {}) => {
@@ -74,30 +81,33 @@ export const init = ({
 
   app.use(
     "/admin/styles",
-    express.static(__dirname + "/periodic/dados/styles")
+    express.static(__dirname + "/periodic/podbak/styles")
   );
 
   app.use(
     "/admin/scripts",
-    express.static(__dirname + "/periodic/dados/scripts")
+    express.static(__dirname + "/periodic/podbak/scripts")
   );
 
   app.use(
     "/admin/modules",
-    express.static(__dirname + "/periodic/dados/modules")
+    express.static(__dirname + "/periodic/podbak/modules")
   );
 
   app.use(
     "/admin/templates",
-    express.static(__dirname + "/periodic/dados/templates")
+    express.static(__dirname + "/periodic/podbak/templates")
   );
 
   app.use(
     "/admin/images",
-    express.static(__dirname + "/periodic/dados/images")
+    express.static(__dirname + "/periodic/podbak/images")
   );
 
-  app.set("views", [__dirname + "/views", __dirname + "/periodic/dados/views"]);
+  app.set("views", [
+    __dirname + "/views",
+    __dirname + "/periodic/podbak/views",
+  ]);
 
   app.get(
     "/admin",
@@ -155,26 +165,24 @@ export const init = ({
     post__admin_datapoints_remove
   );
 
-  if (shows) {
-    // SHOWS
-    app.get(
-      "/admin/shows",
-      connectEnsureLogin.ensureLoggedIn(),
-      get__admin_shows
-    );
+  // SHOWS
+  app.get(
+    "/admin/shows",
+    connectEnsureLogin.ensureLoggedIn(),
+    get__admin_shows
+  );
 
-    app.post(
-      "/admin/shows/add",
-      connectEnsureLogin.ensureLoggedIn(),
-      post__admin_shows_add
-    );
+  app.post(
+    "/admin/shows/add",
+    connectEnsureLogin.ensureLoggedIn(),
+    post__admin_shows_add
+  );
 
-    app.post(
-      "/admin/shows/edit",
-      connectEnsureLogin.ensureLoggedIn(),
-      post__admin_shows_edit
-    );
-  }
+  app.post(
+    "/admin/shows/edit",
+    connectEnsureLogin.ensureLoggedIn(),
+    post__admin_shows_edit
+  );
 
   app.get(
     "/admin/tools",
@@ -186,6 +194,12 @@ export const init = ({
     "/admin/tools/merchClubCSV",
     connectEnsureLogin.ensureLoggedIn(),
     post__admin_tools_merchClubCSV
+  );
+
+  app.get(
+    "/admin/settings",
+    connectEnsureLogin.ensureLoggedIn(),
+    get__admin_settings
   );
 
   if (events) {

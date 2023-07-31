@@ -11,14 +11,14 @@ export const get__admin_login = (req, res) => {
           req,
           res,
           template: "login",
-          data: { subtitle: "Dados Access" },
+          data: { subtitle: "Podbak Access" },
         });
       } else {
         rez({
           req,
           res,
           template: "signup",
-          data: { subtitle: "Dados Access" },
+          data: { subtitle: "Podbak Access" },
         });
       }
     }

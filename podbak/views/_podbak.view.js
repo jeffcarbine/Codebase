@@ -2,8 +2,8 @@ import * as e from "../../elements/elements.js";
 
 export const base = (data, template, scripts) => {
   const html = {
-    title: "Dados by Carbine Co.",
-    stylesheets: ["/admin/styles/dados.min.css"],
+    title: "Podbak",
+    stylesheets: ["/admin/styles/podbak.min.css"],
     metas: [
       { name: "viewport", content: "width=device-width, initial-scale=1" },
     ],
@@ -18,14 +18,14 @@ export const base = (data, template, scripts) => {
             children: [
               {
                 class: "logo client",
-                child: new e.IMG("/images/logo-dados.svg"),
+                child: new e.IMG("/images/logo-podbak.webp"),
               },
-              new e.SPAN({
-                class: "x",
-                textContent: "x",
-              }),
+              // new e.SPAN({
+              //   class: "x",
+              //   textContent: "x",
+              // }),
               {
-                class: "logo",
+                class: "logo podbak",
                 child: new e.IMG("/admin/images/logo.svg"),
               },
             ],
@@ -44,15 +44,11 @@ export const base = (data, template, scripts) => {
                 new e.SPAN("Global"),
                 new e.ICON("globe"),
               ],
-              Pages: [
-                "/admin/pages",
-                new e.SPAN("Pages"),
-                new e.ICON("webpage"),
-              ],
+              Pages: ["/admin/pages", new e.SPAN("Pages"), new e.ICON("page")],
               Podcasts: [
                 "/admin/shows",
                 new e.SPAN("Podcasts"),
-                new e.ICON("podcast"),
+                new e.ICON("rss"),
               ],
               Events: [
                 "/admin/events",
@@ -60,6 +56,11 @@ export const base = (data, template, scripts) => {
                 new e.ICON("calendar"),
               ],
               Tools: ["/admin/tools", new e.SPAN("Tools"), new e.ICON("tools")],
+              Settings: [
+                "/admin/settings",
+                new e.SPAN("Settings"),
+                new e.ICON("settings"),
+              ],
               // Fanart: ["/admin/fanart", "Fanart", new e.ICON("image")],
               // History: ["/admin/history", "History", new e.ICON("history")],
               // Account: ["/admin/account", "Account", new e.ICON("user")],
@@ -74,7 +75,7 @@ export const base = (data, template, scripts) => {
         if: data.loggedIn,
         children: [
           new e.P(
-            "Dados by Carbine Co. - Copyright " + new Date().getFullYear()
+            "Podbak - Copyright " + new Date().getFullYear() + " MCPVX, LLC"
           ),
         ],
       }),

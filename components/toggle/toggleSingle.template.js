@@ -6,7 +6,7 @@ export const toggleSingleTemplate = ({
   name,
   id = generateUniqueId(),
   value = name,
-  label = name,
+  label = "",
   labelFor = id,
   checked = false,
   dataTargets,

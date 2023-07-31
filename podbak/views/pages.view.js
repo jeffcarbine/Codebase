@@ -1,4 +1,4 @@
-import { base } from "./_dados.view.js";
+import { base } from "./_podbak.view.js";
 import * as e from "../../elements/elements.js";
 import { modalTemplate } from "../../components/modal/modal.template.js";
 import { createEditPageTemplate } from "../templates/createEditPage.template.js";
@@ -8,7 +8,7 @@ export default (data) => {
     data,
     {
       children: [
-        new e.H1([new e.ICON("webpage"), "Pages"]),
+        new e.H1([new e.ICON("page"), "Pages"]),
         new e.BTNCONTAINER(
           [
             {
