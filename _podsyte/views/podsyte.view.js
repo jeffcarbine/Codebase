@@ -2,8 +2,8 @@ import * as e from "../../elements/elements.js";
 
 export const base = (data, template, scripts) => {
   const html = {
-    title: "Podbak",
-    stylesheets: ["/admin/styles/podbak.min.css"],
+    title: "Podsyte",
+    stylesheets: ["/admin/styles/podsyte.min.css"],
     metas: [
       { name: "viewport", content: "width=device-width, initial-scale=1" },
     ],
@@ -18,14 +18,14 @@ export const base = (data, template, scripts) => {
             children: [
               {
                 class: "logo client",
-                child: new e.IMG("/images/logo-podbak.webp"),
+                child: new e.IMG("/images/logo-podsyte.webp"),
               },
               // new e.SPAN({
               //   class: "x",
               //   textContent: "x",
               // }),
               {
-                class: "logo podbak",
+                class: "logo podsyte",
                 child: new e.IMG("/admin/images/logo.svg"),
               },
             ],
@@ -75,7 +75,7 @@ export const base = (data, template, scripts) => {
         if: data.loggedIn,
         children: [
           new e.P(
-            "Podbak - Copyright " + new Date().getFullYear() + " MCPVX, LLC"
+            "Podsyte - Copyright " + new Date().getFullYear() + " MCPVX, LLC"
           ),
         ],
       }),

@@ -1,4 +1,4 @@
-import { base } from "./_podbak.view.js";
+import { base } from "./podsyte.view.js";
 import * as e from "../../elements/elements.js";
 import { modalTemplate } from "../../components/modal/modal.template.js";
 import { capitalize } from "../../modules/formatString/formatString.js";
@@ -7,9 +7,7 @@ import { datapointFormTemplate } from "../templates/datapointForm.template.js";
 import { cardTemplate } from "../../components/card/card.template.js";
 
 export default (data) => {
-  const datapoints = data.datapoints,
-    pageData = data.pageData,
-    pageId = pageData._id;
+  const datapoints = data.datapoints;
 
   const generateDatapointCards = (datapoints, parentId, isChild) => {
     const datapointCards = [];
@@ -105,7 +103,11 @@ export default (data) => {
             {
               class: "title-edit",
               children: [
-                new e.H2([new e.ICON(type), datapoint.name]),
+                new e.H2(
+                  `${datapoint.name}${
+                    datapoint.active === false ? " (Inactive)" : ""
+                  }`
+                ),
                 {
                   class: "edit",
                   children: editChildren,
@@ -160,7 +162,7 @@ export default (data) => {
             }),
           ],
         },
-        className: "edit",
+        className: `edit ${datapoint.active === false ? "inactive" : ""}`,
       });
 
       datapointCards.push(datapointCard);
@@ -173,35 +175,13 @@ export default (data) => {
     data,
     {
       children: [
-        new e.H1([
-          new e.ICON("page"),
-          new e.A({ href: "/admin/pages", textContent: "Pages" }),
-          new e.ICON("chevronRight"),
-          data.pageData.name,
-        ]),
+        new e.H1([new e.ICON("globe"), "Global"]),
         new e.BTNCONTAINER(
           [
             {
-              id: "editPage",
-              "data-modal": "editPageModal",
-              children: [new e.ICON("edit"), "Edit Page"],
-            },
-            {
               id: "addDatapoint",
               "data-modal": "addDatapointModal",
-              children: [
-                new e.ICON("plus"),
-                "Create New " +
-                  (data.pageData.restricted
-                    ? capitalize(data.pageData.restrictedTo)
-                    : "Datapoint"),
-              ],
-            },
-            {
-              id: "viewPage",
-              href: data.pageData.path,
-              target: "blank",
-              children: [new e.ICON("eye"), "View Page"],
+              children: [new e.ICON("plus"), "Create New Datapoint"],
             },
           ],
           "centered"
@@ -210,14 +190,10 @@ export default (data) => {
           id: "modals",
           children: [
             modalTemplate({
-              modalBody: createEditPageTemplate(data.page),
-              id: "editPageModal",
-            }),
-            modalTemplate({
               modalBody: {
                 children: [
                   new e.H2("Add New Datapoint"),
-                  datapointFormTemplate({ pageId }),
+                  datapointFormTemplate({ pageId: "global" }),
                 ],
               },
               id: "addDatapointModal",
@@ -227,16 +203,14 @@ export default (data) => {
         new e.SECTION({
           id: "datapoints",
           class: "card-canvas",
-          children: generateDatapointCards(datapoints, pageId),
+          children: generateDatapointCards(datapoints, "global"),
         }),
       ],
     },
     [
       new e.MODULE("/periodic/elements/input/input.js"),
       new e.MODULE("/periodic/scripts/xhr/_xhrForm.js"),
-      new e.MODULE(
-        "/admin/scripts/pageData.scripts.js?" + JSON.stringify(data.page)
-      ),
+      new e.MODULE("/admin/scripts/global.scripts.js"),
     ]
   );
 };

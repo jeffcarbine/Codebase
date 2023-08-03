@@ -3,7 +3,7 @@ import passport from "passport";
 import emailValidator from "email-validator";
 
 export const get__admin_signup = (req, res) => {
-  res.render("signup", { subtitle: "Sign Up for podbak Access" });
+  res.render("signup", { subtitle: "Sign Up for podsyte Access" });
 };
 
 export const post__admin_signup = (req, res) => {

@@ -1,4 +1,4 @@
-import { base } from "./_podbak.view.js";
+import { base } from "./podsyte.view.js";
 import * as e from "../../elements/elements.js";
 
 export default (data) => {
@@ -11,7 +11,7 @@ export default (data) => {
           child: {
             class: "login-form",
             children: [
-              new e.H1("Welcome to Podbak!"),
+              new e.H1("Welcome to Podsyte!"),
               new e.H2("Create an Account"),
               new e.FORM({
                 action: "/admin/signup",

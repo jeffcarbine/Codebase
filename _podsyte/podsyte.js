@@ -81,32 +81,32 @@ export const init = ({
 
   app.use(
     "/admin/styles",
-    express.static(__dirname + "/periodic/podbak/styles")
+    express.static(__dirname + "/periodic/_podsyte/styles")
   );
 
   app.use(
     "/admin/scripts",
-    express.static(__dirname + "/periodic/podbak/scripts")
+    express.static(__dirname + "/periodic/_podsyte/scripts")
   );
 
   app.use(
     "/admin/modules",
-    express.static(__dirname + "/periodic/podbak/modules")
+    express.static(__dirname + "/periodic/_podsyte/modules")
   );
 
   app.use(
     "/admin/templates",
-    express.static(__dirname + "/periodic/podbak/templates")
+    express.static(__dirname + "/periodic/_podsyte/templates")
   );
 
   app.use(
     "/admin/images",
-    express.static(__dirname + "/periodic/podbak/images")
+    express.static(__dirname + "/periodic/_podsyte/images")
   );
 
   app.set("views", [
     __dirname + "/views",
-    __dirname + "/periodic/podbak/views",
+    __dirname + "/periodic/_podsyte/views",
   ]);
 
   app.get(
