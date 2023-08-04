@@ -1,5 +1,5 @@
 import { rez } from "../modules/rez.js";
-import Setting from "../../models/Setting.js";
+import Setting from "../models/Setting.js";
 
 export const get__admin_settings = (req, res) => {
   Setting.find().exec((err, settings) => {
