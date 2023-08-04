@@ -25,7 +25,9 @@ const showFullNav = () => {
 
   const body = document.querySelector("body");
 
-  body.classList.add("fullNav");
+  fullNavTimeout = setTimeout(() => {
+    body.classList.add("fullNav");
+  }, 500);
 };
 
 addEventDelegate("mouseover", "nav", showFullNav);
@@ -33,6 +35,8 @@ addEventDelegate("mouseover", "nav", showFullNav);
 let fullNavTimeout;
 
 const hideFullNav = () => {
+  clearTimeout(fullNavTimeout);
+
   const body = document.querySelector("body");
 
   fullNavTimeout = setTimeout(() => {

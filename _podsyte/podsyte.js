@@ -18,8 +18,6 @@ import {
   post__admin_tools_merchClubCSV,
 } from "./routes/tools.routes.js";
 
-import { get__admin_settings } from "./routes/settings.routes.js";
-
 import {
   get__admin_events,
   post__admin_events,
@@ -47,6 +45,13 @@ import {
   get__admin_pages_$,
   post__admin_pages_retrieve,
 } from "./routes/pages.js";
+
+import {
+  get__admin_settings,
+  post__admin_settings,
+  post__admin_settings_retrieve,
+  post__admin_settings_retrieveAll,
+} from "./routes/settings.routes.js";
 
 import { rez } from "./modules/rez.js";
 import { camelize } from "../modules/formatString/formatString.js";
@@ -200,6 +205,24 @@ export const init = ({
     "/admin/settings",
     connectEnsureLogin.ensureLoggedIn(),
     get__admin_settings
+  );
+
+  app.post(
+    "/admin/settings",
+    connectEnsureLogin.ensureLoggedIn(),
+    post__admin_settings
+  );
+
+  app.post(
+    "/admin/settings/retrieve",
+    connectEnsureLogin.ensureLoggedIn(),
+    post__admin_settings_retrieve
+  );
+
+  app.post(
+    "/admin/settings/retrieve-all",
+    connectEnsureLogin.ensureLoggedIn(),
+    post__admin_settings_retrieveAll
   );
 
   if (events) {

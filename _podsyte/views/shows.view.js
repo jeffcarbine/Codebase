@@ -1,4 +1,4 @@
-import { base } from "./podsyte.view.js";
+import { base } from "./_podsyte.view.js";
 import * as e from "../../elements/elements.js";
 import { cardTemplate } from "../../components/card/card.template.js";
 import { modalTemplate } from "../../components/modal/modal.template.js";

@@ -17,16 +17,16 @@ export const base = (data, template, scripts) => {
             class: "branding",
             children: [
               {
-                class: "logo client",
-                child: new e.IMG("/images/logo-podsyte.webp"),
+                class: "logo podsyte",
+                child: new e.IMG("/admin/images/logo.svg"),
               },
               // new e.SPAN({
               //   class: "x",
               //   textContent: "x",
               // }),
               {
-                class: "logo podsyte",
-                child: new e.IMG("/admin/images/logo.svg"),
+                class: "logo client",
+                child: new e.IMG("/images/logo-podsyte.webp"),
               },
             ],
           },
@@ -74,9 +74,15 @@ export const base = (data, template, scripts) => {
       new e.FOOTER({
         if: data.loggedIn,
         children: [
-          new e.P(
-            "Podsyte - Copyright " + new Date().getFullYear() + " MCPVX, LLC"
-          ),
+          {
+            class: "footer-logo",
+            child: new e.IMG({
+              class: "logo-full",
+              src: "/admin/images/logo-full.svg",
+              alt: "Podsyte",
+            }),
+          },
+          new e.P("&copy; " + new Date().getFullYear() + " MCPVX, LLC"),
         ],
       }),
       new e.MODULE({

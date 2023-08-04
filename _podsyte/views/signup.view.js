@@ -1,4 +1,4 @@
-import { base } from "./podsyte.view.js";
+import { base } from "./_podsyte.view.js";
 import * as e from "../../elements/elements.js";
 
 export default (data) => {

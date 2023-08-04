@@ -1,10 +1,19 @@
 footer {
-  height: 5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: 1rem;
   box-sizing: border-box;
+
+  .footer-logo {
+    display: flex;
+    justify-content: flex-end;
+
+    img {
+      width: 15rem;
+      height: auto;
+    }
+  }
 
   p {
     @include fontValues(12);

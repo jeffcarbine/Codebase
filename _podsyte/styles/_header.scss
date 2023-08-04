@@ -16,13 +16,13 @@ header {
     display: flex;
     padding: 0.25rem 1rem;
     box-sizing: border-box;
-    justify-content: flex-end;
+    justify-content: center;
 
     .logo {
       flex: 0 0 4rem;
 
       img {
-        width: 100%;
+        width: 4rem;
         height: 100%;
         object-fit: contain;
       }
@@ -55,10 +55,14 @@ header {
 
     .branding {
       margin: 0 0.25rem;
-      padding: 1.5rem 0.75rem;
+      padding: 0.5rem;
 
       .logo {
         flex: 0 0 3.5rem;
+
+        img {
+          width: 3.5rem;
+        }
       }
 
       span {
