@@ -1,7 +1,8 @@
 import { base } from "./_podsyte.view.js";
 import * as e from "../../elements/elements.js";
-import { cardTemplate } from "../../components/card/card.template.js";
-import { modalTemplate } from "../../components/modal/modal.template.js";
+import * as c from "/periodic/components/components.js";
+import { CARD } from "../../components/card/card.component.js";
+import { MODAL } from "../../components/modal/modal.component.js";
 
 export default (data) => {
   const showList = () => {
@@ -12,7 +13,7 @@ export default (data) => {
 
     for (let i = 0; i < data.shows.length; i++) {
       const showData = data.shows[i],
-        event = cardTemplate(
+        event = CARD(
           new e.FORM({
             method: "POST",
             action: "/admin/shows/edit",
@@ -50,7 +51,7 @@ export default (data) => {
                 label: "Apple",
                 value: showData.apple,
               }),
-              new e.BTN({
+              new c.BTN({
                 textContent: "Update Show",
               }),
             ],
@@ -69,7 +70,7 @@ export default (data) => {
     {
       children: [
         new e.H1([new e.ICON("rss"), "Shows"]),
-        new e.BTNCONTAINER(
+        new c.BTNCONTAINER(
           [
             {
               "data-modal": "addShow",
@@ -78,7 +79,7 @@ export default (data) => {
           ],
           "centered"
         ),
-        modalTemplate({
+        MODAL({
           modalBody: new e.FORM({
             method: "POST",
             action: "/admin/shows/add",
@@ -95,7 +96,7 @@ export default (data) => {
               new e.TEXT("spotify"),
               new e.TEXT("youTube"),
               new e.TEXT("apple"),
-              new e.BTN({
+              new c.BTN({
                 id: "createEvent",
                 textContent: "Create Show",
               }),

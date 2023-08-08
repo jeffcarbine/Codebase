@@ -1,4 +1,4 @@
-﻿import { modalTemplate } from "./modal.template.js";
+﻿import { MODAL } from "./modal.component.js";
 import { renderTemplate } from "/periodic/template/renderTemplate.js";
 import { addEventDelegate } from "../../scripts/eventDelegate/eventDelegate.js";
 
@@ -10,7 +10,7 @@ export const createModal = ({
 } = {}) => {
   console.log(modalBody);
 
-  const newModal = renderTemplate(modalTemplate({ modalBody, className, id }));
+  const newModal = renderTemplate(MODAL({ modalBody, className, id }));
 
   sibling.after(newModal);
 

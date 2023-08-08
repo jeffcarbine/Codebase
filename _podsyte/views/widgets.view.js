@@ -1,6 +1,7 @@
 import { base } from "./_podsyte.view.js";
 import * as e from "../../elements/elements.js";
-import { card } from "../../components/card/card.template.js";
+import * as c from "/periodic/components/components.js";
+import { CARD } from "../../components/card/card.component.js";
 
 export default (data) => {
   const children = [];
@@ -13,7 +14,7 @@ export default (data) => {
         ("0" + (eventData.date.getMonth() + 1)).slice(-2) +
         "-" +
         ("0" + eventData.date.getDate()).slice(-2),
-      event = card(
+      event = CARD(
         new e.FORM({
           method: "POST",
           action: "/admin/events/add",
@@ -54,7 +55,7 @@ export default (data) => {
               label: "Tickets",
               value: eventData.tickets,
             }),
-            new e.BTN({
+            new c.BTN({
               id: "createEvent",
               textContent: "Create Event",
             }),
@@ -70,7 +71,7 @@ export default (data) => {
     {
       children: [
         new e.H1([new e.ICON("components"), "Widgets"]),
-        new e.BTNCONTAINER(
+        new c.BTNCONTAINER(
           [
             {
               id: "addEvent",

@@ -1,9 +1,10 @@
 import { base } from "./_podsyte.view.js";
 import * as e from "../../elements/elements.js";
-import { cardTemplate } from "../../components/card/card.template.js";
-import { modalTemplate } from "../../components/modal/modal.template.js";
+import * as c from "/periodic/components/components.js";
+import { CARD } from "../../components/card/card.component.js";
+import { MODAL } from "../../components/modal/modal.component.js";
 import { formatDate } from "../../modules/formatDate/formatDate.js";
-import { toggleSingleTemplate } from "../../components/toggle/toggleSingle.template.js";
+import { TOGGLESINGLE } from "../../components/toggle/toggleSingle.component.js";
 
 export default (data) => {
   const children = [];
@@ -80,12 +81,12 @@ export default (data) => {
         label: "Tickets",
         value: tickets,
       }),
-      toggleSingleTemplate({
+      TOGGLESINGLE({
         name: "soldOut",
         label: "Mark tickets as 'Sold Out'",
         checked: soldOut,
       }),
-      new e.BTN({
+      new c.BTN({
         id: "createEvent",
         textContent: "Save Changes",
       }),
@@ -112,7 +113,7 @@ export default (data) => {
         "-" +
         ("0" + eventData.date.getDate()).slice(-2);
 
-    const event = cardTemplate({
+    const event = CARD({
       className: "edit",
       body: {
         children: [
@@ -122,7 +123,7 @@ export default (data) => {
               new e.H2(eventData.city),
               {
                 class: "edit",
-                child: new e.BTN({
+                child: new c.BTN({
                   children: [
                     new e.ICON("edit"),
                     new e.SPAN({ class: "text", textContent: "Edit" }),
@@ -142,7 +143,7 @@ export default (data) => {
               new e.P(`${formatDate(eventData.date)}`),
             ],
           },
-          modalTemplate({
+          MODAL({
             modalBody: {
               children: [new e.H2("Edit Event"), addEditEventForm(eventData)],
             },
@@ -160,7 +161,7 @@ export default (data) => {
     {
       children: [
         new e.H1([new e.ICON("calendar"), "Events"]),
-        new e.BTNCONTAINER(
+        new c.BTNCONTAINER(
           [
             {
               id: "addEvent",
@@ -170,7 +171,7 @@ export default (data) => {
           ],
           "centered"
         ),
-        modalTemplate({
+        MODAL({
           modalBody: {
             children: [new e.H2("Add Event"), addEditEventForm()],
           },

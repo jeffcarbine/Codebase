@@ -1,5 +1,6 @@
 import { base } from "./_podsyte.view.js";
 import * as e from "../../elements/elements.js";
+import * as c from "/periodic/components/components.js";
 
 export default (data) => {
   return base(data, {
@@ -18,7 +19,7 @@ export default (data) => {
                   id: "username",
                 }),
                 new e.PASSWORD(),
-                new e.BTN("Log In"),
+                new c.BTN("Log In"),
               ],
             }),
           ],

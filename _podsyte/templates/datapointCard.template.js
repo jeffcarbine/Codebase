@@ -1,6 +1,7 @@
-import { cardTemplate } from "/periodic/components/card/card.template.js";
+import { CARD } from "/periodic/components/card/card.component.js";
 import * as e from "/periodic/elements/elements.js";
-import { modalTemplate } from "/periodic/components/modal/modal.template.js";
+import * as c from "/periodic/components/components.js";
+import { MODAL } from "/periodic/components/modal/modal.component.js";
 
 export const datapointCardTemplate = (datasetId, datapoint) => {
   const generateCardContent = () => {
@@ -24,20 +25,20 @@ export const datapointCardTemplate = (datasetId, datapoint) => {
     return cardContent;
   };
 
-  return cardTemplate({
+  return CARD({
     class: `datapoint style-inputs ${
       datapoint.active === false ? "inactive" : ""
     }`,
     children: [
       generateCardContent(),
-      new e.BTNCONTAINER({
+      new c.BTNCONTAINER({
         "data-modal": "modal" + datapoint._id,
         children: [
           new e.ICON("edit"),
           new e.SPAN({ class: "text", textContent: "Edit" }),
         ],
       }),
-      modalTemplate(
+      MODAL(
         {
           children: [
             new e.H2("Edit " + datapoint.name),

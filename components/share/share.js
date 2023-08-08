@@ -1,7 +1,7 @@
 import { createModal } from "../modal/modal.js";
 import * as e from "../../elements/elements.js";
 import { addEventDelegate } from "../../scripts/eventDelegate/eventDelegate.js";
-import { clickToCopyTemplate } from "../../components/clickToCopy/clickToCopy.template.js";
+import { CLICKTOCOPY } from "../../components/clickToCopy/clickToCopy.component.js";
 import { H2, ICON } from "../../elements/elements.js";
 
 const share = (button) => {
@@ -28,7 +28,7 @@ const share = (button) => {
             class: "options",
             children: [],
           },
-          clickToCopyTemplate(url),
+          CLICKTOCOPY(url),
         ],
       },
       sibling: button,

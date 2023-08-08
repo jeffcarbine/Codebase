@@ -1,6 +1,7 @@
 import { addEventDelegate } from "/periodic/scripts/eventDelegate/eventDelegate.js";
 import * as e from "/periodic/elements/elements.js";
-import { card } from "/periodic/components/card/card.template.js";
+import * as c from "/periodic/components/components.js";
+import { CARD } from "/periodic/components/card/card.component.js";
 import { xhr, xhrForm } from "/periodic/scripts/xhr/xhr.js";
 import { renderTemplate } from "/periodic/template/renderTemplate.js";
 
@@ -14,10 +15,10 @@ const retrieveDatasets = () => {
 
     datasets.forEach((dataset) => {
       const datasetCard = renderTemplate(
-        card({
+        CARD({
           children: [
             new e.H2(dataset.name),
-            new e.BTN({
+            new c.BTN({
               textContent: "Edit",
               href: "/admin/datasets/dataset/" + dataset._id,
             }),

@@ -1,5 +1,5 @@
 import { IMG, H3 } from "../../elements/elements.js";
-import { squareTemplate } from "../square/square.component.js";
+import { SQUARE } from "../square/square.component.js";
 import { formatCurrency } from "../../modules/formatCurrency/formatCurrency.js";
 
 export const PRODUCTSUMMARY = ({
@@ -32,7 +32,7 @@ export const PRODUCTSUMMARY = ({
       {
         class: "image",
         children: [
-          squareTemplate,
+          SQUARE,
           new IMG({
             if: !placeholder,
             src: data.images[0].src || "",

@@ -1,12 +1,13 @@
 import { base } from "./_podsyte.view.js";
 import * as e from "../../elements/elements.js";
-import { modalTemplate } from "../../components/modal/modal.template.js";
+import * as c from "/periodic/components/components.js";
+import { MODAL } from "../../components/modal/modal.component.js";
 import { createEditPageTemplate } from "../templates/createEditPage.template.js";
-import { cardTemplate } from "../../components/card/card.template.js";
-import { toggleSingleTemplate } from "../../components/toggle/toggleSingle.template.js";
+import { CARD } from "../../components/card/card.component.js";
+import { TOGGLESINGLE } from "../../components/toggle/toggleSingle.component.js";
 
 const generateSettingCard = (setting) => {
-  return cardTemplate({
+  return CARD({
     body: {
       children: [
         {
@@ -15,7 +16,7 @@ const generateSettingCard = (setting) => {
             new e.H2(camelize(name)),
             {
               class: "edit",
-              child: new e.BTN({
+              child: new c.BTN({
                 textContent: "Edit",
                 "data-modal": name,
               }),
@@ -49,7 +50,7 @@ export default (data) => {
       children: [
         new e.H1([new e.ICON("settings"), "Settings"]),
         // SITE VALUES
-        // cardTemplate({
+        // CARD({
         //   body: {
         //     children: [
         //       {
@@ -58,7 +59,7 @@ export default (data) => {
         //           new e.H2("Site Values"),
         //           {
         //             class: "edit",
-        //             child: new e.BTN({
+        //             child: new c.BTN({
         //               textContent: "Open",
         //               "data-modal": "siteValues",
         //             }),
@@ -73,14 +74,14 @@ export default (data) => {
         //   },
         //   className: "edit",
         // }),
-        // modalTemplate({
+        // MODAL({
         //   modalBody: {
         //     children: [new e.H2("Site Values")],
         //   },
         //   id: "siteValues",
         // }),
         // // FANART
-        // cardTemplate({
+        // CARD({
         //   body: {
         //     children: [
         //       {
@@ -90,7 +91,7 @@ export default (data) => {
 
         //           {
         //             class: "edit",
-        //             child: toggleSingleTemplate({
+        //             child: TOGGLESINGLE({
         //               name: "useFanArt",
         //               id: "useFanArt",
         //               checked: false,
@@ -109,7 +110,7 @@ export default (data) => {
         //   className: "edit",
         // }),
         // // EVENTS
-        // cardTemplate({
+        // CARD({
         //   body: {
         //     children: [
         //       {
@@ -119,7 +120,7 @@ export default (data) => {
 
         //           {
         //             class: "edit",
-        //             child: toggleSingleTemplate({
+        //             child: TOGGLESINGLE({
         //               name: "useEvents",
         //               id: "useEvents",
         //               checked: false,
@@ -138,7 +139,7 @@ export default (data) => {
         //   className: "edit",
         // }),
         // // MERCH CLUB
-        // cardTemplate({
+        // CARD({
         //   body: {
         //     children: [
         //       {
@@ -148,7 +149,7 @@ export default (data) => {
 
         //           {
         //             class: "edit",
-        //             child: toggleSingleTemplate({
+        //             child: TOGGLESINGLE({
         //               name: "useMerchClub",
         //               id: "useMerchClub",
         //               checked: false,
@@ -167,7 +168,7 @@ export default (data) => {
         //   className: "edit",
         // }),
         // // SHOPIFY API
-        // cardTemplate({
+        // CARD({
         //   body: {
         //     children: [
         //       {
@@ -176,7 +177,7 @@ export default (data) => {
         //           new e.H2("Shopify API Values"),
         //           {
         //             class: "edit",
-        //             child: new e.BTN({
+        //             child: new c.BTN({
         //               textContent: "Open",
         //               "data-modal": "shopifyApi",
         //             }),
@@ -193,14 +194,14 @@ export default (data) => {
         //   },
         //   className: "edit",
         // }),
-        // modalTemplate({
+        // MODAL({
         //   modalBody: {
         //     children: [new e.H2("Shopify API Values")],
         //   },
         //   id: "shopifyApi",
         // }),
         // // PATREON API
-        // cardTemplate({
+        // CARD({
         //   body: {
         //     children: [
         //       {
@@ -209,7 +210,7 @@ export default (data) => {
         //           new e.H2("Patreon API Values"),
         //           {
         //             class: "edit",
-        //             child: new e.BTN({
+        //             child: new c.BTN({
         //               textContent: "Open",
         //               "data-modal": "patreonApi",
         //             }),
@@ -224,14 +225,14 @@ export default (data) => {
         //   },
         //   className: "edit",
         // }),
-        // modalTemplate({
+        // MODAL({
         //   modalBody: {
         //     children: [new e.H2("Patreon API Values")],
         //   },
         //   id: "patreonApi",
         // }),
         // // SPOTIFY API
-        // cardTemplate({
+        // CARD({
         //   body: {
         //     children: [
         //       {
@@ -240,7 +241,7 @@ export default (data) => {
         //           new e.H2("Spotify API Values"),
         //           {
         //             class: "edit",
-        //             child: new e.BTN({
+        //             child: new c.BTN({
         //               textContent: "Open",
         //               "data-modal": "spotifyApi",
         //             }),
@@ -255,7 +256,7 @@ export default (data) => {
         //   },
         //   className: "edit",
         // }),
-        // modalTemplate({
+        // MODAL({
         //   modalBody: {
         //     children: [new e.H2("Spotify API Values")],
         //   },

@@ -1,8 +1,9 @@
 import { base } from "./_podsyte.view.js";
 import * as e from "../../elements/elements.js";
-import { modalTemplate } from "../../components/modal/modal.template.js";
+import * as c from "/periodic/components/components.js";
+import { MODAL } from "../../components/modal/modal.component.js";
 import { createEditPageTemplate } from "../templates/createEditPage.template.js";
-import { cardTemplate } from "../../components/card/card.template.js";
+import { CARD } from "../../components/card/card.component.js";
 
 export default (data) => {
   return base(
@@ -10,7 +11,7 @@ export default (data) => {
     {
       children: [
         new e.H1([new e.ICON("tools"), "Tools"]),
-        cardTemplate({
+        CARD({
           body: {
             children: [
               {
@@ -19,7 +20,7 @@ export default (data) => {
                   new e.H2("Generate Merch Club CSV"),
                   {
                     class: "edit",
-                    child: new e.BTN({
+                    child: new c.BTN({
                       textContent: "Open",
                       "data-modal": "merchClubCSVModal",
                     }),
@@ -36,7 +37,7 @@ export default (data) => {
           },
           className: "edit",
         }),
-        modalTemplate({
+        MODAL({
           modalBody: {
             children: [
               new e.H2("Generate Merch Club CSV"),
@@ -66,7 +67,7 @@ export default (data) => {
                       }),
                     ],
                   }),
-                  new e.BTN("Generate CSV"),
+                  new c.BTN("Generate CSV"),
                 ],
               }),
             ],

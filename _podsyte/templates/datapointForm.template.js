@@ -1,8 +1,9 @@
-import { modalTemplate } from "../../components/modal/modal.template.js";
+import { MODAL } from "../../components/modal/modal.component.js";
 import * as e from "../../elements/elements.js";
+import * as c from "/periodic/components/components.js";
 import { base64ImageInputComponent } from "../../elements/input/base64ImageInput.component.js";
 import { datapointList, groupTypes } from "../models/Datapoint.js";
-import { toggleSingleTemplate } from "../../components/toggle/toggleSingle.template.js";
+import { TOGGLESINGLE } from "../../components/toggle/toggleSingle.component.js";
 
 const datapointInputs = {
   text: (datapoint) => {
@@ -123,7 +124,7 @@ export const generateDatapointForms = ({
             name: "name",
             value: name,
           }),
-          toggleSingleTemplate({
+          TOGGLESINGLE({
             name: "active",
             value: "active",
             label: "Active",
@@ -132,7 +133,7 @@ export const generateDatapointForms = ({
         ],
         ...datapointInputs[datapointType](datapoint),
         ...[
-          new e.BTN(
+          new c.BTN(
             datapoint !== undefined ? "Update Datapoint" : "Create Datapoint"
           ),
         ],

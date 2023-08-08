@@ -1,5 +1,6 @@
-import { toggleSingleTemplate } from "../../components/toggle/toggleSingle.template.js";
+import { TOGGLESINGLE } from "../../components/toggle/toggleSingle.component.js";
 import * as e from "../../elements/elements.js";
+import * as c from "/periodic/components/components.js";
 
 export const createEditDatasetTemplate = (dataset = {}) => {
   const datasetProvided = Object.keys(dataset).length > 0,
@@ -27,7 +28,7 @@ export const createEditDatasetTemplate = (dataset = {}) => {
         name: "_id",
         value: dataset._id,
       }),
-      toggleSingleTemplate({
+      TOGGLESINGLE({
         name: "restricted",
         label: "Restrict to One Datapoint",
         dataTargets: "#restrictedTo",
@@ -43,7 +44,7 @@ export const createEditDatasetTemplate = (dataset = {}) => {
           children: ["text", "image"],
         }),
       }),
-      new e.BTN({
+      new c.BTN({
         id: "createDataset",
         textContent: "Saves Changes",
       }),

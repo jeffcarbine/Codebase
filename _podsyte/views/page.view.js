@@ -1,10 +1,11 @@
 import { base } from "./_podsyte.view.js";
 import * as e from "../../elements/elements.js";
-import { modalTemplate } from "../../components/modal/modal.template.js";
+import * as c from "/periodic/components/components.js";
+import { MODAL } from "../../components/modal/modal.component.js";
 import { capitalize } from "../../modules/formatString/formatString.js";
 import { createEditPageTemplate } from "../templates/createEditPage.template.js";
 import { datapointFormTemplate } from "../templates/datapointForm.template.js";
-import { cardTemplate } from "../../components/card/card.template.js";
+import { CARD } from "../../components/card/card.component.js";
 
 export default (data) => {
   const datapoints = data.datapoints,
@@ -66,7 +67,7 @@ export default (data) => {
       }
 
       let editChildren = [
-        new e.BTN({
+        new c.BTN({
           children: [
             new e.ICON("edit"),
             new e.SPAN({ class: "text", textContent: "Edit" }),
@@ -77,7 +78,7 @@ export default (data) => {
 
       if (datapoint.type === "group") {
         const addChildren = [
-          new e.BTN({
+          new c.BTN({
             class: "accent",
             children: [
               new e.ICON("plus"),
@@ -85,7 +86,7 @@ export default (data) => {
             ],
             "data-modal": `addTo${datapoint._id}`,
           }),
-          modalTemplate({
+          MODAL({
             modalBody: {
               children: [
                 new e.H2(`Add Datapoint to ${datapoint.name}`),
@@ -99,7 +100,7 @@ export default (data) => {
         editChildren = addChildren.concat(editChildren);
       }
 
-      const datapointCard = cardTemplate({
+      const datapointCard = CARD({
         body: {
           children: [
             {
@@ -116,7 +117,7 @@ export default (data) => {
               class: "preview",
               child: preview,
             },
-            modalTemplate({
+            MODAL({
               modalBody: {
                 children: [
                   new e.H2(`Edit ${datapoint.name}`),
@@ -125,7 +126,7 @@ export default (data) => {
                     datapoint,
                     editing: true,
                   }),
-                  new e.BTNCONTAINER(
+                  new c.BTNCONTAINER(
                     {
                       class: "accent sm",
                       "data-modal": `remove-${datapoint._id}`,
@@ -133,14 +134,14 @@ export default (data) => {
                     },
                     "centered"
                   ),
-                  modalTemplate({
+                  MODAL({
                     modalBody: {
                       children: [
                         new e.H2("Are you sure?"),
                         new e.P(
                           `This will permanently remove ${datapoint.name}.`
                         ),
-                        new e.BTNCONTAINER(
+                        new c.BTNCONTAINER(
                           {
                             class: "removeDatapoint",
                             "data-id": datapoint._id,
@@ -179,7 +180,7 @@ export default (data) => {
           new e.ICON("chevronRight"),
           data.pageData.name,
         ]),
-        new e.BTNCONTAINER(
+        new c.BTNCONTAINER(
           [
             {
               id: "editPage",
@@ -209,11 +210,11 @@ export default (data) => {
         {
           id: "modals",
           children: [
-            modalTemplate({
+            MODAL({
               modalBody: createEditPageTemplate(data.page),
               id: "editPageModal",
             }),
-            modalTemplate({
+            MODAL({
               modalBody: {
                 children: [
                   new e.H2("Add New Datapoint"),

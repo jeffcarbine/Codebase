@@ -1,5 +1,6 @@
-import { toggleSingleTemplate } from "../../components/toggle/toggleSingle.template.js";
+import { TOGGLESINGLE } from "../../components/toggle/toggleSingle.component.js";
 import * as e from "../../elements/elements.js";
+import * as c from "/periodic/components/components.js";
 import { wildcardEnum } from "../models/Page.js";
 
 export const createEditPageTemplate = (page = {}) => {
@@ -31,7 +32,7 @@ export const createEditPageTemplate = (page = {}) => {
           wildcard
         ),
       }),
-      toggleSingleTemplate({
+      TOGGLESINGLE({
         name: "homepage",
         label: "Set as Homepage",
         checked: homepage,
@@ -41,7 +42,7 @@ export const createEditPageTemplate = (page = {}) => {
         name: "_id",
         value: page._id,
       }),
-      new e.BTN({
+      new c.BTN({
         id: "createPage",
         textContent: saveText,
       }),
