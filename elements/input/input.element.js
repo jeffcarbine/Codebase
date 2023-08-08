@@ -1,4 +1,9 @@
-import { ELEMENT } from "../elements.js";
+import { ELEMENT } from "../element.js";
+import {
+  camelize,
+  capitalizeAll,
+  capitalize,
+} from "../../modules/formatString/formatString.js";
 
 export class INPUT extends ELEMENT {
   constructor(params) {

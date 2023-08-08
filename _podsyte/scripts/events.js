@@ -1,5 +1,5 @@
-import { addEventDelegate } from "/periodic/scripts/eventDelegate/eventDelegate.js";
-import { xhrForm } from "/periodic/scripts/xhr/xhr.js";
+import { addEventDelegate } from "/periodic/modules/eventDelegate/eventDelegate.js";
+import { xhrForm } from "/periodic/modules/xhr/xhr.js";
 
 const addEditEvent = (form) => {
   const success = () => {

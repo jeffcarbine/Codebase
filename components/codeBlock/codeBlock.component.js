@@ -1,4 +1,4 @@
-import { PRE } from "../../elements/pre/pre.element";
+import { PRE } from "../../elements/pre/pre.element.js";
 
 export class CODEBLOCK extends PRE {
   constructor(params) {

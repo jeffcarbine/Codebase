@@ -1,6 +1,6 @@
 import { base } from "./_podsyte.view.js";
 import * as e from "../../elements/elements.js";
-import * as c from "/periodic/components/components.js";
+import * as c from "../../components/components.js";
 import { MODAL } from "../../components/modal/modal.component.js";
 import { capitalize } from "../../modules/formatString/formatString.js";
 import { createEditPageTemplate } from "../templates/createEditPage.template.js";
@@ -67,7 +67,7 @@ export default (data) => {
       let editChildren = [
         new c.BTN({
           children: [
-            new e.ICON("edit"),
+            new c.ICON("edit"),
             new e.SPAN({ class: "text", textContent: "Edit" }),
           ],
           "data-modal": "_" + datapoint._id,
@@ -79,7 +79,7 @@ export default (data) => {
           new c.BTN({
             class: "accent",
             children: [
-              new e.ICON("plus"),
+              new c.ICON("plus"),
               new e.SPAN({ class: "text", textContent: "Add" }),
             ],
             "data-modal": `addTo${datapoint._id}`,
@@ -176,13 +176,13 @@ export default (data) => {
     data,
     {
       children: [
-        new e.H1([new e.ICON("globe"), "Global"]),
+        new e.H1([new c.ICON("globe"), "Global"]),
         new c.BTNCONTAINER(
           [
             {
               id: "addDatapoint",
               "data-modal": "addDatapointModal",
-              children: [new e.ICON("plus"), "Create New Datapoint"],
+              children: [new c.ICON("plus"), "Create New Datapoint"],
             },
           ],
           "centered"
@@ -210,7 +210,7 @@ export default (data) => {
     },
     [
       new e.MODULE("/periodic/elements/input/input.js"),
-      new e.MODULE("/periodic/scripts/xhr/_xhrForm.js"),
+      new e.MODULE("/periodic/modules/xhr/_xhrForm.js"),
       new e.MODULE("/admin/scripts/global.scripts.js"),
     ]
   );

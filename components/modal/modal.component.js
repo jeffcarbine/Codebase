@@ -1,4 +1,5 @@
 import { DIALOG, BUTTON } from "../../elements/elements.js";
+import { ICON } from "../icon/icon.component.js";
 
 export const MODAL = ({ modalBody = {}, id = "", className = "" } = {}) => {
   return new DIALOG({
@@ -8,7 +9,7 @@ export const MODAL = ({ modalBody = {}, id = "", className = "" } = {}) => {
       new BUTTON({
         class: "close",
         "aria-label": "Close Modal",
-        children: [new e.ICON("close")],
+        children: [new ICON("close")],
       }),
       modalBody,
     ],

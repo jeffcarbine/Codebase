@@ -1,4 +1,4 @@
-﻿import { addEventDelegate } from "../eventDelegate/eventDelegate.js";
+﻿import { addEventDelegate } from "../../modules/eventDelegate/eventDelegate.js";
 
 /**
  * Smooth Scroll Click

@@ -1,80 +1,104 @@
 import { base } from "./_podsyte.view.js";
 import * as e from "../../elements/elements.js";
-import * as c from "/periodic/components/components.js";
+import * as c from "../../components/components.js";
 import { CARD } from "../../components/card/card.component.js";
 import { MODAL } from "../../components/modal/modal.component.js";
 
+const generateShowList = (shows) => {
+  const showList = [];
+
+  for (let i = 0; i < shows.length; i++) {
+    const showData = shows[i],
+      showCard = CARD({
+        className: "edit",
+        body: {
+          children: [
+            {
+              class: "title-edit",
+              children: [
+                new e.H2(showData.title),
+                {
+                  class: "edit",
+                  child: new c.BTN({
+                    children: [
+                      new c.ICON("edit"),
+                      new e.SPAN({ class: "text", textContent: "Edit" }),
+                    ],
+                    "data-modal": "_" + showData._id,
+                  }),
+                },
+              ],
+            },
+            {
+              class: "preview",
+              child: {},
+            },
+            MODAL({
+              modalBody: new e.FORM({
+                method: "POST",
+                action: "/admin/shows/edit",
+                class: "style-inputs xhr",
+                "data-redirect": "/admin/shows",
+                children: [
+                  new e.H2(showData.title),
+                  new e.TEXT({
+                    name: "title",
+                    label: "Title",
+                    value: showData.title,
+                  }),
+                  new e.TEXT({
+                    name: "rss",
+                    label: "RSS",
+                    value: showData.rss,
+                  }),
+                  new e.TEXT({
+                    name: "patreon",
+                    label: "Patreon",
+                    value: showData.patreon,
+                  }),
+                  new e.TEXT({
+                    name: "spotify",
+                    label: "Spotify",
+                    value: showData.spotify,
+                  }),
+                  new e.TEXT({
+                    name: "youTube",
+                    label: "YouTube",
+                    value: showData.youTube,
+                  }),
+                  new e.TEXT({
+                    name: "apple",
+                    label: "Apple",
+                    value: showData.apple,
+                  }),
+                  new c.BTN({
+                    textContent: "Update Show",
+                  }),
+                ],
+              }),
+              id: `_${showData._id}`,
+            }),
+          ],
+        },
+      });
+
+    showList.unshift(showCard);
+  }
+
+  return showList;
+};
+
 export default (data) => {
-  const showList = () => {
-    const shows = {
-      class: "cardGrid",
-      children: [],
-    };
-
-    for (let i = 0; i < data.shows.length; i++) {
-      const showData = data.shows[i],
-        event = CARD(
-          new e.FORM({
-            method: "POST",
-            action: "/admin/shows/edit",
-            class: "style-inputs xhr",
-            "data-redirect": "/admin/shows",
-            children: [
-              new e.H2(showData.title),
-              new e.TEXT({
-                name: "title",
-                label: "Title",
-                value: showData.title,
-              }),
-              new e.TEXT({
-                name: "rss",
-                label: "RSS",
-                value: showData.rss,
-              }),
-              new e.TEXT({
-                name: "patreon",
-                label: "Patreon",
-                value: showData.patreon,
-              }),
-              new e.TEXT({
-                name: "spotify",
-                label: "Spotify",
-                value: showData.spotify,
-              }),
-              new e.TEXT({
-                name: "youTube",
-                label: "YouTube",
-                value: showData.youTube,
-              }),
-              new e.TEXT({
-                name: "apple",
-                label: "Apple",
-                value: showData.apple,
-              }),
-              new c.BTN({
-                textContent: "Update Show",
-              }),
-            ],
-          })
-        );
-
-      shows.children.unshift(event);
-    }
-
-    return shows;
-  };
-  const children = [showList()];
-
   return base(
     data,
     {
       children: [
-        new e.H1([new e.ICON("rss"), "Shows"]),
+        new e.H1([new c.ICON("rss"), "Shows"]),
         new c.BTNCONTAINER(
           [
             {
               "data-modal": "addShow",
-              children: [new e.ICON("plus"), "Add Show"],
+              children: [new c.ICON("plus"), "Add Show"],
             },
           ],
           "centered"
@@ -106,13 +130,10 @@ export default (data) => {
         }),
         new e.SECTION({
           id: "events",
-          children,
+          children: generateShowList(data.shows),
         }),
       ],
     },
-    [
-      new e.MODULE("/admin/scripts/shows.js"),
-      new e.MODULE("/periodic/scripts/xhr/_xhrForm.js"),
-    ]
+    [new e.MODULE("/admin/scripts/shows.js")]
   );
 };

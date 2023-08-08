@@ -1,3 +1,4 @@
+import { SPAN } from "../../elements/span/span.element.js";
 export class BTN {
   constructor(params) {
     // check if we have a href

@@ -1,8 +1,9 @@
 import { ELEMENT } from "../element.js";
 
-export class BR extends ELEMENT {
+export class FOOTER extends ELEMENT {
   constructor(params) {
     super(params);
-    this.tagName = "br";
+
+    this.tagName = "footer";
   }
 }

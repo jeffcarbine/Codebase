@@ -34,7 +34,7 @@ export const datapointCardTemplate = (datasetId, datapoint) => {
       new c.BTNCONTAINER({
         "data-modal": "modal" + datapoint._id,
         children: [
-          new e.ICON("edit"),
+          new c.ICON("edit"),
           new e.SPAN({ class: "text", textContent: "Edit" }),
         ],
       }),

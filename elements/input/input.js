@@ -1,4 +1,4 @@
-﻿import { addEventDelegate } from "../../scripts/eventDelegate/eventDelegate.js";
+﻿import { addEventDelegate } from "../../modules/eventDelegate/eventDelegate.js";
 
 var inputString =
   "input:not([type=checkbox]):not([type=radio]), select, textarea";

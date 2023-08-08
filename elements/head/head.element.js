@@ -1,7 +1,7 @@
-import { TITLE } from "../title/title.element";
-import { META } from "../meta/meta.element";
-import { LINK, STYLESHEET } from "../link/link.element";
-import { SCRIPT } from "../script/script.element";
+import { TITLE } from "../title/title.element.js";
+import { META } from "../meta/meta.element.js";
+import { LINK, STYLESHEET } from "../link/link.element.js";
+import { SCRIPT } from "../script/script.element.js";
 
 export class HEAD {
   constructor(params) {

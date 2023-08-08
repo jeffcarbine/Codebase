@@ -1,4 +1,4 @@
-import { addEventDelegate } from "../../scripts/eventDelegate/eventDelegate.js";
+import { addEventDelegate } from "../../modules/eventDelegate/eventDelegate.js";
 
 //turn 128 seconds into 2:08
 const getTimeCodeFromNum = (num) => {

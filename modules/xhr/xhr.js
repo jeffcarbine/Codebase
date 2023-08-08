@@ -1,4 +1,4 @@
-import { toast } from "../../components/alert/_alert.js";
+import { toast } from "../../components/alert/alert.js";
 
 /**
  * XHR

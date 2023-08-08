@@ -1,8 +1,8 @@
-import { addEventDelegate } from "/periodic/scripts/eventDelegate/eventDelegate.js";
+import { addEventDelegate } from "/periodic/modules/eventDelegate/eventDelegate.js";
 import {
   enableToggleNav,
   enableSetNavBackground,
-} from "/periodic/elements/nav/_nav.js";
+} from "/periodic/elements/nav/nav.js";
 import { initModals } from "/periodic/components/modal/modal.js";
 
 initModals();

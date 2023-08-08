@@ -1,6 +1,6 @@
 import { base } from "./_podsyte.view.js";
 import * as e from "../../elements/elements.js";
-import * as c from "/periodic/components/components.js";
+import * as c from "../../components/components.js";
 import { CARD } from "../../components/card/card.component.js";
 
 export default (data) => {
@@ -70,12 +70,12 @@ export default (data) => {
     data,
     {
       children: [
-        new e.H1([new e.ICON("components"), "Widgets"]),
+        new e.H1([new c.ICON("components"), "Widgets"]),
         new c.BTNCONTAINER(
           [
             {
               id: "addEvent",
-              children: [new e.ICON("plus"), "Add Event"],
+              children: [new c.ICON("plus"), "Add Event"],
             },
           ],
           "centered"
@@ -88,7 +88,7 @@ export default (data) => {
     },
     [
       new e.MODULE("/admin/scripts/events.js"),
-      new e.MODULE("/periodic/scripts/xhr/_xhrForm.js"),
+      new e.MODULE("/periodic/modules/xhr/_xhrForm.js"),
     ]
   );
 };

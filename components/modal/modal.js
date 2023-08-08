@@ -1,6 +1,6 @@
 ﻿import { MODAL } from "./modal.component.js";
 import { renderTemplate } from "/periodic/template/renderTemplate.js";
-import { addEventDelegate } from "../../scripts/eventDelegate/eventDelegate.js";
+import { addEventDelegate } from "../../modules/eventDelegate/eventDelegate.js";
 
 export const createModal = ({
   modalBody,

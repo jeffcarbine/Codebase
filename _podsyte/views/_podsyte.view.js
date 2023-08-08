@@ -1,4 +1,5 @@
 import * as e from "../../elements/elements.js";
+import * as c from "../../components/components.js";
 
 export const base = (data, template, scripts) => {
   const html = {
@@ -26,44 +27,48 @@ export const base = (data, template, scripts) => {
               // }),
               {
                 class: "logo client",
-                child: new e.IMG("/images/logo-podsyte.webp"),
+                child: new e.A({
+                  href: "/",
+                  target: "blank",
+                  child: new e.IMG("/images/logo-podsyte.webp"),
+                }),
               },
             ],
           },
-          new e.NAVTOGGLE([new e.SPAN(), new e.SPAN(), new e.SPAN()]),
+          new c.NAVTOGGLE([new e.SPAN(), new e.SPAN(), new e.SPAN()]),
           new e.NAVIGATION({
             if: data.loggedIn,
             routes: {
               Dashboard: [
                 "/admin",
                 new e.SPAN("Dashboard"),
-                new e.ICON("dashboard"),
+                new c.ICON("dashboard"),
               ],
               Global: [
                 "/admin/global",
                 new e.SPAN("Global"),
-                new e.ICON("globe"),
+                new c.ICON("globe"),
               ],
-              Pages: ["/admin/pages", new e.SPAN("Pages"), new e.ICON("page")],
+              Pages: ["/admin/pages", new e.SPAN("Pages"), new c.ICON("page")],
               Podcasts: [
                 "/admin/shows",
                 new e.SPAN("Podcasts"),
-                new e.ICON("rss"),
+                new c.ICON("rss"),
               ],
               Events: [
                 "/admin/events",
                 new e.SPAN("Events"),
-                new e.ICON("calendar"),
+                new c.ICON("calendar"),
               ],
-              Tools: ["/admin/tools", new e.SPAN("Tools"), new e.ICON("tools")],
+              Tools: ["/admin/tools", new e.SPAN("Tools"), new c.ICON("tools")],
               Settings: [
                 "/admin/settings",
                 new e.SPAN("Settings"),
-                new e.ICON("settings"),
+                new c.ICON("settings"),
               ],
-              // Fanart: ["/admin/fanart", "Fanart", new e.ICON("image")],
-              // History: ["/admin/history", "History", new e.ICON("history")],
-              // Account: ["/admin/account", "Account", new e.ICON("user")],
+              // Fanart: ["/admin/fanart", "Fanart", new c.ICON("image")],
+              // History: ["/admin/history", "History", new c.ICON("history")],
+              // Account: ["/admin/account", "Account", new c.ICON("user")],
             },
             basePath: "/admin",
             path: data.path,

@@ -1,6 +1,8 @@
-import { ELEMENT } from "../elements.js";
+import { ELEMENT } from "../element.js";
 import { UL } from "../ul/ul.element.js";
 import { LI } from "../li/li.element.js";
+import { A } from "../a/a.element.js";
+import { BUTTON } from "../button/button.element.js";
 
 export class NAV extends ELEMENT {
   constructor(params) {

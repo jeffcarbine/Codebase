@@ -1,8 +1,8 @@
-import { addEventDelegate } from "/periodic/scripts/eventDelegate/eventDelegate.js";
+import { addEventDelegate } from "/periodic/modules/eventDelegate/eventDelegate.js";
 import * as e from "/periodic/elements/elements.js";
 import * as c from "/periodic/components/components.js";
 import { CARD } from "/periodic/components/card/card.component.js";
-import { xhr, xhrForm } from "/periodic/scripts/xhr/xhr.js";
+import { xhr, xhrForm } from "/periodic/modules/xhr/xhr.js";
 import { renderTemplate } from "/periodic/template/renderTemplate.js";
 
 const retrieveDatasets = () => {

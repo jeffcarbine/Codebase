@@ -1,6 +1,6 @@
 import { TOGGLESINGLE } from "../../components/toggle/toggleSingle.component.js";
 import * as e from "../../elements/elements.js";
-import * as c from "/periodic/components/components.js";
+import * as c from "../../components/components.js";
 
 export const createEditDatasetTemplate = (dataset = {}) => {
   const datasetProvided = Object.keys(dataset).length > 0,

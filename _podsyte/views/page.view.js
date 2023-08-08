@@ -1,6 +1,6 @@
 import { base } from "./_podsyte.view.js";
 import * as e from "../../elements/elements.js";
-import * as c from "/periodic/components/components.js";
+import * as c from "../../components/components.js";
 import { MODAL } from "../../components/modal/modal.component.js";
 import { capitalize } from "../../modules/formatString/formatString.js";
 import { createEditPageTemplate } from "../templates/createEditPage.template.js";
@@ -69,7 +69,7 @@ export default (data) => {
       let editChildren = [
         new c.BTN({
           children: [
-            new e.ICON("edit"),
+            new c.ICON("edit"),
             new e.SPAN({ class: "text", textContent: "Edit" }),
           ],
           "data-modal": "_" + datapoint._id,
@@ -81,7 +81,7 @@ export default (data) => {
           new c.BTN({
             class: "accent",
             children: [
-              new e.ICON("plus"),
+              new c.ICON("plus"),
               new e.SPAN({ class: "text", textContent: "Add" }),
             ],
             "data-modal": `addTo${datapoint._id}`,
@@ -106,7 +106,7 @@ export default (data) => {
             {
               class: "title-edit",
               children: [
-                new e.H2([new e.ICON(type), datapoint.name]),
+                new e.H2([new c.ICON(type), datapoint.name]),
                 {
                   class: "edit",
                   children: editChildren,
@@ -175,9 +175,9 @@ export default (data) => {
     {
       children: [
         new e.H1([
-          new e.ICON("page"),
+          new c.ICON("page"),
           new e.A({ href: "/admin/pages", textContent: "Pages" }),
-          new e.ICON("chevronRight"),
+          new c.ICON("chevronRight"),
           data.pageData.name,
         ]),
         new c.BTNCONTAINER(
@@ -185,13 +185,13 @@ export default (data) => {
             {
               id: "editPage",
               "data-modal": "editPageModal",
-              children: [new e.ICON("edit"), "Edit Page"],
+              children: [new c.ICON("edit"), "Edit Page"],
             },
             {
               id: "addDatapoint",
               "data-modal": "addDatapointModal",
               children: [
-                new e.ICON("plus"),
+                new c.ICON("plus"),
                 "Create New " +
                   (data.pageData.restricted
                     ? capitalize(data.pageData.restrictedTo)
@@ -202,7 +202,7 @@ export default (data) => {
               id: "viewPage",
               href: data.pageData.path,
               target: "blank",
-              children: [new e.ICON("eye"), "View Page"],
+              children: [new c.ICON("eye"), "View Page"],
             },
           ],
           "centered"
@@ -234,7 +234,7 @@ export default (data) => {
     },
     [
       new e.MODULE("/periodic/elements/input/input.js"),
-      new e.MODULE("/periodic/scripts/xhr/_xhrForm.js"),
+      new e.MODULE("/periodic/modules/xhr/_xhrForm.js"),
       new e.MODULE(
         "/admin/scripts/pageData.scripts.js?" + JSON.stringify(data.page)
       ),

@@ -1,6 +1,6 @@
 import { base } from "./_podsyte.view.js";
 import * as e from "../../elements/elements.js";
-import * as c from "/periodic/components/components.js";
+import * as c from "../../components/components.js";
 import { MODAL } from "../../components/modal/modal.component.js";
 import { createEditPageTemplate } from "../templates/createEditPage.template.js";
 import { CARD } from "../../components/card/card.component.js";
@@ -10,7 +10,7 @@ export default (data) => {
     data,
     {
       children: [
-        new e.H1([new e.ICON("tools"), "Tools"]),
+        new e.H1([new c.ICON("tools"), "Tools"]),
         CARD({
           body: {
             children: [

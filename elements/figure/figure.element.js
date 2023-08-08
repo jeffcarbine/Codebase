@@ -1,4 +1,4 @@
-import { ELEMENT } from "../elements.js";
+import { ELEMENT } from "../element.js";
 
 export class FIGURE extends ELEMENT {
   constructor(params) {

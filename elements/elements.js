@@ -1,22 +1,3 @@
-export class ELEMENT {
-  constructor(params) {
-    // we allow other classes to define what they do
-    // with non-object params
-    if (typeof params === "object") {
-      if (Array.isArray(params)) {
-        // if an array, then it's children
-        this.children =
-          this.children !== undefined ? this.children.concat(params) : params;
-      } else {
-        // otherwise, it's regular properties
-        for (let key in params) {
-          this[key] = params[key];
-        }
-      }
-    }
-  }
-}
-
 import { HTML } from "./html/html.element.js";
 import { HEAD } from "./head/head.element.js";
 import { TITLE } from "./title/title.element.js";
@@ -67,6 +48,7 @@ import { BR } from "./br/br.element.js";
 import { DIALOG } from "./dialog/dialog.element.js";
 import { ARTICLE } from "./article/article.element.js";
 import { SVG } from "./svg/svg.element.js";
+import { FOOTER } from "./footer/footer.element.js";
 
 export {
   HTML,
@@ -135,4 +117,5 @@ export {
   DIALOG,
   ARTICLE,
   SVG,
+  FOOTER,
 };

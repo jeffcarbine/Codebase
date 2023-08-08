@@ -1,6 +1,6 @@
 import { base } from "./_podsyte.view.js";
 import * as e from "../../elements/elements.js";
-import * as c from "/periodic/components/components.js";
+import * as c from "../../components/components.js";
 
 export default (data) => {
   return base(
@@ -33,6 +33,6 @@ export default (data) => {
         }),
       ],
     },
-    [new e.MODULE("/periodic/scripts/xhr/_xhrForm.js")]
+    [new e.MODULE("/periodic/modules/xhr/_xhrForm.js")]
   );
 };

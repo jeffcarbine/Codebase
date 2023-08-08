@@ -1,4 +1,5 @@
 import { HEAD } from "../head/head.element.js";
+import { BODY } from "../body/body.element.js";
 
 export class HTML {
   constructor(params) {

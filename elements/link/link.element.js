@@ -1,4 +1,4 @@
-import { ELEMENT } from "../../element.js";
+import { ELEMENT } from "../element.js";
 
 export class LINK extends ELEMENT {
   constructor(params) {

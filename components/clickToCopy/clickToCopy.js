@@ -1,5 +1,5 @@
-import { addEventDelegate } from "../../scripts/eventDelegate/eventDelegate.js";
-import { toast } from "../alert/_alert.js";
+import { addEventDelegate } from "../../modules/eventDelegate/eventDelegate.js";
+import { toast } from "../alert/alert.js";
 
 export const clickToCopy = async (button) => {
   const text = button.dataset.text,

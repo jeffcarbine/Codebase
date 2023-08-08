@@ -1,4 +1,4 @@
-import { ELEMENT } from "../elements.js";
+import { ELEMENT } from "../element.js";
 import { LI } from "../li/li.element.js";
 
 export class UL extends ELEMENT {

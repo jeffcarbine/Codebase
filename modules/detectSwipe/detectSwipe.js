@@ -1,4 +1,4 @@
-import { addEventDelegate } from "../../scripts/eventDelegate/eventDelegate.js";
+import { addEventDelegate } from "../../modules/eventDelegate/eventDelegate.js";
 
 export const detectSwipe = ({ target, left, right, up, down } = {}) => {
   let startX = 0,

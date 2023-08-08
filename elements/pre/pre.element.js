@@ -1,4 +1,4 @@
-import { ELEMENT } from "../elements.js";
+import { ELEMENT } from "../element.js";
 
 export class PRE extends ELEMENT {
   constructor(params) {

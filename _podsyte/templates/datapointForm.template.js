@@ -1,6 +1,6 @@
 import { MODAL } from "../../components/modal/modal.component.js";
 import * as e from "../../elements/elements.js";
-import * as c from "/periodic/components/components.js";
+import * as c from "../../components/components.js";
 import { base64ImageInputComponent } from "../../elements/input/base64ImageInput.component.js";
 import { datapointList, groupTypes } from "../models/Datapoint.js";
 import { TOGGLESINGLE } from "../../components/toggle/toggleSingle.component.js";

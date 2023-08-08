@@ -1,4 +1,4 @@
-import { addEventDelegate } from "/periodic/scripts/eventDelegate/eventDelegate.js";
+import { addEventDelegate } from "/periodic/modules/eventDelegate/eventDelegate.js";
 import { detectSwipe } from "../../modules/detectSwipe/detectSwipe.js";
 
 const changeSlider = (button) => {

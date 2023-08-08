@@ -1,4 +1,4 @@
-import { addEventDelegate } from "../../scripts/eventDelegate/eventDelegate.js";
+import { addEventDelegate } from "../../modules/eventDelegate/eventDelegate.js";
 import { smoothScroll } from "../../scripts/smoothScroll/smoothScroll.js";
 
 /**

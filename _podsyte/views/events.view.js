@@ -1,6 +1,6 @@
 import { base } from "./_podsyte.view.js";
 import * as e from "../../elements/elements.js";
-import * as c from "/periodic/components/components.js";
+import * as c from "../../components/components.js";
 import { CARD } from "../../components/card/card.component.js";
 import { MODAL } from "../../components/modal/modal.component.js";
 import { formatDate } from "../../modules/formatDate/formatDate.js";
@@ -125,7 +125,7 @@ export default (data) => {
                 class: "edit",
                 child: new c.BTN({
                   children: [
-                    new e.ICON("edit"),
+                    new c.ICON("edit"),
                     new e.SPAN({ class: "text", textContent: "Edit" }),
                   ],
                   "data-modal": "_" + eventData._id,
@@ -160,13 +160,13 @@ export default (data) => {
     data,
     {
       children: [
-        new e.H1([new e.ICON("calendar"), "Events"]),
+        new e.H1([new c.ICON("calendar"), "Events"]),
         new c.BTNCONTAINER(
           [
             {
               id: "addEvent",
               "data-modal": "addEventModal",
-              children: [new e.ICON("plus"), "Add Event"],
+              children: [new c.ICON("plus"), "Add Event"],
             },
           ],
           "centered"

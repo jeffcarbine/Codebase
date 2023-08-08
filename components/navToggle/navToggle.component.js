@@ -1,8 +1,8 @@
-export class NAVTOGGLE extends ELEMENT {
+import { BUTTON } from "../../elements/button/button.element.js";
+
+export class NAVTOGGLE extends BUTTON {
   constructor(params) {
     super(params);
-
-    this.tagName = "button";
     this.id = "navToggle";
   }
 }
