@@ -10,13 +10,17 @@ global.fetch = fetch;
 const shopifyToken = process.env.SHOPIFYTOKEN,
   shopifyDomain = process.env.SHOPIFYDOMAIN;
 
-export const shopify = Client.buildClient({
-  storefrontAccessToken: shopifyToken,
-  domain: shopifyDomain,
-});
+export let shopify, shopPromise, productsPromise;
 
-export const shopPromise = shopify.shop.fetchInfo();
-export const productsPromise = shopify.product.fetchAll();
+if (shopifyToken !== undefined) {
+  shopify = Client.buildClient({
+    storefrontAccessToken: shopifyToken,
+    domain: shopifyDomain,
+  });
+
+  shopPromise = shopify.shop.fetchInfo();
+  productsPromise = shopify.product.fetchAll();
+}
 
 export const getCart = (req, res) => {
   let checkoutId = req.cookies["checkoutId"];

@@ -4,12 +4,7 @@
   }
 }
 
-button {
-  outline: none;
-  cursor: pointer;
-}
-
-.btn {
+:root {
   --btn-border-radius: 0;
   --btn-background: var(--primary);
   --btn-color: var(--light);
@@ -20,7 +15,14 @@ button {
   --btn-line-height: var(--f9-line-height);
   --btn-padding-x: 1.125rem;
   --btn-padding-y: 1.5rem;
+}
 
+button {
+  outline: none;
+  cursor: pointer;
+}
+
+.btn {
   &.sm {
     --btn-font-size: var(--f11-font-size);
     --btn-line-height: var(--f11-line-height);

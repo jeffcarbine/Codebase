@@ -10,6 +10,9 @@ export default (data) => {
         child: {
           class: "login-form",
           children: [
+            new e.IMG({
+              src: "/admin/images/logo-full.svg",
+            }),
             new e.FORM({
               action: "/admin/login",
               class: "style-inputs",
