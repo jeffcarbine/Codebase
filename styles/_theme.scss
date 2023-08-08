@@ -13,7 +13,6 @@
   --light: #fff;
   --light-low: #f7f7f7;
   --light-mid: #eee;
-  --border-color: rgba(0, 0, 0, 0.125);
 
   --foreground: var(--dark);
   --foreground-low: var(--dark-low);
@@ -23,7 +22,7 @@
   --background-mid: var(--light-mid);
 
   --green: hsl(152, 69%, 19%);
-  --green-light: hsl(153, 31%, 86%);
+  --green-step: hsl(153, 31%, 86%);
   --red: hsl(12, 76%, 61%);
   --red-step: hsl(12, 76%, 81%);
   --yellow: hsl(43, 74%, 66%);
@@ -49,10 +48,7 @@ html.darkmode {
   --border-color: rgba(255, 255, 255, 0.25);
 }
 
-html {
-  display: block !important; // handles FOUC
-}
-
+// default assigning of base body color variables
 body {
   background: var(--background);
   color: var(--foreground);

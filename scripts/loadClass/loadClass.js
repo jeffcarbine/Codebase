@@ -1,3 +1,9 @@
+/**
+ * Load Class
+ *
+ * This will add a class to an element when it is loaded
+ */
+
 // get any loadclass elements
 const loadClassElements = document.querySelectorAll("[data-loadclass]");
 

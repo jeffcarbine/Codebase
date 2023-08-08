@@ -1,11 +1,3 @@
-import {
-  camelize,
-  capitalize,
-  capitalizeAll,
-  htmlize,
-} from "../modules/formatString/formatString.js";
-import * as i from "../components/icon/_icon-list.js";
-
 export class ELEMENT {
   constructor(params) {
     // we allow other classes to define what they do
@@ -25,982 +17,122 @@ export class ELEMENT {
   }
 }
 
-export class HTML {
-  constructor(params) {
-    this.tagName = "html";
-    this.lang = "en";
-    if (params.style === undefined) {
-      this.style = "display: none;"; // avoids FOUC
-    } else {
-      this.style = params.style;
-    }
-
-    const head = new HEAD({
-      title: params.title,
-      metas: params.metas,
-      links: params.links,
-      stylesheets: params.stylesheets,
-      scripts: params.scripts,
-      favicons: params.favicons,
-    });
-
-    const body = new BODY(params.body);
-
-    this.children = [head, body];
-  }
-}
-
-export class HEAD {
-  constructor(params) {
-    this.tagName = "head";
-    this.children = [];
-
-    if (params.title !== undefined) {
-      const title = new TITLE({
-        textContent: params.title,
-      });
-
-      this.children.push(title);
-    }
-
-    if (params.metas !== undefined && Array.isArray(params.metas)) {
-      for (let i = 0; i < params.metas.length; i++) {
-        const meta = params.metas[i];
-
-        const metaTag = new META({
-          name: meta.name,
-          content: meta.content,
-        });
-
-        this.children.push(metaTag);
-      }
-    }
-
-    if (params.links !== undefined && Array.isArray(params.links)) {
-      for (let i = 0; i < params.links.length; i++) {
-        const link = params.links[i],
-          linkTag = new LINK();
-
-        for (let key in link) {
-          linkTag[key] = link[key];
-        }
-
-        this.children.push(linkTag);
-      }
-    }
-
-    if (params.stylesheets !== undefined && Array.isArray(params.stylesheets)) {
-      for (let i = 0; i < params.stylesheets.length; i++) {
-        const stylesheet = params.stylesheets[i],
-          stylesheetTag = new STYLESHEET({
-            href: stylesheet,
-          });
-
-        this.children.push(stylesheetTag);
-      }
-    }
-
-    if (params.scripts !== undefined && Array.isArray(params.scripts)) {
-      for (let i = 0; i < params.scripts.length; i++) {
-        const script = params.scripts[i],
-          scriptTag = new SCRIPT(script);
-
-        this.children.push(scriptTag);
-      }
-    }
-
-    if (params.favicons !== undefined && Array.isArray(params.favicons)) {
-      for (let i = 0; i < params.favicons.length; i++) {
-        const favicon = params.favicons[i],
-          faviconTag = new LINK(favicon);
-
-        this.children.push(faviconTag);
-      }
-    }
-  }
-}
-
-export class TITLE extends ELEMENT {
-  constructor(params) {
-    super(params);
-    this.tagName = "title";
-  }
-}
-
-export class META extends ELEMENT {
-  constructor(params) {
-    super(params);
-    this.tagName = "meta";
-  }
-}
-
-export class VIEWPORT extends META {
-  constructor(params) {
-    super(params);
-    this.name = "viewport";
-    this.content = "width=device-width, initial-scale=1";
-  }
-}
-
-export class LINK extends ELEMENT {
-  constructor(params) {
-    super(params);
-    this.tagName = "link";
-
-    if (typeof params === "string") {
-      this.href = params;
-    }
-  }
-}
-
-export class STYLESHEET extends LINK {
-  constructor(params) {
-    super(params);
-    this.rel = "stylesheet";
-  }
-}
-
-export class SCRIPT extends ELEMENT {
-  constructor(params) {
-    super(params);
-
-    this.tagName = "script";
-    this.defer = true;
-
-    if (typeof params === "string") {
-      this.src = params;
-    }
-  }
-}
-
-export class MODULE extends SCRIPT {
-  constructor(params) {
-    super(params);
-
-    this.type = "module";
-  }
-}
-
-export class BODY extends ELEMENT {
-  constructor(params) {
-    super(params);
-
-    this.tagName = "body";
-  }
-}
-
-export class HEADER extends ELEMENT {
-  constructor(params) {
-    super(params);
-
-    this.tagName = "header";
-  }
-}
-
-export class NAV extends ELEMENT {
-  constructor(params) {
-    super(params);
-
-    this.tagName = "nav";
-  }
-}
-
-export class MAIN extends ELEMENT {
-  constructor(params) {
-    super(params);
-
-    this.tagName = "main";
-  }
-}
-
-export class P extends ELEMENT {
-  constructor(params) {
-    super(params);
-
-    this.tagName = "p";
-
-    if (typeof params !== "object") {
-      this.textContent = params;
-    }
-  }
-}
-export class EM extends ELEMENT {
-  constructor(params) {
-    super(params);
-
-    this.tagName = "em";
-
-    if (typeof params !== "object") {
-      this.textContent = params;
-    }
-  }
-}
-
-export class STRONG extends ELEMENT {
-  constructor(params) {
-    super(params);
-
-    this.tagName = "strong";
-
-    if (typeof params === "string") {
-      this.textContent = params;
-    }
-  }
-}
-
-export class SPAN extends ELEMENT {
-  constructor(params) {
-    super(params);
-
-    this.tagName = "span";
-
-    if (typeof params === "string") {
-      this.textContent = params;
-    }
-  }
-}
-
-export class FOOTER extends ELEMENT {
-  constructor(params) {
-    super(params);
-
-    this.tagName = "footer";
-  }
-}
-
-export class IMG extends ELEMENT {
-  constructor(params) {
-    super(params);
-
-    this.tagName = "img";
-
-    if (typeof params === "string") {
-      this.src = params;
-    }
-  }
-}
-
-export class LAZYIMG extends IMG {
-  constructor(params) {
-    super(params);
-
-    this.loading = "lazy";
-  }
-}
-
-export class FIGURE extends ELEMENT {
-  constructor(params) {
-    super(params);
-
-    this.tagName = "figure";
-  }
-}
-
-export class FIGCAPTION extends ELEMENT {
-  constructor(params) {
-    super(params);
-
-    this.tagName = "figcaption";
-  }
-}
-
-export class UL extends ELEMENT {
-  constructor(params) {
-    super(params);
-
-    this.tagName = "ul";
-  }
-}
-
-export class ULLI extends ELEMENT {
-  constructor(params) {
-    super(params);
-
-    this.tagName = "ul";
-
-    for (let i = 0; i < this.children.length; i++) {
-      let child = this.children[i];
-
-      const li = new LI({ child });
-
-      this.children[i] = li;
-    }
-  }
-}
-
-export class OLLI extends ELEMENT {
-  constructor(params) {
-    super(params);
-
-    this.tagName = "ol";
-
-    for (let i = 0; i < this.children.length; i++) {
-      let child = this.children[i];
-
-      const li = new LI({ child });
-
-      this.children[i] = li;
-    }
-  }
-}
-
-export class LI extends ELEMENT {
-  constructor(params) {
-    super(params);
-
-    this.tagName = "li";
-
-    if (typeof params === "string") {
-      this.textContent = params;
-    }
-  }
-}
-
-export class A extends ELEMENT {
-  constructor(params) {
-    super(params);
-
-    this.tagName = "a";
-  }
-}
-
-export class NAVIGATION extends ELEMENT {
-  constructor(params) {
-    super(params);
-
-    this.tagName = "nav";
-    this.children = params.children || [];
-
-    const createNavItems = (routes) => {
-      const navItems = [];
-
-      for (let route in routes) {
-        let navItem;
-
-        const path = routes[route] || "",
-          basePath = params.basePath || "/";
-
-        if (typeof path === "string") {
-          const active =
-            path === params.path ||
-            (path !== "/" &&
-              params.path !== undefined &&
-              params.path.includes(path));
-
-          navItem = new LI({
-            class:
-              route.toLowerCase().replaceAll(" ", "") +
-              (active ? " active" : ""),
-            child: new A({
-              href: path,
-              textContent: route,
-            }),
-          });
-          // then we have textcontent
-        } else if (Array.isArray(path)) {
-          // the href is always the first array element
-          const href = path[0],
-            children = path.slice(1);
-
-          const active =
-            href === params.path ||
-            (href !== basePath &&
-              params.path !== undefined &&
-              params.path.includes(href));
-
-          navItem = new LI({
-            class:
-              route.toLowerCase().replaceAll(" ", "") +
-              (active ? " active" : ""),
-            child: new A({
-              href,
-              children,
-            }),
-          });
-        } else {
-          // check
-          const childActive = Object.values(path).includes(params.path);
-
-          navItem = new LI({
-            class:
-              route.toLowerCase().replaceAll(" ", "") +
-              (childActive ? " active" : ""),
-            children: [
-              new BUTTON(route),
-              {
-                class: "submenu",
-                child: new UL(createNavItems(path)),
-              },
-            ],
-          });
-        }
-
-        navItems.push(navItem);
-      }
-
-      return navItems;
-    };
-
-    const ul = new UL(createNavItems(params.routes));
-    this.children.unshift(ul);
-  }
-}
-
-export class NAVTOGGLE extends ELEMENT {
-  constructor(params) {
-    super(params);
-
-    this.tagName = "button";
-    this.id = "navToggle";
-  }
-}
-
-export class SECTION extends ELEMENT {
-  constructor(params) {
-    super(params);
-    this.tagName = "section";
-  }
-}
-
-export class H1 extends ELEMENT {
-  constructor(params) {
-    super(params);
-    this.tagName = "h1";
-
-    if (typeof params === "string") {
-      this.textContent = params;
-    }
-  }
-}
-
-export class H2 extends ELEMENT {
-  constructor(params) {
-    super(params);
-    this.tagName = "h2";
-
-    if (typeof params === "string") {
-      this.textContent = params;
-    }
-  }
-}
-
-export class H3 extends ELEMENT {
-  constructor(params) {
-    super(params);
-    this.tagName = "h3";
-
-    if (typeof params === "string") {
-      this.textContent = params;
-    }
-  }
-}
-
-export class H4 extends ELEMENT {
-  constructor(params) {
-    super(params);
-    this.tagName = "h4";
-
-    if (typeof params === "string") {
-      this.textContent = params;
-    }
-  }
-}
-
-export class H5 extends ELEMENT {
-  constructor(params) {
-    super(params);
-    this.tagName = "h5";
-
-    if (typeof params === "string") {
-      this.textContent = params;
-    }
-  }
-}
-
-export class TABLE extends ELEMENT {
-  constructor(params) {
-    super(params);
-    this.tagName = "table";
-  }
-}
-
-export class THEAD extends ELEMENT {
-  constructor(params) {
-    super(params);
-    this.tagName = "thead";
-  }
-}
-
-export class TH extends ELEMENT {
-  constructor(params) {
-    super(params);
-    this.tagName = "th";
-
-    if (typeof params === "string") {
-      this.textContent = params;
-    }
-  }
-}
-
-export class TR extends ELEMENT {
-  constructor(params) {
-    super(params);
-    this.tagName = "tr";
-  }
-}
-
-export class TBODY extends ELEMENT {
-  constructor(params) {
-    super(params);
-    this.tagName = "tbody";
-  }
-}
-
-export class TD extends ELEMENT {
-  constructor(params) {
-    super(params);
-    this.tagName = "td";
-
-    if (typeof params === "string") {
-      this.textContent = params;
-    }
-  }
-}
-
-export class TFOOT extends ELEMENT {
-  constructor(params) {
-    super(params);
-    this.tagName = "tfoot";
-  }
-}
-
-export class INPUT extends ELEMENT {
-  constructor(params) {
-    super(params);
-    this.tagName = "input";
-
-    if (typeof params === "string") {
-      this.name = params;
-      this.id = params;
-    }
-  }
-}
-
-export class LABEL extends ELEMENT {
-  constructor(params) {
-    super(params);
-    this.tagName = "label";
-  }
-}
-
-export class LABELINPUT {
-  constructor(params) {
-    this.if = params.if;
-
-    let inputParams = {},
-      labelText;
-
-    if (typeof params === "string") {
-      inputParams.name = camelize(params);
-      inputParams.id = camelize(params);
-      labelText = capitalizeAll(params);
-    } else {
-      inputParams = params;
-      labelText = params.label;
-    }
-
-    if (params.value !== undefined && params.value !== "") {
-      this.class = "active";
-    }
-
-    this.tagName = "label";
-    this.textContent = labelText;
-    this.child = new INPUT(inputParams);
-  }
-}
-export class TEXTAREA extends ELEMENT {
-  constructor(params) {
-    super(params);
-
-    this.tagName = "textarea";
-    this.rows = params.rows || 5;
-
-    if (typeof params === "string") {
-      this.name = params;
-      this.id = params;
-    }
-  }
-}
-
-export class LABELTEXTAREA {
-  constructor(params) {
-    this.if = params.if;
-
-    let textareaParams = {},
-      labelText;
-
-    if (typeof params === "string") {
-      textareaParams.name = camelize(params);
-      textareaParams.id = camelize(params);
-      labelText = capitalizeAll(params);
-    } else {
-      textareaParams = params;
-      labelText = params.label;
-    }
-
-    if (params.value !== undefined && params.value !== "") {
-      this.class = "active";
-    }
-
-    this.tagName = "label";
-    this.textContent = labelText;
-    this.child = new TEXTAREA(textareaParams);
-  }
-}
-
-export class EMAIL extends LABELINPUT {
-  constructor(params = {}) {
-    params.type = "email";
-
-    if (params.name === undefined) {
-      params.name = "email";
-    }
-
-    if (params.id === undefined) {
-      params.id = "email";
-    }
-
-    if (params.label === undefined) {
-      params.label = "Email";
-    }
-
-    super(params);
-  }
-}
-
-export class MESSAGE extends LABELTEXTAREA {
-  constructor(params) {
-    if (params.name === undefined) {
-      params.name = "message";
-    }
-
-    if (params.id === undefined) {
-      params.id = "message";
-    }
-
-    if (params.label === undefined) {
-      params.label = "Message";
-    }
-
-    super(params);
-  }
-}
-
-export class FILE extends INPUT {
-  constructor(params) {
-    super(params);
-    this.type = "file";
-  }
-}
-
-export class HIDDEN extends INPUT {
-  constructor(params) {
-    super(params);
-
-    this.type = "hidden";
-  }
-}
-
-export class NUMBER {
-  constructor({ type = "number", value = 0 } = {}) {
-    this.tagName = "label";
-    this.textContent = label;
-    this.child = new INPUT({ type, value });
-  }
-}
-
-export class TEXT {
-  constructor(params) {
-    this.if = params.if;
-
-    let inputParams = {},
-      labelText;
-
-    if (typeof params === "string") {
-      inputParams.name = camelize(params);
-      inputParams.id = camelize(params);
-      labelText = capitalizeAll(params);
-    } else {
-      inputParams = params;
-      labelText = params.label;
-    }
-
-    if (params.value !== undefined && params.value !== "") {
-      this.class = "active";
-    }
-
-    this.tagName = "label";
-    this.textContent = labelText;
-    this.child = new INPUT(inputParams);
-  }
-}
-export class PASSWORD {
-  constructor({
-    type = "password",
-    name = "password",
-    id = "password",
-    label = "Password",
-    value = "",
-  } = {}) {
-    this.tagName = "label";
-    this.textContent = label;
-    this.child = new INPUT({ type, name, id });
-  }
-}
-
-export class PHONE {
-  constructor({
-    type = "tel",
-    name = "phone",
-    id = "phone",
-    label = "Phone",
-    value = "",
-  } = {}) {
-    this.tagName = "label";
-    this.textContent = label;
-    this.child = new INPUT({ type, name, id });
-  }
-}
-
-export class DATE {
-  constructor({
-    type = "date",
-    name = "date",
-    id = "date",
-    label = "Date",
-    value = "",
-  } = {}) {
-    this.tagName = "label";
-    this.textContent = label;
-    this.child = new INPUT({ type, name, id, value });
-  }
-}
-
-export class RADIO {
-  constructor(params) {
-    params.type = "radio";
-    this.class = "radio";
-
-    this.children = [
-      new INPUT(params),
-      new LABEL({
-        textContent: params.label,
-        for: params.id,
-      }),
-    ];
-  }
-}
-
-export class OPTION {
-  constructor(params) {
-    this.tagName = "option";
-
-    if (typeof params === "string") {
-      this.value = params;
-      this.textContent = capitalizeAll(params);
-    } else {
-      for (let key in params) {
-        this[key] = params[key];
-      }
-    }
-  }
-}
-
-export class SELECT extends ELEMENT {
-  constructor(params) {
-    super(params);
-
-    this.tagName = "select";
-  }
-}
-
-export class SELECTOPTION extends SELECT {
-  constructor(params) {
-    super(params);
-
-    const options = [];
-
-    this.children.forEach((child) => {
-      let option;
-
-      if (typeof child === "string") {
-        option = new OPTION({
-          textContent: capitalize(child),
-          value: camelize(child),
-        });
-      } else {
-        option = new OPTION({
-          textContent: child.title,
-          value: child.value,
-        });
-      }
-
-      if (child === params.selected) {
-        option.selected = true;
-      }
-
-      options.push(option);
-    });
-
-    this.children = options;
-  }
-}
-
-export class BUTTON extends ELEMENT {
-  constructor(params) {
-    super(params);
-    this.tagName = "button";
-
-    if (typeof params === "string") {
-      this.textContent = params;
-    }
-  }
-}
-
-// export class BTN extends ELEMENT {
-//   constructor(params) {
-//     super(params);
-
-//     if (params.href !== undefined) {
-//       this.tagName = "a";
-//     } else {
-//       this.tagName = "button";
-//     }
-
-//     if (typeof params === "string") {
-//       this.textContent = params;
-//     }
-
-//     this.class = "btn" + (params.class !== undefined ? " " + params.class : "");
-//   }
-// }
-
-export class BTN {
-  constructor(params) {
-    // check if we have a href
-    if (params.href !== undefined) {
-      this.tagName = "a";
-    } else {
-      this.tagName = "button";
-    }
-
-    // create the span that will live inside the btn
-    let span = new SPAN();
-
-    // check if is object/array
-    if (typeof params === "object") {
-      if (Array.isArray(params)) {
-        // if an array, then it's children
-        span.children =
-          this.children !== undefined ? this.children.concat(params) : params;
-      } else {
-        // otherwise, it's regular properties
-        for (let key in params) {
-          if (key !== "textContent" && key !== "children" && key !== "child") {
-            this[key] = params[key];
-          } else {
-            span[key] = params[key];
-          }
-        }
-      }
-    } else {
-      // if it is just a string, it is the textContent
-      span.textContent = params;
-    }
-
-    // add the btn class
-    this.class = this.class !== undefined ? (this.class += " btn") : "btn";
-
-    // and now make the span the only child of the btn
-    this.child = span;
-  }
-}
-
-export class BTNCONTAINER {
-  constructor(params, className = null) {
-    this.class = "btn-container " + className;
-    this.children = [];
-
-    const btns = Array.isArray(params) ? params : [params];
-
-    for (let i = 0; i < btns.length; i++) {
-      const markup = btns[i],
-        btn = new BTN(markup);
-
-      this.children.push(btn);
-    }
-  }
-}
-
-export class FORM extends ELEMENT {
-  constructor(params) {
-    super(params);
-    this.tagName = "form";
-    this.method = params.method !== undefined ? params.method : "POST";
-  }
-}
-
-export class BLOCKQUOTE extends ELEMENT {
-  constructor(params) {
-    super(params);
-    this.tagName = "blockquote";
-
-    if (typeof params === "string") {
-      this.textContent = params;
-    }
-  }
-}
-
-export class BR extends ELEMENT {
-  constructor(params) {
-    super(params);
-    this.tagName = "br";
-  }
-}
-
-export class ICON {
-  constructor(params) {
-    this.icon = i[params];
-  }
-}
-
-export class DIALOG extends ELEMENT {
-  constructor(params) {
-    super(params);
-    this.tagName = "dialog";
-  }
-}
-
-export class ARTICLE extends ELEMENT {
-  constructor(params) {
-    super(params);
-    this.tagName = "article";
-  }
-}
-
-export class SVG extends ELEMENT {
-  constructor(params) {
-    super(params);
-    this.tagName = "svg";
-  }
-}
-
-export class PRECODE {
-  constructor(params) {
-    this.tagName = "pre";
-    this.child = {
-      tagName: "code",
-      textContent: htmlize(params),
-    };
-  }
-}
+import { HTML } from "./html/html.element.js";
+import { HEAD } from "./head/head.element.js";
+import { TITLE } from "./title/title.element.js";
+import { META, VIEWPORT } from "./meta/meta.element.js";
+import { LINK, STYLESHEET } from "./link/link.element.js";
+import { SCRIPT, MODULE } from "./script/script.element.js";
+import { BODY } from "./body/body.element.js";
+import { HEADER } from "./header/header.element.js";
+import { LI } from "./li/li.element.js";
+import { UL, ULLI } from "./ul/ul.element.js";
+import { OL, OLLI } from "./ol/ol.element.js";
+import { NAV, NAVIGATION } from "./nav/nav.element.js";
+import { SPAN } from "./span/span.element.js";
+import { STRONG } from "./strong/strong.element.js";
+import { EM } from "./em/em.element.js";
+import { P } from "./p/p.element.js";
+import { MAIN } from "./main/main.element.js";
+import { A } from "./a/a.element.js";
+import { IMG, LAZYIMG } from "./img/img.element.js";
+import { FIGURE, FIGCAPTION } from "./figure/figure.element.js";
+import { SECTION } from "./section/section.element.js";
+import { TABLE, THEAD, TBODY, TR, TH, TD } from "./table/table.element.js";
+import { H1, H2, H3, H4, H5, H6 } from "./headings/headings.element.js";
+import {
+  INPUT,
+  LABEL,
+  LABELINPUT,
+  TEXTAREA,
+  LABELTEXTAREA,
+  EMAIL,
+  MESSAGE,
+  FILE,
+  HIDDEN,
+  NUMBER,
+  TEXT,
+  PASSWORD,
+  PHONE,
+  DATE,
+  RADIO,
+  OPTION,
+  SELECT,
+  SELECTOPTION,
+} from "./input/input.element.js";
+import { BUTTON } from "./button/button.element.js";
+import { FORM } from "./form/form.element.js";
+import { BLOCKQUOTE } from "./blockquote/blockquote.element.js";
+import { BR } from "./br/br.element.js";
+import { DIALOG } from "./dialog/dialog.element.js";
+import { ARTICLE } from "./article/article.element.js";
+import { SVG } from "./svg/svg.element.js";
+
+export {
+  HTML,
+  HEAD,
+  TITLE,
+  META,
+  VIEWPORT,
+  LINK,
+  STYLESHEET,
+  SCRIPT,
+  MODULE,
+  BODY,
+  HEADER,
+  LI,
+  UL,
+  ULLI,
+  OL,
+  OLLI,
+  NAV,
+  NAVIGATION,
+  SPAN,
+  STRONG,
+  EM,
+  P,
+  MAIN,
+  A,
+  IMG,
+  LAZYIMG,
+  FIGURE,
+  FIGCAPTION,
+  SECTION,
+  TABLE,
+  THEAD,
+  TBODY,
+  TR,
+  TH,
+  TD,
+  H1,
+  H2,
+  H3,
+  H4,
+  H5,
+  H6,
+  INPUT,
+  LABEL,
+  LABELINPUT,
+  TEXTAREA,
+  LABELTEXTAREA,
+  EMAIL,
+  MESSAGE,
+  FILE,
+  HIDDEN,
+  NUMBER,
+  TEXT,
+  PASSWORD,
+  PHONE,
+  DATE,
+  RADIO,
+  OPTION,
+  SELECT,
+  SELECTOPTION,
+  BUTTON,
+  FORM,
+  BLOCKQUOTE,
+  BR,
+  DIALOG,
+  ARTICLE,
+  SVG,
+};

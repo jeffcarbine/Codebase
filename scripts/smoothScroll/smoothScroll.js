@@ -73,7 +73,7 @@ export const smoothScroll = (hash) => {
 // the getScrollParent function and is read in the
 // main function
 
-function getScrollParent(target) {
+const getScrollParent = (target) => {
   let parent = target.parentNode;
 
   // if the parent is the document, then
@@ -91,7 +91,7 @@ function getScrollParent(target) {
     // we've found the parent
     return parent;
   }
-}
+};
 
 // and set the event delegate
 addEventDelegate("click", "a[href^='#']", smoothScrollClick, true);

@@ -1,3 +1,27 @@
+@keyframes placeholder {
+  0% {
+    background-position: -40rem 0;
+  }
+  100% {
+    background-position: 40rem 0;
+  }
+}
+
+@mixin background {
+  overflow: hidden;
+  animation: placeholder 1.7s forwards;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  background: #f6f7f8;
+  background: linear-gradient(
+    to right,
+    var(--light-mid) 10%,
+    var(--light-low) 40%,
+    var(--light-mid) 70%
+  );
+  background-size: 80rem;
+}
+
 .placeholder {
   &.box {
   }

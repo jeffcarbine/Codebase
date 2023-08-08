@@ -5,7 +5,7 @@
  */
 
 // when the observer runs
-function observerCallback(entries, vclassObserver) {
+const observerCallback = (entries, vclassObserver) => {
   // reivew all the corresponding vclass entries
   entries.forEach((entry) => {
     // if we find it to be intersecting the viewport
@@ -20,7 +20,7 @@ function observerCallback(entries, vclassObserver) {
       vclassObserver.unobserve(element);
     }
   });
-}
+};
 
 export const observeViewportClassElements = () => {
   // on page load, get all the elements that have a data-vclass property
