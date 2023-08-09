@@ -1,4 +1,4 @@
-import { BUTTON } from "../../elements/button/button.element.js";
+import { BUTTON } from "../../components/btn/btn.element.js";
 
 export class NAVTOGGLE extends BUTTON {
   constructor(params) {

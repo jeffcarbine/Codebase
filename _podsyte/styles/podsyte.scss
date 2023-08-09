@@ -2,9 +2,9 @@
 @import "../../styles/reset";
 @import "../../styles/mixin";
 @import "../../styles/animations";
-@import "../../elements/typography/typography";
+@import "../../styles/typography";
 @import "../../styles/theme";
-@import "../../elements/button/button";
+@import "../../components/btn/btn";
 
 .btn {
   --btn-border-radius: 25px;

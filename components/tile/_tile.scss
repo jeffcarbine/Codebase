@@ -1,5 +1,5 @@
 @use "../../styles/mixin";
-@use "../../elements/typography/typography";
+@use "../../styles/typography";
 
 .tile {
   --tile-background: var(--background);

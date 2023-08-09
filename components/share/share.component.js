@@ -1,4 +1,4 @@
-import { BUTTON } from "../../elements/button/button.element.js";
+import { BUTTON } from "../../components/btn/btn.element.js";
 import { ICON } from "../icon/icon.component.js";
 
 export const SHARE = ({ title, url, className = "" } = {}) => {

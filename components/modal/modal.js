@@ -8,8 +8,6 @@ export const createModal = ({
   className = "",
   id = "",
 } = {}) => {
-  console.log(modalBody);
-
   const newModal = renderTemplate(MODAL({ modalBody, className, id }));
 
   sibling.after(newModal);

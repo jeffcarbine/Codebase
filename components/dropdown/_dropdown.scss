@@ -1,7 +1,8 @@
 :root {
   --dropdown-background: var(--background-low);
   --dropdown-button-background: var(--primary);
-  --dropdown-carat-color: var(--dark);
+  --dropdown-button-color: var(--primary-on);
+  --dropdown-carat-color: var(--primary-on);
 }
 
 .dropdown {
@@ -19,7 +20,7 @@
     z-index: 1;
     cursor: pointer;
     font-size: var(--btn-font-size);
-    color: inherit;
+    color: var(--dropdown-button-color);
 
     &::before,
     &::after {

@@ -1,8 +1,7 @@
 import { createModal } from "../modal/modal.js";
-import * as e from "../../elements/elements.js";
 import { addEventDelegate } from "../../modules/eventDelegate/eventDelegate.js";
-import { CLICKTOCOPY } from "../../components/clickToCopy/clickToCopy.component.js";
-import { H2, ICON } from "../../elements/elements.js";
+import { H2 } from "../../elements/elements.js";
+import { ICON, CLICKTOCOPY } from "../components.js";
 
 const share = (button) => {
   const title = button.dataset.title,

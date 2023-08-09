@@ -1,10 +1,11 @@
 import { DROPDOWN } from "./dropdown.component.js";
+import { BTN } from "../btn/btn.component.js";
 
 export const DROPDOWNSELECT = (className = "", title = "", options = []) => {
   const children = [];
 
   options.forEach((option) => {
-    const button = new e.BTN(option);
+    const button = new BTN(option);
 
     children.push(button);
   });
@@ -13,5 +14,5 @@ export const DROPDOWNSELECT = (className = "", title = "", options = []) => {
     children,
   };
 
-  return dropdownTemplate("select " + className, title, body);
+  return DROPDOWN("select " + className, title, body);
 };
