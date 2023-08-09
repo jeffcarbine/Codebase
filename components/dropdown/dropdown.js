@@ -40,8 +40,8 @@ const handleDropdownSelectClick = (dropdownSelectButton) => {
   closeAccordion(mainDropdownBody, mainDropdownButton);
 };
 
-addEventDelegate(
-  "click",
-  ".dropdown.select ul li a, .dropdown.select ul li button",
-  handleDropdownSelectClick
-);
+// addEventDelegate(
+//   "click",
+//   ".dropdown.select a, .dropdown.select button",
+//   handleDropdownSelectClick
+// );

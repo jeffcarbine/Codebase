@@ -108,6 +108,19 @@ button {
   }
 }
 
+.radioLabel,
+.checkboxLabel {
+  &.btn {
+    input {
+      visibility: hidden;
+      position: absolute;
+      pointer-events: none;
+      width: 1px;
+      height: 1px;
+    }
+  }
+}
+
 .btn-container {
   margin: 1rem 0;
   display: flex;

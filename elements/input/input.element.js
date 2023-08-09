@@ -217,21 +217,6 @@ export class DATE {
   }
 }
 
-export class RADIO {
-  constructor(params) {
-    params.type = "radio";
-    this.class = "radio";
-
-    this.children = [
-      new INPUT(params),
-      new LABEL({
-        textContent: params.label,
-        for: params.id,
-      }),
-    ];
-  }
-}
-
 export class OPTION {
   constructor(params) {
     this.tagName = "option";
@@ -284,5 +269,72 @@ export class SELECTOPTION extends SELECT {
     });
 
     this.children = options;
+  }
+}
+
+export class CHECKBOX extends INPUT {
+  constructor(params) {
+    super(params);
+
+    this.type = "checkbox";
+
+    if (params.id === undefined) {
+      this.id = params.value;
+    }
+  }
+}
+
+export class CHECKBOXLABEL {
+  constructor(params) {
+    this.class = "checkboxLabel";
+
+    if (params.id === undefined) {
+      params.id = params.value;
+    }
+
+    this.children = [
+      new CHECKBOX(params),
+      new LABEL({
+        textContent: params.label,
+        for: params.id,
+      }),
+    ];
+  }
+}
+
+export class RADIO extends INPUT {
+  constructor(params) {
+    super(params);
+
+    this.type = "radio";
+
+    if (params.id === undefined) {
+      this.id = params.value;
+    }
+  }
+}
+
+export class RADIOLABEL {
+  constructor(params) {
+    this.class = `radioLabel ${params.class}`;
+    // clear out params.class
+    params.class = undefined;
+
+    // set up the label
+    const labelText = params.label;
+    // clear out params.label
+    params.label = undefined;
+
+    if (params.id === undefined) {
+      params.id = params.value;
+    }
+
+    this.children = [
+      new RADIO(params),
+      new LABEL({
+        textContent: labelText,
+        for: params.id,
+      }),
+    ];
   }
 }
