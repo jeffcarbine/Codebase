@@ -25,23 +25,22 @@ addEventDelegate("click", ".dropdown > button", handleDropdownClick);
  * This is the specific controls for if we have a .dropdown.select
  */
 
-const handleDropdownSelectClick = (dropdownSelectButton) => {
+const handleDropdownSelectClick = (radio) => {
   // so what we need to do is find the main button for the dropdown
-  const dropdown = dropdownSelectButton.closest(".dropdown"),
+  const dropdown = radio.closest(".dropdown"),
     mainDropdownButton = dropdown.querySelector(":scope > button"),
     mainDropdownBody = dropdown.querySelector(":scope > div");
 
   // now we just update the text
-  const textContent = dropdownSelectButton.textContent;
-
+  const textContent = radio.dataset.label;
   mainDropdownButton.textContent = textContent;
 
   // and toggle the dropdown
   closeAccordion(mainDropdownBody, mainDropdownButton);
 };
 
-// addEventDelegate(
-//   "click",
-//   ".dropdown.select a, .dropdown.select button",
-//   handleDropdownSelectClick
-// );
+addEventDelegate(
+  "change",
+  ".dropdown.select input[type='radio']",
+  handleDropdownSelectClick
+);

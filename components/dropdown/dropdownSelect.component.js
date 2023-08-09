@@ -1,21 +1,28 @@
 import { DROPDOWN, BTN } from "../components.js";
-import { RADIOLABEL } from "../../elements/elements.js";
+import { RADIOLABEL, ULLI } from "../../elements/elements.js";
 import { generateUniqueId } from "../../modules/generateUniqueId/generateUniqueId.js";
 
 export const DROPDOWNSELECT = ({
   className = "",
   title = "",
+  name = "",
   options = [],
 } = {}) => {
   const children = [];
 
   let dropdownTitle = title;
 
-  const name = generateUniqueId();
+  if (name === "") {
+    name = generateUniqueId();
+  }
 
   options.forEach((option, index) => {
     option.name = name;
-    option.class += " btn";
+
+    if (index === 0) {
+      option.checked = true;
+      dropdownTitle = option.label;
+    }
 
     const button = new RADIOLABEL(option);
 
@@ -27,7 +34,7 @@ export const DROPDOWNSELECT = ({
   });
 
   const body = {
-    children,
+    child: new ULLI(children),
   };
 
   return DROPDOWN("select " + className, dropdownTitle, body);

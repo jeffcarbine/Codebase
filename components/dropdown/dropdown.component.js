@@ -1,4 +1,4 @@
-import { BUTTON } from "../../components/btn/btn.element.js";
+import { BUTTON } from "../../elements/button/button.element.js";
 
 export const DROPDOWN = (className = "", title = "", body = {}) => {
   return {

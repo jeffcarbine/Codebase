@@ -318,12 +318,18 @@ export class RADIOLABEL {
   constructor(params) {
     this.class = `radioLabel ${params.class}`;
     // clear out params.class
-    params.class = undefined;
+    delete params.class;
 
     // set up the label
-    const labelText = params.label;
+    const labelText = params.label,
+      labelClass = params.labelClass;
+
+    // create a data attribute for the input
+    params["data-label"] = labelText;
+
     // clear out params.label
-    params.label = undefined;
+    delete params.label;
+    delete params.labelClass;
 
     if (params.id === undefined) {
       params.id = params.value;
@@ -333,6 +339,7 @@ export class RADIOLABEL {
       new RADIO(params),
       new LABEL({
         textContent: labelText,
+        class: labelClass,
         for: params.id,
       }),
     ];
