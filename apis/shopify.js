@@ -241,7 +241,8 @@ export const getMetafield = ({
   shopify.graphQLClient.send(productsQuery).then(({ model, data }) => {
     const products = model.products,
       product = products.find((o) => o.id === productId),
-      metafield = product.metafields[0].value;
+      metafield =
+        product.metafields[0] !== null ? product.metafields[0].value : null;
 
     callback(metafield);
   });

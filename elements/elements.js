@@ -19,7 +19,15 @@ import { A } from "./a/a.element.js";
 import { IMG, LAZYIMG } from "./img/img.element.js";
 import { FIGURE, FIGCAPTION } from "./figure/figure.element.js";
 import { SECTION } from "./section/section.element.js";
-import { TABLE, THEAD, TBODY, TR, TH, TD } from "./table/table.element.js";
+import {
+  TABLE,
+  CAPTION,
+  THEAD,
+  TBODY,
+  TR,
+  TH,
+  TD,
+} from "./table/table.element.js";
 import { H1, H2, H3, H4, H5, H6 } from "./headings/headings.element.js";
 import {
   INPUT,
@@ -83,7 +91,9 @@ export {
   FIGURE,
   FIGCAPTION,
   SECTION,
+  // table
   TABLE,
+  CAPTION,
   THEAD,
   TBODY,
   TR,

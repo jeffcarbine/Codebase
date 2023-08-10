@@ -7,6 +7,13 @@ export class TABLE extends ELEMENT {
   }
 }
 
+export class CAPTION extends ELEMENT {
+  constructor(params) {
+    super(params);
+    this.tagName = "caption";
+  }
+}
+
 export class THEAD extends ELEMENT {
   constructor(params) {
     super(params);
