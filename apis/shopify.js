@@ -213,14 +213,19 @@ export const formatProduct = (product) => {
   return formattedProduct;
 };
 
-export const getProductBlank = (productId, mainCallback) => {
+export const getMetafield = ({
+  productId,
+  key,
+  namespace = "custom",
+  callback,
+} = {}) => {
   const productsQuery = shopify.graphQLClient.query((root) => {
     root.addConnection("products", { args: { first: 249 } }, (product) => {
       product.add(
         "metafields",
         {
           args: {
-            identifiers: [{ namespace: "custom", key: "productBlank" }],
+            identifiers: [{ namespace, key }],
           },
         },
         (metafield) => {
@@ -236,11 +241,9 @@ export const getProductBlank = (productId, mainCallback) => {
   shopify.graphQLClient.send(productsQuery).then(({ model, data }) => {
     const products = model.products,
       product = products.find((o) => o.id === productId),
-      productBlank = product.metafields[0].value;
+      metafield = product.metafields[0].value;
 
-    console.log(productBlank);
-
-    mainCallback(productBlank);
+    callback(metafield);
   });
 };
 
