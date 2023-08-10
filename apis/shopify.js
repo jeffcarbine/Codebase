@@ -220,7 +220,7 @@ export const getProductBlank = (productId, mainCallback) => {
         "metafields",
         {
           args: {
-            identifiers: [{ namespace: "custom", key: "product_blank" }],
+            identifiers: [{ namespace: "custom", key: "productBlank" }],
           },
         },
         (metafield) => {
@@ -237,6 +237,8 @@ export const getProductBlank = (productId, mainCallback) => {
     const products = model.products,
       product = products.find((o) => o.id === productId),
       productBlank = product.metafields[0].value;
+
+    console.log(productBlank);
 
     mainCallback(productBlank);
   });
