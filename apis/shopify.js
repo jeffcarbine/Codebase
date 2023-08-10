@@ -213,6 +213,35 @@ export const formatProduct = (product) => {
   return formattedProduct;
 };
 
+export const getProductBlank = (productId, mainCallback) => {
+  const productsQuery = shopify.graphQLClient.query((root) => {
+    root.addConnection("products", { args: { first: 249 } }, (product) => {
+      product.add(
+        "metafields",
+        {
+          args: {
+            identifiers: [{ namespace: "custom", key: "product_blank" }],
+          },
+        },
+        (metafield) => {
+          metafield.add("namespace");
+          metafield.add("key");
+          metafield.add("value");
+        }
+      );
+    });
+  });
+
+  // Call the send method with the custom products query
+  shopify.graphQLClient.send(productsQuery).then(({ model, data }) => {
+    const products = model.products,
+      product = products.find((o) => o.id === productId),
+      productBlank = product.metafields[0].value;
+
+    mainCallback(productBlank);
+  });
+};
+
 export const getProductTotalInventory = (productId, mainCallback) => {
   const productsQuery = shopify.graphQLClient.query((root) => {
     root.addConnection("products", { args: { first: 249 } }, (product) => {
