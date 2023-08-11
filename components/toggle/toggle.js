@@ -14,6 +14,10 @@ const moveToggleGroupSwitch = (radio) => {
   pill.style.width = `${width}px`;
   pill.style.left = `${left}px`;
 
+  setTimeout(() => {
+    pill.classList.add("animate");
+  }, 500);
+
   // init if not init
   if (!parent.classList.contains("init")) {
     parent.classList.add("init");
@@ -21,6 +25,18 @@ const moveToggleGroupSwitch = (radio) => {
 };
 
 addEventDelegate("input", ".toggle.group input", moveToggleGroupSwitch);
+
+const initToggleGroups = () => {
+  const toggleGroups = document.querySelectorAll(".toggle.group");
+
+  toggleGroups.forEach((toggleGroup) => {
+    const activeRadio = toggleGroup.querySelector("input:checked");
+
+    moveToggleGroupSwitch(activeRadio);
+  });
+};
+
+addEventDelegate("load", window, initToggleGroups);
 
 // /////////////////
 // // TOGGLE SWITCH

@@ -1,6 +1,11 @@
 import { camelize } from "../../modules/formatString/formatString.js";
 
-export const TOGGLEGROUP = ({ name, values = [], checked }) => {
+export const TOGGLEGROUP = ({
+  className = "",
+  name,
+  values = [],
+  checked,
+} = {}) => {
   const children = [];
 
   values.forEach((value) => {
@@ -37,7 +42,7 @@ export const TOGGLEGROUP = ({ name, values = [], checked }) => {
   });
 
   return {
-    class: "toggle group",
+    class: "toggle group " + className,
     children,
   };
 };

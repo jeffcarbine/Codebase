@@ -29,7 +29,7 @@ const generateSpotifyToken = (mainCallback) => {
         grant_type: "authorization_code",
       },
     },
-    function (err, httpResponse, str) {
+    (err, httpResponse, str) => {
       if (err) {
         console.log(err);
       } else {
@@ -78,6 +78,7 @@ export function getSpotifyToken(mainCallback) {
     if (err) {
       callback(err);
     } else {
+      console.log(now, token.expires);
       // if the token is still valid, use it
       if (token !== null && token.expires > now) {
         console.log("spotify token still valid!");
@@ -122,7 +123,9 @@ export function getSpotifyToken(mainCallback) {
           console.log(body);
 
           token.access_token = body.access_token;
-          token.expires = now.setHours(now.getHours() + 1);
+          const expires = new Date(now.setHours(now.getHours() + 1));
+          console.log(expires);
+          token.expires = expires;
           token.save();
 
           mainCallback(body.access_token);
