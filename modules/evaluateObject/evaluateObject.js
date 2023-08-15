@@ -18,7 +18,7 @@ export const evaluateObject = (obj, keys) => {
     if (value[property] !== undefined) {
       // if the property is the last one, return true
       if (index === keyList.length - 1) {
-        return true;
+        return value[property];
       } else {
         // otherwise, set the value to the property and check the next property
         value = value[property];
