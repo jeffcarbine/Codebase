@@ -22,7 +22,7 @@ export default (data) => {
 
       switch (type) {
         case "html":
-          preview = new e.PRECODE(datapoint.html);
+          preview = new c.CODEBLOCK(datapoint.html);
           break;
         case "text":
           preview = new e.P(datapoint.text);

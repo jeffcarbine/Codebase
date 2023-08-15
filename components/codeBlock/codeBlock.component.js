@@ -1,4 +1,5 @@
 import { PRE } from "../../elements/pre/pre.element.js";
+import { htmlize } from "../../modules/formatString/formatString.js";
 
 export class CODEBLOCK extends PRE {
   constructor(params) {
