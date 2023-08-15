@@ -4,6 +4,7 @@ import {
   enableSetNavBackground,
 } from "/periodic/elements/nav/nav.js";
 import { initModals } from "/periodic/components/modal/modal.js";
+import { xhrForm } from "/periodic/modules/xhr/xhr.js";
 
 initModals();
 enableToggleNav();
@@ -45,3 +46,15 @@ const hideFullNav = () => {
 };
 
 addEventDelegate("mouseout", "nav", hideFullNav);
+
+const submitDatapointForm = (form) => {
+  console.log("submitting datapoint form!");
+
+  const success = (response) => {
+    window.location.reload();
+  };
+
+  xhrForm({ form, success });
+};
+
+addEventDelegate("submit", ".datapointForm", submitDatapointForm, true);

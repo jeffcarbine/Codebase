@@ -114,6 +114,7 @@ export const generateDatapointForms = ({
     return new e.FORM({
       method: "POST",
       action: "/admin/datapoints",
+      class: "datapointForm",
       children: [
         ...[
           new e.HIDDEN({ name: hiddenName, value: hiddenValue }),

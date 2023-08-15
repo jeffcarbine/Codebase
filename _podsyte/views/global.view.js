@@ -210,7 +210,6 @@ export default (data) => {
     },
     [
       new e.MODULE("/periodic/elements/input/input.js"),
-      new e.MODULE("/periodic/modules/xhr/_xhrForm.js"),
       new e.MODULE("/admin/scripts/global.scripts.js"),
     ]
   );
