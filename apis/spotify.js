@@ -59,7 +59,6 @@ const generateSpotifyToken = (mainCallback) => {
             console.log(err);
           } else {
             console.log("Succesfully generated Token for Spotify");
-            console.log(token);
             mainCallback(token.access_token);
           }
         });
@@ -69,7 +68,7 @@ const generateSpotifyToken = (mainCallback) => {
 };
 
 export function getSpotifyToken(mainCallback) {
-  const now = new Date();
+  const now = new Date().getTime();
 
   // first, attempt to get the token from the databsae
   Token.findOne({
@@ -78,18 +77,17 @@ export function getSpotifyToken(mainCallback) {
     if (err) {
       callback(err);
     } else {
-      console.log(now, token.expires);
       // if the token is still valid, use it
       if (token !== null && token.expires > now) {
-        console.log("spotify token still valid!");
+        console.log("Spotify token is still valid");
         mainCallback(token.access_token);
       } else {
         // if the token is null, we don't have one so we need to generate a token
         if (token === null) {
-          console.log("No Spotify token found. Generating one.");
+          console.log("No Spotify token found - generating one");
           generateSpotifyToken(mainCallback);
         } else {
-          console.log("spotify token invalid, time for a new one");
+          console.log("Spotify token invalid - time for a new one");
           // otherwise, let's get a new token
           refreshSpotifyToken(token, mainCallback);
         }
@@ -123,7 +121,7 @@ export function getSpotifyToken(mainCallback) {
           console.log(body);
 
           token.access_token = body.access_token;
-          const expires = new Date(now.setHours(now.getHours() + 1));
+          const expires = new Date().getTime() + 3600000;
           console.log(expires);
           token.expires = expires;
           token.save();

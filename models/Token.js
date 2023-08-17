@@ -6,7 +6,7 @@ var Token = new Schema({
   name: String,
   access_token: String,
   refresh_token: String,
-  expires: Date,
+  expires: Number,
 });
 
 // create the model for users and expose it to our app

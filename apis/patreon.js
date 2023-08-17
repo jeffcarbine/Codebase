@@ -22,10 +22,12 @@ const saveAndReturnPatreonToken = (
   mainCallback
 ) => {
   // create new expiration date
-  let expires = new Date(),
-    days = expires_in / 60 / 60 / 24;
+  const now = new Date().getTime(),
+    expires = now + expires_in * 1000;
 
-  expires.setDate(expires.getDate() + days);
+  console.log(now);
+  console.log(expires_in);
+  console.log(expires);
 
   Token.findOneAndUpdate(
     {
@@ -102,7 +104,7 @@ export const getPatreonToken = (mainCallback) => {
               generateNewPatreonToken(callback, mainCallback);
             } else {
               // check expiration
-              let now = new Date();
+              let now = new Date().getTime();
 
               if (now > token.expires) {
                 console.log("patreon token invalid, requesting new one");

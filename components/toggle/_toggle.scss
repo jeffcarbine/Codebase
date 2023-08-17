@@ -6,6 +6,7 @@
   --toggle-active-negative: var(--negative);
   --toggle-focus-color: var(--accent);
 
+  --toggle-group-padding: 0.5rem;
   --toggle-group-pill-background: var(--primary);
   --toggle-group-color: var(--dark);
   --toggle-group-selected-color: var(--primary-on);
@@ -334,19 +335,27 @@
   &.group {
     display: inline-block;
     border-radius: 50px;
-    position: relative;
 
-    &::after {
-      content: "";
-      width: calc(100% + 0.5rem);
-      height: calc(100% + 0.5rem);
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 0;
-      background: var(--toggle-background);
-      border-radius: 50px;
+    fieldset {
+      margin-bottom: 0.5rem;
+    }
+
+    .radios {
+      position: relative;
+      padding: var(--toggle-group-padding);
+
+      &::after {
+        content: "";
+        width: 100%;
+        height: calc(100% + var(--toggle-group-padding));
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 0;
+        background: var(--toggle-background);
+        border-radius: 50px;
+      }
     }
 
     // > *:not(input):not(label) {

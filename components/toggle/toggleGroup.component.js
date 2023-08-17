@@ -1,6 +1,8 @@
 import { camelize } from "../../modules/formatString/formatString.js";
+import { FIELDSET } from "../../elements/input/input.element.js";
 
 export const TOGGLEGROUP = ({
+  label,
   className = "",
   name,
   values = [],
@@ -43,6 +45,15 @@ export const TOGGLEGROUP = ({
 
   return {
     class: "toggle group " + className,
-    children,
+    children: [
+      new FIELDSET({
+        if: label !== undefined,
+        textContent: label,
+      }),
+      {
+        class: "radios",
+        children,
+      },
+    ],
   };
 };

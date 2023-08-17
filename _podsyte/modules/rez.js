@@ -54,19 +54,25 @@ export const rez = ({
               // then we need to recursively find the datapoints
               // in the group
 
-              let isArray = datapoint.groupType === "array";
+              let childIsArray = datapoint.groupType === "array";
 
               fetchDatapoints(
                 datapointData,
                 (groupDatapoints) => {
-                  datapoints[camelize(datapoint.name)] = {
+                  const childDatapoint = {
                     name: datapoint.name,
                     group: groupDatapoints,
                   };
 
+                  if (isArray) {
+                    datapoints.push(childDatapoint);
+                  } else {
+                    datapoints[camelize(datapoint.name)] = childDatapoint;
+                  }
+
                   next();
                 },
-                isArray
+                childIsArray
               );
             } else {
               if (isArray) {
@@ -98,7 +104,7 @@ export const rez = ({
         // fetch datapoints if applicable
         if (page !== undefined && datapointIds.length > 0) {
           fetchDatapoints(datapointIds, (datapoints) => {
-            // store the datapoints to the points key (haha so funny)
+            // store the datapoints to the page key
             data.page = datapoints;
 
             callback(null);

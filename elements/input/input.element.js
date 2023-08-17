@@ -24,6 +24,13 @@ export class LABEL extends ELEMENT {
   }
 }
 
+export class FIELDSET extends ELEMENT {
+  constructor(params) {
+    super(params);
+    this.tagName = "fieldset";
+  }
+}
+
 export class LABELINPUT {
   constructor(params) {
     this.if = params.if;

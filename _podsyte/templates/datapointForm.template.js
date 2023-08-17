@@ -4,6 +4,7 @@ import * as c from "../../components/components.js";
 import { base64ImageInputComponent } from "../../elements/input/base64ImageInput.component.js";
 import { datapointList, groupTypes } from "../models/Datapoint.js";
 import { TOGGLESINGLE } from "../../components/toggle/toggleSingle.component.js";
+import { generateUniqueId } from "../../modules/generateUniqueId/generateUniqueId.js";
 
 const datapointInputs = {
   text: (datapoint) => {
@@ -57,10 +58,10 @@ const datapointInputs = {
   },
   image: (datapoint) => {
     const alt = datapoint !== undefined ? datapoint.image.alt : "",
-      src = datapoint !== undefined ? datapoint.image.src : "";
+      src = datapoint !== undefined ? datapoint.image.src : null;
 
     return [
-      base64ImageInputComponent("base64Image"),
+      base64ImageInputComponent({ base64Image: src }),
       new e.TEXT({ name: "alt", label: "Alt Text", value: alt }),
     ];
   },
@@ -120,7 +121,6 @@ export const generateDatapointForms = ({
           new e.HIDDEN({ name: hiddenName, value: hiddenValue }),
           new e.HIDDEN({ name: "type", value: datapointType }),
           new e.TEXT({
-            if: datapoint === undefined,
             label: "Name",
             name: "name",
             value: name,
@@ -151,12 +151,15 @@ export const generateDatapointForms = ({
   } else {
     // we need to push the datapoint form selector
     // and then each individual datapoint form
+
+    const uniqueId = generateUniqueId();
+
     children.unshift(
       new e.LABEL([
         "Datapoint Type",
         new e.SELECTOPTION({
           name: "type",
-          "data-targets": ".datapointForm",
+          "data-targets": `.${uniqueId}`,
           children: datapointList,
         }),
       ])
@@ -170,7 +173,7 @@ export const generateDatapointForms = ({
       );
 
       children.push({
-        class: "hidden-input-group datapointForm " + datapointType,
+        class: `hidden-input-group datapointForm ${datapointType} ${uniqueId}`,
         child: datapointForm,
       });
     }

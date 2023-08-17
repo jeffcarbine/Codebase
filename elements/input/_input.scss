@@ -74,7 +74,7 @@ input[type="number"] {
     --label-focus-font-size: 0.75rem;
     --label-active-color: var(--foreground-mid);
     --label-active-border-color: var(--accent);
-    --label-border-radius: 0;
+    --label-border-radius: var(--border-radius);
     --label-round-border-radius: 50px;
     --label-padding: 1.25rem 0.5rem;
     --label-round-padding: 1.25rem;
@@ -429,6 +429,24 @@ input[type="number"] {
 
       &.lg {
         flex: 0 0 15rem;
+      }
+    }
+  }
+
+  .base64ImageInput {
+    .imagePreview {
+      display: block;
+      background: var(--background-low);
+      width: 10rem;
+      height: 10rem;
+      border-radius: var(--border-radius);
+    }
+
+    label:not([for]) {
+      --label-active-padding: 0.5rem 0.5rem 3rem 0.5rem;
+
+      input {
+        height: calc(100% - 2rem);
       }
     }
   }

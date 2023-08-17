@@ -90,10 +90,14 @@ const toggleVisibilityWithSelect = (selectInput) => {
 };
 
 // make the first hidden input group visible
-const firstHiddenInputGroup = document.querySelector(".hidden-input-group");
+const firstHiddenInputGroups = document.querySelectorAll(
+  ".hidden-input-group:nth-of-type(1)"
+);
 
-if (firstHiddenInputGroup !== null) {
-  firstHiddenInputGroup.classList.add("visible");
+if (firstHiddenInputGroups.length > 0) {
+  firstHiddenInputGroups.forEach((firstHiddenInputGroup) => {
+    firstHiddenInputGroup.classList.add("visible");
+  });
 }
 
 addEventDelegate("change", "select[data-targets]", toggleVisibilityWithSelect);
@@ -124,9 +128,12 @@ const imageToBase64 = (input) => {
 
   const FR = new FileReader();
 
-  FR.addEventListener("load", function (evt) {
-    const hiddenInput = input.parentNode.nextElementSibling;
+  FR.addEventListener("load", (evt) => {
+    const hiddenInput = input.parentNode.nextElementSibling,
+      imagePreview = input.parentNode.previousElementSibling;
+
     hiddenInput.value = evt.target.result;
+    imagePreview.src = evt.target.result;
   });
 
   FR.readAsDataURL(input.files[0]);

@@ -32,6 +32,7 @@ import { H1, H2, H3, H4, H5, H6 } from "./headings/headings.element.js";
 import {
   INPUT,
   LABEL,
+  FIELDSET,
   LABELINPUT,
   TEXTAREA,
   LABELTEXTAREA,
@@ -105,8 +106,10 @@ export {
   H4,
   H5,
   H6,
+  // inputs
   INPUT,
   LABEL,
+  FIELDSET,
   LABELINPUT,
   TEXTAREA,
   LABELTEXTAREA,

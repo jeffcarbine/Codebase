@@ -56,7 +56,8 @@ export const post__admin_datapoints = (req, res, next) => {
           if (
             type === "image" &&
             body.base64Image !== undefined &&
-            body.base64Image !== ""
+            body.base64Image !== "" &&
+            body.base64Image.includes("data:image")
           ) {
             uploadToS3(body, callback);
           } else {
@@ -88,7 +89,16 @@ export const post__admin_datapoints = (req, res, next) => {
               datapoint.html = body.html;
               break;
             case "image":
-              datapoint.image = body.image || {};
+              if (
+                body.base64Image !== undefined &&
+                body.base64Image !== "" &&
+                body.base64Image.includes("data:image")
+              ) {
+                datapoint.image = body.image;
+              } else {
+                datapoint.image = { src: body.base64Image };
+              }
+
               datapoint.image.alt = body.alt;
               break;
             case "group":

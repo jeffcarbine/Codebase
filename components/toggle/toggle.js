@@ -5,7 +5,7 @@ const moveToggleGroupSwitch = (radio) => {
   const id = radio.id,
     label = document.querySelector(`label[for='${id}']`),
     labelOffset = label.getBoundingClientRect().left,
-    parent = radio.parentNode,
+    parent = radio.parentNode.parentNode,
     parentOffset = parent.getBoundingClientRect().left,
     pill = parent.querySelector(".pill"),
     width = label.offsetWidth,

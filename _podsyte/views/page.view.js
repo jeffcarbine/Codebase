@@ -100,13 +100,21 @@ export default (data) => {
         editChildren = addChildren.concat(editChildren);
       }
 
+      const generateDatapointIcon = () => {
+        if (type !== "group") {
+          return new c.ICON(type);
+        } else {
+          return new c.ICON(datapoint.groupType);
+        }
+      };
+
       const datapointCard = CARD({
         body: {
           children: [
             {
               class: "title-edit",
               children: [
-                new e.H2([new c.ICON(type), datapoint.name]),
+                new e.H2([generateDatapointIcon(), datapoint.name]),
                 {
                   class: "edit",
                   children: editChildren,
