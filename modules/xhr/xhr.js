@@ -135,14 +135,21 @@ export const xhrForm = ({
   });
 };
 
-export const xhrFormRecaptcha = (form) => {
+export const xhrFormRecaptcha = ({
+  form,
+  success = toastResponse,
+  error = toastResponse,
+  failure = toastResponse,
+  body = {},
+}) => {
   const recaptchaSiteKey = form.dataset.recaptchaSiteKey;
 
   grecaptcha.ready(() => {
     grecaptcha
       .execute(recaptchaSiteKey, { action: "submit" })
       .then((recaptchaToken) => {
-        xhrForm({ form, body: { recaptchaToken } });
+        body.recaptchaToken = recaptchaToken;
+        xhrForm({ form, body, success, error, failure });
       });
   });
 };
