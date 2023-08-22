@@ -217,7 +217,8 @@ const defaultSpotifyArchiver = (show, count, callback) => {
         spotifyEps,
         (spotifyEp, next) => {
           const title = spotifyEp.name,
-            spotifyLink = spotifyEp.external_urls.spotify;
+            spotifyLink = spotifyEp.external_urls.spotify,
+            spotifyUri = spotifyEp.uri;
 
           // save to mongodb
           Episode.findOneAndUpdate(
@@ -227,6 +228,7 @@ const defaultSpotifyArchiver = (show, count, callback) => {
             {
               $set: {
                 spotifyLink,
+                spotifyUri,
               },
             }
           ).exec((err) => {

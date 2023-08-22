@@ -1,15 +1,12 @@
 import mongoose from "mongoose";
 var Schema = mongoose.Schema;
-
-export const datapointList = ["text", "link", "html", "image", "group"];
+import { datapointList, groupTypes } from "./datapointList.js";
 
 const datapointEnum = {
   type: String,
   enum: datapointList,
   default: "text",
 };
-
-export const groupTypes = ["object", "array"];
 
 const groupTypeEnum = {
   type: String,
@@ -18,6 +15,7 @@ const groupTypeEnum = {
 };
 
 const datapoint = {
+  accordionOpen: Boolean,
   name: String,
   type: datapointEnum,
   active: {

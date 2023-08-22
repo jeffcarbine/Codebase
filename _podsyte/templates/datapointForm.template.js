@@ -1,8 +1,7 @@
-import { MODAL } from "../../components/modal/modal.component.js";
 import * as e from "../../elements/elements.js";
 import * as c from "../../components/components.js";
-import { base64ImageInputComponent } from "../../elements/input/base64ImageInput.component.js";
-import { datapointList, groupTypes } from "../models/Datapoint.js";
+import { BASE64IMAGEINPUT } from "../../elements/input/base64ImageInput.component.js";
+import { datapointList, groupTypes } from "../models/datapointList.js";
 import { TOGGLESINGLE } from "../../components/toggle/toggleSingle.component.js";
 import { generateUniqueId } from "../../modules/generateUniqueId/generateUniqueId.js";
 
@@ -61,7 +60,7 @@ const datapointInputs = {
       src = datapoint !== undefined ? datapoint.image.src : null;
 
     return [
-      base64ImageInputComponent({ base64Image: src }),
+      BASE64IMAGEINPUT({ base64Image: src }),
       new e.TEXT({ name: "alt", label: "Alt Text", value: alt }),
     ];
   },

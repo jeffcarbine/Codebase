@@ -26,3 +26,14 @@ const removeDatapoint = (button) => {
 };
 
 addEventDelegate("click", ".removeDatapoint", removeDatapoint);
+
+const saveAccordionOpenSate = (button) => {
+  setTimeout(() => {
+    const id = button.dataset.id,
+      accordionOpen = button.classList.contains("open");
+
+    xhr({ path: "/admin/datapoints", body: { id, accordionOpen } });
+  }, 500);
+};
+
+addEventDelegate("click", ".accordion-button", saveAccordionOpenSate);

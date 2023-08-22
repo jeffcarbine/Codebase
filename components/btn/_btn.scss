@@ -15,6 +15,7 @@
   --btn-line-height: var(--f9-line-height);
   --btn-padding-x: 1.125rem;
   --btn-padding-y: 1.5rem;
+  --btn-container-space: 0.5rem;
 }
 
 button {
@@ -61,6 +62,8 @@ button {
 
   span {
     display: block;
+    position: relative;
+    z-index: 2;
   }
 
   svg.icon {
@@ -160,7 +163,7 @@ button {
   .btn-container {
     > .btn {
       &:nth-child(n + 2) {
-        margin-left: 0.5rem;
+        margin-left: var(--btn-container-space);
       }
     }
   }

@@ -6,7 +6,7 @@ import { createEditPageTemplate } from "../templates/createEditPage.template.js"
 import { CARD } from "../../components/card/card.component.js";
 import { TOGGLESINGLE } from "../../components/toggle/toggleSingle.component.js";
 
-const generateSettingCard = (setting) => {
+const generateSettingCardToggle = (setting, settingBool) => {
   return CARD({
     body: {
       children: [
@@ -16,9 +16,10 @@ const generateSettingCard = (setting) => {
             new e.H2(camelize(name)),
             {
               class: "edit",
-              child: new c.BTN({
-                textContent: "Edit",
-                "data-modal": name,
+              child: TOGGLESINGLE({
+                name: "useFanArt",
+                id: "useFanArt",
+                checked: settingBool !== undefined ? settingBool : false,
               }),
             },
           ],
@@ -33,22 +34,45 @@ const generateSettingCard = (setting) => {
   });
 };
 
-const generateSettingCards = (settings) => {
-  const settingCards = [];
-
-  settings.forEach((setting) => {
-    generateSettingCard(setting);
-
-    settingCards.push(settingCard);
-  });
-};
-
 export default (data) => {
+  const settings = data.settings;
+
   return base(
     data,
     {
       children: [
         new e.H1([new c.ICON("settings"), "Settings"]),
+        generateSettingCardToggle("Use Fanart", settings.useFanart),
+        // // FANART
+        // CARD({
+        //   body: {
+        //     children: [
+        //       {
+        //         class: "title-edit",
+        //         children: [
+        //           new e.H2("Use Fanart"),
+
+        //           {
+        //             class: "edit",
+        //             child: TOGGLESINGLE({
+        //               name: "useFanArt",
+        //               id: "useFanArt",
+        //               checked: false,
+        //             }),
+        //           },
+        //         ],
+        //       },
+        //       {
+        //         class: "preview",
+        //         child: new e.P(
+        //           "Enables the Fanart section so submitted Fanart can be reviewed and approved."
+        //         ),
+        //       },
+        //     ],
+        //   },
+        //   className: "edit",
+        // }),
+
         // SITE VALUES
         // CARD({
         //   body: {
@@ -80,35 +104,7 @@ export default (data) => {
         //   },
         //   id: "siteValues",
         // }),
-        // // FANART
-        // CARD({
-        //   body: {
-        //     children: [
-        //       {
-        //         class: "title-edit",
-        //         children: [
-        //           new e.H2("Use Fanart"),
 
-        //           {
-        //             class: "edit",
-        //             child: TOGGLESINGLE({
-        //               name: "useFanArt",
-        //               id: "useFanArt",
-        //               checked: false,
-        //             }),
-        //           },
-        //         ],
-        //       },
-        //       {
-        //         class: "preview",
-        //         child: new e.P(
-        //           "Enables the Fanart section so submitted Fanart can be reviewed and approved."
-        //         ),
-        //       },
-        //     ],
-        //   },
-        //   className: "edit",
-        // }),
         // // EVENTS
         // CARD({
         //   body: {

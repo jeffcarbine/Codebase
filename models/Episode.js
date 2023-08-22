@@ -13,9 +13,14 @@ var Episode = new Schema({
   thumbnailSmall: String,
 
   rssLink: String,
+
   appleLink: String,
+
   youTubeLink: String,
+
   spotifyLink: String,
+  spotifyUri: String,
+
   patreonLink: String,
   patreonVideoLink: String,
 

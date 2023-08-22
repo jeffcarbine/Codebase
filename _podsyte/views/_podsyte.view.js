@@ -60,13 +60,17 @@ export const base = (data, template, scripts) => {
                 new e.SPAN("Events"),
                 new c.ICON("calendar"),
               ],
+              Fanart: [
+                "/admin/fanart",
+                new e.SPAN("Fanart"),
+                new c.ICON("image"),
+              ],
               Tools: ["/admin/tools", new e.SPAN("Tools"), new c.ICON("tools")],
               Settings: [
                 "/admin/settings",
                 new e.SPAN("Settings"),
                 new c.ICON("settings"),
               ],
-              // Fanart: ["/admin/fanart", "Fanart", new c.ICON("image")],
               // History: ["/admin/history", "History", new c.ICON("history")],
               // Account: ["/admin/account", "Account", new c.ICON("user")],
             },

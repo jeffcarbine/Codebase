@@ -1,43 +1,44 @@
 .accordion {
-  --accordion-button-font-size: var(--f8-font-size);
-  --accordion-button-background: var(--background-low);
-  --accordion-button-color: var(--foreground);
-  --accordion-button-padding: 1.5rem;
-  --carat-width: calc(var(--accordion-button-font-size) * 0.75);
+  --accordion-title-font-size: var(--f8-font-size);
+  --accordion-title-background: var(--background-low);
+  --accordion-title-color: var(--foreground);
+  --accordion-title-padding: 1.5rem;
+  --carat-width: calc(var(--accordion-title-font-size) * 0.75);
   --accordion-body-background: var(--background);
   --accordion-body-color: var(--foreground);
   --accordion-highlight-body-background: var(--yellow-step);
   --accordion-border: 1px solid var(--border-color);
 
   &.sm {
-    --accordion-button-padding: 0.25rem;
-    --accordion-button-font-size: var(--f12-font-size);
+    --accordion-title-padding: 0.25rem;
+    --accordion-title-font-size: var(--f12-font-size);
   }
 
   display: block;
   border: var(--accordion-border);
   position: relative;
-  overflow: hidden;
 
-  .accordion-button {
-    cursor: pointer;
-    padding: var(--accordion-button-padding);
-    color: var(--accordion-button-color);
-    background: var(--accordion-button-background);
-    font-size: var(--accordion-button-font-size);
-    position: relative;
-    width: 100%;
+  .accordion-title {
     display: flex;
-    justify-content: center;
-    border: none;
-    box-sizing: border-box;
+    padding: var(--accordion-title-padding);
+    color: var(--accordion-title-color);
+    background: var(--accordion-title-background);
+    font-size: var(--accordion-title-font-size);
 
-    > * {
-      flex: 0 0 auto;
+    > *:not(.accordion-button) {
+      flex: 1 1 auto;
+    }
+
+    .accordion-button {
+      flex: 0 0 5rem;
+      cursor: pointer;
       position: relative;
-      padding-right: 2.5rem;
-      width: calc(100% - 2rem);
-      display: block;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      border: none;
+      box-sizing: border-box;
+      background: transparent;
 
       &::before,
       &::after {
@@ -46,8 +47,8 @@
         position: absolute;
         top: 50%;
         width: var(--carat-width);
-        height: calc(var(--accordion-button-font-size) / 6);
-        background: var(--accordion-button-color);
+        height: calc(var(--accordion-title-font-size) / 6);
+        background: var(--accordion-title-color);
         transition: all 0.5s ease;
       }
 
@@ -62,10 +63,8 @@
         right: 1rem;
         transform: translateY(-50%) rotate(-45deg);
       }
-    }
 
-    &.open {
-      > * {
+      &.open {
         &::before {
           transform: translateY(-50%) rotate(-45deg);
         }
@@ -88,12 +87,14 @@
     transition: height 0.5s ease;
     z-index: -1;
     padding: 0 2rem;
+    opacity: 0;
 
     &.open {
       height: 0;
       position: relative;
       visibility: visible;
       z-index: 1;
+      opacity: 1;
     }
   }
 

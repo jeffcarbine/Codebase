@@ -29,6 +29,13 @@
 @import "../../components/tile/tile";
 @import "../../components/alert/alert";
 @import "../../components/modal/modal";
+@import "../../components/accordion/accordion";
+
+.accordion {
+  --accordion-border: none;
+  --accordion-title-background: transparent;
+  --accordion-body-background: transparent;
+}
 
 @keyframes zeldaIn {
   0% {

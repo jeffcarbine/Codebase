@@ -1,7 +1,7 @@
 import { generateUniqueId } from "../../modules/generateUniqueId/generateUniqueId.js";
 import * as e from "../elements.js";
 
-export const base64ImageInputComponent = ({
+export const BASE64IMAGEINPUT = ({
   label = "Image",
   base64Image = null,
 } = {}) => {

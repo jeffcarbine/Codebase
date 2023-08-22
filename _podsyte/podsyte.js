@@ -24,7 +24,10 @@ import {
   post__admin_events_delete,
 } from "./routes/events.js";
 
-// import { fanart, post__fanartApprove } from "./routes/fanart.js";
+import {
+  get__admin_fanart,
+  post__admin_fanart_approve,
+} from "./routes/fanart.routes.js";
 
 import {
   get__admin_shows,
@@ -247,13 +250,16 @@ export const init = ({
   }
 
   if (fanart) {
-    console.log("enable fanart here!");
-    // app.get("/admin/fanart", connectEnsureLogin.ensureLoggedIn(), fanart);
-    // app.post(
-    //   "/admin/fanart/approve",
-    //   connectEnsureLogin.ensureLoggedIn(),
-    //   post__fanartApprove
-    // );
+    app.get(
+      "/admin/fanart",
+      connectEnsureLogin.ensureLoggedIn(),
+      get__admin_fanart
+    );
+    app.post(
+      "/admin/fanart/approve",
+      connectEnsureLogin.ensureLoggedIn(),
+      post__admin_fanart_approve
+    );
   }
 
   app.post("/admin/signup", post__admin_signup);

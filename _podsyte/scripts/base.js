@@ -46,15 +46,3 @@ const hideFullNav = () => {
 };
 
 addEventDelegate("mouseout", "nav", hideFullNav);
-
-const submitDatapointForm = (form) => {
-  console.log("submitting datapoint form!");
-
-  const success = (response) => {
-    window.location.reload();
-  };
-
-  xhrForm({ form, success });
-};
-
-addEventDelegate("submit", ".datapointForm", submitDatapointForm, true);

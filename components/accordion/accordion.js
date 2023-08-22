@@ -12,7 +12,7 @@ import { smoothScroll } from "../../scripts/smoothScroll/smoothScroll.js";
 
 export const handleAccordionClick = (target) => {
   // the body of the accordion always follow right after the button
-  const accordionBody = target.nextElementSibling;
+  const accordionBody = target.parentNode.nextElementSibling;
 
   toggleAccordion(accordionBody, target);
 };
@@ -74,7 +74,7 @@ const closeAccordion = (accordionBody, accordionButton) => {
 export { toggleAccordion, closeAccordion };
 
 // // event for opening the accordion via the .toggle element
-addEventDelegate("click", ".accordion > button", handleAccordionClick);
+addEventDelegate("click", ".accordion .accordion-button", handleAccordionClick);
 
 // automatically expand the accordion that matches the hash
 const params = new URLSearchParams(window.location.search),

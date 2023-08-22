@@ -177,6 +177,7 @@ export const rez = ({
               } else {
                 data.episode = episode;
                 data.path = data.path.replace("*", localPath);
+                data.title = episode.title;
 
                 // now, we need to get all the episodes from
                 // this series, sort them by date and then
@@ -231,6 +232,7 @@ export const rez = ({
               }
 
               data.path = data.path.replace("*", _id);
+              data.title = show.title;
 
               callback(null);
             });

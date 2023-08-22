@@ -1,5 +1,6 @@
 import { camelize } from "../../modules/formatString/formatString.js";
 import { FIELDSET } from "../../elements/input/input.element.js";
+import { SPAN } from "../../elements/span/span.element.js";
 
 export const TOGGLEGROUP = ({
   label,
@@ -31,8 +32,8 @@ export const TOGGLEGROUP = ({
     // create the label
     const label = {
       tagName: "label",
-      textContent: value,
       for: id,
+      child: new SPAN(value),
     };
 
     children.push(label);

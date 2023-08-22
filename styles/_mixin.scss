@@ -127,3 +127,22 @@ $breakpoint-xxl: 2160px;
     border-top: $perpendicular-border;
   }
 }
+
+@mixin textStroke($color: var(--accent), $width: 0.25rem) {
+  text-shadow: calc(var($width) * 1) calc(var($width) * 0) 0 var($color),
+    calc(var($width) * 0.9239) calc(var($width) * 0.3827) 0 var($color),
+    calc(var($width) * 0.7071) calc(var($width) * 0.7071) 0 var($color),
+    calc(var($width) * 0.3827) calc(var($width) * 0.9239) 0 var($color),
+    calc(var($width) * 0) calc(var($width) * 1) 0 var($color),
+    calc(var($width) * -0.3827) calc(var($width) * 0.9239) 0 var($color),
+    calc(var($width) * -0.7071) calc(var($width) * 0.7071) 0 var($color),
+    calc(var($width) * -0.9239) calc(var($width) * 0.3827) 0 var($color),
+    calc(var($width) * -1) calc(var($width) * 0) 0 var($color),
+    calc(var($width) * -0.9239) calc(var($width) * -0.3827) 0 var($color),
+    calc(var($width) * -0.7071) calc(var($width) * -0.7071) 0 var($color),
+    calc(var($width) * -0.3827) calc(var($width) * -0.9239) 0 var($color),
+    calc(var($width) * 0) calc(var($width) * -1) 0 var($color),
+    calc(var($width) * 0.3827) calc(var($width) * -0.9239) 0 var($color),
+    calc(var($width) * 0.7071) calc(var($width) * -0.7071) 0 var($color),
+    calc(var($width) * 0.9239) calc(var($width) * -0.3827) 0 var($color);
+}

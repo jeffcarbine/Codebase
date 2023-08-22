@@ -1,78 +1,86 @@
 .card.edit {
-  > div {
-    width: 100%;
+  .title-edit {
+    flex: 1 1 auto;
+    margin: 0;
+    display: flex;
+    margin-bottom: 0.5rem;
 
-    .title-edit {
-      flex: 1 1 auto;
-      margin: 0;
+    h2 {
+      flex: 0 0 calc(100% - 4rem);
+      margin: 0.5rem 0;
+      word-break: break-word;
+      @include fontValues(4);
+    }
+
+    .edit {
+      flex: 0 0 4rem;
       display: flex;
-      margin-bottom: 0.5rem;
+      flex-direction: column;
+      justify-content: center;
 
-      h2 {
-        flex: 0 0 calc(100% - 4rem);
-        margin: 0.5rem 0;
-        word-break: break-word;
-      }
+      > .btn {
+        margin-left: 0.5rem;
 
-      .edit {
-        flex: 0 0 4rem;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
+        svg.icon {
+          margin-right: 0;
+        }
 
-        > .btn {
-          margin-left: 0.5rem;
-
-          svg.icon {
-            margin-right: 0;
-          }
-
-          .text {
-            display: none;
-          }
+        .text {
+          display: none;
         }
       }
     }
+  }
 
-    .preview {
-      img {
-        height: 20rem;
-        width: auto;
-        max-width: 100%;
-        display: block;
-        object-fit: contain;
-        border-radius: var(--border-radius);
-      }
+  .accordion {
+    padding: 0;
 
-      .btn-container {
-        margin-top: 0;
-      }
+    .accordion-title {
+      padding: 0;
+    }
+
+    .accordion-body {
+      padding: 0;
+    }
+  }
+
+  .preview {
+    img {
+      height: 20rem;
+      width: auto;
+      max-width: 100%;
+      display: block;
+      object-fit: contain;
+      border-radius: var(--border-radius);
+    }
+
+    .btn-container {
+      margin-top: 0;
     }
   }
 }
 
 @media only screen and (min-width: $breakpoint-md) {
   .card.edit {
-    > div {
-      .title-edit {
-        h2 {
-          flex: 1 1 auto;
-          order: 1;
-        }
+    .title-edit {
+      h2 {
+        flex: 1 1 auto;
+        order: 1;
+      }
 
-        .edit {
-          flex: 0 0 auto;
-          order: 2;
-          justify-content: flex-end;
+      .edit {
+        flex: 0 0 auto;
+        flex-direction: row;
+        order: 2;
+        justify-content: flex-end;
 
-          .btn {
-            svg.icon {
-              margin-right: 1rem;
-            }
+        .btn {
+          svg.icon {
+            margin-right: 1rem;
+          }
 
-            .text {
-              display: inline;
-            }
+          .text {
+            display: inline;
           }
         }
       }
