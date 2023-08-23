@@ -1,5 +1,255 @@
 @use "../../components/placeholder/placeholder";
 
+:root {
+  --crowdfunding-bar-background: --light-mid;
+  --crowdfunding-bar-color: --accent;
+  --variants-background: rgba(0, 0, 0, 0.5);
+  --variant-color: var(--accent-on);
+  --variant-background: var(--accent);
+  --variant-border: 1px solid var(--dark);
+  --variant-checked-border-color: var(--accent);
+}
+
+#product {
+  display: flex;
+  flex-wrap: wrap;
+
+  .images-container {
+    margin-bottom: 5rem;
+
+    .images {
+      position: relative;
+      background: var(--light);
+      border-radius: var(--border-radius);
+      overflow: hidden;
+
+      .singleImage {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: var(--border-radius);
+        }
+      }
+
+      .slider {
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+
+        .slides {
+          width: 100%;
+          height: 100%;
+          margin: 0;
+          position: relative;
+          z-index: 1;
+
+          .slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            img {
+              width: calc(100% - 6rem);
+              height: calc(100% - 6rem);
+              margin: 0 auto;
+              box-sizing: border-box;
+              border-radius: var(--border-radius);
+              display: block;
+            }
+
+            &[data-state="active"] {
+              opacity: 1;
+              visibility: visible;
+            }
+          }
+        }
+
+        .slider-controls {
+          position: absolute;
+          z-index: 2;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: calc(100% - 2rem);
+          height: 3rem;
+
+          button {
+            width: 2rem;
+            height: 2rem;
+            position: absolute;
+            top: 0;
+            border: 0.5rem solid var(--dark);
+            background: none;
+
+            &.prev {
+              transform: rotate(-45deg);
+              border-right: none;
+              border-bottom: none;
+              left: 0;
+            }
+
+            &.next {
+              transform: rotate(45deg);
+              border-left: none;
+              border-bottom: none;
+              right: 0;
+            }
+          }
+        }
+      }
+
+      .square {
+        opacity: 0;
+      }
+    }
+  }
+
+  .details {
+    .price {
+      display: block;
+      @include fontValues(2);
+      font-weight: 700;
+    }
+
+    .description {
+      padding: 1rem;
+    }
+
+    .crowdfunding {
+      padding: 2rem 1rem;
+      box-sizing: border-box;
+
+      .count {
+        text-align: center;
+        @include fontValues(11);
+      }
+
+      .gauge {
+        display: block;
+        width: 100%;
+        height: 2rem;
+        background: var(--crowdfunding-bar-background);
+        border-radius: 50px;
+        overflow: hidden;
+
+        .bar {
+          display: block;
+          height: 100%;
+          background: var(--crowdfunding-bar-color);
+        }
+      }
+
+      .disclaimer {
+        padding: 1rem 0;
+        @include fontValues(11, 8);
+
+        button {
+          background: transparent;
+          border: none;
+          text-decoration: underline;
+          font-size: inherit;
+          line-height: inherit;
+          display: inline;
+          margin-left: 0.25rem;
+          color: var(--primary);
+        }
+      }
+    }
+
+    .postDescription {
+      padding: 1rem;
+      @include fontValues(11, 7);
+      opacity: 0.5;
+      font-style: italic;
+    }
+
+    .variants {
+      padding: 2rem 0;
+      background: var(--variants-background);
+
+      &.hidden {
+        display: none;
+      }
+
+      fieldset {
+        padding: 3rem;
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        flex: 0 0 100%;
+        justify-content: center;
+
+        legend {
+          position: absolute;
+          top: 0;
+          left: 50%;
+          transform: translateX(-50%);
+          font-weight: 700;
+          height: 3rem;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+
+          &.mainLegend {
+            @include fontValues(6);
+            text-transform: uppercase;
+          }
+        }
+
+        .radioLabel {
+          position: relative;
+          margin: 0.5rem;
+
+          label {
+            font-weight: 700;
+            border: var(--variant-border);
+            padding: 1rem;
+            transition: all 0.25s ease;
+            cursor: pointer;
+            border-radius: var(--border-radius);
+            display: block;
+            @include fontValues(9);
+            text-align: center;
+          }
+
+          input {
+            position: absolute;
+            opacity: 0;
+            visibility: 0;
+
+            &:checked {
+              + label {
+                color: var(--variant-color);
+                background: var(--variant-background);
+                border-color: var(--variant-checked-border-color);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 .productSummary {
   box-sizing: border-box;
   padding: 1rem;
@@ -65,6 +315,29 @@
 
     .productSummary {
       flex: 0 0 50%;
+    }
+  }
+
+  #product {
+    display: flex;
+
+    .images-container {
+      flex: 0 0 50%;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+
+      .images {
+        max-width: 50rem;
+        margin: 0 auto;
+        width: 100%;
+      }
+    }
+
+    .details {
+      flex: 0 0 50%;
+      box-sizing: border-box;
+      padding: 6rem 2rem 2rem;
     }
   }
 }
