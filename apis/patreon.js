@@ -25,10 +25,6 @@ const saveAndReturnPatreonToken = (
   const now = new Date().getTime(),
     expires = now + expires_in * 1000;
 
-  console.log(now);
-  console.log(expires_in);
-  console.log(expires);
-
   Token.findOneAndUpdate(
     {
       name: "patreon",
@@ -96,22 +92,17 @@ export const getPatreonToken = (mainCallback) => {
           } else {
             if (token === null) {
               console.log("No Patreon token found, requesting new one");
-              console.log(
-                patreonClientId,
-                patreonClientSecret,
-                patreonOneTimeCode
-              );
               generateNewPatreonToken(callback, mainCallback);
             } else {
               // check expiration
               let now = new Date().getTime();
 
               if (now > token.expires) {
-                console.log("patreon token invalid, requesting new one");
+                console.log("Patreon token invalid, requesting new one");
                 // then we need to refresh
                 callback(null, token.refresh_token);
               } else {
-                console.log("patreon token still valid!");
+                console.log("Patreon token still valid!");
                 // we can return the token now
                 mainCallback(null, token.access_token);
               }
