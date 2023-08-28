@@ -15,23 +15,23 @@ export class HTML {
       {
         rel: "apple-touch-icon",
         sizes: "180x180",
-        href: "http://d1xqupojasbi0m.cloudfront.net/images/favicon/apple-touch-icon.png",
+        href: "/cdn/favicon/apple-touch-icon.png",
       },
       {
         rel: "icon",
         type: "image/png",
         sizes: "32x32",
-        href: "http://d1xqupojasbi0m.cloudfront.net/images/favicon/favicon-32x32.png",
+        href: "/cdn/favicon/favicon-32x32.png",
       },
       {
         rel: "icon",
         type: "image/png",
         sizes: "16x16",
-        href: "http://d1xqupojasbi0m.cloudfront.net/images/favicon/favicon-16x16.png",
+        href: "/cdn/favicon/favicon-16x16.png",
       },
       {
         rel: "manifest",
-        href: "http://d1xqupojasbi0m.cloudfront.net/images/favicon/site.webmanifest",
+        href: "/cdn/favicon/site.webmanifest",
       },
     ];
 
