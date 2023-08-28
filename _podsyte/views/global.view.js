@@ -3,6 +3,7 @@ import * as e from "../../elements/elements.js";
 import * as c from "../../components/components.js";
 import { MODAL } from "../../components/modal/modal.component.js";
 import { datapointFormTemplate } from "../templates/datapointForm.template.js";
+import { generateDatapointCards } from "../templates/datapointCard.template.js";
 
 export default (data) => {
   const datapoints = data.datapoints;

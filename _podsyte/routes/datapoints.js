@@ -18,7 +18,7 @@ export const post__admin_datapoints = (req, res, next) => {
     pageId = req.body.pageId,
     _id = req.body.id,
     datapointId = req.body.datapointId,
-    global = req.body.global,
+    global = req.body.pageId === "global",
     active = req.body.active,
     accordionOpen = req.body.accordionOpen;
 

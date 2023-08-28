@@ -97,3 +97,8 @@ const setNavBackground = (scrollPos) => {
 export const enableSetNavBackground = () => {
   addEventDelegate("scroll", window, setNavBackground);
 };
+
+export const enableNav = () => {
+  enableToggleNav();
+  enableToggleSubmenu();
+};
