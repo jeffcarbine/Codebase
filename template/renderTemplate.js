@@ -151,7 +151,7 @@ const clientRender = (template) => {
 };
 
 const serverRender = (template) => {
-  if (template === null) {
+  if (template === null || template === undefined || template === {}) {
     return null;
   }
 

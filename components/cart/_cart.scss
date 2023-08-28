@@ -1,3 +1,11 @@
+:root {
+  --cart-background: var(--primary);
+  --cart-color: var(--primary-on);
+  --cart-transition-duration: 0.5s;
+  --cartBody-width: calc(100% - 5rem);
+  --cartOverlay-background: rgba(0, 0, 0, 0.8);
+}
+
 #cartToggle {
   width: 3rem;
   height: 4rem;
@@ -10,41 +18,194 @@
     width: 3rem;
     height: 3rem;
     position: absolute;
-    top: 50;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     fill: var(--light);
+    z-index: 1;
+  }
+
+  .itemCount {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 2rem;
+    height: 2rem;
+    background: var(--accent);
+    @include fontValues(12);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    font-weight: 700;
+    border-radius: 50%;
+    z-index: 2;
   }
 }
 
 #cart {
   position: fixed;
   top: 0;
-  right: 0;
-  height: 100dvh;
-  width: 30rem;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: block;
   visibility: hidden;
-  opacity: 0;
-  transform: translateX(100%);
-  background: var(--primary);
-  color: var(--primary-on);
-  padding: 3rem;
-  z-index: 10;
-  transition: transform 0.5s ease;
+  transition: visibility var(--cart-transition-duration) ease;
+
+  #cartBody {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100dvh;
+    width: var(--cartBody-width);
+    background: var(--cart-background);
+    color: var(--cart-color);
+    padding: 3rem;
+    box-sizing: border-box;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+
+    #cartClose {
+      width: 2rem;
+      height: 2rem;
+      background: transparent;
+      fill: var(--cart-color);
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+    }
+
+    #cartHeader {
+      flex: 0 0 auto;
+    }
+
+    #cartContent {
+      flex: 1 1 auto;
+
+      #content {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+
+        #lineItems {
+          flex: 1 1 auto;
+
+          .lineItem {
+            display: flex;
+
+            .image {
+              img {
+                width: 5rem;
+                height: auto;
+                border-radius: 10px;
+              }
+            }
+
+            .title {
+              flex: 1 1 auto;
+              padding: 0.5rem 1rem;
+              box-sizing: border-box;
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+            }
+
+            .quantity {
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+
+              button {
+                width: 2rem;
+                height: 2rem;
+                background: transparent;
+
+                .icon {
+                  transform: scale(0.75);
+                  fill: var(--cart-color);
+                }
+              }
+
+              .center {
+                display: flex;
+              }
+
+              .quantityContainer {
+                display: flex;
+
+                .lineItemQuantity {
+                  padding: 0 0.5rem;
+                  font-weight: 700;
+                }
+              }
+            }
+
+            .price {
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              padding: 0.5rem 1rem;
+              box-sizing: border-box;
+              font-weight: 700;
+              color: var(--cart-color);
+            }
+          }
+        }
+
+        #pricing {
+          flex: 0 0 auto;
+          text-align: right;
+
+          .subtotal {
+            @include fontValues(7);
+          }
+        }
+
+        #checkout {
+          flex: 0 0 auto;
+          text-align: right;
+
+          .btn {
+            margin: 1rem 0;
+          }
+
+          .taxesAndShipping {
+            @include fontValues(11);
+            opacity: 0.75;
+          }
+        }
+      }
+    }
+  }
+
+  #cartOverlay {
+    position: absolute;
+    z-index: -1;
+    background: var(--cartOverlay-background);
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity var(--cart-transition-duration) ease,
+      visibility var(--cart-transition-duration) ease;
+  }
 
   &.open {
     visibility: visible;
-    opacity: 1;
-    transform: translateX(0);
-  }
 
-  #cartClose {
-    width: 2rem;
-    height: 2rem;
-    background: transparent;
-    fill: var(--primary-on);
-    position: absolute;
-    top: 2rem;
-    left: 2rem;
+    #cartOverlay {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+}
+
+@media only screen and (min-width: $breakpoint-md) {
+  :root {
+    --cartBody-width: 80rem;
   }
 }

@@ -50,21 +50,23 @@ export const SLIDER = (slideElements, preSlides = null) => {
     })
   );
 
-  children.push({
-    class: "slider-controls",
-    children: [
-      new BUTTON({
-        class: "slider-control prev",
-        "aria-label": "Next",
-        "data-direction": "next",
-      }),
-      new BUTTON({
-        class: "slider-control next",
-        "aria-label": "Prev",
-        "data-direction": "prev",
-      }),
-    ],
-  });
+  if (slideElements.lenght > 1) {
+    children.push({
+      class: "slider-controls",
+      children: [
+        new BUTTON({
+          class: "slider-control prev",
+          "aria-label": "Next",
+          "data-direction": "next",
+        }),
+        new BUTTON({
+          class: "slider-control next",
+          "aria-label": "Prev",
+          "data-direction": "prev",
+        }),
+      ],
+    });
+  }
 
   return {
     class: "slider",

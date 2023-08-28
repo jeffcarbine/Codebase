@@ -24,6 +24,8 @@ button {
 }
 
 .btn {
+  --loader-color: var(--btn-color);
+
   &.sm {
     --btn-font-size: var(--f11-font-size);
     --btn-line-height: var(--f11-line-height);
@@ -53,7 +55,10 @@ button {
     color: var(--btn-background);
     --btn-focus-color: var(--btn-background);
     --btn-focus-background: var(--btn-background);
-    --loader-color: var(--btn-color);
+
+    span {
+      opacity: 0;
+    }
 
     svg.icon {
       opacity: 0;

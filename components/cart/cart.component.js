@@ -1,28 +1,35 @@
 import * as e from "../../elements/elements.js";
 import * as c from "../../components/components.js";
-import * as i from "../../components/icon/icons.js";
 import { formatCurrency } from "../../modules/formatCurrency/formatCurrency.js";
 
 export const CART = () => {
   return {
     id: "cart",
     children: [
-      new e.BUTTON({
-        id: "cartClose",
-        child: new c.ICON("close"),
-      }),
-      {
-        class: "heading",
-        child: new e.H2("Cart"),
-      },
       {
         id: "cartBody",
+        children: [
+          new e.BUTTON({
+            id: "cartClose",
+            child: new c.ICON("close"),
+          }),
+          {
+            class: "heading",
+            child: new e.H2("Cart"),
+          },
+          {
+            id: "cartContent",
+          },
+        ],
+      },
+      {
+        id: "cartOverlay",
       },
     ],
   };
 };
 
-export const cartBodyTemplate = (cartData) => {
+export const cartContentTemplate = (cartData) => {
   const lineItemsData = cartData.lineItems,
     checkout = cartData.webUrl,
     lineItems = [],
@@ -65,11 +72,7 @@ export const cartBodyTemplate = (cartData) => {
                       class: "modifyQuantity",
                       "data-quantity": item.quantity - 1,
                       "data-item-id": item.id,
-                      children: [
-                        new e.ICON({
-                          icon: i.minusSmall,
-                        }),
-                      ],
+                      children: [new c.ICON("minus")],
                     }),
                     new e.SPAN({
                       class: "lineItemQuantity",
@@ -79,11 +82,7 @@ export const cartBodyTemplate = (cartData) => {
                       class: "modifyQuantity",
                       "data-quantity": item.quantity + 1,
                       "data-item-id": item.id,
-                      children: [
-                        new e.ICON({
-                          icon: i.plusSmall,
-                        }),
-                      ],
+                      children: [new c.ICON("plus")],
                     }),
                   ],
                 },
@@ -92,11 +91,7 @@ export const cartBodyTemplate = (cartData) => {
                   "aria-label": "Remove " + item.title,
                   "data-quantity": 0,
                   "data-item-id": item.id,
-                  children: [
-                    new e.ICON({
-                      icon: i.trash,
-                    }),
-                  ],
+                  children: [new c.ICON("trash")],
                 }),
               ],
             },
@@ -132,7 +127,7 @@ export const cartBodyTemplate = (cartData) => {
   }
 
   return {
-    class: "cartData",
+    id: "content",
     children: [
       {
         id: "lineItems",
@@ -160,11 +155,11 @@ export const cartBodyTemplate = (cartData) => {
       {
         id: "checkout",
         children: [
+          new c.BTN({ href: checkout, textContent: "Check Out" }),
           new e.P({
             class: "taxesAndShipping",
-            textContent: "Taxes and shipping are calculated at checkout",
+            textContent: "(Taxes and shipping are calculated at checkout)",
           }),
-          new c.BTN({ href: checkout, textContent: "Check Out" }),
         ],
       },
     ],

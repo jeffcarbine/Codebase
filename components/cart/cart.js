@@ -1,7 +1,8 @@
 import { addEventDelegate } from "../../modules/eventDelegate/eventDelegate.js";
 import { xhr } from "../../modules/xhr/xhr.js";
 import { renderTemplate } from "../../template/renderTemplate.js";
-import { cartBodyTemplate } from "./cart.component.js";
+import { cartContentTemplate } from "./cart.component.js";
+import { dataBind } from "../../modules/dataBind/dataBind.js";
 
 const toggleCart = (button) => {
   const cart = document.querySelector("#cart");
@@ -18,22 +19,24 @@ const closeCart = () => {
   cartToggle.classList.remove("open");
 };
 
-const setCartToLoading = () => {
-  const cartBody = document.querySelector("#cartBody");
+export const setCartToLoading = () => {
+  const cartContent = document.querySelector("#cartContent");
 
-  cartBody.innerHTML = "";
-  cartBody.classList.add("loading");
+  cartContent.innerHTML = "";
+  cartContent.classList.add("loading");
 };
 
 export const update = (request) => {
   const cartData = JSON.parse(request.response),
-    cartBody = document.querySelector("#cartBody");
+    cartContent = document.querySelector("#cartContent");
 
-  cartBody.classList.remove("loading");
+  cartContent.classList.remove("loading");
 
-  const newCartBody = renderTemplate(cartBodyTemplate(cartData));
+  const newcartContent = renderTemplate(cartContentTemplate(cartData));
 
-  cartBody.appendChild(newCartBody);
+  dataBind("cartCount", cartData.lineItems.length);
+
+  cartContent.appendChild(newcartContent);
 };
 
 export const modifyLineItem = (button) => {
@@ -60,37 +63,7 @@ export const retrieve = () => {
   });
 };
 
-const addToCart = () => (button) => {
-  setCartToLoading();
-
-  button.classList.add("loading");
-
-  const variant =
-    document.querySelector("input[name='variant']:checked") !== null
-      ? document.querySelector("input[name='variant']:checked")
-      : document.querySelector("input[name='variant']");
-
-  const variantId = variant.value;
-
-  const success = (request) => {
-    const cart = document.querySelector("#cart"),
-      cartToggle = document.querySelector("#cartToggle");
-    cart.classList.add("open");
-    cartToggle.classList.add("open");
-
-    button.classList.remove("loading");
-    update(request);
-  };
-
-  xhr({
-    path: "/shop/add-to-cart",
-    body: { variantId },
-    callbacks: { success },
-  });
-};
-
 export const delegate = () => {
-  addEventDelegate("click", "#cartClose", closeCart);
+  addEventDelegate("click", "#cartClose, #cartOverlay", closeCart);
   addEventDelegate("click", "#cartToggle", toggleCart);
-  addEventDelegate("click", "#addToCart", addToCart);
 };
