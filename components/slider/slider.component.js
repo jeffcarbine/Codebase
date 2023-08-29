@@ -50,7 +50,7 @@ export const SLIDER = (slideElements, preSlides = null) => {
     })
   );
 
-  if (slideElements.lenght > 1) {
+  if (slideElements.length > 1) {
     children.push({
       class: "slider-controls",
       children: [
