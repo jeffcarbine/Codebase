@@ -54,8 +54,8 @@
 
       &::before {
         right: calc(
-          calc(1rem + var(--carat-width)) - calc(var(--carat-width) / 3)
-        );
+          calc(1rem + var(--carat-width)) - calc(var(--carat-width) / 2.5)
+        ); // the 2.5 is just an absolute guess there's no mathmatical logic behind it
         transform: translateY(-50%) rotate(45deg);
       }
 

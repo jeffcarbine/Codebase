@@ -213,6 +213,50 @@ export const formatProduct = (product) => {
   return formattedProduct;
 };
 
+export const getMetafields = ({
+  productId,
+  keys = [],
+  namespace = "custom",
+  callback,
+} = {}) => {
+  const generateIdentifiers = () => {
+    const identifiers = [];
+
+    keys.forEach((key) => {
+      identifiers.push({ namespace, key });
+    });
+
+    return identifiers;
+  };
+
+  const productsQuery = shopify.graphQLClient.query((root) => {
+    root.addConnection("products", { args: { first: 249 } }, (product) => {
+      product.add(
+        "metafields",
+        {
+          args: {
+            identifiers: generateIdentifiers(),
+          },
+        },
+        (metafield) => {
+          metafield.add("namespace");
+          metafield.add("key");
+          metafield.add("value");
+        }
+      );
+    });
+  });
+
+  // Call the send method with the custom products query
+  shopify.graphQLClient.send(productsQuery).then(({ model, data }) => {
+    const products = model.products,
+      product = products.find((o) => o.id === productId),
+      metafields = product.metafields;
+
+    callback(metafields);
+  });
+};
+
 export const getMetafield = ({
   productId,
   key,
