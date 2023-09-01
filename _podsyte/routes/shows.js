@@ -1,4 +1,5 @@
-import Show from "../../models/Show.js";
+import Show from "../models/Show.js";
+import { camelize } from "../../modules/formatString/formatString.js";
 
 export const get__admin_shows = (req, res, next) => {
   Show.find().exec((err, shows) => {
@@ -15,7 +16,9 @@ export const get__admin_shows = (req, res, next) => {
 };
 
 export const post__admin_shows_add = (req, res, next) => {
-  let body = req.body;
+  const body = req.body;
+
+  body.localPath = camelize(body.title);
 
   Show.findOneAndUpdate(
     {
@@ -39,6 +42,8 @@ export const post__admin_shows_add = (req, res, next) => {
 
 export const post__admin_shows_edit = (req, res, next) => {
   let body = req.body;
+
+  body.localPath = camelize(body.title);
 
   Show.findOneAndUpdate(
     {

@@ -86,15 +86,18 @@ export const post__admin_datapoints = (req, res, next) => {
             case "text":
               datapoint.text = body.text;
               break;
+
             case "link":
               datapoint.link = {
                 href: body.href,
                 title: body.title,
               };
               break;
+
             case "html":
               datapoint.html = body.html;
               break;
+
             case "image":
               if (
                 body.base64Image !== undefined &&
@@ -108,8 +111,21 @@ export const post__admin_datapoints = (req, res, next) => {
 
               datapoint.image.alt = body.alt;
               break;
+
+            case "person":
+              datapoint.person = {
+                nickname: body.nickname,
+                pronouns: body.pronouns,
+                job: body.job,
+                description: body.description,
+                bio: body.bio,
+                playedBy: body.playedBy,
+              };
+              break;
+
             case "group":
               datapoint.groupType = body.groupType || "";
+              datapoint.groupWildcard = body.groupWildcard || "";
           }
 
           // if global isn't undefined, then we need

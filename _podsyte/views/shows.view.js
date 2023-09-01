@@ -47,6 +47,19 @@ const generateShowList = (shows) => {
                     value: showData.title,
                   }),
                   new e.TEXT({
+                    name: "releaseSchedule",
+                    label: "Release Schedule",
+                    value: showData.releaseSchedule,
+                  }),
+                  new e.LABEL([
+                    "Description",
+                    new e.TEXTAREA({
+                      name: "description",
+                      label: "Description",
+                      value: showData.description,
+                    }),
+                  ]),
+                  new e.TEXT({
                     name: "rss",
                     label: "RSS",
                     value: showData.rss,

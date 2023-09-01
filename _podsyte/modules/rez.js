@@ -5,8 +5,8 @@ import Datapoint from "../models/Datapoint.js";
 import { camelize } from "../../modules/formatString/formatString.js";
 import { splitAtNthInstance } from "../../modules/splitAtNthInstance/splitAtNthInstance.js";
 
-import Episode from "../../models/Episode.js";
-import Show from "../../models/Show.js";
+import Episode from "../models/Episode.js";
+import Show from "../models/Show.js";
 
 import { shopify, formatProduct } from "../../apis/shopify.js";
 
@@ -50,37 +50,59 @@ export const rez = ({
             const type = datapoint.type,
               datapointData = datapoint[type];
 
-            if (type === "group" && datapointData.length > 0) {
-              // then we need to recursively find the datapoints
-              // in the group
+            const processDatapoint = () => {
+              if (type === "group" && datapointData.length > 0) {
+                // then we need to recursively find the datapoints
+                // in the group
 
-              let childIsArray = datapoint.groupType === "array";
+                let childIsArray = datapoint.groupType === "array";
 
-              fetchDatapoints(
-                datapointData,
-                (groupDatapoints) => {
-                  const childDatapoint = {
-                    name: datapoint.name,
-                    group: groupDatapoints,
-                  };
+                fetchDatapoints(
+                  datapointData,
+                  (groupDatapoints) => {
+                    const childDatapoint = {
+                      name: datapoint.name,
+                      group: groupDatapoints,
+                    };
 
-                  if (isArray) {
-                    datapoints.push(childDatapoint);
-                  } else {
-                    datapoints[camelize(datapoint.name)] = childDatapoint;
-                  }
+                    if (isArray) {
+                      datapoints.push(childDatapoint);
+                    } else {
+                      datapoints[camelize(datapoint.name)] = childDatapoint;
+                    }
 
-                  next();
-                },
-                childIsArray
-              );
-            } else {
-              if (isArray) {
-                datapoints.push(datapoint);
+                    next();
+                  },
+                  childIsArray
+                );
               } else {
-                datapoints[camelize(datapoint.name)] = datapoint;
+                if (isArray) {
+                  datapoints.push(datapoint);
+                } else {
+                  datapoints[camelize(datapoint.name)] = datapoint;
+                }
+                next();
               }
-              next();
+            };
+
+            // check if this datapoint has a wildcard, and if so
+            // make sure it matches the wildcard for this page
+            if (
+              datapoint.groupWildcard !== "" &&
+              datapoint.groupWildcard !== undefined
+            ) {
+              const groupWildcard = datapoint.groupWildcard,
+                wildcard = req.url
+                  .substring(req.url.lastIndexOf("/") + 1)
+                  .split("?")[0];
+
+              if (groupWildcard === wildcard) {
+                processDatapoint();
+              } else {
+                next();
+              }
+            } else {
+              processDatapoint();
             }
           });
         } else {
@@ -173,6 +195,8 @@ export const rez = ({
 
               if (episode === null) {
                 data.episode = {};
+                data.template = "error";
+                data.title = "Page Not Found";
                 callback(null);
               } else {
                 data.episode = episode;
@@ -217,22 +241,28 @@ export const rez = ({
             // otherwise, if podcast, retrieve podcast
           } else if (page.wildcard === "podcast") {
             // get the id for the show
-            const _id = req.url
+            const localPath = req.url
               .substring(req.url.lastIndexOf("/") + 1)
               .split("?")[0];
 
-            Show.find({
-              _id,
+            Show.findOne({
+              localPath,
             }).exec((err, show) => {
               if (err) {
                 console.log(err);
+                data.template = "error"; // render the error template instead
                 data.podcast = {};
               } else {
                 data.podcast = show;
               }
 
-              data.path = data.path.replace("*", _id);
-              data.title = show.title;
+              if (show !== null) {
+                data.path = data.path.replace("*", localPath);
+                data.title = show.title;
+              } else {
+                data.title = "Page Not Found";
+                template = "error";
+              }
 
               callback(null);
             });

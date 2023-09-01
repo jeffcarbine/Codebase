@@ -10,6 +10,11 @@
       margin: 0.5rem 0;
       word-break: break-word;
       @include fontValues(4);
+
+      span {
+        color: var(--foreground-mid);
+        margin-top: 0.5rem;
+      }
     }
 
     .edit {

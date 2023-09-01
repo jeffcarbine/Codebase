@@ -4,8 +4,8 @@ import pkg from "rss-to-json";
 const { parse } = pkg;
 import request from "request";
 
-import Show from "../../models/Show.js";
-import Episode from "../../models/Episode.js";
+import Show from "../../_podsyte/models/Show.js";
+import Episode from "../../_podsyte/models/Episode.js";
 
 import { getSpotifyToken } from "../../apis/spotify.js";
 import { fetchYouTubePlaylist } from "../../apis/youtube.js";

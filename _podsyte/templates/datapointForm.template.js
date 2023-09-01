@@ -19,6 +19,7 @@ const datapointInputs = {
       ]),
     ];
   },
+
   link: (datapoint) => {
     const href = datapoint !== undefined ? datapoint.link.href : "",
       title = datapoint !== undefined ? datapoint.link.title : "";
@@ -42,6 +43,7 @@ const datapointInputs = {
       ]),
     ];
   },
+
   html: (datapoint) => {
     const html = datapoint !== undefined ? datapoint.html : "";
 
@@ -55,6 +57,7 @@ const datapointInputs = {
       ]),
     ];
   },
+
   image: (datapoint) => {
     const alt = datapoint !== undefined ? datapoint.image.alt : "",
       src = datapoint !== undefined ? datapoint.image.src : null;
@@ -64,13 +67,47 @@ const datapointInputs = {
       new e.TEXT({ name: "alt", label: "Alt Text", value: alt }),
     ];
   },
-  group: () => {
+
+  person: (datapoint) => {
+    const name = datapoint !== undefined ? datapoint.person.name : "",
+      nickname = datapoint !== undefined ? datapoint.person.nickname : "",
+      pronouns = datapoint !== undefined ? datapoint.person.pronouns : "",
+      job = datapoint !== undefined ? datapoint.person.job : "",
+      description = datapoint !== undefined ? datapoint.person.description : "",
+      bio = datapoint !== undefined ? datapoint.person.bio : "",
+      playedBy = datapoint !== undefined ? datapoint.person.playedBy : "";
+
     return [
+      new e.TEXT({ name: "nickname", label: "Nickname", value: nickname }),
+      new e.TEXT({ name: "pronouns", label: "Pronouns", value: pronouns }),
+      new e.TEXT({ name: "job", label: "Job", value: job }),
+      new e.TEXT({
+        name: "description",
+        label: "Description",
+        value: description,
+      }),
+      new e.LABEL(["Bio", new e.TEXTAREA({ name: "bio", textContent: bio })]),
+      new e.TEXT({ name: "playedBy", label: "Played By", value: playedBy }),
+    ];
+  },
+
+  group: (datapoint) => {
+    const groupWildcard =
+        datapoint !== undefined ? datapoint.groupWildcard : "",
+      groupType = datapoint !== undefined ? datapoint.groupType : "";
+
+    return [
+      new e.TEXT({
+        name: "groupWildcard",
+        label: "Group Wildcard",
+        value: groupWildcard,
+      }),
       new e.LABEL({
         textContent: "Group Type",
         child: new e.SELECTOPTION({
           name: "groupType",
           children: groupTypes,
+          selected: groupType,
         }),
       }),
     ];

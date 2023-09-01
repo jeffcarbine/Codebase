@@ -24,17 +24,32 @@ const datapoint = {
   },
   global: Boolean,
   name: String,
+
   text: String,
+
   link: {
     title: String,
     href: String,
   },
+
   html: String,
+
   image: {
     src: String,
     alt: String,
   },
+
+  person: {
+    nickname: String,
+    pronouns: String,
+    job: String,
+    description: String,
+    bio: String,
+    playedBy: String,
+  },
+
   groupType: groupTypeEnum,
+  groupWildcard: String,
   group: Array,
 };
 

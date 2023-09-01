@@ -13,14 +13,17 @@ export const datapointCardTemplate = (datapoint, parentId, isChild) => {
     case "html":
       preview = new c.CODEBLOCK(datapoint.html);
       break;
+
     case "text":
       preview = new e.P(datapoint.text);
       break;
+
     case "link":
       preview = {
         children: [new e.P(datapoint.link.href), new e.P(datapoint.link.title)],
       };
       break;
+
     case "image":
       preview = {
         children: [
@@ -32,6 +35,20 @@ export const datapointCardTemplate = (datapoint, parentId, isChild) => {
         ],
       };
       break;
+
+    case "person":
+      preview = {
+        children: [
+          new e.P(datapoint.person.nickname),
+          new e.P(datapoint.person.pronouns),
+          new e.P(datapoint.person.job),
+          new e.P(datapoint.person.description),
+          new e.P(datapoint.person.bio),
+          new e.P(datapoint.person.playedBy),
+        ],
+      };
+      break;
+
     case "group":
       preview = {
         children: [
@@ -94,13 +111,31 @@ export const datapointCardTemplate = (datapoint, parentId, isChild) => {
     }
   };
 
+  const generateDatapointWildcard = () => {
+    if (
+      datapoint.groupWildcard !== undefined &&
+      datapoint.groupWildcard !== ""
+    ) {
+      return new e.SPAN({
+        class: "wildcard",
+        textContent: `Wildcard: ${datapoint.groupWildcard}`,
+      });
+    } else {
+      return "";
+    }
+  };
+
   return CARD({
     body: {
       child: c.ACCORDION({
         title: {
           class: "title-edit",
           children: [
-            new e.H2([generateDatapointIcon(), datapoint.name]),
+            new e.H2([
+              generateDatapointIcon(),
+              datapoint.name,
+              generateDatapointWildcard(),
+            ]),
             {
               class: "edit",
               children: editChildren,
