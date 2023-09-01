@@ -12,6 +12,9 @@ $levels: 15;
   // strong
   --strong-font-weight: 500;
 
+  // anchor
+  --anchor-color: var(--accent);
+
   // font values
   --base-font-family: "Open Sans", sans-serif;
   --base-line-height: calc(var(--base-font-size) * 1.5);
@@ -72,6 +75,7 @@ p {
 
 a {
   cursor: pointer;
+  color: var(--anchor-color);
 }
 
 strong {
