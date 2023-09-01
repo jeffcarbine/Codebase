@@ -29,14 +29,14 @@ const clientRender = (template) => {
 
   // if the template does not have an icon value, create an
   // element with that tagName
-  if (template.icon === undefined) {
+  if (template.ICON === undefined) {
     // create that element
     element = document.createElement(tagName);
   }
 
-  if (template.icon) {
+  if (template.ICON) {
     // this is an icon, so we can ignore the rest
-    const icon = template.icon;
+    const icon = template.ICON;
 
     const markup =
       "<svg class='icon' xmlns='http://www.w3.org/2000/svg' id='Layer_1' data-name='Layer 1' viewBox='0 0 320.27 316.32'>" +
@@ -186,14 +186,14 @@ const serverRender = (template) => {
     tagName = template.tagName;
   }
 
-  if (template.icon === undefined) {
+  if (template.ICON === undefined) {
     // pass that as the first part of the html string
     element += tagName;
   }
 
-  if (template.icon) {
+  if (template.ICON) {
     // this is an icon, so we can ignore the rest
-    const icon = template.icon;
+    const icon = template.ICON;
 
     // there should only be one key/value pair, but we
     // use a loop cause I don't know of a cleaner way to
