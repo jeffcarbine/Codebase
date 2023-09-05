@@ -1,15 +1,15 @@
 import { UL, LI, BUTTON } from "../../elements/elements.js";
 
-export const SLIDER = (slideElements, preSlides = null) => {
+export const SLIDER = ({ elements, preSlides, className = "" } = {}) => {
   const slides = [],
     children = [];
 
-  if (preSlides !== null) {
+  if (preSlides !== undefined) {
     children.push(preSlides);
   }
 
-  for (let i = 0; i < slideElements.length; i++) {
-    const slideElement = slideElements[i];
+  for (let i = 0; i < elements.length; i++) {
+    const element = elements[i];
 
     // all sliders default state is zero, so
     // we calculate the slide's state based on that
@@ -19,15 +19,15 @@ export const SLIDER = (slideElements, preSlides = null) => {
       state = "active";
     } else if (i === 1) {
       state = "next";
-    } else if (i === slideElements.length - 1) {
+    } else if (i === elements.length - 1) {
       state = "prev";
-    } else if (i === 2 && slideElements.length >= 5) {
+    } else if (i === 2 && elements.length >= 5) {
       state = "farNext";
-    } else if (i === slideElements.length - 2 && slideElements.length >= 5) {
+    } else if (i === elements.length - 2 && elements.length >= 5) {
       state = "farPrev";
-    } else if (i === 3 && slideElements.length >= 7) {
+    } else if (i === 3 && elements.length >= 7) {
       state = "farFarNext";
-    } else if (i === slideElements.length - 3 && slideElements.length >= 7) {
+    } else if (i === elements.length - 3 && elements.length >= 7) {
       state = "farFarPrev";
     }
 
@@ -35,7 +35,7 @@ export const SLIDER = (slideElements, preSlides = null) => {
       class: "slide",
       "data-index": i,
       "data-state": state,
-      child: slideElement,
+      child: element,
     });
 
     slides.push(slide);
@@ -50,7 +50,7 @@ export const SLIDER = (slideElements, preSlides = null) => {
     })
   );
 
-  if (slideElements.length > 1) {
+  if (elements.length > 1) {
     children.push({
       class: "slider-controls",
       children: [
@@ -69,7 +69,7 @@ export const SLIDER = (slideElements, preSlides = null) => {
   }
 
   return {
-    class: "slider",
+    class: `slider ${className}`,
     children,
   };
 };
