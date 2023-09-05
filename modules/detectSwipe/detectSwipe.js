@@ -9,7 +9,23 @@ export const detectSwipe = ({ target, left, right, up, down } = {}) => {
     startY = e.changedTouches[0].screenY;
   };
 
+  const handleTouchMove = (target, e) => {
+    const moveX = e.changedTouches[0].screenX - startX;
+
+    if (moveX > 10 || moveX < -10) {
+      // make body overflow hidden
+      const body = document.querySelector("body");
+
+      body.style.overflow = "hidden";
+    }
+  };
+
   const handleTouchEnd = (target, e) => {
+    // make body overflow inherit
+    const body = document.querySelector("body");
+
+    body.style.overflow = "inherit";
+
     const diffX = e.changedTouches[0].screenX - startX;
     const diffY = e.changedTouches[0].screenY - startY;
     const ratioX = Math.abs(diffX / diffY);
@@ -45,5 +61,6 @@ export const detectSwipe = ({ target, left, right, up, down } = {}) => {
   };
 
   addEventDelegate("touchstart", target, handleTouchStart);
+  addEventDelegate("touchmove", target, handleTouchMove);
   addEventDelegate("touchend", target, handleTouchEnd);
 };
