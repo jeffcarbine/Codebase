@@ -17,6 +17,7 @@ export const PRODUCTSUMMARY = ({
     ],
   },
   placeholder = false,
+  url = "/shop/product/",
 } = {}) => {
   const price = data.variants[0].price.value,
     hasCompareAtPrice = data.variants[0].compareAtPrice !== null,
@@ -26,8 +27,9 @@ export const PRODUCTSUMMARY = ({
 
   return {
     tagName: placeholder ? "div" : "a",
-    href: "/shop/product/" + data.handle || "",
+    href: url + data.handle || "",
     class: "productSummary" + (placeholder ? " placeholder" : ""),
+    target: url === "/shop/product/" ? "" : "_blank",
     children: [
       {
         class: "image",
