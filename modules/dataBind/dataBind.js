@@ -36,7 +36,7 @@ export const dataBind = (key, value) => {
       // check if this is a simple condition or a complex condition
       if (Object.keys(conditions).length === 0) {
         // if it is a simple condition, check if the value is truthy
-        if (value) {
+        if (value !== false && value !== undefined && value !== null) {
           conditionsMet = true;
         } else {
           conditionsMet = false;

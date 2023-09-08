@@ -107,6 +107,9 @@ export const post__shop_modifyLineItem = (req, res) => {
 };
 
 export const enableShopRoutes = (app) => {
+  app.get("/shop/admin", (req, res) => {
+    res.redirect(`https://${process.env.SHOPIFYDOMAIN}/admin`);
+  });
   app.post("/shop/collection", post__shop_collection);
   app.post("/shop/cart", post__shop_cart);
   app.post("/shop/add-to-cart", post__shop_addToCart);
