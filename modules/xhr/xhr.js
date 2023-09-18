@@ -14,6 +14,7 @@ export const xhr = ({
   method = "POST",
   path = "/",
   body = {},
+  requestHeader = "application/json;charset=UTF-8",
   success = defaultResponse,
   error = defaultResponse,
   failure = defaultResponse,
@@ -23,7 +24,7 @@ export const xhr = ({
   let request = new XMLHttpRequest();
   request.open(method, path);
 
-  request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  request.setRequestHeader("Content-Type", requestHeader);
 
   request.onload = () => {
     if (request.status === 200) {
@@ -95,6 +96,18 @@ export const xhrForm = ({
   const formSuccess = (request) => {
     success(request.response, "success", form);
     form.reset();
+
+    // check to see if we have any previews in the form
+    const previews = form.querySelectorAll(".preview");
+
+    if (previews.length > 0) {
+      previews.forEach((preview) => {
+        // get the image and remove the src and set to display none
+        const image = preview.querySelector("img");
+        image.removeAttribute("src");
+        image.style.display = "none";
+      });
+    }
   };
 
   const formError = (request) => {
@@ -123,16 +136,20 @@ export const xhrForm = ({
   //   console.log(progress);
   // };
 
-  // and now pass this all to the xhr function
+  console.log(body);
 
-  xhr({
+  // create the xhr params
+  const params = {
     method,
     path: action,
     body,
     success: formSuccess,
     error: formError,
     failure: formFailure,
-  });
+  };
+
+  // and now pass this all to the xhr function
+  xhr(params);
 };
 
 export const xhrFormRecaptcha = ({

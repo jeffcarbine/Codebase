@@ -4,7 +4,7 @@ import {
   enableSetNavBackground,
 } from "/periodic/elements/nav/nav.js";
 import { initModals } from "/periodic/components/modal/modal.js";
-import { xhrForm } from "/periodic/modules/xhr/xhr.js";
+import { xhr } from "/periodic/modules/xhr/xhr.js";
 
 initModals();
 enableToggleNav();
@@ -46,3 +46,27 @@ const hideFullNav = () => {
 };
 
 addEventDelegate("mouseout", "nav", hideFullNav);
+
+const twoStepDelete = (button) => {
+  const path = button.dataset.path,
+    id = button.dataset.id,
+    body = {
+      id,
+    };
+
+  if (button.dataset.parentid) {
+    body.parentId = button.dataset.parentid;
+  }
+
+  if (button.dataset.parentmodel) {
+    body.parentModel = button.dataset.parentmodel;
+  }
+
+  const success = () => {
+    window.location.reload();
+  };
+
+  xhr({ path, body, success });
+};
+
+addEventDelegate("click", ".two-step-delete .delete", twoStepDelete);

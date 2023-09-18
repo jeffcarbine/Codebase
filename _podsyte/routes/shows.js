@@ -1,16 +1,12 @@
 import Show from "../models/Show.js";
 import { camelize } from "../../modules/formatString/formatString.js";
 
-export const get__admin_shows = (req, res, next) => {
+export const post__admin_shows_retrieve = (req, res, next) => {
   Show.find().exec((err, shows) => {
     if (err) {
       return res.status(500).send(err);
     } else {
-      return res.render("shows", {
-        path: "/admin/shows",
-        subtitle: "Shows",
-        shows,
-      });
+      return res.status(200).send(shows);
     }
   });
 };

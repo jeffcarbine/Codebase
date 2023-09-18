@@ -1,0 +1,153 @@
+:root {
+  --field-background: var(--light);
+  --field-input-color: var(--dark);
+  --field-label-color: var(--dark);
+  --field-focus-color: var(--accent);
+  --field-focus-opacity: 0.25;
+}
+
+@keyframes focus {
+  from {
+    opacity: var(--field-focus-opacity);
+    transform: scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(750);
+  }
+}
+
+.field {
+  display: block;
+  width: 100%;
+  margin-bottom: 0.5rem;
+
+  input,
+  textarea,
+  select {
+    @include fontValues(10);
+    outline: none;
+    min-height: 3.75rem;
+  }
+
+  textarea {
+    resize: none;
+  }
+
+  select {
+    text-overflow: ellipsis;
+  }
+
+  .wrapper {
+    position: relative;
+    overflow: hidden;
+    margin: 0.5rem 0;
+    display: block;
+  }
+
+  label {
+    @include fontValues(10);
+    color: var(--field-label-color);
+    padding-top: 0.5rem;
+  }
+
+  .preview {
+    display: block;
+    width: 100%;
+    max-width: 10rem;
+    object-fit: cover;
+    background: var(--field-background);
+    border-radius: var(--border-radius);
+    margin: 0.5rem 0;
+    position: relative;
+    border: 0.125rem solid var(--border-color);
+
+    .imagePreview {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .square {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      fill: var(--field-input-color);
+      width: 25%;
+      opacity: 0.5;
+    }
+  }
+
+  .help {
+    display: block;
+    @include fontValues(12);
+    text-align: right;
+  }
+
+  // handle checkbox and radio differently
+  // &.checkbox-field,
+  // &.radio-field {
+  // }
+
+  // hande non-checkbox and non-radio
+  &:not(.checkbox-field),
+  &:not(.radio-field) {
+    label {
+      display: block;
+    }
+
+    .wrapper {
+      background: var(--field-background);
+      border-radius: var(--border-radius);
+
+      .focus {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+        background: var(--field-focus-color);
+        opacity: 0;
+        width: 1px;
+        height: 1px;
+        border-radius: 50%;
+      }
+    }
+
+    input,
+    textarea,
+    select {
+      display: block;
+      padding: 0.75rem;
+      box-sizing: border-box;
+      border: 0.125rem solid var(--border-color);
+      border-radius: var(--border-radius);
+      transition: border-color 0.5s ease;
+      transition-delay: 0.25s;
+      color: var(--field-input-color);
+      width: 100%;
+      background: transparent;
+      margin: 0;
+
+      &:focus {
+        border-color: var(--field-focus-color);
+
+        + .focus {
+          animation: focus 1s forwards;
+          animation-delay: 0.01s;
+        }
+      }
+    }
+  }
+}

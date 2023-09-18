@@ -70,6 +70,7 @@ export const SLIDER = ({ elements, preSlides, className = "" } = {}) => {
 
   return {
     class: `slider ${className}`,
+    "data-component": "slider",
     children,
   };
 };

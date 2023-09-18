@@ -1,9 +1,26 @@
 .card.edit {
+  overflow: hidden;
+
+  > div {
+    display: flex;
+
+    .card-body {
+      flex: 1 1 auto;
+    }
+
+    img.accent-image {
+      flex: 0 0 8rem;
+      width: 8rem;
+      margin: -1rem 1rem -1rem -1rem;
+      height: 8rem;
+      object-fit: cover;
+    }
+  }
+
   .title-edit {
     flex: 1 1 auto;
     margin: 0;
     display: flex;
-    margin-bottom: 0.5rem;
 
     h2 {
       flex: 0 0 calc(100% - 4rem);
@@ -34,6 +51,12 @@
           display: none;
         }
       }
+    }
+  }
+
+  .preview {
+    p {
+      margin: 0;
     }
   }
 

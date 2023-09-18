@@ -106,6 +106,7 @@
 
 .loading {
   position: relative;
+  min-height: 20rem;
 }
 
 @mixin loadingSimple {

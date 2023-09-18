@@ -403,6 +403,7 @@ const config = {
     "value",
     "data-icon",
     "data-active",
+    "data-state",
     "checked",
   ],
   childList: true,

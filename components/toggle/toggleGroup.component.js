@@ -45,6 +45,7 @@ export const TOGGLEGROUP = ({
   });
 
   return {
+    "data-component": "toggle",
     class: "toggle group " + className,
     children: [
       new FIELDSET({

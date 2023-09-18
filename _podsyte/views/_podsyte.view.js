@@ -2,6 +2,56 @@ import * as e from "../../elements/elements.js";
 import * as c from "../../components/components.js";
 
 export const base = (data, template, scripts) => {
+  console.log(data);
+
+  const generateAdminRoutes = () => {
+    if (data.loggedIn) {
+      const appRoutes = {
+        routes: {
+          Dashboard: [
+            "/admin",
+            new e.SPAN("Dashboard"),
+            new c.ICON("dashboard"),
+          ],
+          Global: ["/admin/global", new e.SPAN("Global"), new c.ICON("globe")],
+          Pages: ["/admin/pages", new e.SPAN("Pages"), new c.ICON("page")],
+          Files: ["/admin/files", new e.SPAN("Files"), new c.ICON("file")],
+          Shows: ["/admin/shows", new e.SPAN("Shows"), new c.ICON("rss")],
+          Tools: ["/admin/tools", new e.SPAN("Tools"), new c.ICON("tools")],
+          // Settings: [
+          //   "/admin/settings",
+          //   new e.SPAN("Settings"),
+          //   new c.ICON("settings"),
+          // ],
+          // History: ["/admin/history", "History", new c.ICON("history")],
+          // Account: ["/admin/account", "Account", new c.ICON("user")],
+        },
+        basePath: "/admin",
+        path: data.path,
+      };
+
+      if (data.features.fanart) {
+        appRoutes.routes.Fanart = [
+          "/admin/fanart",
+          new e.SPAN("Fanart"),
+          new c.ICON("image"),
+        ];
+      }
+
+      if (data.features.events) {
+        appRoutes.routes.Events = [
+          "/admin/events",
+          new e.SPAN("Events"),
+          new c.ICON("calendar"),
+        ];
+      }
+
+      return appRoutes;
+    } else {
+      return {};
+    }
+  };
+
   const html = {
     title: "Podsyte",
     stylesheets: ["/admin/styles/podsyte.min.css"],
@@ -36,47 +86,7 @@ export const base = (data, template, scripts) => {
             ],
           },
           new c.NAVTOGGLE([new e.SPAN(), new e.SPAN(), new e.SPAN()]),
-          new e.NAVIGATION({
-            if: data.loggedIn,
-            routes: {
-              Dashboard: [
-                "/admin",
-                new e.SPAN("Dashboard"),
-                new c.ICON("dashboard"),
-              ],
-              Global: [
-                "/admin/global",
-                new e.SPAN("Global"),
-                new c.ICON("globe"),
-              ],
-              Pages: ["/admin/pages", new e.SPAN("Pages"), new c.ICON("page")],
-              Podcasts: [
-                "/admin/shows",
-                new e.SPAN("Podcasts"),
-                new c.ICON("rss"),
-              ],
-              Events: [
-                "/admin/events",
-                new e.SPAN("Events"),
-                new c.ICON("calendar"),
-              ],
-              Fanart: [
-                "/admin/fanart",
-                new e.SPAN("Fanart"),
-                new c.ICON("image"),
-              ],
-              Tools: ["/admin/tools", new e.SPAN("Tools"), new c.ICON("tools")],
-              Settings: [
-                "/admin/settings",
-                new e.SPAN("Settings"),
-                new c.ICON("settings"),
-              ],
-              // History: ["/admin/history", "History", new c.ICON("history")],
-              // Account: ["/admin/account", "Account", new c.ICON("user")],
-            },
-            basePath: "/admin",
-            path: data.path,
-          }),
+          new e.NAVIGATION(generateAdminRoutes()),
         ],
       }),
       new e.MAIN(template || {}),

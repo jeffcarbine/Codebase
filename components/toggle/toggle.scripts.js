@@ -36,7 +36,7 @@ const initToggleGroups = () => {
   });
 };
 
-addEventDelegate("load", window, initToggleGroups);
+initToggleGroups();
 
 // /////////////////
 // // TOGGLE SWITCH

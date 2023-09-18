@@ -17,6 +17,8 @@ export const rez = ({
   data = {},
   datapointIds = [],
   page,
+  __dirname,
+  viewPath,
 } = {}) => {
   // check if we are logged in or not
   if (req.user) {
@@ -355,7 +357,11 @@ export const rez = ({
       },
       // step 4: render
       () => {
-        res.render(template, data);
+        if (__dirname) {
+          res.render(`${__dirname}/${viewPath}/${template}`, data);
+        } else {
+          res.render(template, data);
+        }
       },
     ],
     (err) => {

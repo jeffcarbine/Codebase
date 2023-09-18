@@ -7,10 +7,9 @@ var Fanart = new Schema({
   description: String,
   artist: String,
   email: String,
-  artistUrl: String,
+  url: String,
   tags: Array,
   image: String,
-  purchaseUrl: String,
   submittedOn: Number,
   approved: Boolean,
 });

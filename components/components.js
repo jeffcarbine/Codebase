@@ -19,6 +19,7 @@ import { SQUARE } from "./square/square.component.js";
 import { TOGGLESINGLE } from "./toggle/toggleSingle.component.js";
 import { TOGGLEDUAL } from "./toggle/toggleDual.component.js";
 import { TOGGLEGROUP } from "./toggle/toggleGroup.component.js";
+import { FIELD } from "./field/field.component.js";
 
 export {
   BTN,
@@ -43,4 +44,5 @@ export {
   TOGGLESINGLE,
   TOGGLEGROUP,
   TOGGLEDUAL,
+  FIELD,
 };

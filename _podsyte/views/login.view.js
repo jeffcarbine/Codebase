@@ -1,6 +1,7 @@
 import { base } from "./_podsyte.view.js";
 import * as e from "../../elements/elements.js";
 import * as c from "../../components/components.js";
+import { FIELD } from "../../components/field/field.component.js";
 
 export default (data) => {
   return base(data, {
@@ -17,11 +18,16 @@ export default (data) => {
               action: "/admin/login",
               class: "style-inputs",
               children: [
-                new e.EMAIL({
+                new FIELD({
                   name: "username",
                   id: "username",
+                  label: "Username",
                 }),
-                new e.PASSWORD(),
+                new FIELD({
+                  type: "password",
+                  label: "Password",
+                  name: "password",
+                }),
                 new c.BTN("Log In"),
               ],
             }),
