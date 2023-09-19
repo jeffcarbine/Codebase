@@ -144,8 +144,6 @@ export const post__admin_datapoints = (req, res, next) => {
       // step 3: create or update the datapoint
       (datapoint, callback) => {
         if (_id) {
-          console.log(_id);
-          console.log(datapoint);
           // then we are updating a preexisting datapoint
           Datapoint.findOneAndUpdate(
             { _id },
@@ -161,7 +159,6 @@ export const post__admin_datapoints = (req, res, next) => {
           });
         } else {
           // then we are creating a new datapoint
-          console.log(datapoint);
           Datapoint.create(datapoint, (err, newDatapoint) => {
             if (err) {
               callback(err);

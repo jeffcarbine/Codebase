@@ -1,5 +1,7 @@
 import passport from "passport";
 import connectEnsureLogin from "connect-ensure-login";
+import mongoose from "mongoose";
+import Page from "../models/Page.js";
 
 import { get__admin_login, post__admin_login } from "../routes/login.js";
 import { post__admin_signup } from "../routes/signup.js";
@@ -30,6 +32,7 @@ import {
 import {
   post__admin_pages,
   post__admin_pages_retrieve,
+  post__admin_pages_getDatapoints,
 } from "../routes/pages.js";
 
 // import {
@@ -79,14 +82,36 @@ export const generateAdminRoutes = (app, __dirname, features) => {
       path,
       connectEnsureLogin.ensureLoggedIn("/admin/login"),
       (req, res) => {
-        rez({
-          req,
-          res,
-          template,
-          __dirname,
-          viewPath: "/periodic/_podsyte/views",
-          data: { title, path, features },
-        });
+        let data = { title, path, features };
+
+        const adminRez = () => {
+          rez({
+            req,
+            res,
+            template,
+            __dirname,
+            viewPath: "/periodic/_podsyte/views",
+            data,
+          });
+        };
+
+        // if page, get the page data
+        if (route === "page") {
+          // get the page data
+          const pageId = req.originalUrl
+              .replace("/admin/pages/", "")
+              .split("?")[0],
+            _id = new mongoose.Types.ObjectId(pageId);
+
+          Page.findOne({ _id }).exec((err, page) => {
+            data.title = page.name;
+            data.pageData = page;
+
+            adminRez();
+          });
+        } else {
+          adminRez();
+        }
       }
     );
   }
@@ -104,6 +129,12 @@ export const generateAdminRoutes = (app, __dirname, features) => {
     "/admin/pages",
     connectEnsureLogin.ensureLoggedIn(),
     post__admin_pages
+  );
+
+  app.post(
+    "/admin/pages/getDatapoints",
+    connectEnsureLogin.ensureLoggedIn(),
+    post__admin_pages_getDatapoints
   );
 
   // DATAPOINTS

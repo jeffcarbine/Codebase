@@ -2,7 +2,6 @@ import { addEventDelegate } from "/periodic/modules/eventDelegate/eventDelegate.
 import { xhrForm } from "/periodic/modules/xhr/xhr.js";
 
 export const handleDatapointForm = () => {
-  console.log("handling datapoint form");
   const submitDatapointForm = (form) => {
     const success = () => {
       window.location.reload();

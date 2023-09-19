@@ -2,8 +2,6 @@ import * as e from "../../elements/elements.js";
 import * as c from "../../components/components.js";
 
 export const base = (data, template, scripts) => {
-  console.log(data);
-
   const generateAdminRoutes = () => {
     if (data.loggedIn) {
       const appRoutes = {

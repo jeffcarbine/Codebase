@@ -204,3 +204,61 @@ export const get__admin_pages_$ = (req, res, next) => {
     }
   });
 };
+
+export const post__admin_pages_getDatapoints = (req, res, next) => {
+  const _id = req.body.pageId;
+
+  Page.findOne({
+    _id,
+  }).exec((err, page) => {
+    if (err) {
+      return res.status(500).send(err);
+    } else {
+      console.log(page);
+
+      // retrieve all of the datapoints for this page too
+      const datapointIds = page.datapoints,
+        datapoints = [];
+
+      const retrieveDatapoints = (ids, parent, callback) => {
+        asyncLoop(
+          ids,
+          (datapointId, next) => {
+            Datapoint.findOne({ _id: datapointId }).exec((err, datapoint) => {
+              parent.push(datapoint);
+
+              // check if the datapoint is a group
+              if (datapoint.type === "group") {
+                datapoint.datapoints = [];
+
+                if (datapoint.group.length > 0) {
+                  // then we need to retrieve the children datapoints
+                  retrieveDatapoints(
+                    datapoint.group,
+                    datapoint.datapoints,
+                    next
+                  );
+                } else {
+                  next();
+                }
+              } else {
+                next();
+              }
+            });
+          },
+          (err) => {
+            if (err) {
+              console.log(err);
+            } else {
+              callback();
+            }
+          }
+        );
+      };
+
+      retrieveDatapoints(datapointIds, datapoints, () => {
+        return res.status(200).send(datapoints);
+      });
+    }
+  });
+};

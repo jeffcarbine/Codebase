@@ -5,11 +5,9 @@ import { MODAL } from "../../components/modal/modal.component.js";
 import { capitalize } from "../../modules/formatString/formatString.js";
 import { createEditPageTemplate } from "../templates/createEditPage.template.js";
 import { datapointFormTemplate } from "../templates/datapointForm.template.js";
-import { generateDatapointCards } from "../templates/datapointCard.template.js";
 
 export default (data) => {
-  const datapoints = data.datapoints,
-    pageData = data.pageData,
+  const pageData = data.pageData,
     pageId = pageData._id;
 
   return base(
@@ -70,13 +68,19 @@ export default (data) => {
         new e.SECTION({
           id: "datapoints",
           class: "card-canvas",
-          children: generateDatapointCards(datapoints, pageId),
+          child: {
+            id: "datapointCards",
+            class: "loading",
+          },
         }),
       ],
     },
     [
-      new e.MODULE("/periodic/elements/input/input.js"),
-      new e.MODULE("/periodic/components/accordion/accordion.js"),
+      new e.SCRIPT({
+        textContent: `
+        const pageId = "${pageId}";
+      `,
+      }),
       new e.MODULE("/admin/scripts/page.scripts.js"),
     ]
   );

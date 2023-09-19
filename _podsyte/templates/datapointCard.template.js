@@ -208,13 +208,16 @@ export const generateDatapointCards = (
   parentId,
   isChild = false
 ) => {
-  const datapointCards = [];
+  const children = [];
 
   datapoints.forEach((datapoint) => {
     const datapointCard = datapointCardTemplate(datapoint, parentId, isChild);
 
-    datapointCards.push(datapointCard);
+    children.push(datapointCard);
   });
 
-  return datapointCards;
+  return {
+    class: "datapointCards",
+    children,
+  };
 };
