@@ -40,14 +40,12 @@ export class FIELD {
       params.id = generateUniqueId();
     }
 
+    // all the keys we want to skip
+    const skipKeys = ["type", "label", "preview", "options", "selected"];
+
     // assign all other params to the input
     for (let key in params) {
-      if (
-        key !== "type" &&
-        key !== "label" &&
-        key !== "preview" &&
-        key !== "options"
-      ) {
+      if (!skipKeys.includes(key)) {
         input[key] = params[key];
       }
     }
@@ -57,11 +55,17 @@ export class FIELD {
       input.children = [];
 
       params.options.forEach((option) => {
-        input.children.push({
+        const optionParams = {
           tagName: "option",
           value: camelize(option),
           textContent: option,
-        });
+        };
+
+        if (option === params.selected) {
+          optionParams.selected = true;
+        }
+
+        input.children.push(optionParams);
       });
     }
 

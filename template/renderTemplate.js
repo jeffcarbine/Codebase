@@ -1,7 +1,7 @@
 import { camelToHyphen } from "../modules/formatString/formatString.js";
 
 const clientRender = (template) => {
-  if (template === null) {
+  if (template === null || template === undefined) {
     return null;
   }
 
@@ -151,7 +151,7 @@ const clientRender = (template) => {
 };
 
 const serverRender = (template) => {
-  if (template === null || template === undefined || template === {}) {
+  if (template === null || template === undefined) {
     return null;
   }
 
