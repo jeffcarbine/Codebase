@@ -1,4 +1,4 @@
-import { DROPDOWN, BTN } from "../components.js";
+import { DROPDOWN } from "./dropdown.component.js";
 import { RADIOLABEL, ULLI } from "../../elements/elements.js";
 import { generateUniqueId } from "../../modules/generateUniqueId/generateUniqueId.js";
 
@@ -37,5 +37,9 @@ export const DROPDOWNSELECT = ({
     child: new ULLI(children),
   };
 
-  return DROPDOWN("select " + className, dropdownTitle, body);
+  return DROPDOWN({
+    className: "select " + className,
+    title: dropdownTitle,
+    body,
+  });
 };

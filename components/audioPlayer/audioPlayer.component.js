@@ -1,6 +1,7 @@
 export const AUDIOPLAYER = (link, title = "", ifValue = true) => {
   return {
     if: ifValue,
+    "data-component": "audioPlayer",
     class: "audioPlayer",
     children: [
       {
