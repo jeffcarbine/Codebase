@@ -36,6 +36,28 @@
   --text-shadow: 0px 7px 10px rgba(0, 0, 0, 0.25);
   --border-radius: 0.25rem;
   --border-color: rgba(100, 40, 40, 0.125);
+
+  --1-2rem: calc(1rem / 2);
+  --1-3rem: calc(1rem / 3);
+  --2-3rem: calc(var(--1-3rem) * 2);
+  --1-4rem: calc(1rem / 4);
+  --3-4rem: calc(var(--1-4rem) * 3);
+  --1-5rem: calc(1rem / 5);
+  --2-5rem: calc(var(--1-5rem) * 2);
+  --3-5rem: calc(var(--1-5rem) * 3);
+  --4-5rem: calc(var(--1-5rem) * 4);
+  --1-6rem: calc(1rem / 6);
+  --5-6rem: calc(var(--1-6rem) * 5);
+  --1-7rem: calc(1rem / 7);
+  --2-7rem: calc(var(--1-7rem) * 2);
+  --3-7rem: calc(var(--1-7rem) * 3);
+  --4-7rem: calc(var(--1-7rem) * 4);
+  --5-7rem: calc(var(--1-7rem) * 5);
+  --6-7rem: calc(var(--1-7rem) * 6);
+  --1-8rem: calc(1rem / 8);
+  --3-8rem: calc(var(--1-8rem) * 3);
+  --5-8rem: calc(var(--1-8rem) * 5);
+  --7-8rem: calc(var(--1-8rem) * 7);
 }
 
 html.darkmode {
