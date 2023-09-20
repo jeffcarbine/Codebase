@@ -25,6 +25,11 @@ export class FIELD {
     // and change it to a textarea if necessary
     if (type === "textarea") {
       input.tagName = "textarea";
+
+      // if no rows, default to 4
+      if (!params.rows) {
+        params.rows = 6;
+      }
     } else if (type === "select") {
       input.tagName = "select";
     } else {

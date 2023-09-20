@@ -29,10 +29,12 @@
     @include fontValues(10);
     outline: none;
     min-height: 3.75rem;
+    font-family: var(--base-font-family);
   }
 
   textarea {
     resize: none;
+    line-height: var(--f9-line-height);
   }
 
   select {
