@@ -1,0 +1,105 @@
+body {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  header {
+    flex: 0 0 auto;
+  }
+
+  main {
+    flex: 1 1 auto;
+  }
+
+  footer {
+    flex: 0 0 auto;
+  }
+}
+
+@media only screen and (min-width: $breakpoint-md) {
+  body {
+    header {
+      width: 5rem;
+      transition: all 0.5s ease;
+
+      .branding {
+        .logo.admin {
+          visibility: hidden;
+          opacity: 0;
+          transition: all 0.5s ease;
+          flex: 0 0 0;
+          width: 0px;
+        }
+      }
+
+      nav {
+        ul {
+          li {
+            a {
+              padding: 1rem;
+              transition: all 0.5s ease;
+
+              span {
+                display: block;
+                visibility: hidden;
+                opacity: 0;
+                transform: translateX(-10rem);
+                transition: all 0.5s ease;
+              }
+
+              svg.icon {
+                right: 50%;
+                transform: translate(50%, -55%);
+                transition: all 0.5s ease;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    main {
+      margin: 2rem 0 0 5rem;
+      transition: all 0.5s ease;
+    }
+  }
+
+  body.fullNav {
+    header {
+      width: 10rem;
+
+      .branding {
+        .logo.admin {
+          visibility: visible;
+          opacity: 1;
+          width: 3.5rem;
+        }
+      }
+
+      nav {
+        ul {
+          li {
+            a {
+              padding: 0.5rem 3rem 0.5rem 0.5rem;
+
+              span {
+                visibility: visible;
+                opacity: 1;
+                transform: translateX(0);
+              }
+
+              svg.icon {
+                transform: translate(0, -55%);
+                right: 0;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    main {
+      margin: 2rem 0 0 10rem;
+    }
+  }
+}

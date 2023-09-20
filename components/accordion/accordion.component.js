@@ -33,6 +33,7 @@ export const ACCORDION = ({
   };
 
   return {
+    "data-component": "accordion",
     class: `accordion ${className} ${open ? "open" : ""}`,
     children: [
       {

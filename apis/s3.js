@@ -134,6 +134,8 @@ export const uploadBase64ToS3 = async (base64, callback) => {
   // Getting the file extension
   const extension = base64.split(";")[0].split("/")[1];
 
+  console.log(extension);
+
   // Getting the content type
   const ContentType = base64.split(";")[0].split(":")[1];
 

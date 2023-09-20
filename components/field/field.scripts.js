@@ -73,3 +73,64 @@ export const validateFields = (messages) => {
     validation.innerHTML = message.message;
   });
 };
+
+const toggleVisibilityWithSelect = (selectInput) => {
+  const query = selectInput.dataset.targets,
+    value = selectInput.value,
+    targets = document.querySelectorAll(query);
+
+  targets.forEach((target) => {
+    if (target.classList.contains(value)) {
+      target.classList.add("visible");
+    } else {
+      target.classList.remove("visible");
+    }
+  });
+};
+
+// make the selected hidden input group visible
+const hiddenInputGroupSelects = document.querySelectorAll(
+  ".field select[data-targets]"
+);
+
+if (hiddenInputGroupSelects.length > 0) {
+  hiddenInputGroupSelects.forEach((hiddenInputGroupSelect) => {
+    toggleVisibilityWithSelect(hiddenInputGroupSelect);
+  });
+}
+
+const handleHiddenGroupMutations = (element) => {
+  toggleVisibilityWithSelect(element);
+};
+
+addEventDelegate(
+  "childList",
+  ".field select[data-targets]",
+  handleHiddenGroupMutations
+);
+
+addEventDelegate(
+  "change",
+  ".field select[data-targets]",
+  toggleVisibilityWithSelect
+);
+
+const toggleVisibilityWithCheckbox = (checkbox) => {
+  const query = checkbox.dataset.targets,
+    checked = checkbox.checked,
+    targets = document.querySelectorAll(query);
+
+  targets.forEach((target) => {
+    if (checked) {
+      target.classList.remove("hidden");
+    } else {
+      target.classList.add("hidden");
+    }
+  });
+};
+
+addEventDelegate(
+  "change",
+  ".field input[type='checkbox'][data-targets]",
+  toggleVisibilityWithCheckbox
+);
