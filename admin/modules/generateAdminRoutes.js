@@ -48,7 +48,7 @@ import { connect } from "mongoose";
 
 export const generateAdminRoutes = (app, __dirname, features) => {
   const getRoutes = {
-    dashboard: "Dashboard",
+    //dashboard: "Dashboard",
     global: "Global",
     pages: "Pages",
     page: "Page",
@@ -71,9 +71,9 @@ export const generateAdminRoutes = (app, __dirname, features) => {
     let template = route,
       path = `/periodic/admin/${route}`;
 
-    if (route === "dashboard") {
-      path = "/periodic/admin";
-    }
+    // if (route === "dashboard") {
+    //   path = "/periodic/admin";
+    // }
 
     if (route === "page") {
       path = "/periodic/admin/pages/*";
@@ -117,99 +117,116 @@ export const generateAdminRoutes = (app, __dirname, features) => {
     );
   }
 
+  // default admin -> periodic/admin/pages route
+  app.get(
+    "/admin",
+    connectEnsureLogin.ensureLoggedIn("/periodic/admin/login"),
+    (req, res) => {
+      res.redirect("/periodic/admin/pages");
+    }
+  );
+
+  app.get(
+    "/periodic/admin",
+    connectEnsureLogin.ensureLoggedIn("/periodic/admin/login"),
+    (req, res) => {
+      res.redirect("/periodic/admin/pages");
+    }
+  );
+
   // the login/signup routes
   app.get("/periodic/admin/login", get__admin_login);
 
   app.post(
     "/periodic/admin/pages/retrieve",
-    connectEnsureLogin.ensureLoggedIn(),
+    connectEnsureLogin.ensureLoggedIn("/periodic/admin/login"),
     post__admin_pages_retrieve
   );
 
   app.post(
     "/periodic/admin/pages",
-    connectEnsureLogin.ensureLoggedIn(),
+    connectEnsureLogin.ensureLoggedIn("/periodic/admin/login"),
     post__admin_pages
   );
 
   app.post(
     "/periodic/admin/pages/getDatapoints",
-    connectEnsureLogin.ensureLoggedIn(),
+    connectEnsureLogin.ensureLoggedIn("/periodic/admin/login"),
     post__admin_pages_getDatapoints
   );
 
   // DATAPOINTS
   app.post(
     "/periodic/admin/datapoints",
-    connectEnsureLogin.ensureLoggedIn(),
+    connectEnsureLogin.ensureLoggedIn("/periodic/admin/login"),
     post__admin_datapoints
   );
 
   app.post(
     "/periodic/admin/datapoints/remove",
-    connectEnsureLogin.ensureLoggedIn(),
+    connectEnsureLogin.ensureLoggedIn("/periodic/admin/login"),
     post__admin_datapoints_remove
   );
 
   app.post(
     "/periodic/admin/datapoints/retrieve",
-    connectEnsureLogin.ensureLoggedIn(),
+    connectEnsureLogin.ensureLoggedIn("/periodic/admin/login"),
     post__admin_datapoints_retrieve
   );
 
   // SHOWS
   app.post(
     "/periodic/admin/shows/retrieve",
-    connectEnsureLogin.ensureLoggedIn(),
+    connectEnsureLogin.ensureLoggedIn("/periodic/admin/login"),
     post__admin_shows_retrieve
   );
 
   app.post(
     "/periodic/admin/shows/add",
-    connectEnsureLogin.ensureLoggedIn(),
+    connectEnsureLogin.ensureLoggedIn("/periodic/admin/login"),
     post__admin_shows_add
   );
 
   app.post(
     "/periodic/admin/shows/edit",
-    connectEnsureLogin.ensureLoggedIn(),
+    connectEnsureLogin.ensureLoggedIn("/periodic/admin/login"),
     post__admin_shows_edit
   );
 
   app.post(
     "/periodic/admin/tools/merchClubCSV",
-    connectEnsureLogin.ensureLoggedIn(),
+    connectEnsureLogin.ensureLoggedIn("/periodic/admin/login"),
     post__admin_tools_merchClubCSV
   );
 
   // app.post(
   //   "/periodic/admin/settings",
-  //   connectEnsureLogin.ensureLoggedIn(),
+  //   connectEnsureLogin.ensureLoggedIn("/periodic/admin/login"),
   //   post__admin_settings
   // );
 
   // app.post(
   //   "/periodic/admin/settings/retrieve",
-  //   connectEnsureLogin.ensureLoggedIn(),
+  //   connectEnsureLogin.ensureLoggedIn("/periodic/admin/login"),
   //   post__admin_settings_retrieve
   // );
 
   // app.post(
   //   "/periodic/admin/settings/retrieve-all",
-  //   connectEnsureLogin.ensureLoggedIn(),
+  //   connectEnsureLogin.ensureLoggedIn("/periodic/admin/login"),
   //   post__admin_settings_retrieveAll
   // );
 
   if (features.events) {
     app.post(
       "/periodic/admin/events",
-      connectEnsureLogin.ensureLoggedIn(),
+      connectEnsureLogin.ensureLoggedIn("/periodic/admin/login"),
       post__admin_events
     );
 
     app.post(
       "/periodic/admin/events/delete",
-      connectEnsureLogin.ensureLoggedIn(),
+      connectEnsureLogin.ensureLoggedIn("/periodic/admin/login"),
       post__admin_events_delete
     );
   }
@@ -217,19 +234,19 @@ export const generateAdminRoutes = (app, __dirname, features) => {
   if (features.fanart) {
     app.post(
       "/periodic/admin/fanart/approve",
-      connectEnsureLogin.ensureLoggedIn(),
+      connectEnsureLogin.ensureLoggedIn("/periodic/admin/login"),
       post__admin_fanart_approve
     );
 
     app.post(
       "/periodic/admin/fanart/retrieve",
-      connectEnsureLogin.ensureLoggedIn(),
+      connectEnsureLogin.ensureLoggedIn("/periodic/admin/login"),
       post__admin_fanart_retrieve
     );
 
     app.post(
       "/periodic/admin/fanart/delete",
-      connectEnsureLogin.ensureLoggedIn(),
+      connectEnsureLogin.ensureLoggedIn("/periodic/admin/login"),
       post__admin_fanart_delete
     );
   }

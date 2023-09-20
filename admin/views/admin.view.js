@@ -6,20 +6,20 @@ export const base = (data, template, scripts) => {
     if (data.loggedIn) {
       const appRoutes = {
         routes: {
-          Dashboard: [
-            "/periodic/admin",
-            new e.SPAN("Dashboard"),
-            new c.ICON("dashboard"),
+          // Dashboard: [
+          //   "/periodic/admin",
+          //   new e.SPAN("Dashboard"),
+          //   new c.ICON("dashboard"),
+          // ],
+          Pages: [
+            "/periodic/admin/pages",
+            new e.SPAN("Pages"),
+            new c.ICON("page"),
           ],
           Global: [
             "/periodic/admin/global",
             new e.SPAN("Global"),
             new c.ICON("globe"),
-          ],
-          Pages: [
-            "/periodic/admin/pages",
-            new e.SPAN("Pages"),
-            new c.ICON("page"),
           ],
           Files: [
             "/periodic/admin/files",

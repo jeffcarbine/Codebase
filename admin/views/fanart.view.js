@@ -6,16 +6,12 @@ export default (data) => {
   return base(
     data,
     {
+      id: "fanart",
       children: [
+        new e.H1([new c.ICON("image"), "Fanart"]),
         new e.SECTION({
-          id: "fanart",
-          children: [
-            new e.H1([new c.ICON("image"), "Fanart"]),
-            new e.SECTION({
-              id: "fanartList",
-              class: "loading",
-            }),
-          ],
+          id: "fanartList",
+          class: "card-canvas loading",
         }),
       ],
     },

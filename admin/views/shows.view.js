@@ -27,7 +27,7 @@ export default (data) => {
         }),
         new e.SECTION({
           id: "showList",
-          class: "loading",
+          class: "card-canvas loading",
         }),
       ],
     },

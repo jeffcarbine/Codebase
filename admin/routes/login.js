@@ -26,5 +26,5 @@ export const get__admin_login = (req, res) => {
 };
 
 export const post__admin_login = (req, res) => {
-  res.redirect("/periodic/admin");
+  res.redirect("/periodic/admin/pages");
 };

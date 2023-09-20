@@ -40,7 +40,7 @@ export default (data) => {
             },
             {
               id: "viewPage",
-              href: data.pageData.path,
+              href: data.pageData.homepage ? "/" : data.pageData.path,
               target: "blank",
               children: [new c.ICON("eye"), "View Page"],
             },
