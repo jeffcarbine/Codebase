@@ -276,6 +276,31 @@ export const post__admin_datapoints_remove = (req, res, next) => {
   }
 };
 
+export const post__admin_datapoints_addExisting = (req, res) => {
+  const body = req.body,
+    _id = body._id,
+    parentId = body.parentId;
+
+  console.log(parentId, _id);
+
+  Datapoint.findOneAndUpdate(
+    {
+      _id: parentId,
+    },
+    {
+      $addToSet: {
+        group: _id,
+      },
+    }
+  ).exec((err) => {
+    if (err) {
+      return res.status(500).send(err);
+    } else {
+      return res.status(200).send();
+    }
+  });
+};
+
 export const post__admin_datapoints_retrieve = (req, res) => {
   const body = req.body,
     datapoints = [];
@@ -357,4 +382,14 @@ export const post__admin_datapoints_retrieve = (req, res) => {
       );
     }
   };
+};
+
+export const post__admin_datapoints_retrieve_all = (req, res) => {
+  Datapoint.find({}).exec((err, datapoints) => {
+    if (err) {
+      return res.status(500).send(err);
+    } else {
+      return res.status(200).send(datapoints);
+    }
+  });
 };

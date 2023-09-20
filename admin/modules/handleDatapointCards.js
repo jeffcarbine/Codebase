@@ -2,6 +2,28 @@ import { addEventDelegate } from "../../modules/eventDelegate/eventDelegate.js";
 import { xhr } from "../../modules/xhr/xhr.js";
 import { renderTemplate } from "../../template/renderTemplate.js";
 import { generateDatapointCards } from "../templates/datapointCard.template.js";
+import { generateDatapointListItems } from "../templates/datapointList.template.js";
+
+const fetchExistingDatapoints = () => {
+  const datapointLists = document.querySelectorAll(".datapoint-list");
+
+  const success = (request) => {
+    const datapoints = JSON.parse(request.response);
+
+    datapointLists.forEach((datapointList) => {
+      const exclude = JSON.parse(datapointList.dataset.exclude),
+        parentId = datapointList.dataset.id;
+
+      const datapointListItems = renderTemplate(
+        generateDatapointListItems(datapoints, exclude, parentId)
+      );
+
+      datapointList.appendChild(datapointListItems);
+    });
+  };
+
+  xhr({ path: "/periodic/admin/datapoints/retrieve/all", success });
+};
 
 export const handleDatapointCards = (type, pageId = "") => {
   const fetchDatapoints = () => {
@@ -15,10 +37,13 @@ export const handleDatapointCards = (type, pageId = "") => {
       const datapoints = JSON.parse(request.response);
 
       const datapointCards = renderTemplate(
-        generateDatapointCards(datapoints, pageId)
+        generateDatapointCards({ datapoints, parentId: pageId })
       );
 
       datapointsArea.appendChild(datapointCards);
+
+      // and fetch the existing datapoints
+      fetchExistingDatapoints();
     };
 
     xhr({
@@ -68,3 +93,22 @@ addEventDelegate(
   ".card.edit .accordion-button",
   saveAccordionOpenSate
 );
+
+const addExistingDatapoint = (button) => {
+  const _id = button.dataset.id,
+    parentId = button.dataset.parentid;
+
+  const success = () => {
+    // reload the page because I don't have a good
+    // way of reloading the datapoint cards yet
+    window.location.reload();
+  };
+
+  xhr({
+    path: "/periodic/admin/datapoints/addExisting",
+    body: { _id, parentId },
+    success,
+  });
+};
+
+addEventDelegate("click", "button.addExistingDatapoint", addExistingDatapoint);

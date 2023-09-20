@@ -3,8 +3,14 @@ import * as e from "../../elements/elements.js";
 import * as c from "../../components/components.js";
 import { MODAL } from "../../components/modal/modal.component.js";
 import { datapointFormTemplate } from "./datapointForm.template.js";
+import { datapointListTemplate } from "./datapointList.template.js";
 
-export const datapointCardTemplate = (datapoint, parentId, isChild) => {
+export const datapointCardTemplate = ({
+  datapoint,
+  parentId,
+  isChild,
+  exclude,
+}) => {
   let preview;
   const type = datapoint.type,
     parentModel = isChild ? "datapoint" : "page";
@@ -51,11 +57,12 @@ export const datapointCardTemplate = (datapoint, parentId, isChild) => {
 
     case "group":
       preview = {
-        child: generateDatapointCards(
-          datapoint.datapoints,
-          datapoint._id,
-          true
-        ),
+        child: generateDatapointCards({
+          datapoints: datapoint.datapoints,
+          parentId: datapoint._id,
+          isChild: true,
+          exclude,
+        }),
       };
       break;
     default:
@@ -76,22 +83,43 @@ export const datapointCardTemplate = (datapoint, parentId, isChild) => {
 
   if (datapoint.type === "group") {
     const addChildren = [
-      new c.BTN({
-        class: "accent",
-        children: [
-          new c.ICON("plus"),
-          new e.SPAN({ class: "text", textContent: "Add" }),
-        ],
-        "data-modal": `addTo${datapoint._id}`,
+      c.DROPDOWN({
+        className: "addDatapoint",
+        title: [new c.ICON("plus"), "Add"],
+        body: {
+          children: [
+            new c.BTN({
+              class: "sm",
+              children: [new e.SPAN({ class: "text", textContent: "New" })],
+              "data-modal": `addNewTo${datapoint._id}`,
+            }),
+            new c.BTN({
+              class: "sm",
+              children: [
+                new e.SPAN({ class: "text", textContent: "Existing" }),
+              ],
+              "data-modal": `addExistingTo${datapoint._id}`,
+            }),
+          ],
+        },
       }),
       MODAL({
         modalBody: {
           children: [
-            new e.H2(`Add Datapoint to ${datapoint.name}`),
+            new e.H2(`Add New Datapoint to ${datapoint.name}`),
             datapointFormTemplate({ datapointId: datapoint._id }),
           ],
         },
-        id: `addTo${datapoint._id}`,
+        id: `addNewTo${datapoint._id}`,
+      }),
+      MODAL({
+        modalBody: {
+          children: [
+            new e.H2(`Add Existing Datapoint to ${datapoint.name}`),
+            datapointListTemplate({ datapointId: datapoint._id, exclude }),
+          ],
+        },
+        id: `addExistingTo${datapoint._id}`,
       }),
     ];
 
@@ -198,15 +226,23 @@ export const datapointCardTemplate = (datapoint, parentId, isChild) => {
   });
 };
 
-export const generateDatapointCards = (
+export const generateDatapointCards = ({
   datapoints,
   parentId,
-  isChild = false
-) => {
+  isChild = false,
+  exclude = [],
+}) => {
   const children = [];
 
   datapoints.forEach((datapoint) => {
-    const datapointCard = datapointCardTemplate(datapoint, parentId, isChild);
+    const datapointExclude = [...exclude, datapoint._id];
+
+    const datapointCard = datapointCardTemplate({
+      datapoint,
+      parentId,
+      isChild,
+      exclude: datapointExclude,
+    });
 
     children.push(datapointCard);
   });

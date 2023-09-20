@@ -1,13 +1,19 @@
-import { BUTTON } from "../../elements/button/button.element.js";
+import { BTN } from "../components.js";
 
-export const DROPDOWN = (className = "", title = "", body = {}) => {
+export const DROPDOWN = ({ className = "", title = "", body = {} } = {}) => {
+  const btnParams = {
+    class: "btn",
+  };
+
+  if (typeof title === "string") {
+    btnParams.textContent = title;
+  } else {
+    btnParams.children = title;
+  }
+
   return {
+    "data-component": "dropdown",
     class: "dropdown " + className,
-    children: [
-      new BUTTON({
-        textContent: title,
-      }),
-      body,
-    ],
+    children: [new BTN(btnParams), body],
   };
 };

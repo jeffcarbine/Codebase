@@ -26,8 +26,10 @@ import {
 
 import {
   post__admin_datapoints,
+  post__admin_datapoints_addExisting,
   post__admin_datapoints_remove,
   post__admin_datapoints_retrieve,
+  post__admin_datapoints_retrieve_all,
 } from "../routes/datapoints.js";
 
 import {
@@ -163,6 +165,12 @@ export const generateAdminRoutes = (app, __dirname, features) => {
   );
 
   app.post(
+    "/periodic/admin/datapoints/addExisting",
+    connectEnsureLogin.ensureLoggedIn("/periodic/admin/login"),
+    post__admin_datapoints_addExisting
+  );
+
+  app.post(
     "/periodic/admin/datapoints/remove",
     connectEnsureLogin.ensureLoggedIn("/periodic/admin/login"),
     post__admin_datapoints_remove
@@ -172,6 +180,12 @@ export const generateAdminRoutes = (app, __dirname, features) => {
     "/periodic/admin/datapoints/retrieve",
     connectEnsureLogin.ensureLoggedIn("/periodic/admin/login"),
     post__admin_datapoints_retrieve
+  );
+
+  app.post(
+    "/periodic/admin/datapoints/retrieve/all",
+    connectEnsureLogin.ensureLoggedIn("/periodic/admin/login"),
+    post__admin_datapoints_retrieve_all
   );
 
   // SHOWS

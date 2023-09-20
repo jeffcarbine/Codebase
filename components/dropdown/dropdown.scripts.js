@@ -1,5 +1,8 @@
 ﻿import { addEventDelegate } from "../../modules/eventDelegate/eventDelegate.js";
-import { toggleAccordion, closeAccordion } from "../accordion/accordion.js";
+import {
+  toggleAccordion,
+  closeAccordion,
+} from "../accordion/accordion.scripts.js";
 
 /**
  * Dropdown

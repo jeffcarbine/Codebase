@@ -1,5 +1,10 @@
 .card.edit {
-  overflow: hidden;
+  // since I don't know a better way to do this
+  @for $i from 1 through 100 {
+    &:nth-child(#{$i}) {
+      z-index: calc(100 - #{$i});
+    }
+  }
 
   > div {
     display: flex;
@@ -51,6 +56,10 @@
           display: none;
         }
       }
+
+      .dropdown {
+        --dropdown-border-radius: 25px;
+      }
     }
   }
 
@@ -88,6 +97,44 @@
   }
 }
 
+.datapoint-list {
+  max-height: 30rem;
+  overflow: scroll;
+
+  ul {
+    margin: 0;
+
+    li {
+      margin: 0.5rem 0;
+      list-style-type: none;
+      display: flex;
+
+      .datapoint-icon {
+        flex: 0 0 2rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        svg.icon {
+          width: 1.5rem;
+          height: 1.5rem;
+        }
+      }
+
+      .datapoint-name {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .btn {
+        flex: 0 0 auto;
+      }
+    }
+  }
+}
+
 @media only screen and (min-width: $breakpoint-md) {
   .card.edit {
     .title-edit {
@@ -104,7 +151,7 @@
 
         .btn {
           svg.icon {
-            margin-right: 1rem;
+            margin-right: var(--btn-icon-size);
           }
 
           .text {
