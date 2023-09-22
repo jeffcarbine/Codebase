@@ -7,6 +7,7 @@ export const DROPDOWNSELECT = ({
   title = "",
   name = "",
   options = [],
+  btn = true,
 } = {}) => {
   const children = [];
 
@@ -41,5 +42,6 @@ export const DROPDOWNSELECT = ({
     className: "select " + className,
     title: dropdownTitle,
     body,
+    btn,
   });
 };
