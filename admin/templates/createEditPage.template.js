@@ -20,17 +20,14 @@ export const createEditPageTemplate = (page = {}) => {
     class: "style-inputs",
     children: [
       new e.H2(title),
-      new e.TEXT({ name: "name", label: "Name", value: name }),
-      new e.TEXT({ name: "path", label: "Path", value: path }),
-      new e.LABEL({
-        textContent: "Wildcard",
-        child: new e.SELECTOPTION(
-          {
-            name: "wildcard",
-            children: wildcardEnum,
-          },
-          wildcard
-        ),
+      new c.FIELD({ name: "name", label: "Name", value: name }),
+      new c.FIELD({ name: "path", label: "Path", value: path }),
+      new c.FIELD({
+        label: "Wildcard",
+        type: "select",
+        name: "wildcard",
+        options: wildcardEnum,
+        selected: wildcard,
       }),
       TOGGLESINGLE({
         name: "homepage",
