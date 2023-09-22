@@ -67,6 +67,7 @@ const generateFanartList = () => {
                 children: [
                   new e.H2(fanartData.title),
                   new e.P(`By ${fanartData.artist}`),
+                  new e.P(fanartData.email),
                   new e.P(`Submitted on ${submittedOn}`),
                   new e.P(`Tags: ${fanartData.tags}`),
                   new e.P(`Description: ${fanartData.description}`),
