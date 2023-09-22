@@ -62,11 +62,11 @@ export class FIELD {
       params.options.forEach((option) => {
         const optionParams = {
           tagName: "option",
-          value: camelize(option),
-          textContent: option,
+          value: typeof option === "string" ? camelize(option) : option.value,
+          textContent: typeof option === "string" ? option : option.name,
         };
 
-        if (option === params.selected) {
+        if (option === params.selected || option.value === params.selected) {
           optionParams.selected = true;
         }
 

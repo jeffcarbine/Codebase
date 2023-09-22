@@ -216,7 +216,7 @@ const submitMerchClubCSV = (form) => {
           // then we skip this SKU
           if (entry.server === null) {
             note +=
-              " But it looks like we couldn't find your shirt size in our system - sorry about that! Reach out to us at shop@naddpod.com and we'll help you get your missing merch!";
+              " But it looks like we couldn't find your shirt size in our system - sorry about that! Reach out to us at contact@naddpod.com and we'll help you get your missing merch!";
             continue;
           } else {
             sku = sku.replace(

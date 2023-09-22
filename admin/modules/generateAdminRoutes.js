@@ -46,7 +46,6 @@ import {
 // } from "./routes/settings.routes.js";
 
 import { rez } from "./rez.js";
-import { connect } from "mongoose";
 
 export const generateAdminRoutes = (app, __dirname, features) => {
   const getRoutes = {
