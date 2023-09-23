@@ -12,10 +12,11 @@ const fetchExistingDatapoints = () => {
 
     datapointLists.forEach((datapointList) => {
       const exclude = JSON.parse(datapointList.dataset.exclude),
-        parentId = datapointList.dataset.id;
+        parentId = datapointList.dataset.id,
+        parentModel = datapointList.dataset.model;
 
       const datapointListItems = renderTemplate(
-        generateDatapointListItems(datapoints, exclude, parentId)
+        generateDatapointListItems(datapoints, exclude, parentId, parentModel)
       );
 
       datapointList.appendChild(datapointListItems);
@@ -96,7 +97,8 @@ addEventDelegate(
 
 const addExistingDatapoint = (button) => {
   const _id = button.dataset.id,
-    parentId = button.dataset.parentid;
+    parentId = button.dataset.parentid,
+    parentModel = button.dataset.parentmodel;
 
   const success = () => {
     // reload the page because I don't have a good
@@ -106,7 +108,7 @@ const addExistingDatapoint = (button) => {
 
   xhr({
     path: "/periodic/admin/datapoints/addExisting",
-    body: { _id, parentId },
+    body: { _id, parentId, parentModel },
     success,
   });
 };

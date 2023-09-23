@@ -1,15 +1,25 @@
 import * as e from "../../elements/elements.js";
 import * as c from "../../components/components.js";
 
-export const datapointListTemplate = ({ datapointId, exclude = [] } = {}) => {
+export const datapointListTemplate = ({
+  id,
+  exclude = [],
+  model = "datapoint",
+} = {}) => {
   return {
     class: "datapoint-list",
     "data-exclude": JSON.stringify(exclude),
-    "data-id": datapointId,
+    "data-id": id,
+    "data-model": model,
   };
 };
 
-export const generateDatapointListItems = (datapoints, exclude, parentId) => {
+export const generateDatapointListItems = (
+  datapoints,
+  exclude,
+  parentId,
+  parentModel = "datapoint"
+) => {
   const children = [];
 
   datapoints.forEach((datapoint) => {
@@ -31,6 +41,7 @@ export const generateDatapointListItems = (datapoints, exclude, parentId) => {
             class: "sm addExistingDatapoint",
             "data-id": datapoint._id,
             "data-parentid": parentId,
+            "data-parentmodel": parentModel,
             children: [new c.ICON("plus"), "Add"],
           }),
         ])

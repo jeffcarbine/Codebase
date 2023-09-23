@@ -5,6 +5,7 @@ import { MODAL } from "../../components/modal/modal.component.js";
 import { capitalize } from "../../modules/formatString/formatString.js";
 import { createEditPageTemplate } from "../templates/createEditPage.template.js";
 import { datapointFormTemplate } from "../templates/datapointForm.template.js";
+import { datapointListTemplate } from "../templates/datapointList.template.js";
 
 export default (data) => {
   const pageData = data.pageData,
@@ -29,14 +30,13 @@ export default (data) => {
             },
             {
               id: "addDatapoint",
-              "data-modal": "addDatapointModal",
-              children: [
-                new c.ICON("plus"),
-                "Create New " +
-                  (data.pageData.restricted
-                    ? capitalize(data.pageData.restrictedTo)
-                    : "Datapoint"),
-              ],
+              "data-modal": "addNewDatapoint",
+              children: [new c.ICON("plus"), "Create New Datapoint"],
+            },
+            {
+              id: "addDatapoint",
+              "data-modal": "addExistingDatapoint",
+              children: [new c.ICON("plus"), "Add Existing Datapoint"],
             },
             {
               id: "viewPage",
@@ -61,7 +61,19 @@ export default (data) => {
                   datapointFormTemplate({ pageId }),
                 ],
               },
-              id: "addDatapointModal",
+              id: "addNewDatapoint",
+            }),
+            MODAL({
+              modalBody: {
+                children: [
+                  new e.H2("Add Existing Datapoint"),
+                  datapointListTemplate({
+                    id: pageId,
+                    model: "page",
+                  }),
+                ],
+              },
+              id: "addExistingDatapoint",
             }),
           ],
         },

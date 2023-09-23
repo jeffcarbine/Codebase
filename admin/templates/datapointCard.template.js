@@ -116,7 +116,7 @@ export const datapointCardTemplate = ({
         modalBody: {
           children: [
             new e.H2(`Add Existing Datapoint to ${datapoint.name}`),
-            datapointListTemplate({ datapointId: datapoint._id, exclude }),
+            datapointListTemplate({ id: datapoint._id, exclude }),
           ],
         },
         id: `addExistingTo${datapoint._id}`,
