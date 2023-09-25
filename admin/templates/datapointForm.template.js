@@ -59,6 +59,7 @@ const datapointInputs = {
         name: "image",
         accept: "image/*",
         preview: true,
+        value: src,
       }),
       new c.FIELD({
         label: "Alt Text",

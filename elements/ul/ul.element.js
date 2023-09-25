@@ -16,7 +16,14 @@ export class ULLI extends UL {
     for (let i = 0; i < this.children.length; i++) {
       let child = this.children[i];
 
-      const li = new LI({ child });
+      // change how we pass the data to the li
+      let data = child;
+
+      if (typeof child === "object" && !Array.isArray(child)) {
+        data = { child };
+      }
+
+      const li = new LI(data);
 
       this.children[i] = li;
     }

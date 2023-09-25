@@ -155,11 +155,12 @@ export class FIELD {
         children: [
           new IMG({
             class: "imagePreview",
-            style: "display: none;",
+            style: params.value !== undefined ? "" : `display: "none"`,
+            src: params.value || "",
           }),
           {
             class: "placeholder",
-            children: [new ICON("image"), SQUARE],
+            children: [new ICON("image")],
           },
         ],
       };

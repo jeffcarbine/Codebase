@@ -25,6 +25,9 @@ export const post__admin_datapoints = (req, res, next) => {
     active = req.body.active,
     accordionOpen = req.body.accordionOpen;
 
+  // modifiable image
+  let imageSrc = body.image; // default to this, but if we need to upload to s3, we'll change it on line 50
+
   async.waterfall(
     [
       // step 1: upload image to s3 if applicable
@@ -42,7 +45,7 @@ export const post__admin_datapoints = (req, res, next) => {
               console.log(err);
             } else {
               // assign the full path to the image as the src property
-              body.image = { src: cloudfrontURL + "/" + filename };
+              imageSrc = cloudfrontURL + "/" + filename;
 
               // callback to waterfall
               callback(null);
@@ -89,18 +92,11 @@ export const post__admin_datapoints = (req, res, next) => {
               break;
 
             case "image":
-              // if (
-              //   body.image !== undefined &&
-              //   body.image !== "" &&
-              //   body.image.includes("data:image")
-              // ) {
-              //   datapoint.image = body.image;
-              // } else {
-              //   datapoint.image = { src: body.image };
-              // }
+              datapoint.image = {
+                src: imageSrc,
+                alt: body.alt,
+              };
 
-              datapoint.image = body.image;
-              datapoint.image.alt = body.alt;
               break;
 
             case "person":

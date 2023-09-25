@@ -63,12 +63,6 @@
     }
   }
 
-  .preview {
-    p {
-      margin: 0;
-    }
-  }
-
   .accordion {
     padding: 0;
 
@@ -81,7 +75,11 @@
     }
   }
 
-  .preview {
+  > .preview {
+    p {
+      margin: 0;
+    }
+
     img {
       height: 20rem;
       width: auto;

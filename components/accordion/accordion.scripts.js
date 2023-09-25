@@ -4,8 +4,6 @@ import { smoothScroll } from "../../scripts/smoothScroll/smoothScroll.js";
 /**
  * Toggle Accordions
  * This toggles the accordion open and closed.
- * If it is the first time an accordion is opened, it will also measure the accordion so it animates to the correct height.
- * If it is the first time any accordion is opened, it will also create the event delegate for remeasuring the measured accordion heights.
  *
  * @param {element} target the accorion opening button
  */
@@ -18,8 +16,11 @@ export const handleAccordionClick = (target) => {
 };
 
 const toggleAccordion = (accordionBody, accordionButton, callback) => {
-  // check to see whether or not the it is open
-  if (!accordionBody.classList.contains("open")) {
+  // check if the accordion is open
+  const accordionOpen = accordionBody.classList.contains("open");
+
+  // if not open
+  if (!accordionOpen) {
     const height = accordionBody.offsetHeight,
       transitionDuration = getComputedStyle(accordionBody).getPropertyValue(
         "transition-duration"
