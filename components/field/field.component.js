@@ -133,9 +133,17 @@ export class FIELD {
     const help = {
       tagName: "span",
       class: "help",
-      textContent: params.help || "",
       "data-bind": `${params.name}--help`,
     };
+
+    // check the type of help that is coming in
+    if (typeof params.help === "string") {
+      help.textContent = params.help;
+    } else if (Array.isArray(params.help)) {
+      help.children = params.help;
+    } else if (typeof params.help === "object") {
+      help.child = params.help;
+    }
 
     // put the label second if checkbox or radio
     if (type === "checkbox" || type === "radio") {

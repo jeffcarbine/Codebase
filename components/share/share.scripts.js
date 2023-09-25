@@ -1,4 +1,4 @@
-import { createModal } from "../modal/modal.js";
+import { createModal } from "../modal/modal.scripts.js";
 import { addEventDelegate } from "../../modules/eventDelegate/eventDelegate.js";
 import { H2 } from "../../elements/elements.js";
 import { ICON, CLICKTOCOPY } from "../components.js";

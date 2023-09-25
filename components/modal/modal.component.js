@@ -3,6 +3,7 @@ import { ICON } from "../icon/icon.component.js";
 
 export const MODAL = ({ modalBody = {}, id = "", className = "" } = {}) => {
   return new DIALOG({
+    "data-component": "modal",
     class: "modal " + className,
     id,
     children: [

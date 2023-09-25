@@ -100,3 +100,21 @@ if (openAccordionHash !== null) {
     }, 500);
   }, 500);
 }
+
+// open an accordion after it has been scrolled to
+export const openAccordionOnHash = (element) => {
+  const accordionId = element.dataset.accordionid,
+    accordion = document.querySelector(".accordion#" + accordionId),
+    accordionBody = accordion.querySelector(".accordion-body"),
+    accordionButton = accordion.querySelector(".accordion-button");
+
+  // scroll to the accordion
+  smoothScroll("#" + accordionId);
+
+  // open the accordion after a short delay
+  setTimeout(() => {
+    toggleAccordion(accordionBody, accordionButton);
+  }, 500);
+};
+
+addEventDelegate("click", "[data-accordionid", openAccordionOnHash);

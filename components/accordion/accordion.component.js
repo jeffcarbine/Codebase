@@ -2,6 +2,7 @@ import { BUTTON, SPAN } from "../../elements/elements.js";
 
 export const ACCORDION = ({
   className = "",
+  id = "",
   title,
   action = "Toggle",
   button = {},
@@ -35,6 +36,7 @@ export const ACCORDION = ({
   return {
     "data-component": "accordion",
     class: `accordion ${className} ${open ? "open" : ""}`,
+    id,
     children: [
       {
         class: "accordion-title",
