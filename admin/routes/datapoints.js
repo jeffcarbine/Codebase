@@ -331,9 +331,9 @@ export const post__admin_datapoints_retrieve = (req, res) => {
     // to make this play nice with the rest of the code,
     // we need to retrieve all the global datapoints, get
     // their ids, and then request them AGAIN below
-    Datapoint.find({ global: true }).exec((err, datapoints) => {
+    Datapoint.find({ global: true }).exec((err, globalDatapoints) => {
       // create an array of all the datapoint ids
-      const globalDatapointIds = datapoints.map((datapoint) => {
+      const globalDatapointIds = globalDatapoints.map((datapoint) => {
         return datapoint._id;
       });
 

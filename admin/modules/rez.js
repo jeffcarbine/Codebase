@@ -139,37 +139,19 @@ export const rez = ({
       },
       // step 2: get all global datapoints
       (callback) => {
-        Datapoint.find({ global: true }).exec((err, datapoints) => {
+        Datapoint.find({ global: true }).exec((err, globalDatapoints) => {
+          // for simplicity, we get the ids and then re-fetch the datapoints
+          const datapointIds = globalDatapoints.map((datapoint) => {
+            return datapoint._id;
+          });
+
           // if we have global datapoints, handle them
-          if (datapoints.length > 0) {
-            asyncLoop(
-              datapoints,
-              (datapoint, next) => {
-                data.global[camelize(datapoint.name)] = datapoint;
+          if (datapointIds.length > 0) {
+            fetchDatapoints(datapointIds, (datapoints) => {
+              data.global = datapoints;
 
-                if (datapoint.type === "group") {
-                  if (datapoint.group.length > 0) {
-                    // then we need to retrieve the children datapoints
-                    fetchDatapoints(datapoint.group, (childDatapoints) => {
-                      datapoint.datapoints = childDatapoints;
-
-                      next();
-                    });
-                  } else {
-                    next();
-                  }
-                } else {
-                  next();
-                }
-              },
-              (err) => {
-                if (err) {
-                  console.log(err);
-                } else {
-                  callback(null);
-                }
-              }
-            );
+              callback(null);
+            });
           } else {
             callback(null);
           }

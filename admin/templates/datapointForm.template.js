@@ -14,6 +14,7 @@ const datapointInputs = {
         type: "textarea",
         label: "Text Content",
         textContent: text,
+        name: "text",
       }),
     ];
   },
@@ -44,6 +45,7 @@ const datapointInputs = {
         type: "textarea",
         label: "HTML Content",
         textContent: html,
+        name: "html",
       }),
     ];
   },
