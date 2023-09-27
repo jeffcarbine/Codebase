@@ -10,6 +10,7 @@ import { post__admin_tools_merchClubCSV } from "../routes/tools.routes.js";
 import {
   post__admin_events,
   post__admin_events_delete,
+  post__admin_events_retrieve,
 } from "../routes/events.js";
 
 import {
@@ -235,6 +236,12 @@ export const generateAdminRoutes = (app, __dirname, features) => {
       "/periodic/admin/events",
       connectEnsureLogin.ensureLoggedIn("/periodic/admin/login"),
       post__admin_events
+    );
+
+    app.post(
+      "/periodic/admin/events/retrieve",
+      connectEnsureLogin.ensureLoggedIn("/periodic/admin/login"),
+      post__admin_events_retrieve
     );
 
     app.post(

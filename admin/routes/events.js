@@ -1,6 +1,35 @@
 import Event from "../../models/Event.js";
 
-export const get__admin_events = (req, res, next) => {
+// export const get__admin_events = (req, res, next) => {
+//   const now = new Date();
+
+//   Event.aggregate([
+//     {
+//       $match: {
+//         date: {
+//           $gt: now,
+//         },
+//       },
+//     },
+//   ]).exec((err, events) => {
+//     if (err) {
+//       callback(err);
+//     } else {
+//       // sort the events by date
+//       events.sort((a, b) => {
+//         return new Date(a.date) - new Date(b.date);
+//       });
+
+//       res.render("events", {
+//         path: "/periodic/admin/events",
+//         subtitle: "Events",
+//         events,
+//       });
+//     }
+//   });
+// };
+
+export const post__admin_events_retrieve = (req, res, next) => {
   const now = new Date();
 
   Event.aggregate([
@@ -13,18 +42,14 @@ export const get__admin_events = (req, res, next) => {
     },
   ]).exec((err, events) => {
     if (err) {
-      callback(err);
+      return res.status(500).send(err);
     } else {
       // sort the events by date
       events.sort((a, b) => {
         return new Date(a.date) - new Date(b.date);
       });
 
-      res.render("events", {
-        path: "/periodic/admin/events",
-        subtitle: "Events",
-        events,
-      });
+      return res.status(200).send(events);
     }
   });
 };

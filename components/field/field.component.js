@@ -22,6 +22,13 @@ export class FIELD {
       tagName: "input",
     };
 
+    // if it is a date, format the value
+    if (type === "date") {
+      params.value = params.value
+        ? new Date(params.value).toISOString().split("T")[0]
+        : "";
+    }
+
     // and change it to a textarea if necessary
     if (type === "textarea") {
       input.tagName = "textarea";
