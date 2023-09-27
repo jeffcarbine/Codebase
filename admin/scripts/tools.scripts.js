@@ -1,4 +1,5 @@
-import { addEventDelegate } from "/periodic/modules/eventDelegate/eventDelegate.js";
+import { addEventDelegate } from "../../modules/eventDelegate/eventDelegate.js";
+import { xhrForm } from "../../modules/xhr/xhr.js";
 
 // global variables
 let csvData, skuList, productNames, memberData;
@@ -121,185 +122,135 @@ function pad(num, size) {
   return num;
 }
 
-const submitMerchClubCSV = (form) => {
-  // make the request
-  var xhr = new XMLHttpRequest();
-  xhr.open("POST", "/periodic/admin/tools/merchClubCSV", true);
+///
 
-  //Send the proper header information along with the request
-  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+const generateMerchClubCSV = (members, body) => {
+  const skus = body.skuList.split(","),
+    names = body.productNames.split(","),
+    quarter = body.quarter,
+    year = body.year;
 
-  skuList = document.querySelector("#skuList").value;
-  productNames = document.querySelector("#productNames").value;
-  memberData = document.querySelector("#memberData");
+  let newCSV = [];
 
-  // convert csv to json
-  const file = memberData.files[0],
-    reader = new FileReader();
+  // now generate the new JSON
+  members.forEach((member, index) => {
+    const personName = member.address.addressee;
 
-  reader.onload = function (e) {
-    const text = e.target.result;
-    csvData = csvToArray(text);
-    const emails = [];
+    let note =
+      "Your latest Merch Club rewards are ready! Complete this order if you need to update your address or if you want to get your items a little early. Otherwise your items will process in 48 hours!";
 
-    // extract emails addresses
-    for (var i = 0; i < csvData.length; i++) {
-      let entry = csvData[i];
+    // now, we need to loop over the SKUs and generate them
+    for (var e = 0; e < skus.length; e++) {
+      let sku = skus[e],
+        productName = names[e];
 
-      emails.push(entry.Email);
-    }
-
-    xhr.send("emailList=" + JSON.stringify(emails));
-  };
-
-  reader.readAsText(file);
-
-  xhr.onload = function () {
-    // create the quarter and year portion
-    const now = new Date(),
-      quarter = "Q" + Math.ceil((now.getMonth() + 1) / 3),
-      year = now.getFullYear();
-
-    // this is where we generate the new CSV
-    const serverData = JSON.parse(xhr.responseText),
-      skus = skuList.split(","),
-      names = productNames.split(",");
-
-    let newCSV = [];
-
-    // god fucking dammit
-    console.log(serverData);
-    console.log(csvData);
-
-    // now generate the new JSON
-    for (var i = 0; i < csvData.length; i++) {
-      const entry = {
-          csv: csvData[i],
-          server: null,
-        },
-        personName =
-          entry.csv.Addressee !== undefined && entry.csv.Addressee !== ""
-            ? entry.csv.Addressee.replace(/[^\w\s]/gi, "")
-            : entry.csv.Name.replace(/[^\w\s]/gi, "");
-
-      // skip if the street is null (hopefully skips people with no addresses)
-      if (entry.csv.Street === undefined || entry.csv.Street === "") {
-        continue;
-      }
-
-      // find the matching entry in the serverData
-      for (var ii = 0; ii < serverData.length; ii++) {
-        let serverEntry = serverData[ii];
-
-        if (entry.csv.Email === serverEntry.email) {
-          console.log("found a match!");
-          entry.server = serverEntry;
+      if (sku.indexOf("*") > -1) {
+        // then we need to replace the asterisk with the appropriate size/cut
+        // but in order to do that, we need entry.server - so, if that is blank,
+        // then we skip this SKU
+        if (member.shirtCut === undefined || member.shirtSize === undefined) {
+          note +=
+            " But it looks like we couldn't find your shirt size in our system - sorry about that! Reach out to us at contact@naddpod.com and we'll help you get your missing merch!";
+          continue;
+        } else {
+          sku = sku.replace(
+            "*",
+            cuts[member.shirtCut] + sizes[member.shirtSize]
+          );
         }
       }
 
-      const phone =
-        entry.server !== null
-          ? entry.server.Phone || " "
-          : entry.csv.phone || " ";
-
-      let note =
-        "Your latest Merch Club rewards are ready! Complete this order if you need to update your address or if you want to get your items a little early. Otherwise your items will process in 48 hours!";
-
-      // now, we need to loop over the SKUs and generate them
-      for (var e = 0; e < skus.length; e++) {
-        let sku = skus[e],
-          productName = names[e];
-
-        if (sku.indexOf("*") > -1) {
-          // then we need to replace the asterisk with the appropriate size/cut
-          // but in order to do that, we need entry.server - so, if that is blank,
-          // then we skip this SKU
-          if (entry.server === null) {
-            note +=
-              " But it looks like we couldn't find your shirt size in our system - sorry about that! Reach out to us at contact@naddpod.com and we'll help you get your missing merch!";
-            continue;
-          } else {
-            sku = sku.replace(
-              "*",
-              cuts[entry.server.shirtCut] + sizes[entry.server.shirtSize]
-            );
-          }
-        }
-
-        const mergedEntry = {
-          name: "MC" + quarter + year + "-" + pad(i, 4),
-          command: "NEW",
-          note: note,
-          tags: "merch club",
-          sendInvoice: "TRUE",
-          sendInvoiceTo: entry.csv.Email,
-          sendInvoiceFrom: "",
-          customerEmail: entry.csv.Email,
-          customerPhone: phone,
-          customerFirsName: personName.split(" ")[0] || " ",
-          customerLastName: personName.split(" ")[1] || " ",
-          shippingFirstName: personName.split(" ")[0] || " ",
-          shippingLastName: personName.split(" ")[1] || " ",
-          shippingPhone: phone,
-          shippingAddress1: entry.csv.Street.replace(/,/g, "") || " ",
-          shippingAddress2: " ",
-          shippingZip: entry.csv.Zip || " ",
-          shippingCity: entry.csv.City || " ",
-          shippingProvinceCode: entry.csv.State || " ",
-          shippingCountryCode: entry.csv.Country || " ",
-          row: e + 1,
-          topRow: "TRUE",
-          lineType: "Line Item",
-          lineTitle: productName,
-          lineName: productName,
-          lineSku: sku,
-          lineQuantity: 1,
-          linePrice: 0,
-          lineDiscount: 1000,
-          lineRequiresShipping: "TRUE",
-        };
-
-        newCSV.push(mergedEntry);
-      }
-
-      // and now, at the end, add shipping
-      const shippingEntry = {
-        name: "MC" + quarter + year + "-" + pad(i, 4),
+      const mergedEntry = {
+        name: "MC" + quarter + year + "-" + pad(index, 4),
         command: "NEW",
         note: note,
+        tags: "merch club",
         sendInvoice: "TRUE",
-        sendInvoiceTo: entry.csv.Email,
+        sendInvoiceTo: member.email,
         sendInvoiceFrom: "",
-        customerEmail: entry.csv.Email || " ",
-        customerPhone: phone,
+        customerEmail: member.email,
+        customerPhone: member.phone,
         customerFirsName: personName.split(" ")[0] || " ",
         customerLastName: personName.split(" ")[1] || " ",
         shippingFirstName: personName.split(" ")[0] || " ",
         shippingLastName: personName.split(" ")[1] || " ",
-        shippingPhone: phone,
-        shippingAddress1: entry.csv.Street.replace(/,/g, "") || " ",
-        shippingAddress2: " ",
-        shippingZip: entry.csv.Zip || " ",
-        shippingCity: entry.csv.City || " ",
-        shippingProvinceCode: entry.csv.State || " ",
-        shippingCountryCode: entry.csv.Country || " ",
-        row: skus.length + 1,
+        shippingPhone: member.phone,
+        shippingAddress1: member.address.line_1.replace(/,/g, "") || " ",
+        shippingAddress2:
+          member.address.line_2 === null
+            ? ""
+            : member.address.line_2.replace(/,/g, "") || " ",
+        shippingZip: member.address.postal_code || " ",
+        shippingCity: member.address.City || " ",
+        shippingProvinceCode: member.address.state || " ",
+        shippingCountryCode: member.address.country || " ",
+        row: e + 1,
         topRow: "TRUE",
-        lineType: "Shipping Line",
-        lineTitle: "Merch Club Free Shipping",
-        lineName: "Merch Club Free Shipping",
-        lineSku: " ",
-        lineQuantity: " ",
+        lineType: "Line Item",
+        lineTitle: productName,
+        lineName: productName,
+        lineSku: sku,
+        lineQuantity: 1,
         linePrice: 0,
-        lineDiscount: " ",
-        lineRequiresShipping: " ",
+        lineDiscount: 1000,
+        lineRequiresShipping: "TRUE",
       };
 
-      newCSV.push(shippingEntry);
+      newCSV.push(mergedEntry);
     }
 
-    exportCSVFile(headers, newCSV, "MC" + quarter + year + "-full-list");
-  };
+    // and now, at the end, add shipping
+    const shippingEntry = {
+      name: "MC" + quarter + year + "-" + pad(index, 4),
+      command: "NEW",
+      note: note,
+      tags: "merch club",
+      sendInvoice: "TRUE",
+      sendInvoiceTo: member.email,
+      sendInvoiceFrom: "",
+      customerEmail: member.email || " ",
+      customerPhone: member.phone,
+      customerFirsName: personName.split(" ")[0] || " ",
+      customerLastName: personName.split(" ")[1] || " ",
+      shippingFirstName: personName.split(" ")[0] || " ",
+      shippingLastName: personName.split(" ")[1] || " ",
+      shippingPhone: member.phone,
+      shippingAddress1: member.address.line_1.replace(/,/g, "") || " ",
+      shippingAddress2:
+        member.address.line_2 === null
+          ? ""
+          : member.address.line_2.replace(/,/g, "") || " ",
+      shippingZip: member.address.postal_code || " ",
+      shippingCity: member.address.City || " ",
+      shippingProvinceCode: member.address.state || " ",
+      shippingCountryCode: member.address.country || " ",
+      row: skus.length + 1,
+      topRow: "TRUE",
+      lineType: "Shipping Line",
+      lineTitle: "Merch Club Free Shipping",
+      lineName: "Merch Club Free Shipping",
+      lineSku: " ",
+      lineQuantity: " ",
+      linePrice: 0,
+      lineDiscount: " ",
+      lineRequiresShipping: " ",
+    };
+
+    newCSV.push(shippingEntry);
+  });
+
+  exportCSVFile(headers, newCSV, "MC" + quarter + year + "-full-list");
 };
 
-addEventDelegate("submit", "#merchClubCSV", submitMerchClubCSV, true);
+const submitMerchClubCSVForm = (form) => {
+  const success = (request, body) => {
+    form.classList.remove("loading");
+    const members = JSON.parse(request.response);
+
+    generateMerchClubCSV(members, body);
+  };
+
+  xhrForm({ form, success });
+};
+
+addEventDelegate("submit", "#merchClubCSV", submitMerchClubCSVForm, true);

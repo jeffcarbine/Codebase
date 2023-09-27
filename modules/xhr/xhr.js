@@ -52,16 +52,32 @@ export const xhr = ({
 };
 
 const toastResponse = (string, status, form) => {
-  form.classList.remove("loading");
-
   toast({ message: string, dismissable: true, status, parent: form });
+};
+
+const toastSuccess = (request, body, form) => {
+  const string = request.response;
+
+  toastResponse(string, "success", form);
+};
+
+const toastError = (request, body, form) => {
+  const string = request.response;
+
+  toastResponse(string, "error", form);
+};
+
+const toastFailure = (request, body, form) => {
+  const string = request.response;
+
+  toastResponse(string, "failure", form);
 };
 
 export const xhrForm = ({
   form,
-  success = toastResponse,
-  error = toastResponse,
-  failure = toastResponse,
+  success = toastSuccess,
+  error = toastError,
+  failure = toastFailure,
   body = {},
 }) => {
   // get the data from the form
@@ -94,10 +110,13 @@ export const xhrForm = ({
 
   // default behaviours for success, error and failure
   const formSuccess = (request) => {
-    success(request.response, "success", form);
+    form.classList.remove("loading");
+
+    success(request, body, form);
+
     form.reset();
 
-    // check to see if we have any previews in the form
+    // check to see if we have any field previews in the form
     const previews = form.querySelectorAll(".preview");
 
     if (previews.length > 0) {
@@ -111,7 +130,7 @@ export const xhrForm = ({
   };
 
   const formError = (request) => {
-    let message = request.response;
+    form.classList.remove("loading");
 
     // if (request.status === 400) {
     //   if (form.dataset.http400 !== undefined) {
@@ -125,18 +144,18 @@ export const xhrForm = ({
     //   }
     // }
 
-    error(message, "error", form);
+    error(request);
   };
 
   const formFailure = (request) => {
-    failure(request.response, "failure", form);
+    form.classList.remove("loading");
+
+    failure(request);
   };
 
   // const progress = (event) => {
   //   console.log(progress);
   // };
-
-  console.log(body);
 
   // create the xhr params
   const params = {

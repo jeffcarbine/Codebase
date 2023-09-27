@@ -59,15 +59,31 @@ export class FIELD {
     if (type === "select") {
       input.children = [];
 
+      const optionValue = (option) => {
+        if (typeof option === "string") {
+          return camelize(option);
+        } else if (typeof option === "number") {
+          return option;
+        } else {
+          return option.value;
+        }
+      };
+
       params.options.forEach((option) => {
         const optionParams = {
           tagName: "option",
-          value: typeof option === "string" ? camelize(option) : option.value,
-          textContent: typeof option === "string" ? option : option.name,
+          value: optionValue(option),
+          textContent:
+            typeof option === "string" || typeof option === "number"
+              ? option
+              : option.name,
         };
 
-        if (option === params.selected || option.value === params.selected) {
-          optionParams.selected = true;
+        if (params.selected !== undefined) {
+          if (option === params.selected || option.value === params.selected) {
+            console.log("selected!");
+            optionParams.selected = true;
+          }
         }
 
         input.children.push(optionParams);
