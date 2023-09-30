@@ -6,7 +6,6 @@
  * @param {node} link the link that contains the hash href
  */
 const smoothScrollClick = (link) => {
-  console.log("smoothly scrolling");
   // get the href attribute of the link
   let hash = link.getAttribute("href");
 
@@ -30,7 +29,7 @@ export const smoothScroll = (hash) => {
     // overflow-y set to scroll or we hit
     // the window
 
-    let target = document.querySelector(hash);
+    const target = document.querySelector(hash);
 
     // now check to see that the target is defined
     // (ie: the element we want to scroll to actually exists)
@@ -39,7 +38,7 @@ export const smoothScroll = (hash) => {
         // figure out what the parent is
         scrollParent = getScrollParent(target);
 
-      let targetPosition = target.offsetTop,
+      let targetPosition = target.getBoundingClientRect().top,
         parentOffset = scrollParent.offsetTop || 0,
         offsetPosition = targetPosition - parentOffset - scrollOffset;
 
