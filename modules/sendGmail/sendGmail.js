@@ -44,6 +44,6 @@ export const sendGmail = ({
       }
     })
     .catch((err) => {
-      callback(err);
+      return res.status(500).send(err);
     });
 };
