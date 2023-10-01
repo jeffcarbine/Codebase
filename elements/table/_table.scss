@@ -1,0 +1,46 @@
+﻿.table-wrapper {
+  width: 100%;
+  overflow: scroll;
+}
+
+table {
+  width: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+
+  caption {
+    padding: 0.5rem;
+    font-size: 1.5rem;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-bottom: none;
+  }
+
+  th,
+  td {
+    padding: 0.25rem;
+  }
+
+  tr {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  thead {
+    font-weight: 600;
+    border: none;
+  }
+
+  tbody {
+    tr {
+      th {
+        &[scope="row"] {
+          font-weight: 600;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: $breakpoint-md) {
+  .table-wrapper {
+    overflow: visible;
+  }
+}
