@@ -11,6 +11,10 @@ export class HTML {
       this.style = params.style;
     }
 
+    if (params["data-theme"] !== undefined) {
+      this["data-theme"] = params["data-theme"];
+    }
+
     const defaultFavicons = [
       {
         rel: "apple-touch-icon",

@@ -1,7 +1,7 @@
 :root {
-  --field-background: var(--light);
-  --field-input-color: var(--dark);
-  --field-label-color: var(--dark);
+  --field-background: var(--background);
+  --field-input-color: var(--foreground);
+  --field-label-color: var(--foreground);
   --field-focus-color: var(--accent);
   --field-focus-opacity: 0.15;
 }

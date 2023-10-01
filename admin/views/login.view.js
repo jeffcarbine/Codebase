@@ -2,6 +2,7 @@ import { base } from "./admin.view.js";
 import * as e from "../../elements/elements.js";
 import * as c from "../../components/components.js";
 import { FIELD } from "../../components/field/field.component.js";
+import { logoTemplate } from "../templates/logo.template.js";
 
 export default (data) => {
   return base(data, {
@@ -11,9 +12,7 @@ export default (data) => {
         child: {
           class: "login-form",
           children: [
-            new e.IMG({
-              src: "/periodic/admin/images/logo-full.svg",
-            }),
+            logoTemplate,
             new e.FORM({
               action: "/periodic/admin/login",
               class: "style-inputs",

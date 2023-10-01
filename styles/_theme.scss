@@ -75,13 +75,13 @@
   --background: var(--dark);
   --background-low: var(--dark-low);
   --background-mid: var(--dark-mid);
-  --border-color: rgba(255, 255, 255, 0.25);
   --superbackground: var(--superdark);
 
+  --border-color: rgba(95, 95, 95, 0.25);
   --box-shadow-color: rgba(0, 0, 0, 0.25); // more intense for dark themes
 }
 
-html.darkmode {
+html[data-theme="dark"] {
   @include darkTheme;
 }
 

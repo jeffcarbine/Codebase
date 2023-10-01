@@ -1,7 +1,10 @@
 import * as e from "../../elements/elements.js";
 import * as c from "../../components/components.js";
+import { logoTemplate } from "../templates/logo.template.js";
 
 export const base = (data, template, scripts) => {
+  const useDarkMode = new Date().getHours() > 18 || new Date().getHours() < 6;
+
   const generateAdminRoutes = () => {
     if (data.loggedIn) {
       const appRoutes = {
@@ -73,6 +76,7 @@ export const base = (data, template, scripts) => {
   const html = {
     title: "Podsyte",
     stylesheets: ["/periodic/admin/styles/admin.min.css"],
+    "data-theme": !useDarkMode ? "dark" : "light",
     metas: [
       { name: "viewport", content: "width=device-width, initial-scale=1" },
     ],
@@ -113,13 +117,9 @@ export const base = (data, template, scripts) => {
         children: [
           {
             class: "footer-logo",
-            child: new e.IMG({
-              class: "logo-full",
-              src: "/periodic/admin/images/logo-full.svg",
-              alt: "Podsyte",
-            }),
+            child: logoTemplate,
           },
-          new e.P("&copy; " + new Date().getFullYear() + " MCPVX, LLC"),
+          new e.P("By Carbine Co. | &copy; " + new Date().getFullYear()),
         ],
       }),
       new e.MODULE({

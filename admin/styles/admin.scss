@@ -6,10 +6,6 @@
 @import "../../styles/theme";
 @import "../../components/btn/btn";
 
-:root {
-  @include darkTheme;
-}
-
 .btn {
   --btn-border-radius: 25px;
   box-shadow: var(--box-shadow);
@@ -95,6 +91,10 @@
     box-shadow: 12px 12px 24px var(--superbackground),
       -12px -12px 24px var(--background-mid);
   }
+}
+
+.logo {
+  fill: var(--foreground);
 }
 
 .card {
