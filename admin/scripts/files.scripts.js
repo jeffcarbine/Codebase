@@ -33,7 +33,7 @@ const retrieveFiles = () => {
                       children: [new c.ICON("copy"), "Copy"],
                     }),
                     twoStepDeleteTemplate({
-                      path: "/periodic/admin/file/delete",
+                      path: "/periodic/admin/files/delete",
                       id: file._id,
                     }),
                   ],

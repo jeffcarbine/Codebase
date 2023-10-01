@@ -42,6 +42,7 @@ import {
 import {
   post__admin_files_add,
   post__admin_files_retrieve,
+  post__admin_files_delete,
 } from "../routes/files.routes.js";
 
 // import {
@@ -229,6 +230,12 @@ export const generateAdminRoutes = (app, __dirname, features) => {
     "/periodic/admin/files/add",
     connectEnsureLogin.ensureLoggedIn("/periodic/admin/login"),
     post__admin_files_add
+  );
+
+  app.post(
+    "/periodic/admin/files/delete",
+    connectEnsureLogin.ensureLoggedIn("/periodic/admin/login"),
+    post__admin_files_delete
   );
 
   // app.post(

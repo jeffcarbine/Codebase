@@ -96,6 +96,12 @@ button {
     --btn-focus-background: var(--accent-step);
   }
 
+  &.subtle {
+    opacity: 0.5;
+    --btn-background: var(--midtone);
+    --btn-focus-background: var(--midtone);
+  }
+
   &.transparent {
     --btn-background: rgba(0, 0, 0, 0.1);
     --btn-focus-background: rgba(0, 0, 0, 0.2);
@@ -147,7 +153,6 @@ button {
 
   > .btn {
     width: auto;
-    max-width: 80%;
   }
 
   &.sm-space {

@@ -39,31 +39,23 @@
   --accordion-body-background: transparent;
 }
 
-@keyframes zeldaIn {
+@keyframes popIn {
   0% {
     opacity: 0;
-    transform: scale(1.2);
-    filter: blur(10px);
-  }
-
-  75% {
-    opacity: 1;
-    filter: blur(0);
+    transform: scale(0.9);
   }
 
   100% {
     opacity: 1;
     transform: scale(1);
-    filter: blur(0);
   }
 }
 
 .modal {
-  animation: zeldaIn 0.5s forwards;
+  animation: popIn 0.25s forwards;
   animation-delay: 0.125s;
   opacity: 0;
-  transform: scale(1.2);
-  filter: blur(10px);
+  transform: scale(0.9);
 
   .hidden {
     display: none !important;
@@ -162,6 +154,12 @@ pre {
   padding: 1rem;
   border-radius: var(--border-radius);
   @include fontValues(11, 8);
+}
+
+.two-step-delete {
+  .btn-container {
+    margin: 0;
+  }
 }
 
 @media only screen and (min-width: $breakpoint-md) {

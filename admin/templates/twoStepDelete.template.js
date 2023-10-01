@@ -12,9 +12,9 @@ export const twoStepDeleteTemplate = ({
     class: "two-step-delete",
     children: [
       new c.BTNCONTAINER({
-        class: "accent sm",
+        class: "subtle",
         "data-modal": `delete-${id}`,
-        textContent: "Delete",
+        children: [new c.ICON("trash"), "Delete"],
       }),
       MODAL({
         modalBody: {
