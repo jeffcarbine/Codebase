@@ -5,7 +5,7 @@ var Schema = mongoose.Schema;
 var File = new Schema({
   name: String,
   type: String,
-  value: String,
+  filepath: String,
 });
 
 // create the model for users and expose it to our app

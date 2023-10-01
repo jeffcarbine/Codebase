@@ -39,6 +39,11 @@ import {
   post__admin_pages_getDatapoints,
 } from "../routes/pages.js";
 
+import {
+  post__admin_files_add,
+  post__admin_files_retrieve,
+} from "../routes/files.routes.js";
+
 // import {
 //   get__admin_settings,
 //   post__admin_settings,
@@ -211,6 +216,19 @@ export const generateAdminRoutes = (app, __dirname, features) => {
     "/periodic/admin/tools/merchClubCSV",
     connectEnsureLogin.ensureLoggedIn("/periodic/admin/login"),
     post__admin_tools_merchClubCSV
+  );
+
+  // FILES
+  app.post(
+    "/periodic/admin/files/retrieve",
+    connectEnsureLogin.ensureLoggedIn("/periodic/admin/login"),
+    post__admin_files_retrieve
+  );
+
+  app.post(
+    "/periodic/admin/files/add",
+    connectEnsureLogin.ensureLoggedIn("/periodic/admin/login"),
+    post__admin_files_add
   );
 
   // app.post(
