@@ -1,17 +1,17 @@
 #navToggle {
-  width: 2.5rem;
+  width: 4rem;
   height: 4rem;
   background: transparent;
   position: absolute;
   top: 0.5rem;
-  left: 2.5rem;
+  left: 0.5rem;
   z-index: 10;
   transition: all 0.5s ease;
 
   span {
-    width: 100%;
+    width: 2.5rem;
     height: 0.375rem;
-    background: var(--dark);
+    background: var(--foreground);
     display: block;
     position: absolute;
     top: 50%;
@@ -35,7 +35,7 @@
   }
 
   &.open {
-    left: 8.5rem;
+    left: 5rem;
 
     span {
       &:nth-of-type(1) {
@@ -55,10 +55,9 @@
 }
 
 nav {
-  --nav-item-color: var(--dark);
   --nav-item-color-active: var(--light);
 
-  background: var(--light);
+  background: var(--background);
   position: fixed;
   top: 0;
   left: 0;

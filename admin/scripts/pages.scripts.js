@@ -38,14 +38,14 @@ const retrievePages = () => {
                 },
               ],
             },
-            {
-              class: "preview",
-              child: new e.P(
-                `${page.datapoints.length} datapoint${
-                  page.datapoints.length === 1 ? "" : "s"
-                }`
-              ),
-            },
+            // {
+            //   class: "preview",
+            //   child: new e.P(
+            //     `${page.datapoints.length} datapoint${
+            //       page.datapoints.length === 1 ? "" : "s"
+            //     }`
+            //   ),
+            // },
           ],
         })
       );

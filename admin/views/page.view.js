@@ -45,7 +45,7 @@ export default (data) => {
               children: [new c.ICON("eye"), "View Page"],
             },
           ],
-          "centered"
+          "centered sm-space"
         ),
         {
           id: "modals",

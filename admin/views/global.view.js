@@ -20,7 +20,7 @@ export default (data) => {
               children: [new c.ICON("plus"), "Create New Datapoint"],
             },
           ],
-          "centered"
+          "centered sm-space"
         ),
         {
           id: "modals",

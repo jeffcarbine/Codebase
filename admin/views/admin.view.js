@@ -85,10 +85,10 @@ export const base = (data, template, scripts) => {
           {
             class: "branding",
             children: [
-              {
-                class: "logo admin",
-                child: new e.IMG("/periodic/admin/images/logo.svg"),
-              },
+              // {
+              //   class: "logo admin",
+              //   child: new e.IMG("/periodic/admin/images/logo.svg"),
+              // },
               // new e.SPAN({
               //   class: "x",
               //   textContent: "x",

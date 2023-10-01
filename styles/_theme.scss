@@ -6,20 +6,26 @@
   --accent-step: hsl(344, 20%, 73%);
   --accent-on: var(--dark);
 
-  --dark: #252422;
-  --dark-low: #383736;
-  --dark-mid: #999794;
-  --midtone: #888888;
-  --light: #f7f7f7;
-  --light-low: #f1f1f1;
-  --light-mid: #e7e6e6;
+  --superdark: #121315;
+  --dark: #16171b;
+  --dark-low: #202127;
+  --dark-mid: #27272f;
 
+  --midtone: #888888;
+
+  --superlight: #ffffff;
+  --light: #f7f7f7;
+  --light-low: #f5f5f5;
+  --light-mid: #e0e0e0;
+
+  --superforeground: var(--superdark);
   --foreground: var(--dark);
   --foreground-low: var(--dark-low);
   --foreground-mid: var(--dark-mid);
   --background: var(--light);
   --background-low: var(--light-low);
   --background-mid: var(--light-mid);
+  --superbackground: var(--superlight);
 
   --green: hsl(152, 69%, 19%);
   --green-step: hsl(153, 31%, 86%);
@@ -32,7 +38,8 @@
   --negative: var(--red);
   --warning: var(--yellow);
 
-  --box-shadow: 0px 7px 10px -5px rgba(0, 0, 0, 0.25);
+  --box-shadow-color: rgba(0, 0, 0, 0.125); // less intense for light themes
+  --box-shadow: 0px 7px 10px -5px var(--box-shadow-color);
   --text-shadow: 0px 7px 10px rgba(0, 0, 0, 0.25);
   --border-radius: 0.25rem;
   --border-color: rgba(100, 40, 40, 0.125);
@@ -60,7 +67,8 @@
   --7-8rem: calc(var(--1-8rem) * 7);
 }
 
-html.darkmode {
+@mixin darkTheme {
+  --superforeground: var(--superlight);
   --foreground: var(--light);
   --foreground-low: var(--light-low);
   --foreground-mid: var(--light-mid);
@@ -68,6 +76,13 @@ html.darkmode {
   --background-low: var(--dark-low);
   --background-mid: var(--dark-mid);
   --border-color: rgba(255, 255, 255, 0.25);
+  --superbackground: var(--superdark);
+
+  --box-shadow-color: rgba(0, 0, 0, 0.25); // more intense for dark themes
+}
+
+html.darkmode {
+  @include darkTheme;
 }
 
 // default assigning of base body color variables

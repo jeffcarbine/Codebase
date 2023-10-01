@@ -6,6 +6,10 @@
 @import "../../styles/theme";
 @import "../../components/btn/btn";
 
+:root {
+  @include darkTheme;
+}
+
 .btn {
   --btn-border-radius: 25px;
   box-shadow: var(--box-shadow);
@@ -88,16 +92,16 @@
 
   to {
     transform: scale(1);
-    box-shadow: 12px 12px 24px rgba(0, 0, 0, 0.125),
-      -12px -12px 24px var(--light);
+    box-shadow: 12px 12px 24px var(--superbackground),
+      -12px -12px 24px var(--background-mid);
   }
 }
 
 .card {
   border-radius: 25px;
-  width: calc(100% - 2rem);
+  width: 100%;
   max-width: 80rem;
-  background: var(--light-low);
+  background: var(--background-low);
   transform: scale(0.99);
   box-shadow: none;
   animation: morph 0.75s forwards;
@@ -114,6 +118,7 @@
       margin-right: 1rem;
       display: inline;
       transform: translateY(12%);
+      fill: var(--foreground);
     }
   }
 }

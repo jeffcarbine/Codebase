@@ -26,9 +26,10 @@
     flex: 1 1 auto;
     margin: 0;
     display: flex;
+    flex-wrap: wrap;
 
     h2 {
-      flex: 0 0 calc(100% - 4rem);
+      flex: 0 0 100%;
       margin: 0.5rem 0;
       word-break: break-word;
       @include fontValues(4);
@@ -40,25 +41,24 @@
     }
 
     .edit {
-      flex: 0 0 4rem;
+      flex: 0 0 100%;
       display: flex;
-      flex-direction: column;
-      justify-content: center;
+      order: 2;
 
       > .btn {
-        margin-left: 0.5rem;
-
         svg.icon {
-          margin-right: 0;
+          margin-right: var(--btn-icon-size);
         }
 
         .text {
-          display: none;
+          display: inline;
         }
       }
 
       .dropdown {
         --dropdown-border-radius: 25px;
+
+        margin-right: 0.5rem;
       }
     }
   }
@@ -75,7 +75,7 @@
     }
   }
 
-  > .preview {
+  .preview {
     p {
       margin: 0;
     }
@@ -142,20 +142,8 @@
       }
 
       .edit {
-        flex: 0 0 auto;
-        flex-direction: row;
-        order: 2;
+        flex: 0 0 17rem;
         justify-content: flex-end;
-
-        .btn {
-          svg.icon {
-            margin-right: var(--btn-icon-size);
-          }
-
-          .text {
-            display: inline;
-          }
-        }
       }
     }
   }

@@ -10,7 +10,7 @@ enableToggleNav();
 const setHeaderBackground = (scrollPos) => {
   const header = document.querySelector("header");
 
-  if (scrollPos > 40) {
+  if (scrollPos > 2) {
     header.classList.add("scrolled");
   } else {
     header.classList.remove("scrolled");

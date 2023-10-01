@@ -17,7 +17,7 @@ export default (data) => {
               children: [new c.ICON("plus"), "Create Page"],
             },
           ],
-          "centered"
+          "centered sm-space"
         ),
         MODAL({ modalBody: createEditPageTemplate(), id: "addPage" }),
         new e.SECTION({
