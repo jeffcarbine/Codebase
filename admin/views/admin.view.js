@@ -76,7 +76,7 @@ export const base = (data, template, scripts) => {
   const html = {
     title: "Podsyte",
     stylesheets: ["/periodic/admin/styles/admin.min.css"],
-    "data-theme": !useDarkMode ? "dark" : "light",
+    "data-theme": useDarkMode ? "dark" : "light",
     metas: [
       { name: "viewport", content: "width=device-width, initial-scale=1" },
     ],
