@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import Page from "../models/Page.js";
 
 import { get__admin_login, post__admin_login } from "../routes/login.js";
+import { get__admin_logout } from "../routes/logout.js";
 import { post__admin_signup } from "../routes/signup.js";
 import { post__admin_tools_merchClubCSV } from "../routes/tools.routes.js";
 
@@ -142,8 +143,9 @@ export const generateAdminRoutes = (app, __dirname, features) => {
     }
   );
 
-  // the login/signup routes
+  // the login/logout/signup routes
   app.get("/periodic/admin/login", get__admin_login);
+  app.get("/periodic/admin/logout", get__admin_logout);
 
   app.post(
     "/periodic/admin/pages/retrieve",

@@ -85,6 +85,7 @@ export const base = (data, template, scripts) => {
         textContent: "0",
       }),
       new e.HEADER({
+        if: data.loggedIn,
         children: [
           {
             class: "branding",
