@@ -1,6 +1,7 @@
 import { base } from "./admin.view.js";
 import * as e from "../../elements/elements.js";
 import * as c from "../../components/components.js";
+import { logoTemplate } from "../templates/logo.template.js";
 
 export default (data) => {
   return base(data, {
@@ -10,15 +11,26 @@ export default (data) => {
         child: {
           class: "login-form",
           children: [
-            new e.H1("Welcome to Podsyte!"),
+            logoTemplate,
             new e.H2("Create an Account"),
             new e.FORM({
               action: "/periodic/admin/signup",
               class: "xhr style-inputs",
               children: [
-                new e.EMAIL(),
-                new e.PASSWORD(),
-                new e.PASSWORD({
+                new c.FIELD({
+                  name: "email",
+                  id: "email",
+                  label: "Email",
+                  type: "email",
+                }),
+                new c.FIELD({
+                  type: "password",
+                  name: "password",
+                  id: "password",
+                  label: "Password",
+                }),
+                new c.FIELD({
+                  type: "password",
                   name: "passwordConfirm",
                   id: "passwordConfirm",
                   label: "Confirm Password",

@@ -74,7 +74,7 @@ export const base = (data, template, scripts) => {
   };
 
   const html = {
-    title: "Podsyte",
+    title: "Backstage by Carbine Co.",
     stylesheets: ["/periodic/admin/styles/admin.min.css"],
     "data-theme": useDarkMode ? "dark" : "light",
     metas: [
