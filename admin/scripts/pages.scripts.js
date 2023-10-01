@@ -73,7 +73,7 @@ const submitAddPages = (form) => {
   const success = (response) => {
     const pageId = JSON.parse(response);
 
-    window.location = "/periodic/admin/pages/" + pageId;
+    window.location = "/periodic/admin/pages/add" + pageId;
   };
 
   xhrForm({ form, success });

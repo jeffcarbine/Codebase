@@ -34,7 +34,7 @@ import {
 } from "../routes/datapoints.js";
 
 import {
-  post__admin_pages,
+  post__admin_pages_add,
   post__admin_pages_retrieve,
   post__admin_pages_getDatapoints,
 } from "../routes/pages.js";
@@ -152,9 +152,9 @@ export const generateAdminRoutes = (app, __dirname, features) => {
   );
 
   app.post(
-    "/periodic/admin/pages",
+    "/periodic/admin/pages/add",
     connectEnsureLogin.ensureLoggedIn("/periodic/admin/login"),
-    post__admin_pages
+    post__admin_pages_add
   );
 
   app.post(

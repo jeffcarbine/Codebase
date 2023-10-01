@@ -16,7 +16,7 @@ export const createEditPageTemplate = (page = {}) => {
   return new e.FORM({
     id: "addEditPage",
     method: "POST",
-    action: "/periodic/admin/pages",
+    action: "/periodic/admin/pages/add",
     class: "style-inputs",
     children: [
       new e.H2(title),

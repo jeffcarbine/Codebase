@@ -15,7 +15,7 @@ export const get__admin_pages = (req, res, next) => {
   });
 };
 
-export const post__admin_pages = (req, res, next) => {
+export const post__admin_pages_add = (req, res, next) => {
   const body = req.body,
     pageId = req.body._id,
     path = body.path || "/" + hyphenate(body.name),
@@ -29,6 +29,8 @@ export const post__admin_pages = (req, res, next) => {
     wildcard,
     homepage,
   };
+
+  console.log(pageData);
 
   // check if we have an _id or not - if so, then we are updating
   // an existing page
