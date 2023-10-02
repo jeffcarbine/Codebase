@@ -135,7 +135,7 @@ const datapointInputs = {
       new c.FIELD({
         label: "Group Items",
         name: "group",
-        type: "reorganize",
+        type: "reorder",
         value: groupItems,
       }),
     ];

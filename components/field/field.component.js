@@ -1,7 +1,7 @@
 import { generateUniqueId } from "../../modules/generateUniqueId/generateUniqueId.js";
 import { camelize } from "../../modules/formatString/formatString.js";
 import { SQUARE, ICON } from "../components.js";
-import { IMG } from "../../elements/elements.js";
+import { BUTTON, IMG, LI, SPAN, UL, ULLI } from "../../elements/elements.js";
 
 export class FIELD {
   constructor(params = {}) {
@@ -198,6 +198,49 @@ export class FIELD {
 
       // place the preview before the wrapper
       this.children.splice(1, 0, preview);
+    }
+
+    // if this is a reorganize, then make the input hidden
+    // and add the reorganize ui
+    if (type === "reorder") {
+      input.type = "hidden";
+
+      const generateReorganizeListItems = () => {
+        const arr = Array.isArray(params.value)
+            ? params.value
+            : params.value.split(","),
+          reorganizeListItems = [];
+
+        arr.forEach((item, index) => {
+          const listItem = new LI({
+            class: "reorderItem",
+            "data-originalindex": index,
+            "data-value": item,
+            draggable: true,
+            children: [
+              {
+                class: "handle",
+                role: "button",
+                "aria-label": "Drag item",
+                child: new ICON("dragHandle"),
+              },
+              new SPAN(item),
+            ],
+          });
+
+          reorganizeListItems.push(listItem);
+        });
+
+        return reorganizeListItems;
+      };
+
+      const reorganizeList = new UL({
+        class: "reorderList",
+        children: generateReorganizeListItems(),
+      });
+
+      // and add it to the wrapper
+      wrapper.children.unshift(reorganizeList);
     }
   }
 }

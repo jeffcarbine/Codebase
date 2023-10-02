@@ -25,8 +25,6 @@ export const post__admin_datapoints = (req, res, next) => {
     active = req.body.active,
     accordionOpen = req.body.accordionOpen;
 
-  console.log(body);
-
   // modifiable image
   let imageSrc = body.image; // default to this, but if we need to upload to s3, we'll change it on line 50
 
@@ -115,10 +113,7 @@ export const post__admin_datapoints = (req, res, next) => {
             case "group":
               datapoint.groupType = body.groupType || "";
               datapoint.groupWildcard = body.groupWildcard || "";
-              //datapoint.group = JSON.parse(body.group) || [];
-              console.log("found a new group order");
-              console.log(body.group);
-              console.log(body.group.split(","));
+              datapoint.group = body.group.split(",") || [];
           }
 
           // if global isn't undefined, then we need

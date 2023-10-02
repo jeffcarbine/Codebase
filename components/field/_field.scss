@@ -4,6 +4,8 @@
   --field-label-color: var(--foreground);
   --field-focus-color: var(--accent);
   --field-focus-opacity: 0.15;
+
+  --reorganizeItem-background: var(--background-mid);
 }
 
 @keyframes focus {
@@ -90,6 +92,41 @@
       fill: var(--field-input-color);
       width: 25%;
       opacity: 0.5;
+    }
+  }
+
+  .reorderList {
+    margin: 0;
+    padding: 0.5rem;
+
+    .reorderItem {
+      list-style-type: none;
+      margin: 0.25rem 0;
+      padding: 0.5rem;
+      background: var(--reorganizeItem-background);
+      border-radius: var(--border-radius);
+      display: flex;
+
+      .handle {
+        display: block;
+        width: 2rem;
+        height: 2rem;
+
+        .icon {
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+      span {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      &.dragging {
+        opacity: 0;
+      }
     }
   }
 
