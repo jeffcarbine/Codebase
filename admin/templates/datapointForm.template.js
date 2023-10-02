@@ -115,9 +115,9 @@ const datapointInputs = {
   },
 
   group: (datapoint) => {
-    const groupWildcard =
-        datapoint !== undefined ? datapoint.groupWildcard : "",
-      groupType = datapoint !== undefined ? datapoint.groupType : "";
+    const groupWildcard = datapoint?.groupWildcard || "",
+      groupType = datapoint?.groupType || "",
+      groupItems = datapoint?.group || [];
 
     return [
       new c.FIELD({
@@ -131,6 +131,12 @@ const datapointInputs = {
         type: "select",
         options: groupTypes,
         selected: groupType,
+      }),
+      new c.FIELD({
+        label: "Group Items",
+        name: "group",
+        type: "reorganize",
+        value: groupItems,
       }),
     ];
   },
