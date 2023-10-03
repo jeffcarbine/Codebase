@@ -49,6 +49,10 @@
     overflow: hidden;
     margin: 0.5rem 0;
     display: block;
+
+    &.overflow-visible {
+      overflow: visible;
+    }
   }
 
   label {
@@ -106,11 +110,13 @@
       background: var(--reorganizeItem-background);
       border-radius: var(--border-radius);
       display: flex;
+      transition: transform 0.25s ease;
 
       .handle {
         display: block;
         width: 2rem;
         height: 2rem;
+        cursor: move;
 
         .icon {
           width: 100%;
@@ -125,7 +131,9 @@
       }
 
       &.dragging {
-        opacity: 0;
+        transform: scale(1.1);
+        box-shadow: var(--box-shadow);
+        pointer-events: none;
       }
     }
   }

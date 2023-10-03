@@ -135,48 +135,110 @@ addEventDelegate(
   toggleVisibilityWithCheckbox
 );
 
+// reorder list scripts (new!)
+
+let reordering = false,
+  draggingItem = null;
+
+const reorderItemStart = (button) => {
+  if (!reordering) {
+    const item = button.parentNode;
+    item.classList.add("dragging");
+    draggingItem = item;
+    reordering = true;
+  }
+};
+
+const reorderItemMove = (button, e) => {
+  if (reordering) {
+    const reorderList = draggingItem.parentNode,
+      // get the clientY relative to the reorderList
+      clientY = e.clientY - reorderList.getBoundingClientRect().top;
+
+    // Getting all items except currently dragging and making array of them
+    let siblings = [
+      ...reorderList.querySelectorAll(".reorderItem:not(.dragging)"),
+    ];
+
+    // Finding the sibling after which the dragging item should be placed
+    let nextSibling = siblings.find((sibling) => {
+      return clientY <= sibling.offsetTop + sibling.offsetHeight / 2;
+    });
+
+    // Inserting the dragging item before the found sibling
+    reorderList.insertBefore(draggingItem, nextSibling);
+
+    // now, get all of the items in the list, pull their values, and set
+    // the value of the hidden input
+    const hiddenInput = reorderList.nextElementSibling;
+    const value = [...reorderList.querySelectorAll(".reorderItem")].map(
+      (item) => item.dataset.value
+    );
+
+    hiddenInput.value = value.join(",");
+  }
+};
+
+const reorderItemEnd = () => {
+  if (reordering) {
+    draggingItem.classList.remove("dragging");
+    draggingItem = null;
+    reordering = false;
+  }
+};
+
+addEventDelegate(
+  "touchstart, mousedown",
+  ".reorderItem .handle",
+  reorderItemStart
+);
+
+addEventDelegate("touchmove, mousemove", "body", reorderItemMove);
+
+addEventDelegate("touchend, mouseup", "body", reorderItemEnd);
+
 // reorder list scripts
 
-const reorderItemDragstart = (item) => {
-  setTimeout(() => item.classList.add("dragging"), 0);
-};
+// const reorderItemDragstart = (item) => {
+//   setTimeout(() => item.classList.add("dragging"), 0);
+// };
 
-const reorderItemDragend = (item) => {
-  item.classList.remove("dragging");
-};
+// const reorderItemDragend = (item) => {
+//   item.classList.remove("dragging");
+// };
 
-addEventDelegate("dragstart", ".reorderItem", reorderItemDragstart);
-addEventDelegate("dragend", ".reorderItem", reorderItemDragend);
+// addEventDelegate("dragstart", ".reorderItem", reorderItemDragstart);
+// addEventDelegate("dragend", ".reorderItem", reorderItemDragend);
 
-const initReorderList = (reorderList, e) => {
-  const draggingItem = document.querySelector(".dragging");
+// const initReorderList = (reorderList, e) => {
+//   const draggingItem = document.querySelector(".dragging");
 
-  // get the clientY relative to the reorderList
-  const clientY = e.clientY - reorderList.getBoundingClientRect().top;
+//   // get the clientY relative to the reorderList
+//   const clientY = e.clientY - reorderList.getBoundingClientRect().top;
 
-  // Getting all items except currently dragging and making array of them
-  let siblings = [
-    ...reorderList.querySelectorAll(".reorderItem:not(.dragging)"),
-  ];
+//   // Getting all items except currently dragging and making array of them
+//   let siblings = [
+//     ...reorderList.querySelectorAll(".reorderItem:not(.dragging)"),
+//   ];
 
-  // Finding the sibling after which the dragging item should be placed
-  let nextSibling = siblings.find((sibling) => {
-    return clientY <= sibling.offsetTop + sibling.offsetHeight / 2;
-  });
+//   // Finding the sibling after which the dragging item should be placed
+//   let nextSibling = siblings.find((sibling) => {
+//     return clientY <= sibling.offsetTop + sibling.offsetHeight / 2;
+//   });
 
-  // Inserting the dragging item before the found sibling
-  reorderList.insertBefore(draggingItem, nextSibling);
+//   // Inserting the dragging item before the found sibling
+//   reorderList.insertBefore(draggingItem, nextSibling);
 
-  // now, get all of the items in the list, pull their values, and set
-  // the value of the hidden input
-  const hiddenInput = reorderList.nextElementSibling;
+//   // now, get all of the items in the list, pull their values, and set
+//   // the value of the hidden input
+//   const hiddenInput = reorderList.nextElementSibling;
 
-  const value = [...reorderList.querySelectorAll(".reorderItem")].map(
-    (item) => item.dataset.value
-  );
+//   const value = [...reorderList.querySelectorAll(".reorderItem")].map(
+//     (item) => item.dataset.value
+//   );
 
-  hiddenInput.value = value.join(",");
-};
+//   hiddenInput.value = value.join(",");
+// };
 
-addEventDelegate("dragover", ".reorderList", initReorderList, true);
-addEventDelegate("dragenter", ".reorderList", () => {}, true);
+// addEventDelegate("dragover", ".reorderList", initReorderList, true);
+// addEventDelegate("dragenter", ".reorderList", () => {}, true);

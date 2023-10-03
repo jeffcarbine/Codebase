@@ -33,8 +33,6 @@ const openModal = (button) => {
   const modalId = button.dataset.modal,
     modal = document.querySelector("#" + modalId);
 
-  console.log(modalId, modal);
-
   modal.showModal();
 };
 

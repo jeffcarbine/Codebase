@@ -88,7 +88,6 @@ export class FIELD {
 
         if (params.selected !== undefined) {
           if (option === params.selected || option.value === params.selected) {
-            console.log("selected!");
             optionParams.selected = true;
           }
         }
@@ -216,7 +215,6 @@ export class FIELD {
             class: "reorderItem",
             "data-originalindex": index,
             "data-value": item,
-            draggable: true,
             children: [
               {
                 class: "handle",
@@ -241,6 +239,9 @@ export class FIELD {
 
       // and add it to the wrapper
       wrapper.children.unshift(reorganizeList);
+
+      // and add an overflow-visible class
+      wrapper.class += " overflow-visible";
     }
   }
 }
