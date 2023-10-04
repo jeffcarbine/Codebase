@@ -20,6 +20,7 @@ export const carbineCoCreditComponent = ({
             }),
             new A({
               href: "https://carbine.co",
+              target: "_blank",
               textContent: link,
             }),
             new SPAN({
