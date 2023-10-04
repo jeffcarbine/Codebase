@@ -74,7 +74,7 @@ export const PRODUCT = (data) => {
         class: "images-container",
         child: {
           class: "images",
-          children: [SLIDER(generateProductImages()), SQUARE],
+          children: [SLIDER({ elements: generateProductImages() }), SQUARE],
         },
       },
       {

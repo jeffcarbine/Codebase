@@ -262,7 +262,6 @@ export default (data) => {
     },
     [
       new e.MODULE("/periodic/elements/input/input.js"),
-      new e.MODULE("/periodic/components/modal/modal.js"),
       new e.MODULE("/periodic/admin/scripts/tools.scripts.js"),
     ]
   );
