@@ -38,6 +38,7 @@ var Member = new Schema({
       _id: false,
     },
   ],
+  currentPledge: Number,
 });
 
 // create the model for users and expose it to our app

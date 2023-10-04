@@ -144,13 +144,13 @@ export const xhrForm = ({
     //   }
     // }
 
-    error(request);
+    error(request, null, form);
   };
 
   const formFailure = (request) => {
     form.classList.remove("loading");
 
-    failure(request);
+    failure(request, null, form);
   };
 
   // const progress = (event) => {
@@ -173,9 +173,9 @@ export const xhrForm = ({
 
 export const xhrFormRecaptcha = ({
   form,
-  success = toastResponse,
-  error = toastResponse,
-  failure = toastResponse,
+  success = toastSuccess,
+  error = toastError,
+  failure = toastFailure,
   body = {},
 }) => {
   const recaptchaSiteKey = form.dataset.recaptchaSiteKey;
