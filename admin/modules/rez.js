@@ -47,7 +47,7 @@ export const rez = ({
         // i'm not 100% sure why we are getting undefeined datapointIds
         // in our lists, but hopefully this will skip them and
         // allow the page to still render
-        if (datapointId !== undefined) {
+        if (datapointId !== undefined && datapointId !== "") {
           Datapoint.findOne({ _id: datapointId }).exec((err, datapoint) => {
             const type = datapoint.type,
               datapointData = datapoint[type];

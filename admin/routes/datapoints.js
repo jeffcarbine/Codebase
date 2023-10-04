@@ -367,20 +367,24 @@ export const post__admin_datapoints_retrieve = (req, res) => {
         (datapointId, next) => {
           Datapoint.findOne({ _id: datapointId }).exec(
             (err, originalDatapoint) => {
-              const datapoint = { ...originalDatapoint._doc };
-              parent.push(datapoint);
+              if (originalDatapoint !== undefined) {
+                const datapoint = { ...originalDatapoint._doc };
+                parent.push(datapoint);
 
-              // check if the datapoint is a group
-              if (datapoint.type === "group") {
-                datapoint.datapoints = [];
+                // check if the datapoint is a group
+                if (datapoint.type === "group") {
+                  datapoint.datapoints = [];
 
-                if (datapoint.group.length > 0) {
-                  // then we need to retrieve the children datapoints
-                  retrieveDatapoints(
-                    datapoint.group,
-                    datapoint.datapoints,
-                    next
-                  );
+                  if (datapoint.group.length > 0) {
+                    // then we need to retrieve the children datapoints
+                    retrieveDatapoints(
+                      datapoint.group,
+                      datapoint.datapoints,
+                      next
+                    );
+                  } else {
+                    next();
+                  }
                 } else {
                   next();
                 }

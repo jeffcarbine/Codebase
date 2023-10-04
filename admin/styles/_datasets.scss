@@ -45,7 +45,7 @@
       display: flex;
       order: 2;
 
-      > * {
+      > *:not(dialog) {
         margin-right: 0.5rem;
 
         &:last-child {
