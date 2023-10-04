@@ -1,5 +1,5 @@
 export const carbineCoLogoComponent = {
-  class: "logo",
+  class: "carbine-co-logo",
   child: {
     tagName: "svg",
     xmlns: "http://www.w3.org/2000/svg",

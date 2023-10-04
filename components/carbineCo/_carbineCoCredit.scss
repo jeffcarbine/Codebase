@@ -1,18 +1,21 @@
 .carbine-co-credit {
   opacity: 0.75;
+  fill: var(--foreground);
 
   .text {
     @include fontValues(12);
-    color: var(--foreground);
   }
 
   .carbine-co-logo {
-    width: 100%;
-    max-width: 7rem;
-    margin: 0.25rem auto;
+    width: calc(100% - 4rem);
+    display: inline-block;
+    fill: inherit;
+    margin-bottom: 1rem;
+    opacity: 0.05;
+    max-width: 20rem;
 
     svg {
-      fill: var(--foreground);
+      fill: inherit;
     }
   }
 }

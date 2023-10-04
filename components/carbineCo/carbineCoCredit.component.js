@@ -9,6 +9,7 @@ export const carbineCoCreditComponent = ({
   return {
     class: "carbine-co-credit",
     children: [
+      carbineCoLogoComponent,
       {
         class: "text",
         child: new SPAN({
@@ -27,10 +28,6 @@ export const carbineCoCreditComponent = ({
             }),
           ],
         }),
-      },
-      {
-        class: "carbine-co-logo",
-        child: carbineCoLogoComponent,
       },
     ],
   };
