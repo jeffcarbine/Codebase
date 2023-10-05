@@ -63,14 +63,32 @@
       position: absolute;
       top: var(--field-border-width);
       left: var(--field-border-width);
-      width: calc(100% - var(--field-border-width));
-      height: calc(100% - var(--field-border-width));
+      width: calc(100% - var(--field-border-width) * 2);
+      height: calc(100% - var(--field-border-width) * 2);
       padding: var(--field-padding);
       box-sizing: border-box;
       pointer-events: none;
       display: flex;
       flex-direction: column;
       justify-content: center;
+      white-space: nowrap;
+      overflow: hidden;
+      border-radius: var(--border-radius);
+
+      &::before {
+        content: "";
+        width: 5rem;
+        height: calc(100% - var(--field-border-width));
+        position: absolute;
+        top: 0;
+        right: 0;
+        background: linear-gradient(
+          90deg,
+          rgba(0, 0, 0, 0) 0%,
+          var(--field-background) 50%,
+          var(--field-background) 100%
+        );
+      }
 
       &::after {
         content: "";
@@ -81,7 +99,7 @@
         border-bottom: var(--field-border-width) solid var(--field-input-color);
         position: absolute;
         top: 50%;
-        right: 1.5rem;
+        right: 1rem;
         transform: translateY(calc(-50% - 0.25rem)) rotate(45deg);
       }
     }
