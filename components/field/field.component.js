@@ -62,6 +62,18 @@ export class FIELD {
       }
     }
 
+    // put that inside of the input wrapper
+    const wrapper = {
+      class: "wrapper",
+      children: [
+        input,
+        {
+          tag: "span",
+          class: "focus",
+        },
+      ],
+    };
+
     // if a select field, create the options
     if (type === "select") {
       input.children = [];
@@ -92,21 +104,16 @@ export class FIELD {
           }
         }
 
-        input.children.push(optionParams);
+        input.children.unshift(optionParams);
       });
-    }
 
-    // put that inside of the input wrapper
-    const wrapper = {
-      class: "wrapper",
-      children: [
-        input,
-        {
-          tag: "span",
-          class: "focus",
-        },
-      ],
-    };
+      // and add the faux select span
+      const fauxSelect = new SPAN({
+        class: "faux-select",
+      });
+
+      wrapper.children.push(fauxSelect);
+    }
 
     // if this is a file, we need to create the base64file input
     if (type === "file") {
