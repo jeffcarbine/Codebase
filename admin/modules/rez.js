@@ -64,6 +64,7 @@ export const rez = ({
                   (groupDatapoints) => {
                     const childDatapoint = {
                       name: datapoint.name,
+                      active: datapoint.active,
                       group: groupDatapoints,
                     };
 
