@@ -74,5 +74,14 @@ export const stripHtml = (str) => {
   // Regular expression to identify HTML tags in
   // the input string. Replacing the identified
   // HTML tag with a null string.
-  return str.replace(/(<([^>]+)>)/gi, "").trim();
+  return str
+    .replace(/(<([^>]+)>)/gi, " ")
+    .replaceAll("&nbsp;", " ")
+    .trim();
+};
+
+let splitSentences = (str) => {
+  // split sentences on . ! ? and \n but keep the delimiter
+  // split on . ! ? and \n but keep the delimiter
+  const split = str.split(/(\. |\!|\?|\n)/);
 };
