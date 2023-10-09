@@ -19,10 +19,10 @@ export const PRODUCTSUMMARY = ({
   placeholder = false,
   url = "/shop/product/",
 } = {}) => {
-  const price = data.variants[0].price.value,
+  const price = data.variants[0].price.amount,
     hasCompareAtPrice = data.variants[0].compareAtPrice !== null,
     compareAtPrice = hasCompareAtPrice
-      ? data.variants[0].compareAtPrice.value
+      ? data.variants[0].compareAtPrice.amount
       : price;
 
   return {
@@ -60,6 +60,7 @@ export const PRODUCTSUMMARY = ({
         ],
       },
       {
+        if: data.availableForSale,
         class: "pricing",
         children: [
           {
@@ -77,6 +78,15 @@ export const PRODUCTSUMMARY = ({
             class: "placeholderPrice",
           },
         ],
+      },
+      {
+        if: !data.availableForSale,
+        class: "pricing",
+        child: {
+          if: !placeholder,
+          class: "soldOut",
+          textContent: "Sold Out",
+        },
       },
     ],
   };

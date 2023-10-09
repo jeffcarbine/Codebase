@@ -30,10 +30,11 @@ export class NAVIGATION extends ELEMENT {
 
         if (typeof path === "string") {
           const active =
-            path === params.path ||
-            (path !== "/" &&
-              params.path !== undefined &&
-              params.path.includes(path));
+              path === params.path ||
+              (path !== "/" &&
+                params.path !== undefined &&
+                params.path.includes(path)),
+            external = path.includes("http");
 
           navItem = new LI({
             class:
@@ -42,6 +43,7 @@ export class NAVIGATION extends ELEMENT {
             child: new A({
               href: path,
               textContent: route,
+              target: external ? "_blank" : "",
             }),
           });
           // then we have textcontent
