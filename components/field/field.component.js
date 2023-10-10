@@ -192,7 +192,7 @@ export class FIELD {
         children: [
           new IMG({
             class: "imagePreview",
-            style: params.value !== undefined ? "" : `display: "none"`,
+            style: params.value !== undefined ? "" : `display: none`,
             src: params.value || "",
           }),
           {
