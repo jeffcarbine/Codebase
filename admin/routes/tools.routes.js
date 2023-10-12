@@ -15,8 +15,6 @@ export const get__admin_tools = (req, res) => {
 
 export const post__admin_tools_merchClubCSV = (req, res) => {
   const body = req.body,
-    skuList = body.skuList,
-    productNames = body.productNames,
     year = parseInt(body.year),
     quarter = parseInt(body.quarter),
     yearQuarter = {
@@ -32,7 +30,15 @@ export const post__admin_tools_merchClubCSV = (req, res) => {
       $in: yearQuarter,
     },
   }).exec((err, members) => {
-    console.log(members);
+    // filter out any members that don't have a valid address
+    members = members.filter((member) => {
+      return (
+        member.address.city !== null &&
+        member.address.city !== undefined &&
+        member.address.city !== ""
+      );
+    });
+
     if (err) {
       return res.status(500).send(err);
     } else {
