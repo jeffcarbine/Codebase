@@ -1,5 +1,5 @@
 :root {
-  --btn-border-radius: 0;
+  --btn-border-radius: var(--border-radius);
 
   --btn-background: var(--primary);
   --btn-color: var(--light);
