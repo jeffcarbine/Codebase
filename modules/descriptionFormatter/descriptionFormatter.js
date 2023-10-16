@@ -68,6 +68,7 @@ export const descriptionFormatter = (rawDescription) => {
       "” by",
       "privacy policy",
       "buy tickets",
+      "livestream",
     ];
 
     // split the rawDescription into an array of strings
