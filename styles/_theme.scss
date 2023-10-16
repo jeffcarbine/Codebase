@@ -1,9 +1,9 @@
 ﻿:root {
-  --primary: hsl(197, 37%, 24%);
-  --primary-step: hsl(197, 37%, 34%);
+  --primary: #d23756;
+  --primary-step: #b72a46;
   --primary-on: var(--light);
-  --accent: hsl(344, 20%, 63%);
-  --accent-step: hsl(344, 20%, 73%);
+  --accent: #f9c22e;
+  --accent-step: #edb007;
   --accent-on: var(--dark);
 
   --superdark: #121315;
@@ -13,7 +13,7 @@
 
   --midtone: #888888;
 
-  --superlight: #ffffff;
+  --superlight: #fafafa;
   --light: #f7f7f7;
   --light-low: #f5f5f5;
   --light-mid: #e0e0e0;
@@ -27,12 +27,16 @@
   --background-mid: var(--light-mid);
   --superbackground: var(--superlight);
 
-  --green: hsl(152, 69%, 19%);
-  --green-step: hsl(153, 31%, 86%);
-  --red: hsl(12, 76%, 61%);
-  --red-step: hsl(12, 76%, 81%);
-  --yellow: hsl(43, 74%, 66%);
-  --yellow-step: hsl(43, 74%, 86%);
+  // default urgent, warning and success colors
+  --green-light: #7cb69b;
+  --green: #42765e;
+  --green-dark: #2c4e3e;
+  --red-light: #f9e1e0;
+  --red: #a92330;
+  --red-dark: #771822;
+  --yellow-light: #fbd774;
+  --yellow: #edb007;
+  --yellow-dark: #b28406;
 
   --positive: var(--green);
   --negative: var(--red);
