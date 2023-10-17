@@ -14,7 +14,8 @@ export const xhr = ({
   method = "POST",
   path = "/",
   body = {},
-  requestHeader = "application/json;charset=UTF-8",
+  contentType = "application/json;charset=UTF-8",
+  authorization,
   success = defaultResponse,
   error = defaultResponse,
   failure = defaultResponse,
@@ -24,7 +25,11 @@ export const xhr = ({
   let request = new XMLHttpRequest();
   request.open(method, path);
 
-  request.setRequestHeader("Content-Type", requestHeader);
+  request.setRequestHeader("Content-Type", contentType);
+
+  if (authorization !== undefined) {
+    request.setRequestHeader("Authorization", authorization);
+  }
 
   request.onload = () => {
     if (request.status === 200) {

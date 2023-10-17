@@ -1,5 +1,6 @@
 import * as dotenv from "dotenv";
 dotenv.config();
+import request from "request";
 
 const revClientKey = process.env.REVCLIENTAPIKEY,
   revUserKey = process.env.REVUSERAPIKEY,
@@ -52,11 +53,30 @@ export const revPlaceOrder = ({
 
 export const revRetrieveOrder = {};
 
-export const revRetrieveTranscript = ({ id }) => {
-  reqRequest({
-    url: `/attachments/${id}/content`,
-    callback: (err, response) => {
-      console.log(response);
+export const get__episodes_transcript = (req, res) => {
+  // get the transcript value from query string
+  const attachment = req.query.attachment;
+
+  request.get(
+    {
+      url: `https://api.rev.com/api/v1/attachments/${attachment}/content.pdf`,
+      headers: {
+        Authorization: `Rev ${revClientKey}:${revUserKey}`,
+      },
     },
-  });
+    (err, http, response) => {
+      console.log("heard back!");
+      console.log(response);
+      if (err) {
+        callback(err);
+      } else {
+        res.writeHead(200, {
+          "Content-Type": "application/pdf",
+          "Content-Disposition": "attachment; filename=some_file.pdf",
+          "Content-Length": response.length,
+        });
+        res.end(response);
+      }
+    }
+  );
 };
