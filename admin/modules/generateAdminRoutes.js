@@ -74,6 +74,11 @@ export const generateAdminRoutes = (app, __dirname, features) => {
     getRoutes.fanart = "Fanart";
   }
 
+  if (features.rewards) {
+    getRoutes.rewards = "Rewards";
+    getRoutes.members = "Members";
+  }
+
   for (let route in getRoutes) {
     const title = getRoutes[route];
 
@@ -296,6 +301,10 @@ export const generateAdminRoutes = (app, __dirname, features) => {
       connectEnsureLogin.ensureLoggedIn("/periodic/admin/login"),
       post__admin_fanart_delete
     );
+  }
+
+  if (features.rewards) {
+    // rewards routes here
   }
 
   app.post("/periodic/admin/signup", post__admin_signup);

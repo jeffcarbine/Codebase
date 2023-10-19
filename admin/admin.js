@@ -13,6 +13,7 @@ export const init = ({
   database,
   events = false,
   fanart = false,
+  rewards = false,
 } = {}) => {
   /**
    * Authentication
@@ -61,7 +62,7 @@ export const init = ({
   app.set("views", [__dirname + "/views", __dirname + "/periodic/admin/views"]);
 
   // GENERATE ADMIN ROUTES
-  generateAdminRoutes(app, __dirname, { events, fanart });
+  generateAdminRoutes(app, __dirname, { events, fanart, rewards });
 
   // GENERATE USER ROUTES
   generateRoutes(app);

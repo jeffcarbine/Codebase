@@ -67,6 +67,19 @@ export const base = (data, template, scripts) => {
         ];
       }
 
+      if (data.features.rewards) {
+        appRoutes.routes.Rewards = [
+          "/periodic/admin/rewards",
+          new e.SPAN("Rewards"),
+          new c.ICON("gift"),
+        ];
+        appRoutes.routes.Members = [
+          "/periodic/admin/members",
+          new e.SPAN("Members"),
+          new c.ICON("users"),
+        ];
+      }
+
       return appRoutes;
     } else {
       return {};
