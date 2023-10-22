@@ -2,17 +2,19 @@ import mongoose from "mongoose";
 import passportLocalMongoose from "passport-local-mongoose";
 const Schema = mongoose.Schema;
 
+export const userRoles = ["subscriber", "teammate", "creator", "admin"];
+
 // define the schema for our user model
 const userSchema = new Schema({
   username: String,
   password: String,
-  admin: Boolean,
-  contributor: Boolean,
-  tier: Number,
+  role: {
+    type: String,
+    enum: userRoles,
+  },
+  pledge: Number,
   subscription: String,
   active: Boolean,
-  postsViewed: Array,
-  pollsAnswered: Array,
 });
 
 userSchema.plugin(passportLocalMongoose);
