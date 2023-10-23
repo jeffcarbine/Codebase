@@ -4,5 +4,6 @@ export class NAVTOGGLE extends BUTTON {
   constructor(params) {
     super(params);
     this.id = "navToggle";
+    this["aria-label"] = "Toggle Navigation";
   }
 }
