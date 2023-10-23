@@ -104,7 +104,7 @@ export class FIELD {
           }
         }
 
-        input.children.unshift(optionParams);
+        input.children.push(optionParams);
       });
 
       // and add the faux select span
@@ -150,6 +150,10 @@ export class FIELD {
       textContent: params.label,
       for: params.id,
     };
+
+    if (type === "checkbox" || type === "radio" || type === "toggleSingle") {
+      wrapper["data-checked"] = params.checked;
+    }
 
     // create the validation element
     const validation = {

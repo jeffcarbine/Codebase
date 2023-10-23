@@ -12,6 +12,7 @@ export const wildcardEnum = [
 // define the schema for our user model
 var Page = new Schema({
   name: String,
+  description: String,
   path: String,
   wildcard: {
     type: String,

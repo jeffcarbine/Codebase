@@ -215,3 +215,26 @@ if (selects.length > 0) {
     syncSelectValue(select);
   });
 }
+
+// // handle the data-checked value of labels that contain checkboxes/radios/toggles
+// const syncCheckedValue = (input) => {
+//   const wrapper = input.parentNode;
+
+//   if (input.checked) {
+//     wrapper.dataset.checked = true;
+//   } else {
+//     delete wrapper.dataset.checked;
+//   }
+// };
+
+// addEventDelegate("change", ".field.checkbox-field input", syncCheckedValue);
+
+// // toggle checked on wrapper click
+// const toggleChecked = (wrapper) => {
+//   console.log(wrapper);
+//   const input = wrapper.querySelector("input");
+
+//   input.click();
+// };
+
+// addEventDelegate("click", ".field.checkbox-field .wrapper", toggleChecked);

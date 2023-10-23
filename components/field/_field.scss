@@ -1,5 +1,6 @@
 :root {
   --field-background: var(--background);
+  --field-toggle-background: var(--background-mid);
   --field-input-color: var(--foreground);
   --field-label-color: var(--foreground);
   --field-focus-color: var(--accent);
@@ -194,14 +195,8 @@
     text-align: right;
   }
 
-  // handle checkbox and radio differently
-  // &.checkbox-field,
-  // &.radio-field {
-  // }
-
   // hande non-checkbox and non-radio
-  &:not(.checkbox-field),
-  &:not(.radio-field) {
+  &:not(.checkbox-field):not(.radio-field) {
     label {
       display: block;
     }
@@ -250,4 +245,76 @@
       }
     }
   }
+
+  &.checkbox-field,
+  &.radio-field,
+  &.toggle-field {
+    display: flex;
+
+    input {
+      min-height: 0;
+      -webkit-appearance: auto;
+    }
+
+    // .wrapper {
+    //   position: relative;
+    //   padding-left: 2.5rem;
+    //   height: 2.5rem;
+
+    //   &::before,
+    //   &::after {
+    //     content: "";
+    //     display: block;
+    //     position: absolute;
+    //     width: 2rem;
+    //     height: 2rem;
+    //     left: 0;
+    //     top: 50%;
+    //     transform: translateY(-50%);
+    //   }
+
+    //   &::before {
+    //     z-index: 2;
+    //   }
+
+    //   &::after {
+    //     z-index: 1;
+    //     background: var(--field-toggle-background);
+    //   }
+    // }
+
+    label {
+      padding: 0 0 0 0.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+  }
+
+  // &.checkbox-field {
+  //   .wrapper {
+  //     &::before {
+  //       opacity: 0;
+  //       height: 0.5rem;
+  //       width: 1rem;
+  //       border-left: var(--1-5rem) solid var(--field-input-color);
+  //       border-bottom: var(--1-5rem) solid var(--field-input-color);
+  //       transform: rotate(-45deg) translateY(-50%) scale(0.75);
+  //       left: 0.675rem;
+  //       top: 40%;
+  //       transition: opacity 0.125s ease, transform 0.25s ease;
+  //     }
+
+  //     &::after {
+  //       border-radius: var(--border-radius);
+  //     }
+
+  //     &[data-checked="true"] {
+  //       &::before {
+  //         opacity: 1;
+  //         transform: rotate(-45deg) translateY(-50%) scale(1);
+  //       }
+  //     }
+  //   }
+  // }
 }

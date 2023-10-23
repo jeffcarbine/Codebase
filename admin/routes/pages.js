@@ -20,17 +20,19 @@ export const post__admin_pages_add = (req, res, next) => {
     pageId = req.body._id,
     path = body.path || "/" + hyphenate(body.name),
     name = body.name,
+    description = body.description,
     wildcard = body.wildcard,
-    homepage = body.homepage === "homepage";
+    homepage = body.homepage === "on";
+
+  console.log(req.body);
 
   const pageData = {
     path,
     name,
+    description,
     wildcard,
     homepage,
   };
-
-  console.log(pageData);
 
   // check if we have an _id or not - if so, then we are updating
   // an existing page

@@ -51,7 +51,7 @@ export default (data) => {
           id: "modals",
           children: [
             MODAL({
-              modalBody: createEditPageTemplate(data.page),
+              modalBody: createEditPageTemplate(data.pageData),
               id: "editPageModal",
             }),
             MODAL({

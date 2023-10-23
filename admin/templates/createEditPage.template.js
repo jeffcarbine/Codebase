@@ -9,6 +9,7 @@ export const createEditPageTemplate = (page = {}) => {
     saveText = pageProvided ? "Save Changes" : "Create New Page",
     name = pageProvided ? page.name : "",
     path = pageProvided ? page.path : "",
+    description = pageProvided ? page.description : "",
     wildcard = pageProvided ? page.wildcard : false,
     homepage = pageProvided ? page.homepage : false,
     _id = pageProvided ? page._id : "";
@@ -23,13 +24,20 @@ export const createEditPageTemplate = (page = {}) => {
       new c.FIELD({ name: "name", label: "Name", value: name }),
       new c.FIELD({ name: "path", label: "Path", value: path }),
       new c.FIELD({
+        type: "textarea",
+        name: "description",
+        label: "Meta Description",
+        textContent: description,
+      }),
+      new c.FIELD({
         label: "Wildcard",
         type: "select",
         name: "wildcard",
         options: wildcardEnum,
         selected: wildcard,
       }),
-      TOGGLESINGLE({
+      new c.FIELD({
+        type: "checkbox",
         name: "homepage",
         label: "Set as Homepage",
         checked: homepage,
@@ -39,7 +47,7 @@ export const createEditPageTemplate = (page = {}) => {
         name: "_id",
         value: page._id,
       }),
-      new c.BTN({
+      new c.BTNCONTAINER({
         id: "createPage",
         textContent: saveText,
       }),
