@@ -27,11 +27,12 @@ const generateShowList = () => {
                     {
                       class: "edit",
                       child: new c.BTN({
+                        href: "/periodic/admin/shows/" + showData._id,
                         children: [
-                          new c.ICON("edit"),
-                          new e.SPAN({ class: "text", textContent: "Edit" }),
+                          new c.ICON("eye"),
+                          new e.SPAN({ class: "text", textContent: "View" }),
                         ],
-                        "data-modal": "_" + showData._id,
+                        //"data-modal": "_" + showData._id,
                       }),
                     },
                   ],
@@ -40,13 +41,13 @@ const generateShowList = () => {
                   class: "preview",
                   child: {},
                 },
-                c.MODAL({
-                  modalBody: showFormTemplate(e, c, {
-                    showData,
-                    action: "/periodic/admin/shows/edit",
-                  }),
-                  id: `_${showData._id}`,
-                }),
+                // c.MODAL({
+                //   modalBody: showFormTemplate(e, c, {
+                //     showData,
+                //     action: "/periodic/admin/shows/edit",
+                //   }),
+                //   id: `_${showData._id}`,
+                // }),
               ],
             },
           })

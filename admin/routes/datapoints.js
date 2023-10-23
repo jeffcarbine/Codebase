@@ -40,12 +40,12 @@ export const post__admin_datapoints = (req, res, next) => {
           body.image.includes("data:image")
         ) {
           // upload via this function
-          uploadBase64ToS3(body.image, (err, filename, response) => {
+          uploadBase64ToS3(body.image, (err, filepath, response) => {
             if (err) {
               console.log(err);
             } else {
               // assign the full path to the image as the src property
-              imageSrc = cloudfrontURL + "/" + filename;
+              imageSrc = filepath;
 
               // callback to waterfall
               callback(null);

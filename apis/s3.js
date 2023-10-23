@@ -103,6 +103,8 @@ import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import crypto from "crypto";
 
 export const uploadBase64ToS3 = async (base64, callback) => {
+  const cloudfrontURL = process.env.CLOUDFRONTURL;
+
   // Configure AWS with your access and secret key.
   const { AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION, S3_BUCKET } =
     process.env;
@@ -127,7 +129,7 @@ export const uploadBase64ToS3 = async (base64, callback) => {
   // Ensure that you POST a base64 data to your server.
   // Let's assume the variable "base64" is one.
   const base64Data = new Buffer.from(
-    base64.replace(/^data:image\/\w+;base64,/, ""),
+    base64.replace(/^data:.+;base64,/, ""),
     "base64"
   );
 
@@ -154,7 +156,9 @@ export const uploadBase64ToS3 = async (base64, callback) => {
 
   try {
     const response = await s3.send(params);
-    callback(null, fileName, extension, response);
+
+    const filepath = `${cloudfrontURL}/${fileName}`;
+    callback(null, filepath, extension, response);
   } catch (err) {
     callback(err);
   }

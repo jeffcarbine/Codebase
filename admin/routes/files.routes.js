@@ -19,13 +19,10 @@ export const post__admin_files_add = (req, res) => {
     name = body.name,
     file = body.file;
 
-  uploadBase64ToS3(file, (err, filename, extension, response) => {
+  uploadBase64ToS3(file, (err, filepath, extension, response) => {
     if (err) {
       console.log(err);
     } else {
-      // assign the full path to the image as the src property
-      const filepath = cloudfrontURL + "/" + filename;
-
       // and save the file to the database
       const file = new File({
         name,

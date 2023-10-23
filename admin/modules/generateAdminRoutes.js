@@ -2,6 +2,7 @@ import passport from "passport";
 import connectEnsureLogin from "connect-ensure-login";
 import mongoose from "mongoose";
 import Page from "../models/Page.js";
+import Show from "../models/Show.js";
 
 import { get__admin_login, post__admin_login } from "../routes/login.js";
 import { get__admin_logout } from "../routes/logout.js";
@@ -24,7 +25,9 @@ import {
   post__admin_shows_retrieve,
   post__admin_shows_add,
   post__admin_shows_edit,
-} from "../routes/shows.js";
+  post__admin_shows_episodes_retreive,
+  post__admin_shows_episode_edit,
+} from "../routes/shows.routes.js";
 
 import {
   post__admin_datapoints,
@@ -63,6 +66,7 @@ export const generateAdminRoutes = (app, __dirname, features) => {
     page: "Page",
     files: "Files",
     shows: "Shows",
+    show: "Show",
     tools: "Tools",
   };
 
@@ -93,6 +97,10 @@ export const generateAdminRoutes = (app, __dirname, features) => {
       path = "/periodic/admin/pages/*";
     }
 
+    if (route === "show") {
+      path = "/periodic/admin/shows/*";
+    }
+
     app.get(
       path,
       connectEnsureLogin.ensureLoggedIn("/periodic/admin/login"),
@@ -121,6 +129,20 @@ export const generateAdminRoutes = (app, __dirname, features) => {
           Page.findOne({ _id }).exec((err, page) => {
             data.title = page.name;
             data.pageData = page;
+
+            adminRez();
+          });
+        } else if (route === "show") {
+          // get the show data
+          // get the page data
+          const pageId = req.originalUrl
+              .replace("/periodic/admin/shows/", "")
+              .split("?")[0],
+            _id = new mongoose.Types.ObjectId(pageId);
+
+          Show.findOne({ _id }).exec((err, show) => {
+            data.title = show.title;
+            data.pageData = show;
 
             adminRez();
           });
@@ -218,6 +240,18 @@ export const generateAdminRoutes = (app, __dirname, features) => {
     "/periodic/admin/shows/edit",
     connectEnsureLogin.ensureLoggedIn("/periodic/admin/login"),
     post__admin_shows_edit
+  );
+
+  app.post(
+    "/periodic/admin/shows/episodes/retrieve",
+    connectEnsureLogin.ensureLoggedIn("/periodic/admin/login"),
+    post__admin_shows_episodes_retreive
+  );
+
+  app.post(
+    "/periodic/admin/shows/episode/edit",
+    connectEnsureLogin.ensureLoggedIn("/periodic/admin/login"),
+    post__admin_shows_episode_edit
   );
 
   app.post(

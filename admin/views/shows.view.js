@@ -31,6 +31,6 @@ export default (data) => {
         }),
       ],
     },
-    [new e.MODULE("/periodic/admin/scripts/shows.js")]
+    [new e.MODULE("/periodic/admin/scripts/shows.scripts.js")]
   );
 };
