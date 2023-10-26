@@ -7,7 +7,10 @@ export const CARTTOGGLE = () => {
     children: [
       new e.SPAN({
         class: "itemCount",
-        "data-bind": "cartCount",
+        child: new e.SPAN({
+          class: "number",
+          "data-bind": "cartCount",
+        }),
       }),
       new c.ICON("cart"),
     ],

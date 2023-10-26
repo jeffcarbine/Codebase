@@ -1,9 +1,13 @@
 :root {
-  --cart-background: var(--primary);
-  --cart-color: var(--primary-on);
+  --cart-background: var(--background);
+  --cart-color: var(--foreground);
   --cart-transition-duration: 0.5s;
   --cartBody-width: calc(100% - 5rem);
   --cartOverlay-background: rgba(0, 0, 0, 0.8);
+  --itemCount-background: var(--accent);
+  --itemCount-color: var(--accent-on);
+  --itemCount-adjustment: none;
+  --cartToggle-fill: var(--light);
 }
 
 #cartToggle {
@@ -21,17 +25,17 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    fill: var(--light);
+    fill: var(--cartToggle-fill);
     z-index: 1;
   }
 
   .itemCount {
     position: absolute;
     top: 0.5rem;
-    right: 0.5rem;
-    width: 2rem;
-    height: 2rem;
-    background: var(--accent);
+    right: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: var(--itemCount-background);
     @include fontValues(12);
     display: flex;
     flex-direction: column;
@@ -40,6 +44,11 @@
     font-weight: 700;
     border-radius: 50%;
     z-index: 2;
+
+    .number {
+      color: var(--itemCount-color);
+      transform: var(--itemCount-adjustment);
+    }
   }
 }
 
@@ -61,24 +70,28 @@
     width: var(--cartBody-width);
     background: var(--cart-background);
     color: var(--cart-color);
-    padding: 3rem;
+    padding: 1rem 3rem 3rem 1rem;
     box-sizing: border-box;
     z-index: 10;
     display: flex;
     flex-direction: column;
 
     #cartClose {
-      width: 2rem;
-      height: 2rem;
+      width: 3rem;
+      height: 3rem;
       background: transparent;
       fill: var(--cart-color);
       position: absolute;
-      top: 1rem;
-      left: 1rem;
+      top: 2rem;
+      right: 1rem;
     }
 
     #cartHeader {
       flex: 0 0 auto;
+
+      h2 {
+        margin-top: 0;
+      }
     }
 
     #cartContent {

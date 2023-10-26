@@ -4,6 +4,7 @@ import { formatCurrency } from "../../modules/formatCurrency/formatCurrency.js";
 
 export const CART = () => {
   return {
+    "data-component": "cart",
     id: "cart",
     children: [
       {
@@ -14,7 +15,7 @@ export const CART = () => {
             child: new c.ICON("close"),
           }),
           {
-            class: "heading",
+            id: "cartHeader",
             child: new e.H2("Cart"),
           },
           {

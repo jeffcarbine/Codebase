@@ -13,6 +13,7 @@
 #product {
   display: flex;
   flex-wrap: wrap;
+  flex-direction: row;
 
   .images-container {
     margin-bottom: 5rem;
@@ -257,6 +258,7 @@
   text-decoration: none;
   color: inherit;
   cursor: pointer;
+  max-width: 30rem;
 
   .image {
     .square {
@@ -312,6 +314,7 @@
   .productSummaryGrid {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
 
     .productSummary {
       flex: 0 0 50%;
