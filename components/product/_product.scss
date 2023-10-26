@@ -3,7 +3,7 @@
 :root {
   --crowdfunding-bar-background: --light-mid;
   --crowdfunding-bar-color: --accent;
-  --variants-background: rgba(0, 0, 0, 0.5);
+  --variants-background: var(--background-mid);
   --variant-color: var(--accent-on);
   --variant-background: var(--accent);
   --variant-border: 1px solid var(--dark);
@@ -11,9 +11,8 @@
 }
 
 #product {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
+  padding: 2rem;
+  box-sizing: border-box;
 
   .images-container {
     margin-bottom: 5rem;

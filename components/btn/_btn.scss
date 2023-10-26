@@ -51,6 +51,10 @@ button.btn {
   box-sizing: border-box;
   position: relative;
 
+  &.loading {
+    min-height: 0; // don't subscribe to loading min-heights
+  }
+
   // hover is enabled in the breakpoint-md
   &:focus {
     background: var(--btn-focus-background);

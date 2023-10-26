@@ -3,7 +3,7 @@ import * as c from "../../components/components.js";
 import { SLIDER } from "../../components/slider/slider.component.js";
 import { SQUARE } from "../../components/square/square.component.js";
 
-export const PRODUCT = (data) => {
+export const PRODUCT = (data, useHeading = true) => {
   const product = data.product;
 
   const generateProductImages = () => {
@@ -68,6 +68,7 @@ export const PRODUCT = (data) => {
   };
 
   return {
+    "data-component": "product",
     id: "product",
     children: [
       {
@@ -80,7 +81,10 @@ export const PRODUCT = (data) => {
       {
         class: "details",
         children: [
-          new e.H2(product.name),
+          new e.H2({
+            if: useHeading,
+            textContent: product.name,
+          }),
           new e.SPAN({ class: "price" }),
           {
             class: "description",
