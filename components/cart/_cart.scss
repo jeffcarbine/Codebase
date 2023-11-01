@@ -7,66 +7,12 @@
   --itemCount-background: var(--accent);
   --itemCount-color: var(--accent-on);
   --itemCount-adjustment: none;
-  --cartToggle-fill: var(--light);
-}
-
-#cartToggle {
-  width: 3rem;
-  height: 4rem;
-  position: relative;
-  background: rgba(0, 0, 0, 0);
-  margin: 0 auto;
-  display: block;
-
-  .icon {
-    width: 3rem;
-    height: 3rem;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    fill: var(--cartToggle-fill);
-    z-index: 1;
-  }
-
-  .itemCount {
-    position: absolute;
-    top: 0.5rem;
-    right: 0;
-    width: 1.5rem;
-    height: 1.5rem;
-    background: var(--itemCount-background);
-    @include fontValues(12);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-    font-weight: 700;
-    border-radius: 50%;
-    z-index: 2;
-
-    .number {
-      color: var(--itemCount-color);
-      transform: var(--itemCount-adjustment);
-    }
-  }
 }
 
 #cart {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
   display: block;
-  visibility: hidden;
-  transition: visibility var(--cart-transition-duration) ease;
 
   #cartBody {
-    position: fixed;
-    top: 0;
-    right: 0;
-    height: 100dvh;
     width: var(--cartBody-width);
     background: var(--cart-background);
     color: var(--cart-color);
@@ -205,15 +151,6 @@
     opacity: 0;
     transition: opacity var(--cart-transition-duration) ease,
       visibility var(--cart-transition-duration) ease;
-  }
-
-  &.open {
-    visibility: visible;
-
-    #cartOverlay {
-      visibility: visible;
-      opacity: 1;
-    }
   }
 }
 

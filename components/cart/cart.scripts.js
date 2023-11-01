@@ -4,16 +4,10 @@ import { renderTemplate } from "../../template/renderTemplate.js";
 import { cartContentTemplate } from "./cart.component.js";
 import { dataBind } from "../../modules/dataBind/dataBind.js";
 
-const toggleCart = (button) => {
-  const cart = document.querySelector("#cart");
-
-  cart.classList.toggle("open");
-  button.classList.toggle("open");
-};
-
 const closeCart = () => {
-  const cart = document.querySelector("#cart"),
-    cartToggle = document.querySelector("#cartToggle");
+  const cartToggle = document.querySelector("#cartToggle"),
+    cartTarget = cartToggle.dataset.target,
+    cart = document.querySelector(cartTarget);
 
   cart.classList.remove("open");
   cartToggle.classList.remove("open");
@@ -66,4 +60,3 @@ export const retrieve = () => {
 retrieve();
 
 addEventDelegate("click", "#cartClose, #cartOverlay", closeCart);
-addEventDelegate("click", "#cartToggle", toggleCart);

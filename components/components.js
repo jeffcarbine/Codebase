@@ -5,7 +5,7 @@ import { ACCORDION } from "./accordion/accordion.component.js";
 import { AUDIOPLAYER } from "./audioPlayer/audioPlayer.component.js";
 import { CARD } from "./card/card.component.js";
 import { CART } from "./cart/cart.component.js";
-import { CARTTOGGLE } from "./cart/cartToggle.component.js";
+import { CARTTOGGLE } from "./cartToggle/cartToggle.component.js";
 import { CLICKTOCOPY } from "./clickToCopy/clickToCopy.component.js";
 import { CODEBLOCK } from "./codeBlock/codeBlock.component.js";
 import { COUNTRYSELECT } from "./countrySelect/countrySelect.component.js";
