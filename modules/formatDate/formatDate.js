@@ -5,7 +5,6 @@
 import { months } from "../months/months.js";
 
 export const formatDate = (date) => {
-  console.log(date);
   // get the month name and appropriate suffix for the day
   const dayMonth = formatDayMonth(date),
     // pull the full year from the object itself
