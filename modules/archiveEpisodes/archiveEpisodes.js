@@ -171,8 +171,6 @@ const defaultSpotifyArchiver = (show, count, callback) => {
 
     const spotifyUrl = `https://api.spotify.com/v1/shows/${show.spotify}/episodes?limit=50`;
 
-    console.log(spotifyUrl);
-
     // spotify goes in chronological order, so we have to request
     // ALL of them, then start counting from the back
 
@@ -190,13 +188,15 @@ const defaultSpotifyArchiver = (show, count, callback) => {
           } else {
             let body = JSON.parse(str);
 
+            console.log(body);
+
             // store those episodes in the spotifyEps array
             spotifyEps = spotifyEps.concat(body.items);
 
             // check to see if there is a next value
-            if (body.next !== null) {
+            if (body.next !== null && body.next !== undefined) {
               // wtf spotify?
-              const nextUrl = body.next.replace("/show", "/shows");
+              const nextUrl = body.next.replace("/show/", "/shows/");
 
               getSpotifyEps(nextUrl);
             } else {

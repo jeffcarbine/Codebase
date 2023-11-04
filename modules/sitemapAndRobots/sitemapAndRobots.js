@@ -5,7 +5,7 @@ import { SitemapStream, streamToPromise } from "sitemap";
 import { createGzip } from "zlib";
 import asyncLoop from "node-async-loop";
 
-export const sitematAndRobots = (app, hostname) => {
+export const sitemapAndRobots = (app, hostname) => {
   let sitemap;
 
   app.get("/sitemap.xml", function (req, res) {
