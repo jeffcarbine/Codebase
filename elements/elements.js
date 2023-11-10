@@ -61,6 +61,7 @@ import { DIALOG } from "./dialog/dialog.element.js";
 import { ARTICLE } from "./article/article.element.js";
 import { SVG } from "./svg/svg.element.js";
 import { FOOTER } from "./footer/footer.element.js";
+import { STYLE } from "./style/style.element.js";
 
 export {
   HTML,
@@ -137,4 +138,5 @@ export {
   ARTICLE,
   SVG,
   FOOTER,
+  STYLE,
 };

@@ -23,7 +23,7 @@ const renderImagePreview = (input) => {
       input.parentNode.parentNode.querySelector(".imagePreview");
 
     imagePreview.src = evt.target.result;
-    imagePreview.style.display = "block";
+    imagePreview.style.opacity = 1;
   });
 
   FR.readAsDataURL(input.files[0]);

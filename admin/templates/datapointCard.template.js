@@ -178,7 +178,6 @@ export const datapointCardTemplate = ({
             MODAL({
               modalBody: {
                 children: [
-                  new e.H2(`Edit ${datapoint.name}`),
                   datapointFormTemplate({
                     datapointId: datapoint._id,
                     datapoint,

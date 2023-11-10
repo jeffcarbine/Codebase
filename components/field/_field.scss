@@ -132,6 +132,11 @@
       height: 100%;
       object-fit: contain;
       z-index: 1;
+      opacity: 0;
+
+      &.loaded {
+        opacity: 1;
+      }
     }
 
     .square {

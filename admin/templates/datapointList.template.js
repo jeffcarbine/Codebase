@@ -24,6 +24,8 @@ export const generateDatapointListItems = (
 
   datapoints.forEach((datapoint) => {
     if (!exclude.includes(datapoint._id)) {
+      const type = datapoint.type;
+
       const iconName = type !== "group" ? datapoint.type : datapoint.groupType;
       children.push(
         new e.LI([

@@ -1,11 +1,5 @@
 import { addEventDelegate } from "/periodic/modules/eventDelegate/eventDelegate.js";
-import {
-  enableToggleNav,
-  enableSetNavBackground,
-} from "/periodic/elements/nav/nav.js";
 import { xhr } from "/periodic/modules/xhr/xhr.js";
-
-enableToggleNav();
 
 const setHeaderBackground = (scrollPos) => {
   const header = document.querySelector("header");

@@ -15,7 +15,8 @@
   box-sizing: border-box;
 
   .images-container {
-    margin-bottom: 5rem;
+    max-width: 50rem;
+    margin: 5rem auto;
 
     .images {
       position: relative;
@@ -132,6 +133,7 @@
 
     .description {
       padding: 1rem;
+      text-align: center;
     }
 
     .crowdfunding {
@@ -309,7 +311,7 @@
   }
 }
 
-@media only screen and (min-width: $breakpoint-md) {
+@media only screen and (min-width: $breakpoint-lg) {
   .productSummaryGrid {
     display: flex;
     flex-wrap: wrap;

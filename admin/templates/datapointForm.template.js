@@ -4,6 +4,7 @@ import { BASE64IMAGEINPUT } from "../../elements/input/base64ImageInput.componen
 import { datapointList, groupTypes } from "../models/datapointList.js";
 import { TOGGLESINGLE } from "../../components/toggle/toggleSingle.component.js";
 import { generateUniqueId } from "../../modules/generateUniqueId/generateUniqueId.js";
+import { capitalize } from "../../modules/formatString/formatString.js";
 
 const datapointInputs = {
   text: (datapoint) => {
@@ -182,6 +183,13 @@ export const generateDatapointForms = ({
       class: "datapointForm",
       children: [
         ...[
+          new e.H2(
+            `${datapoint !== undefined ? "Edit" : "Add"} ${
+              datapoint !== undefined
+                ? capitalize(datapoint.name)
+                : capitalize(datapointType)
+            }`
+          ),
           new e.HIDDEN({ name: hiddenName, value: hiddenValue }),
           new e.HIDDEN({ name: "type", value: datapointType }),
           new c.FIELD({
@@ -189,15 +197,16 @@ export const generateDatapointForms = ({
             name: "name",
             value: name,
           }),
-          TOGGLESINGLE({
+        ],
+        ...datapointInputs[datapointType](datapoint),
+        ...[
+          new c.FIELD({
+            type: "checkbox",
             name: "active",
             value: "active",
             label: "Active",
             checked: isActive,
           }),
-        ],
-        ...datapointInputs[datapointType](datapoint),
-        ...[
           new c.BTN(
             datapoint !== undefined ? "Update Datapoint" : "Create Datapoint"
           ),
@@ -216,29 +225,57 @@ export const generateDatapointForms = ({
     // we need to push the datapoint form selector
     // and then each individual datapoint form
 
-    const uniqueId = generateUniqueId();
+    // create the datapoint form selector, which is a series
+    // of buttons with icons that spawn the appropriate datapoint
+    // form modal underneath it
+    const datapointFormSelector = {
+      id: "datapointFormSelectors",
+      children: [
+        new e.BUTTON({
+          class: "datapointFormSelector",
+          children: [new c.ICON("text"), "Text"],
+          "data-modal": "textModal",
+        }),
+        new e.BUTTON({
+          class: "datapointFormSelector",
+          children: [new c.ICON("link"), "Link"],
+          "data-modal": "linkModal",
+        }),
+        new e.BUTTON({
+          class: "datapointFormSelector",
+          children: [new c.ICON("html"), "HTML"],
+          "data-modal": "htmlModal",
+        }),
+        new e.BUTTON({
+          class: "datapointFormSelector",
+          children: [new c.ICON("image"), "Image"],
+          "data-modal": "imageModal",
+        }),
+        new e.BUTTON({
+          class: "datapointFormSelector",
+          children: [new c.ICON("user"), "Person"],
+          "data-modal": "personModal",
+        }),
+        new e.BUTTON({
+          class: "datapointFormSelector",
+          children: [new c.ICON("object"), "Group"],
+          "data-modal": "groupModal",
+        }),
+      ],
+    };
 
-    children.unshift(
-      new c.FIELD({
-        label: "Datapoint Type",
-        name: "type",
-        "data-targets": `.${uniqueId}`,
-        type: "select",
-        options: datapointList,
-      })
-    );
+    children.push(datapointFormSelector);
 
     for (let datapointType in datapointInputs) {
-      const datapointForm = generateDatapointForm(
-        datapointType,
-        hiddenName,
-        hiddenValue
-      );
-
-      children.push({
-        class: `hidden-input-group datapointForm ${datapointType} ${uniqueId}`,
-        child: datapointForm,
+      const datapointFormModal = c.MODAL({
+        id: `${datapointType}Modal`,
+        className: "datapointFormModal",
+        modalBody: {
+          child: generateDatapointForm(datapointType, hiddenName, hiddenValue),
+        },
       });
+
+      children.push(datapointFormModal);
     }
   }
 

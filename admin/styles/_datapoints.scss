@@ -20,3 +20,26 @@
 .datapointCards {
   padding: 2rem;
 }
+
+#datapointFormSelectors {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  .datapointFormSelector {
+    width: 10rem;
+    height: 10rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    @include fontValues(9);
+    background: transparent;
+
+    svg.icon {
+      width: 4rem;
+      height: 4rem;
+      margin: 1rem auto;
+    }
+  }
+}
