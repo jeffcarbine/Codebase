@@ -27,6 +27,10 @@ export const CART = () => {
   };
 };
 
+const generateItemTitle = (item) => {
+  return `${item.title} (${item.variant.title})`;
+};
+
 export const cartContentTemplate = (cartData) => {
   const lineItemsData = cartData.lineItems,
     checkout = cartData.webUrl,
@@ -38,6 +42,8 @@ export const cartContentTemplate = (cartData) => {
 
   // loop through the lineItems
   lineItemsData.forEach((item) => {
+    console.log(item);
+
     const lineItem = new e.LI({
       class: "lineItem",
       children: [
@@ -53,7 +59,11 @@ export const cartContentTemplate = (cartData) => {
           class: "title",
           children: [
             new e.SPAN({
-              textContent: item.title,
+              textContent: generateItemTitle(item),
+            }),
+            new e.SPAN({
+              class: "price",
+              textContent: formatCurrency(item.variant.price.amount),
             }),
           ],
         }),
@@ -66,26 +76,16 @@ export const cartContentTemplate = (cartData) => {
                 {
                   class: "quantityContainer",
                   children: [
-                    new e.BUTTON({
-                      class: "modifyQuantity",
-                      "data-quantity": item.quantity - 1,
+                    new c.FIELD({
+                      className: "lineItemQuantity",
+                      "aria-label": "Quantity",
+                      value: item.quantity,
                       "data-item-id": item.id,
-                      children: [new c.ICON("minus")],
-                    }),
-                    new e.SPAN({
-                      class: "lineItemQuantity",
-                      textContent: item.quantity,
-                    }),
-                    new e.BUTTON({
-                      class: "modifyQuantity",
-                      "data-quantity": item.quantity + 1,
-                      "data-item-id": item.id,
-                      children: [new c.ICON("plus")],
                     }),
                   ],
                 },
                 new e.BUTTON({
-                  class: "modifyQuantity delete",
+                  class: "deleteLineItem",
                   "aria-label": "Remove " + item.title,
                   "data-quantity": 0,
                   "data-item-id": item.id,
@@ -95,10 +95,6 @@ export const cartContentTemplate = (cartData) => {
             },
           ],
         },
-        new e.SPAN({
-          class: "price",
-          textContent: formatCurrency(item.variant.price.amount),
-        }),
       ],
     });
 

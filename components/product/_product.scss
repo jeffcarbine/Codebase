@@ -16,7 +16,7 @@
 
   .images-container {
     max-width: 50rem;
-    margin: 5rem auto;
+    margin: 0 auto;
 
     .images {
       position: relative;
@@ -252,6 +252,11 @@
   }
 }
 
+.productSummaryGrid {
+  display: flex;
+  justify-content: center;
+}
+
 .productSummary {
   box-sizing: border-box;
   padding: 1rem;
@@ -275,6 +280,10 @@
 
   .title {
     margin: 1rem 0;
+  }
+
+  .pricing {
+    @include fontValues(6);
   }
 
   &.placeholder {
@@ -330,6 +339,7 @@
       display: flex;
       justify-content: center;
       flex-direction: column;
+      margin: 5rem auto;
 
       .images {
         max-width: 50rem;

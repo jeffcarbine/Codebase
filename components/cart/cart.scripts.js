@@ -20,6 +20,16 @@ export const setCartToLoading = () => {
   cartContent.classList.add("loading");
 };
 
+const countLineItems = (lineItems) => {
+  let count = 0;
+
+  lineItems.forEach((item) => {
+    count += item.quantity;
+  });
+
+  return count;
+};
+
 export const update = (request) => {
   const cartData = JSON.parse(request.response),
     cartContent = document.querySelector("#cartContent");
@@ -28,17 +38,17 @@ export const update = (request) => {
 
   const newcartContent = renderTemplate(cartContentTemplate(cartData));
 
-  dataBind("cartCount", cartData.lineItems.length);
+  dataBind("cartCount", countLineItems(cartData.lineItems));
 
   cartContent.appendChild(newcartContent);
 };
 
-export const modifyLineItem = (button) => {
+export const modifyLineItem = (quantity, itemId) => {
   setCartToLoading();
 
   const body = {
-    itemId: button.dataset.itemId,
-    quantity: button.dataset.quantity,
+    itemId,
+    quantity,
   };
 
   xhr({
@@ -47,6 +57,23 @@ export const modifyLineItem = (button) => {
     success: update,
   });
 };
+
+const modifyLineItemQuantity = (input) => {
+  const quantity = input.value,
+    itemId = input.dataset.itemId;
+
+  modifyLineItem(quantity, itemId);
+};
+
+addEventDelegate("change", ".lineItemQuantity input", modifyLineItemQuantity);
+
+const deleteLineItem = (button) => {
+  const itemId = button.dataset.itemId;
+
+  modifyLineItem(0, itemId);
+};
+
+addEventDelegate("click", ".deleteLineItem", deleteLineItem);
 
 export const retrieve = () => {
   setCartToLoading();

@@ -2,9 +2,12 @@ import * as e from "../../elements/elements.js";
 import * as c from "../../components/components.js";
 import { SLIDER } from "../../components/slider/slider.component.js";
 import { SQUARE } from "../../components/square/square.component.js";
+import { formatCurrency } from "../../modules/formatCurrency/formatCurrency.js";
 
-export const PRODUCT = (data, useHeading = true) => {
+export const PRODUCT = ({ data, heading = true, price = true } = {}) => {
   const product = data.product;
+
+  console.log(product.price);
 
   const generateProductImages = () => {
     const images = product.images,
@@ -82,10 +85,14 @@ export const PRODUCT = (data, useHeading = true) => {
         class: "details",
         children: [
           new e.H2({
-            if: useHeading,
+            if: heading,
             textContent: product.name,
           }),
-          new e.SPAN({ class: "price" }),
+          new e.SPAN({
+            if: price,
+            class: "price",
+            textContent: formatCurrency(product.price.amount),
+          }),
           {
             class: "description",
             child: new e.P(product.description),

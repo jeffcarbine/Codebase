@@ -15,7 +15,7 @@ export class FIELD {
     const type = params.type || "text";
 
     // set the class name for object
-    this.class = `field ${type}-field`;
+    this.class = `field ${type}-field ${params.className || ""}`;
 
     // create the input/textarea element
     let input = {
@@ -145,11 +145,17 @@ export class FIELD {
     }
 
     // create the label element
-    const label = {
-      tagName: "label",
-      textContent: params.label,
-      for: params.id,
-    };
+    let label;
+
+    if (params.label) {
+      label = {
+        tagName: "label",
+        textContent: params.label,
+        for: params.id,
+      };
+    } else {
+      label = null;
+    }
 
     if (type === "checkbox" || type === "radio" || type === "toggleSingle") {
       wrapper["data-checked"] = params.checked;

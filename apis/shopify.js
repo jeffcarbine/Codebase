@@ -25,6 +25,22 @@ if (shopifyToken !== undefined) {
 export const getCart = (req, res) => {
   let checkoutId = req.cookies["checkoutId"];
 
+  // check for null variants, which will require a new checkout
+  const noNullVariants = (checkout) => {
+    const lineItems = checkout.lineItems;
+
+    for (let i = 0; i < lineItems.length; i++) {
+      const lineItem = lineItems[i],
+        variant = lineItem.variant;
+
+      if (variant === null) {
+        return false;
+      }
+    }
+
+    return true;
+  };
+
   // when a checkout is completed, it doesn't automatically clear
   // it from your cookies, so we need to check at time of retrieval
   // whether or not this checkout has been completed or not
@@ -32,7 +48,12 @@ export const getCart = (req, res) => {
     return shopify.checkout.fetch(checkoutId).then((checkout) => {
       // verify that checkoutId is valid
       // check to see if the checkout has already been completed
-      if (checkout === null || checkout.completedAt !== null) {
+
+      if (
+        checkout === null ||
+        checkout.completedAt !== null ||
+        !noNullVariants(checkout)
+      ) {
         // then let's clear the checkoutId cookie
         req.cookies["checkoutId"] = null;
         // and re-fetch the cart
