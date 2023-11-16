@@ -224,6 +224,7 @@ export const generateDatapointForms = ({
   } else {
     // we need to push the datapoint form selector
     // and then each individual datapoint form
+    const uniqueId = generateUniqueId();
 
     // create the datapoint form selector, which is a series
     // of buttons with icons that spawn the appropriate datapoint
@@ -234,32 +235,32 @@ export const generateDatapointForms = ({
         new e.BUTTON({
           class: "datapointFormSelector",
           children: [new c.ICON("text"), "Text"],
-          "data-modal": "textModal",
+          "data-modal": `textModal${uniqueId}`,
         }),
         new e.BUTTON({
           class: "datapointFormSelector",
           children: [new c.ICON("link"), "Link"],
-          "data-modal": "linkModal",
+          "data-modal": `linkModal${uniqueId}`,
         }),
         new e.BUTTON({
           class: "datapointFormSelector",
           children: [new c.ICON("html"), "HTML"],
-          "data-modal": "htmlModal",
+          "data-modal": `htmlModal${uniqueId}`,
         }),
         new e.BUTTON({
           class: "datapointFormSelector",
           children: [new c.ICON("image"), "Image"],
-          "data-modal": "imageModal",
+          "data-modal": `imageModal${uniqueId}`,
         }),
         new e.BUTTON({
           class: "datapointFormSelector",
           children: [new c.ICON("user"), "Person"],
-          "data-modal": "personModal",
+          "data-modal": `personModal${uniqueId}`,
         }),
         new e.BUTTON({
           class: "datapointFormSelector",
           children: [new c.ICON("object"), "Group"],
-          "data-modal": "groupModal",
+          "data-modal": `groupModal${uniqueId}`,
         }),
       ],
     };
@@ -268,7 +269,7 @@ export const generateDatapointForms = ({
 
     for (let datapointType in datapointInputs) {
       const datapointFormModal = c.MODAL({
-        id: `${datapointType}Modal`,
+        id: `${datapointType}Modal${uniqueId}`,
         className: "datapointFormModal",
         modalBody: {
           child: generateDatapointForm(datapointType, hiddenName, hiddenValue),
