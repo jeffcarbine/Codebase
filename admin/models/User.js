@@ -13,6 +13,7 @@ const userSchema = new Schema({
     enum: userRoles,
   },
   pledge: Number,
+  history: Array,
   subscription: String,
   active: Boolean,
 });

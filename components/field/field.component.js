@@ -159,6 +159,10 @@ export class FIELD {
 
     if (type === "checkbox" || type === "radio" || type === "toggleSingle") {
       wrapper["data-checked"] = params.checked;
+
+      if (params.checked == false) {
+        delete input.checked;
+      }
     }
 
     // create the validation element

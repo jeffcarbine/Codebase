@@ -22,7 +22,7 @@ export const post__admin_pages_add = (req, res, next) => {
     name = body.name,
     description = body.description,
     wildcard = body.wildcard,
-    homepage = body.homepage === "on";
+    homepage = body.homepage !== undefined && body.homepage === "on";
 
   console.log(req.body);
 

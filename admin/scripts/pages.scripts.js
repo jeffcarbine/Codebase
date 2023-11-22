@@ -70,10 +70,11 @@ const retrievePages = () => {
 retrievePages();
 
 const submitAddPages = (form) => {
-  const success = (response) => {
-    const pageId = JSON.parse(response);
+  const success = (request) => {
+    const response = request.response,
+      pageId = JSON.parse(response);
 
-    window.location = "/periodic/admin/pages/add" + pageId;
+    window.location = "/periodic/admin/pages/" + pageId;
   };
 
   xhrForm({ form, success });

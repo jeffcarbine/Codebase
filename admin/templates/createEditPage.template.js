@@ -14,11 +14,12 @@ export const createEditPageTemplate = (page = {}) => {
     homepage = pageProvided ? page.homepage : false,
     _id = pageProvided ? page._id : "";
 
+  console.log(homepage);
+
   return new e.FORM({
     id: "addEditPage",
     method: "POST",
     action: "/periodic/admin/pages/add",
-    class: "style-inputs",
     children: [
       new e.H2(title),
       new c.FIELD({ name: "name", label: "Name", value: name }),
@@ -45,7 +46,7 @@ export const createEditPageTemplate = (page = {}) => {
       new e.HIDDEN({
         if: pageProvided,
         name: "_id",
-        value: page._id,
+        value: _id,
       }),
       new c.BTNCONTAINER({
         id: "createPage",

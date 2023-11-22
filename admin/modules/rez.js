@@ -23,6 +23,7 @@ export const rez = ({
   // check if we are logged in or not
   if (req.user) {
     data.loggedIn = true;
+    data.user = req.user;
   } else {
     data.loggedIn = false;
   }
