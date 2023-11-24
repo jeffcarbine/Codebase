@@ -144,9 +144,12 @@ window.addEventListener("load", function () {
 // array of functions that will be run on window scroll
 const scrollFunctions = [];
 
-// 120fps scroll throttling
+// scroll throttling
 let lastKnownScrollPosition = 0;
 let ticking = false;
+
+// refresh rate - 120fps for large screens, 30fps for small screens
+let refreshRate = window.innerWidth > 768 ? 8 : 33;
 
 // register the function to the
 document.addEventListener("scroll", function (e) {
@@ -160,7 +163,7 @@ document.addEventListener("scroll", function (e) {
       }
 
       ticking = false;
-    }, 8.33); // 120fps
+    }, refreshRate);
 
     ticking = true;
   }
