@@ -251,7 +251,9 @@ const serverRender = (template) => {
             style = value;
           } else if (typeof value === "object") {
             for (let key in value) {
-              const property = camelToHyphen(key);
+              // if the key already has a hyphen, then just use it, otherwise de-camlize it
+              const property = key.includes("-") ? key : camelToHyphen(key);
+
               style = style + property + ":" + value[key] + ";";
             }
           }
