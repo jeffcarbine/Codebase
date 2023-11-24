@@ -148,8 +148,8 @@ const scrollFunctions = [];
 let lastKnownScrollPosition = 0;
 let ticking = false;
 
-// refresh rate - 120fps for large screens, 60fps for small screens
-let refreshRate = window.innerWidth > 768 ? 16 : 33;
+// refresh rate - 120fps for large screens, 30fps for small screens
+let refreshRate = window.innerWidth > 768 ? 8 : 33;
 
 // register the function to the
 document.addEventListener("scroll", function (e) {
