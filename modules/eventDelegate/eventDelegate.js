@@ -160,7 +160,7 @@ document.addEventListener("scroll", function (e) {
       }
 
       ticking = false;
-    }, 16.66); // 60fps
+    }, 8.33); // 120fps
 
     ticking = true;
   }
