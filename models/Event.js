@@ -4,6 +4,7 @@ var Schema = mongoose.Schema;
 // define the schema for our user model
 var eventSchema = new Schema({
   venue: String,
+  title: String,
   street: String,
   city: String,
   region: String,
