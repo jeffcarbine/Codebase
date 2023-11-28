@@ -136,10 +136,26 @@ export class FIELD {
         tagName: "input",
         type: "hidden",
         name: params.name,
+        value: params.value,
       };
 
       // and change the input's name to
       input.name = `${params.name}__Date`;
+
+      // and the type to date
+      input.type = "date";
+
+      // and add a data attribute
+      input["data-simpledate"] = params.name;
+
+      // and convert the YYYYMMDD number to YYYY-MM-DD string
+      if (params.value) {
+        const year = params.value.toString().slice(0, 4),
+          month = params.value.toString().slice(4, 6),
+          day = params.value.toString().slice(6, 8);
+
+        input.value = `${year}-${month}-${day}`;
+      }
 
       wrapper.children.push(hidden);
     }

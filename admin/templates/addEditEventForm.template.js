@@ -10,6 +10,7 @@ export const addEditEventFormTemplate = (eventData = {}) => {
     region = eventData.region || null,
     country = eventData.country || null,
     date = eventData.date || null,
+    time = eventData.time || null,
     publishDate = eventData.publishDate || null,
     tickets = eventData.tickets || null,
     soldOut = eventData.soldOut || false;
@@ -46,16 +47,22 @@ export const addEditEventFormTemplate = (eventData = {}) => {
       value: country,
     }),
     new FIELD({
-      type: "date",
+      type: "simpledate",
       name: "date",
       label: "Show Date",
       value: date,
     }),
     new FIELD({
-      type: "date",
+      type: "time",
+      name: "time",
+      label: "Show Time",
+      value: time,
+    }),
+    new FIELD({
+      type: "simpledate",
       label: "Publish Date",
       value: publishDate,
-      name: publishDate,
+      name: "publishDate",
     }),
     new FIELD({
       name: "tickets",
@@ -80,7 +87,7 @@ export const addEditEventFormTemplate = (eventData = {}) => {
   return new e.FORM({
     method: "POST",
     action: "/periodic/admin/events",
-    class: "style-inputs addEditEvent",
+    class: "addEditEvent",
     children: formChildren,
   });
 };

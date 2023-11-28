@@ -5,10 +5,17 @@
 import { months } from "../months/months.js";
 
 export const formatDate = (date) => {
-  // get the month name and appropriate suffix for the day
-  const dayMonth = formatDayMonth(date),
-    // pull the full year from the object itself
+  // get the day, month and year values from the date object
+  const day = date.getDate(),
+    month = date.getMonth(),
     year = date.getFullYear();
+
+  // create the date string
+  return createDateString(day, month, year);
+};
+
+export const createDateString = (day, month, year) => {
+  const dayMonth = formatDayMonth(day, month);
 
   // add it together
   return dayMonth + " " + year;
@@ -17,11 +24,11 @@ export const formatDate = (date) => {
 /** Format Day/Month
  *  Takes in a Date object and returns the month name and the day with the correct suffix
  */
-export const formatDayMonth = (date) => {
+export const formatDayMonth = (day, month) => {
   // get the day of the month
-  const dayNumber = date.getDate(),
+  const dayNumber = parseInt(day),
     // get the name of the month from the months array
-    month = months[date.getMonth()];
+    monthName = months[parseInt(month) - 1];
 
   // default suffix is th
   let suffix = "th";
@@ -44,5 +51,14 @@ export const formatDayMonth = (date) => {
   }
 
   // add it together
-  return month + " " + dayNumber + suffix;
+  return monthName + " " + dayNumber + suffix;
+};
+
+export const formatSimpleDate = (simpledate) => {
+  // convert YYYYMMDD number to YYYY-MM-DD string
+  const year = simpledate.toString().slice(0, 4),
+    month = simpledate.toString().slice(4, 6),
+    day = simpledate.toString().slice(6, 8);
+
+  return createDateString(day, month, year);
 };

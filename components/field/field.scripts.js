@@ -238,3 +238,27 @@ if (selects.length > 0) {
 // };
 
 // addEventDelegate("click", ".field.checkbox-field .wrapper", toggleChecked);
+
+// handle converting a date input to the corresponding simpledate input
+const convertDateToSimpleDate = (dateInput) => {
+  const date = dateInput.value,
+    parent = dateInput.parentNode,
+    simpledateName = dateInput.dataset.simpledate,
+    simpleDateInput = parent.querySelector(`input[name=${simpledateName}]`);
+
+  console.log(simpleDateInput);
+
+  if (!simpleDateInput) return;
+
+  const simpleDate = date.replace(/-/g, "");
+
+  console.log(simpleDate);
+
+  simpleDateInput.value = simpleDate;
+};
+
+addEventDelegate(
+  "change",
+  ".field input[data-simpledate]",
+  convertDateToSimpleDate
+);

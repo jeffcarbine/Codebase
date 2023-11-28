@@ -2,16 +2,18 @@ import { addEditEventFormTemplate } from "../templates/addEditEventForm.template
 import { addEventDelegate } from "../../modules/eventDelegate/eventDelegate.js";
 import { xhr, xhrForm } from "../../modules/xhr/xhr.js";
 import { renderTemplate } from "../../template/renderTemplate.js";
-import { formatDate } from "../../modules/formatDate/formatDate.js";
+import { formatSimpleDate } from "../../modules/formatDate/formatDate.js";
 import * as c from "../../components/components.js";
 import * as e from "../../elements/elements.js";
 import { editCardTemplate } from "../templates/editCard.template.js";
+import { formatTimeString } from "../../modules/formatTime/formatTime.js";
 
 const generateEventCards = (events) => {
   const eventsArea = document.querySelector("#events");
 
   events.forEach((eventData) => {
-    const eventDate = formatDate(new Date(eventData.date));
+    const eventDate = formatSimpleDate(eventData.date),
+      eventTime = formatTimeString(eventData.time);
 
     const event = renderTemplate(
       editCardTemplate({
@@ -39,7 +41,7 @@ const generateEventCards = (events) => {
                 new e.STRONG(eventData.venue),
                 `: ${eventData.street}, ${eventData.city} ${eventData.region}, ${eventData.country}`,
               ]),
-              new e.P(`${eventDate}`),
+              new e.P(`${eventDate} at ${eventTime}`),
             ],
           },
           c.MODAL({

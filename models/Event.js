@@ -11,11 +11,23 @@ var eventSchema = new Schema({
   latitude: String,
   longitude: String,
   festival: String,
-  date: Date,
+  date: {
+    // simpledate
+    type: Number,
+    min: 10000000,
+    max: 99999999,
+  },
+  time: String,
   price: Number,
   tickets: String,
   ticketId: String,
   soldOut: Boolean,
+  publishDate: {
+    // simpledate
+    type: Number,
+    min: 10000000,
+    max: 99999999,
+  },
 });
 
 // create the model for users and expose it to our app

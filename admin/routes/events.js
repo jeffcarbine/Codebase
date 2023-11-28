@@ -30,13 +30,14 @@ import Event from "../../models/Event.js";
 // };
 
 export const post__admin_events_retrieve = (req, res, next) => {
-  const now = new Date();
+  const now = new Date().toISOString().split("T")[0],
+    simpleDate = parseInt(now.replace(/-/g, ""));
 
   Event.aggregate([
     {
       $match: {
         date: {
-          $gt: now,
+          $gt: simpleDate,
         },
       },
     },
@@ -58,7 +59,8 @@ export const post__admin_events = (req, res, next) => {
   let body = req.body,
     _id = req.body._id;
 
-  body.date = new Date(req.body.date);
+  console.log(body);
+
   body.soldOut = body.soldOut !== undefined;
 
   if (_id === undefined) {

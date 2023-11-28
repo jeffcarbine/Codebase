@@ -22,3 +22,11 @@ export const formatTime = (hours, minutes, military = false) => {
 
   return formattedHours + ":" + formattedMinutes + suffix;
 };
+
+export const formatTimeString = (timeString) => {
+  // convert HH:MM string to HHMM number
+  const hours = parseInt(timeString.slice(0, 2)),
+    minutes = parseInt(timeString.slice(3, 5));
+
+  return formatTime(hours, minutes);
+};
