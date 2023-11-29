@@ -11,8 +11,6 @@ export const post__shop_collection = (req, res, next) => {
   const collectionHandle = req.body.collectionHandle,
     count = req.body.count;
 
-  console.log(collectionHandle);
-
   async.waterfall(
     [
       (callback) => {
