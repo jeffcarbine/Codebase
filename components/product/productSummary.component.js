@@ -70,7 +70,7 @@ export const PRODUCTSUMMARY = ({
           },
           {
             if: !placeholder,
-            class: "price",
+            class: "price " + (compareAtPrice !== price ? "onSale" : ""),
             textContent: formatCurrency(data.variants[0].price.amount || ""),
           },
           {
