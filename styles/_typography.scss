@@ -11,13 +11,15 @@
   --base-font-size: var(--root-font-size);
   --base-font-multiplier: 0.13; // this ensures that f12 ~= 9px, which is the smallest WCAG allows for
 
-  // f0 font size which is 5x the root-font-size
-  --f0-font-size: calc(var(--root-font-size) * 5);
-  --f0-line-height: calc(var(--f0-font-size) * 1.25);
-
   // font sizes f1 - f10
   $base-font-size-increase: calc(1 + var(--base-font-multiplier));
   $base-font-line-height-multiplier: 0.8;
+
+  // f0 font size which is 5x the root-font-size
+  --f0-font-size: calc(var(--root-font-size) * 5);
+  --f0-line-height: calc(
+    var(--f0-font-size) * $base-font-line-height-multiplier
+  );
 
   @for $i from 0 through 9 {
     $level: calc(10 - $i);
