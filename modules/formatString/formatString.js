@@ -1,3 +1,8 @@
+export const numOnly = (str) => {
+  // return only the numbers and parse as a number
+  return parseInt(str.replace(/\D/g, ""));
+};
+
 export const lowerAlphaNumOnly = (str) => {
   const formattedStr = str.replace(/\W/g, "").toLowerCase();
 

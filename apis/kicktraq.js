@@ -2,12 +2,12 @@ import async from "async";
 import { load as cheerioLoad } from "cheerio";
 import cloudscraper from "cloudscraper";
 
-export const getKicktraqData = (relativePath) => {
+export const getKicktraqData = (relativePath, callback) => {
   async.waterfall(
     [
       (callback) => {
         cloudscraper
-          .get(`https://www.kicktraq.com/projects/${relativePath}`)
+          .get(`https://www.kicktraq.com/${relativePath}`)
           .then((html) => {
             const cheerioPage = cheerioLoad(html);
 
@@ -31,8 +31,11 @@ export const getKicktraqData = (relativePath) => {
           });
       },
       (data) => {
-        console.log(data);
-        return data;
+        if (callback && typeof callback === "function") {
+          callback(data);
+        } else {
+          return data;
+        }
       },
     ],
     (err) => {
