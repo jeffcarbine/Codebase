@@ -118,10 +118,6 @@ strong {
   h#{$i} {
     @include headingValues(#{$i});
     margin: var(--f#{$i}-margin);
-
-    + p {
-      margin-top: 0;
-    }
   }
 }
 
