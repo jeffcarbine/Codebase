@@ -79,8 +79,6 @@ export const post__shop_modifyLineItem = (req, res) => {
     id = req.body.itemId,
     quantity = parseInt(req.body.quantity);
 
-  console.log(checkoutId, id, quantity);
-
   // only works if we have a checkoutId
   if (checkoutId !== undefined) {
     if (quantity <= 0) {

@@ -7,7 +7,19 @@ import { formatCurrency } from "../../modules/formatCurrency/formatCurrency.js";
 export const PRODUCT = ({ data, heading = true, price = true } = {}) => {
   const product = data.product;
 
-  console.log(product.price);
+  let tags = "",
+    nsfw = false;
+
+  // loop through the tags and add the values to the tags string
+  if (data.tags) {
+    data.tags.forEach((tag) => {
+      tags += `${camelize(tag.value)} `;
+
+      if (tag.value === "nsfw") {
+        nsfw = true;
+      }
+    });
+  }
 
   const generateProductImages = () => {
     const images = product.images,
@@ -73,11 +85,13 @@ export const PRODUCT = ({ data, heading = true, price = true } = {}) => {
   return {
     "data-component": "product",
     id: "product",
+    class: `product ${tags}`,
     children: [
       {
         class: "images-container",
         child: {
           class: "images",
+          "data-nsfw": nsfw,
           children: [SLIDER({ elements: generateProductImages() }), SQUARE],
         },
       },

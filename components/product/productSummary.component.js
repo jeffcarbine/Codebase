@@ -1,6 +1,7 @@
 import { IMG, H3 } from "../../elements/elements.js";
 import { SQUARE } from "../square/square.component.js";
 import { formatCurrency } from "../../modules/formatCurrency/formatCurrency.js";
+import { camelize } from "../../modules/formatString/formatString.js";
 
 export const PRODUCTSUMMARY = ({
   data = {
@@ -16,7 +17,7 @@ export const PRODUCTSUMMARY = ({
       },
     ],
   },
-  placeholder = false,
+  placeholder = "",
   url = "/shop/product/",
 } = {}) => {
   const price = data.variants[0].price.amount,
@@ -25,14 +26,30 @@ export const PRODUCTSUMMARY = ({
       ? data.variants[0].compareAtPrice.amount
       : price;
 
+  let tags = "",
+    nsfw = false;
+
+  // loop through the tags and add the values to the tags string
+  if (data.tags) {
+    data.tags.forEach((tag) => {
+      tags += `${camelize(tag.value)} `;
+
+      if (tag.value === "nsfw") {
+        nsfw = true;
+      }
+    });
+  }
+
   return {
     tagName: placeholder ? "div" : "a",
     href: url + data.handle || "",
-    class: "productSummary" + (placeholder ? " placeholder" : ""),
+    class: `productSummary ${tags} ${placeholder}`,
     target: url === "/shop/product/" ? "" : "_blank",
+    "data-nsfw-event": nsfw ? "click" : "none",
     children: [
       {
         class: "image",
+        "data-nsfw": nsfw,
         children: [
           SQUARE,
           new IMG({
