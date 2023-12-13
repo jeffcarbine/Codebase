@@ -118,11 +118,9 @@ export function getSpotifyToken(mainCallback) {
           console.log(err);
         } else {
           let body = JSON.parse(str);
-          console.log(body);
 
           token.access_token = body.access_token;
           const expires = new Date().getTime() + 3600000;
-          console.log(expires);
           token.expires = expires;
           token.save();
 
