@@ -33,16 +33,27 @@ const generateFanartList = () => {
                   new e.H2(fanartData.title),
                   {
                     class: "edit",
-                    child: new c.BTN({
-                      children: [
-                        new c.ICON("eye"),
-                        new e.SPAN({
-                          class: "text",
-                          textContent: "View",
-                        }),
-                      ],
-                      "data-modal": "_" + fanartData._id,
-                    }),
+                    children: [
+                      TOGGLESINGLE({
+                        name: "approved",
+                        dataId: `approve-${fanartData._id}`,
+                        label: "Approved",
+                        checked: fanartData.approved,
+                        // "data-bind": `approveStatus-${fanartData._id}`,
+                        // "data-bind-to": "checked",
+                        // "data-bind-eq": "Approved",
+                      }),
+                      new c.BTN({
+                        children: [
+                          new c.ICON("eye"),
+                          new e.SPAN({
+                            class: "text",
+                            textContent: "View",
+                          }),
+                        ],
+                        "data-modal": "_" + fanartData._id,
+                      }),
+                    ],
                   },
                 ],
               },
@@ -82,7 +93,7 @@ const generateFanartList = () => {
                   }),
                   TOGGLESINGLE({
                     name: "approved",
-                    id: `approve-${fanartData._id}`,
+                    dataId: `approve-${fanartData._id}`,
                     label: "Approved",
                     checked: fanartData.approved,
                     // "data-bind": `approveStatus-${fanartData._id}`,
@@ -112,7 +123,8 @@ const generateFanartList = () => {
 generateFanartList();
 
 const approveFanart = (checkbox) => {
-  const id = checkbox.id.split("-")[1],
+  const dataId = checkbox.dataset.id,
+    id = dataId.split("-")[1],
     approved = checkbox.checked;
 
   const success = () => {

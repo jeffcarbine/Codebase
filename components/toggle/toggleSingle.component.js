@@ -10,6 +10,7 @@ export const TOGGLESINGLE = ({
   labelFor = id,
   checked = false,
   dataTargets,
+  dataId,
 } = {}) => {
   const checkboxData = {
     type: "checkbox",
@@ -24,6 +25,10 @@ export const TOGGLESINGLE = ({
 
   if (dataTargets !== undefined) {
     checkboxData["data-targets"] = dataTargets;
+  }
+
+  if (dataId !== undefined) {
+    checkboxData["data-id"] = dataId;
   }
 
   return {
