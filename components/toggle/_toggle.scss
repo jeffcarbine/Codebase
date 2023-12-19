@@ -32,6 +32,9 @@
         margin: 0;
         margin-left: 3.5rem;
         font-size: var(--input-font-size);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
 
         &::before {
           content: "";
