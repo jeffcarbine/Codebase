@@ -85,6 +85,13 @@ export const stripHtml = (str) => {
     .trim();
 };
 
+export const urlProtocol = (str) => {
+  // if the string doesn't have a http:// or https:// prefix, add it
+  if (!str.includes("http")) {
+    return `https://${str}`;
+  }
+};
+
 let splitSentences = (str) => {
   // split sentences on . ! ? and \n but keep the delimiter
   // split on . ! ? and \n but keep the delimiter
