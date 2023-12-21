@@ -188,8 +188,6 @@ const defaultSpotifyArchiver = (show, count, callback) => {
           } else {
             let body = JSON.parse(str);
 
-            console.log(body);
-
             // store those episodes in the spotifyEps array
             spotifyEps = spotifyEps.concat(body.items);
 
