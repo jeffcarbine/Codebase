@@ -5,8 +5,9 @@ var Schema = mongoose.Schema;
 var Image = new Schema({
   postId: String,
   title: String,
+  category: String,
   date: Date,
-  href: String,
+  src: String,
 });
 
 // create the model for users and expose it to our app

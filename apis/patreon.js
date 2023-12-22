@@ -15,6 +15,7 @@ const patreonClientId = process.env.PATREONCLIENTID,
   patreonOneTimeCode = process.env.PATREONONETIMECODE;
 
 const saveAndReturnPatreonToken = (
+  tokenName,
   access_token,
   refresh_token,
   expires_in,
@@ -27,7 +28,7 @@ const saveAndReturnPatreonToken = (
 
   Token.findOneAndUpdate(
     {
-      name: "patreon",
+      name: tokenName,
     },
     {
       $set: {
@@ -49,7 +50,7 @@ const saveAndReturnPatreonToken = (
   });
 };
 
-export const generateNewPatreonToken = (callback, mainCallback) => {
+export const generateNewPatreonToken = (tokenName, callback, mainCallback) => {
   request.post(
     {
       url: `https://www.patreon.com/api/oauth2/token?code=${patreonOneTimeCode}&grant_type=authorization_code&client_id=${patreonClientId}&client_secret=${patreonClientSecret}&redirect_uri=https://carbine.co`,
@@ -64,6 +65,7 @@ export const generateNewPatreonToken = (callback, mainCallback) => {
         if (body.access_token) {
           console.log("Successfully generated Patreon token");
           return saveAndReturnPatreonToken(
+            tokenName,
             body.access_token,
             body.refresh_token,
             body.expires_in,
@@ -79,20 +81,20 @@ export const generateNewPatreonToken = (callback, mainCallback) => {
   );
 };
 
-export const getPatreonToken = (mainCallback) => {
+export const getPatreonToken = (mainCallback, tokenName = "patreon") => {
   async.waterfall(
     [
       // step 1: get token from database
       (callback) => {
         Token.findOne({
-          name: "patreon",
+          name: tokenName,
         }).exec((err, token) => {
           if (err) {
             callback(err);
           } else {
             if (token === null) {
               console.log("No Patreon token found, requesting new one");
-              generateNewPatreonToken(callback, mainCallback);
+              generateNewPatreonToken(tokenName, callback, mainCallback);
             } else {
               // check expiration
               let now = new Date().getTime();
@@ -141,6 +143,7 @@ export const getPatreonToken = (mainCallback) => {
       // step 3: update the token in the database
       (access_token, refresh_token, expires_in, callback) => {
         saveAndReturnPatreonToken(
+          tokenName,
           access_token,
           refresh_token,
           expires_in,
