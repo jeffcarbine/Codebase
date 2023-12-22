@@ -20,6 +20,7 @@ import { TOGGLESINGLE } from "./toggle/toggleSingle.component.js";
 import { TOGGLEDUAL } from "./toggle/toggleDual.component.js";
 import { TOGGLEGROUP } from "./toggle/toggleGroup.component.js";
 import { FIELD } from "./field/field.component.js";
+import { NAVIGATION } from "./navigation/navigation.component.js";
 
 export {
   BTN,
@@ -45,4 +46,5 @@ export {
   TOGGLEGROUP,
   TOGGLEDUAL,
   FIELD,
+  NAVIGATION,
 };

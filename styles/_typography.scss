@@ -129,14 +129,12 @@ ol {
   margin-left: 1.5rem;
 
   li {
-    font-size: 1rem;
-    line-height: 1.5rem;
     margin-bottom: 0.25rem;
   }
 }
 
 ul li {
-  list-style-type: circle;
+  list-style-type: disc;
 }
 
 @media only screen and (min-width: $breakpoint-md) {

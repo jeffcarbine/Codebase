@@ -13,5 +13,9 @@ export class FIGCAPTION extends ELEMENT {
     super(params);
 
     this.tagName = "figcaption";
+
+    if (typeof params === "string") {
+      this.textContent = params;
+    }
   }
 }

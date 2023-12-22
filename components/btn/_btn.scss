@@ -25,13 +25,10 @@ button.btn {
 .btn {
   --loader-color: var(--btn-color);
 
-  // &.sm {
-  //   --btn-font-size: var(--f11-font-size);
-  //   --btn-line-height: var(--f11-line-height);
-  //   --btn-padding-x: 1.125rem;
-  //   --btn-padding-y: 1.5rem;
-  //   --btn-icon-size: 0.675rem;
-  // }
+  &.sm {
+    @include fontValues(10);
+    padding: calc(var(--btn-padding-x) * 0.75) calc(var(--btn-padding-y) * 0.75);
+  }
 
   outline: none;
   padding: var(--btn-padding-x) var(--btn-padding-y);

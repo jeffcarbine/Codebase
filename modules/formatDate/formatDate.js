@@ -7,7 +7,7 @@ import { months } from "../months/months.js";
 export const formatDate = (date) => {
   // get the day, month and year values from the date object
   const day = date.getDate(),
-    month = date.getMonth(),
+    month = date.getMonth() + 1,
     year = date.getFullYear();
 
   // create the date string
