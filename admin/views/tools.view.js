@@ -2,7 +2,7 @@ import { base } from "./admin.view.js";
 import * as e from "../../elements/elements.js";
 import * as c from "../../components/components.js";
 import { MODAL } from "../../components/modal/modal.component.js";
-import { createEditPageTemplate } from "../templates/createEditPage.template.js";
+import { addEditPageTemplate } from "../templates/addEditPage.template.js";
 import { CARD } from "../../components/card/card.component.js";
 import { editCardTemplate } from "../templates/editCard.template.js";
 

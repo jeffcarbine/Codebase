@@ -183,14 +183,11 @@ export const datapointCardTemplate = ({
                     datapoint,
                     editing: true,
                   }),
-                  new c.BTNCONTAINER(
-                    {
-                      class: "accent sm",
-                      "data-modal": `remove-${datapoint._id}`,
-                      textContent: "Remove Datapoint",
-                    },
-                    "centered"
-                  ),
+                  new c.BTNCONTAINER({
+                    class: "accent sm",
+                    "data-modal": `remove-${datapoint._id}`,
+                    textContent: "Remove Datapoint",
+                  }),
                   MODAL({
                     modalBody: {
                       children: [

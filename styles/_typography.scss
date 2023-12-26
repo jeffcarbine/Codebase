@@ -137,13 +137,13 @@ ul li {
   list-style-type: disc;
 }
 
-@media only screen and (min-width: $breakpoint-md) {
+@media only screen and (min-width: mixin.$breakpoint-md) {
   :root {
     --root-font-size: 13pt;
   }
 }
 
-@media only screen and (min-width: $breakpoint-lg) {
+@media only screen and (min-width: mixin.$breakpoint-lg) {
   :root {
     --root-font-size: 14pt;
   }

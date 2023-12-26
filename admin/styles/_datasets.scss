@@ -53,6 +53,10 @@
         }
       }
 
+      .btn {
+        @include fontValues(10);
+      }
+
       > .btn {
         svg.icon {
           margin-right: var(--btn-icon-size);
@@ -142,7 +146,7 @@
 @media only screen and (min-width: $breakpoint-md) {
   .card.edit {
     .title-edit {
-      h2 {
+      > h2 {
         flex: 1 1 auto;
         order: 1;
       }

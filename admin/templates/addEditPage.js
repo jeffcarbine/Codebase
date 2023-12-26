@@ -3,7 +3,7 @@ import * as e from "../../elements/elements.js";
 import * as c from "../../components/components.js";
 import { wildcardEnum } from "../models/Page.js";
 
-export const createEditPageTemplate = (page = {}) => {
+export const addEditPageTemplate = (page = {}) => {
   const pageProvided = Object.keys(page).length > 0,
     title = pageProvided ? "Edit Page" : "New Page",
     saveText = pageProvided ? "Save Changes" : "Create New Page",

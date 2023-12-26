@@ -2,7 +2,7 @@ import { base } from "./admin.view.js";
 import * as e from "../../elements/elements.js";
 import * as c from "../../components/components.js";
 import { MODAL } from "../../components/modal/modal.component.js";
-import { createEditPageTemplate } from "../templates/createEditPage.template.js";
+import { addEditPageTemplate } from "../templates/addEditPage.template.js";
 
 export default (data) => {
   return base(
@@ -19,7 +19,7 @@ export default (data) => {
           ],
           "centered sm-space"
         ),
-        MODAL({ modalBody: createEditPageTemplate(), id: "addPage" }),
+        MODAL({ modalBody: addEditPageTemplate(), id: "addPage" }),
         new e.SECTION({
           id: "pages",
           class: "datasets card-canvas",

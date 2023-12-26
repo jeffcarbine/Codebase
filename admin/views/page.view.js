@@ -3,7 +3,7 @@ import * as e from "../../elements/elements.js";
 import * as c from "../../components/components.js";
 import { MODAL } from "../../components/modal/modal.component.js";
 import { capitalize } from "../../modules/formatString/formatString.js";
-import { createEditPageTemplate } from "../templates/createEditPage.template.js";
+import { addEditPageTemplate } from "../templates/addEditPage.template.js";
 import { datapointFormTemplate } from "../templates/datapointForm.template.js";
 import { datapointListTemplate } from "../templates/datapointList.template.js";
 
@@ -51,7 +51,7 @@ export default (data) => {
           id: "modals",
           children: [
             MODAL({
-              modalBody: createEditPageTemplate(data.pageData),
+              modalBody: addEditPageTemplate(data.pageData),
               id: "editPageModal",
             }),
             MODAL({

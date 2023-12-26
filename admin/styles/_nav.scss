@@ -152,6 +152,10 @@ nav {
 }
 
 @media only screen and (min-width: $breakpoint-md) {
+  #navToggle {
+    display: none;
+  }
+
   nav {
     position: relative;
     transform: none;
