@@ -9,8 +9,12 @@ export const wildcardEnum = [
   "collection",
 ];
 
+const Models = new mongoose.Schema({
+  value: { type: String, enum: ["Tier"] },
+});
+
 // define the schema for our user model
-var Page = new Schema({
+const Page = new Schema({
   name: String,
   description: String,
   path: String,
@@ -20,6 +24,7 @@ var Page = new Schema({
     default: "none",
   },
   homepage: Boolean,
+  models: [{ type: String, refs: Models }],
   datapoints: Array,
 });
 

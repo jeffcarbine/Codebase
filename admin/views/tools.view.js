@@ -4,7 +4,7 @@ import * as c from "../../components/components.js";
 import { MODAL } from "../../components/modal/modal.component.js";
 import { addEditPageTemplate } from "../templates/addEditPage.template.js";
 import { CARD } from "../../components/card/card.component.js";
-import { editCardTemplate } from "../templates/editCard.template.js";
+import { actionCardTemplate } from "../templates/actionCard.template.js";
 
 export default (data) => {
   return base(
@@ -15,27 +15,18 @@ export default (data) => {
         {
           class: "card-canvas",
           children: [
-            editCardTemplate({
-              cardBody: [
-                {
-                  class: "title-edit",
-                  children: [
-                    new e.H2("Generate Merch Club CSV"),
-                    {
-                      class: "edit",
-                      child: new c.BTN({
-                        textContent: "Open",
-                        "data-modal": "merchClubCSVModal",
-                      }),
-                    },
-                  ],
-                },
-                {
-                  class: "preview",
-                  child: new e.P(
-                    "Upload CSV from Patreon and generate a Shopify CSV for Merch Club orders"
-                  ),
-                },
+            actionCardTemplate({
+              info: [new e.H2("Generate Merch Club CSV")],
+              actions: [
+                new c.BTN({
+                  textContent: "Open",
+                  "data-modal": "merchClubCSVModal",
+                }),
+              ],
+              body: [
+                new e.P(
+                  "Upload CSV from Patreon and generate a Shopify CSV for Merch Club orders"
+                ),
               ],
               mainModal: {
                 modalBody: {

@@ -4,7 +4,7 @@ import * as c from "/periodic/components/components.js";
 import { CARD } from "/periodic/components/card/card.component.js";
 import { xhr, xhrForm } from "/periodic/modules/xhr/xhr.js";
 import { renderTemplate } from "/periodic/template/renderTemplate.js";
-import { editCardTemplate } from "../templates/editCard.template.js";
+import { actionCardTemplate } from "../templates/actionCard.template.js";
 
 const retrievePages = () => {
   const pagesTarget = document.querySelector("#pages");
@@ -20,33 +20,17 @@ const retrievePages = () => {
         : page.name;
 
       const pageCard = renderTemplate(
-        editCardTemplate({
-          cardBody: [
-            {
-              class: "title-edit",
-              children: [
-                new e.H2(heading),
-                {
-                  class: "edit",
-                  child: new c.BTN({
-                    href: "/periodic/admin/pages/" + page._id,
-                    children: [
-                      new c.ICON("edit"),
-                      new e.SPAN({ class: "text", textContent: "Edit" }),
-                    ],
-                  }),
-                },
-              ],
-            },
-            // {
-            //   class: "preview",
-            //   child: new e.P(
-            //     `${page.datapoints.length} datapoint${
-            //       page.datapoints.length === 1 ? "" : "s"
-            //     }`
-            //   ),
-            // },
+        actionCardTemplate({
+          info: [new e.H2(heading)],
+          actions: [
+            new c.BTN({
+              href: "/periodic/admin/pages/" + page._id,
+              child: new c.ICON("edit"),
+              class: "icon-only",
+              "aria-label": "Edit Page",
+            }),
           ],
+          body: [],
         })
       );
 

@@ -1,4 +1,4 @@
-import { editCardTemplate } from "../templates/editCard.template.js";
+import { actionCardTemplate } from "../templates/actionCard.template.js";
 import { addEventDelegate } from "/periodic/modules/eventDelegate/eventDelegate.js";
 import { xhr, xhrForm } from "/periodic/modules/xhr/xhr.js";
 import { renderTemplate } from "../../template/renderTemplate.js";
@@ -16,21 +16,13 @@ const retrieveEpisodes = () => {
 
     episodesData.forEach((episodeData) => {
       const episode = renderTemplate(
-        editCardTemplate({
-          cardBody: [
-            {
-              class: "title-edit",
-              children: [
-                new e.H2(episodeData.title),
-                {
-                  class: "edit",
-                  child: new c.BTN({
-                    "data-modal": `edit${episodeData._id}`,
-                    children: [new c.ICON("eye"), new e.SPAN("Edit")],
-                  }),
-                },
-              ],
-            },
+        actionCardTemplate({
+          info: [new e.H2(episodeData.title)],
+          actions: [
+            new c.BTN({
+              "data-modal": `edit${episodeData._id}`,
+              children: [new c.ICON("eye"), new e.SPAN("Edit")],
+            }),
           ],
           mainModal: {
             id: `edit${episodeData._id}`,

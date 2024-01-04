@@ -25,6 +25,8 @@ export const post__admin_datapoints = (req, res, next) => {
     active = req.body.active,
     accordionOpen = req.body.accordionOpen;
 
+  console.log(_id);
+
   // modifiable image
   let imageSrc = body.image; // default to this, but if we need to upload to s3, we'll change it on line 50
 
@@ -413,5 +415,120 @@ export const post__admin_datapoints_retrieve_all = (req, res) => {
     } else {
       return res.status(200).send(datapoints);
     }
+  });
+};
+
+export const post__admin_datapoints_clone = (req, res) => {
+  // get the datapoint id that we're duplicating
+  const _id = req.body._id,
+    parentId = req.body.parentId;
+
+  console.log(_id);
+
+  const findDatapoint = (_id, callback) => {
+    // find the datapoint
+    console.log("finding the datapoint to clone");
+    Datapoint.findOne({ _id }).exec((err, datapoint) => {
+      console.log(datapoint);
+      // check to see if we have a group
+      if (datapoint?.group.length > 0) {
+        console.log("we have a group");
+        let group = [];
+        // then we need to duplicate those in an async loop
+        asyncLoop(
+          datapoint.group,
+          (child, next) => {
+            // for some strange reason, we have blank ids in the group, so skip them
+            if (child !== "") {
+              // find that datapoint
+              findDatapoint(child, (newDatapointId) => {
+                group.push(newDatapointId);
+                next();
+              });
+            } else {
+              next();
+            }
+          },
+          (err) => {
+            if (err) {
+              console.log(err);
+            } else {
+              // now that we have duplicated all the children,
+              // we can duplicate the parent
+              duplicateDatapoint(datapoint, (newDatapointId) => {
+                callback(newDatapointId, group);
+              });
+            }
+          }
+        );
+      } else {
+        console.log("we don't have children");
+        // if we don't have children, then we can just duplicate the datapoint
+        duplicateDatapoint(datapoint, (datapointId) => {
+          callback(datapointId);
+        });
+      }
+    });
+  };
+
+  const duplicateDatapoint = (datapoint, callback) => {
+    console.log("duplicating the datapoint");
+
+    datapoint._id = new mongoose.Types.ObjectId();
+    datapoint.name = datapoint.name + " (copy)";
+    datapoint.isNew = true;
+    datapoint.save(callback(datapoint._id));
+
+    // // create a new datapoint
+    // Datapoint.create(datapoint, (err, newDatapoint) => {
+    //   if (err) {
+    //     console.log(err);
+    //   } else {
+    //     console.log("new datapoint created");
+    //     console.log(newDatapoint);
+    //     callback(newDatapoint._id);
+    //   }
+    // });
+  };
+
+  findDatapoint(_id, (datapointId) => {
+    console.log("checking the parent type");
+    // check if the parentId is a page or a datapoint
+    // if it's a page, then we need to add the datapoint to the page
+    // if it's a datapoint, then we need to add the datapoint to the group
+    Page.findOneAndUpdate(
+      { _id: parentId },
+      { $addToSet: { datapoints: datapointId.toString() } }
+    ).exec((err, page) => {
+      if (err) {
+        console.log(err);
+      } else {
+        // if the page is null, then check to see if it is a datapoint
+        if (page === null) {
+          console.log("not a page, checking if it's a datapoint");
+          Datapoint.findOneAndUpdate(
+            { _id: parentId },
+            { $addToSet: { group: datapointId.toString() } }
+          ).exec((err, datapoint) => {
+            if (err) {
+              console.log(err);
+            } else {
+              // if the datapoint is null, then something went wrong and we need to return an error
+              if (datapoint === null) {
+                console.log("not anything, aborting");
+                return res.status(500).send();
+              } else {
+                console.log("parent is datapoint, adding to group");
+                return res.status(200).send();
+              }
+            }
+          });
+        } else {
+          console.log("parent is page, adding to datapoints");
+          // then we successfully added the datapoint to the page
+          return res.status(200).send();
+        }
+      }
+    });
   });
 };

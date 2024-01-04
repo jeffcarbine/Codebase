@@ -1,4 +1,4 @@
-import { editCardTemplate } from "../templates/editCard.template.js";
+import { actionCardTemplate } from "../templates/actionCard.template.js";
 import { addEventDelegate } from "/periodic/modules/eventDelegate/eventDelegate.js";
 import { xhr, xhrForm } from "/periodic/modules/xhr/xhr.js";
 import * as e from "/periodic/elements/elements.js";
@@ -19,32 +19,22 @@ const retrieveFiles = () => {
 
     files.forEach((file) => {
       const fileCard = renderTemplate(
-        editCardTemplate({
-          cardBody: [
-            {
-              class: "title-edit",
-              children: [
-                new e.H2(file.name),
-                {
-                  class: "edit",
-                  children: [
-                    new c.BTN({
-                      "data-copy": file.filepath,
-                      children: [new c.ICON("copy"), "Copy"],
-                    }),
-                    twoStepDeleteTemplate({
-                      path: "/periodic/admin/files/delete",
-                      id: file._id,
-                    }),
-                  ],
-                },
-              ],
-            },
-            {
-              class: "preview",
-              child: new e.P(file.filepath),
-            },
+        actionCardTemplate({
+          info: [new e.H2(file.name)],
+          actions: [
+            new c.BTN({
+              "data-copy": file.filepath,
+              child: new c.ICON("copy"),
+              class: "icon-only",
+              "aria-label": "Copy Filepath",
+            }),
+            twoStepDeleteTemplate({
+              path: "/periodic/admin/files/delete",
+              id: file._id,
+              iconOnly: true,
+            }),
           ],
+          body: [new e.P(file.filepath)],
         })
       );
 

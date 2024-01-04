@@ -3,6 +3,7 @@ import connectEnsureLogin from "connect-ensure-login";
 import mongoose from "mongoose";
 import Page from "../models/Page.js";
 import Show from "../models/Show.js";
+import { checkClearanceLevel } from "./checkClearanceLevel.js";
 
 import { get__admin_login, post__admin_login } from "../routes/login.js";
 import { get__admin_logout } from "../routes/logout.js";
@@ -35,6 +36,7 @@ import {
   post__admin_datapoints_remove,
   post__admin_datapoints_retrieve,
   post__admin_datapoints_retrieve_all,
+  post__admin_datapoints_clone,
 } from "../routes/datapoints.js";
 
 import {
@@ -56,35 +58,82 @@ import {
 //   post__admin_settings_retrieveAll,
 // } from "./routes/settings.routes.js";
 
+import { post__admin_members_retrieve_all } from "../routes/members.routes.js";
+
+import {
+  post__admin_tiers_create,
+  post__admin_tiers_retrieve_all,
+} from "../routes/tiers.routes.js";
+
 import { rez } from "./rez.js";
 
 export const generateAdminRoutes = (app, __dirname, features) => {
   const getRoutes = {
     //dashboard: "Dashboard",
-    global: "Global",
-    pages: "Pages",
-    page: "Page",
-    files: "Files",
-    shows: "Shows",
-    show: "Show",
-    tools: "Tools",
+    global: {
+      clearance: 3,
+      title: "Global",
+    },
+    pages: {
+      clearance: 3,
+      title: "Pages",
+    },
+    page: {
+      clearance: 3,
+      title: "Page",
+    },
+    files: {
+      clearance: 3,
+      title: "Files",
+    },
+    shows: {
+      clearance: 3,
+      title: "Shows",
+    },
+    show: {
+      clearance: 3,
+      title: "Show",
+    },
+    tools: {
+      clearance: 3,
+      title: "Tools",
+    },
   };
 
   if (features.events) {
-    getRoutes.events = "Events";
+    getRoutes.events = {
+      clearance: 3,
+      title: "Events",
+    };
   }
 
   if (features.fanart) {
-    getRoutes.fanart = "Fanart";
+    getRoutes.fanart = {
+      clearance: 3,
+      title: "Fanart",
+    };
   }
 
   if (features.rewards) {
-    getRoutes.rewards = "Rewards";
-    getRoutes.members = "Members";
+    getRoutes.tiers = {
+      clearance: 1,
+      title: "Tiers",
+    };
+
+    getRoutes.rewards = {
+      clearance: 3,
+      title: "Rewards",
+    };
+
+    getRoutes.members = {
+      clearance: 2,
+      title: "Members",
+    };
   }
 
   for (let route in getRoutes) {
-    const title = getRoutes[route];
+    const title = getRoutes[route].title,
+      clearance = getRoutes[route].clearance;
 
     let template = route,
       path = `/periodic/admin/${route}`;
@@ -104,8 +153,11 @@ export const generateAdminRoutes = (app, __dirname, features) => {
     app.get(
       path,
       connectEnsureLogin.ensureLoggedIn("/periodic/admin/login"),
+      checkClearanceLevel(clearance, "GET"),
       (req, res) => {
         let data = { title, path, features };
+
+        // TODO: add additional security check here
 
         const adminRez = () => {
           rez({
@@ -223,6 +275,12 @@ export const generateAdminRoutes = (app, __dirname, features) => {
     post__admin_datapoints_retrieve_all
   );
 
+  app.post(
+    "/periodic/admin/datapoints/clone",
+    connectEnsureLogin.ensureLoggedIn("/periodic/admin/login"),
+    post__admin_datapoints_clone
+  );
+
   // SHOWS
   app.post(
     "/periodic/admin/shows/retrieve",
@@ -338,7 +396,25 @@ export const generateAdminRoutes = (app, __dirname, features) => {
   }
 
   if (features.rewards) {
-    // rewards routes here
+    // members
+    app.post(
+      "/periodic/admin/members/retrieve/all",
+      connectEnsureLogin.ensureLoggedIn("/periodic/admin/login"),
+      post__admin_members_retrieve_all
+    );
+
+    // tiers
+    app.post(
+      "/periodic/admin/tiers/retrieve/all",
+      connectEnsureLogin.ensureLoggedIn("/periodic/admin/login"),
+      post__admin_tiers_retrieve_all
+    );
+
+    app.post(
+      "/periodic/admin/tiers/create",
+      connectEnsureLogin.ensureLoggedIn("/periodic/admin/login"),
+      post__admin_tiers_create
+    );
   }
 
   app.post("/periodic/admin/signup", post__admin_signup);

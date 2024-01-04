@@ -62,3 +62,23 @@ const twoStepDelete = (button) => {
 };
 
 addEventDelegate("click", ".two-step-delete .delete", twoStepDelete);
+
+// i'm not sure where to put this yet, so we're going with here for now
+const cloneDatapoint = (button) => {
+  const _id = button.dataset.id,
+    parentId = button.dataset.parentid;
+
+  const success = () => {
+    // reload the page because I don't have a good
+    // way of reloading the datapoint cards yet
+    window.location.reload();
+  };
+
+  xhr({
+    path: "/periodic/admin/datapoints/clone",
+    body: { _id, parentId },
+    success,
+  });
+};
+
+addEventDelegate("click", ".cloneDatapoint", cloneDatapoint);

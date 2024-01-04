@@ -160,6 +160,43 @@ export class FIELD {
       wrapper.children.push(hidden);
     }
 
+    // if this is a currency, we need to add the prefix
+    if (type === "currency" || type === "simplecurrency") {
+      wrapper.children.unshift({
+        class: "prefix",
+        textContent: "$",
+      });
+
+      // add the has-prefix class to the wrapper
+      wrapper.class += " has-prefix";
+
+      // and change the type to number
+      input.type = "number";
+
+      // and convert the cents to dollars
+      if (params.value) {
+        input.value = (params.value / 100).toFixed(2);
+      }
+    }
+
+    if (type === "simplecurrency") {
+      // if simplecurrency, we need to add the hidden input
+      const hidden = {
+        tagName: "input",
+        type: "hidden",
+        name: params.name,
+        value: params.value,
+      };
+
+      wrapper.children.push(hidden);
+
+      // and change the input's name to
+      input.name = `${params.name}__Number`;
+
+      // and add a data attribute
+      input["data-simplecurrency"] = params.name;
+    }
+
     // create the label element
     let label;
 

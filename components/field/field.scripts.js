@@ -262,3 +262,39 @@ addEventDelegate(
   ".field input[data-simpledate]",
   convertDateToSimpleDate
 );
+
+// handle converting a currency input to the corresponding simplecurrency input
+const convertCurrencyToSimpleCurrency = (currencyInput) => {
+  const currency = currencyInput.value,
+    parent = currencyInput.parentNode,
+    simplecurrencyName = currencyInput.dataset.simplecurrency,
+    simpleCurrencyInput = parent.querySelector(
+      `input[name=${simplecurrencyName}]`
+    );
+
+  if (!simpleCurrencyInput) return;
+
+  const simpleCurrency = currency * 100;
+
+  simpleCurrencyInput.value = simpleCurrency;
+};
+
+addEventDelegate(
+  "change",
+  ".field input[data-simplecurrency]",
+  convertCurrencyToSimpleCurrency
+);
+
+// handle adding two decimal places on simplecurrency input focusout
+const addTwoDecimalPlaces = (input) => {
+  const value = parseFloat(input.value),
+    formatted = value.toFixed(2);
+
+  input.value = formatted;
+};
+
+addEventDelegate(
+  "focusout",
+  ".field input[data-simplecurrency]",
+  addTwoDecimalPlaces
+);

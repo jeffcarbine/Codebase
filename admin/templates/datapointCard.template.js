@@ -73,11 +73,14 @@ export const datapointCardTemplate = ({
 
   let editChildren = [
     new c.BTN({
-      children: [
-        new c.ICON("edit"),
-        new e.SPAN({ class: "text", textContent: "Edit" }),
-      ],
+      children: [new c.ICON("edit")],
       "data-modal": "_" + datapoint._id,
+    }),
+    new c.BTN({
+      children: [new c.ICON("duplicate")],
+      class: "cloneDatapoint",
+      "data-id": datapoint._id,
+      "data-parentid": parentId,
     }),
   ];
 

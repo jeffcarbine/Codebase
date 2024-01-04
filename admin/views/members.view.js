@@ -10,8 +10,22 @@ export default (data) => {
       children: [
         new e.H1([new c.ICON("users"), "Members"]),
         new e.SECTION({
-          id: "membersList",
-          class: "card-canvas loading",
+          children: [
+            new e.H2("Teammates"),
+            {
+              id: "teammatesList",
+              class: "card-canvas loading",
+            },
+          ],
+        }),
+        new e.SECTION({
+          children: [
+            new e.H2("Members"),
+            {
+              id: "membersList",
+              class: "card-canvas loading",
+            },
+          ],
         }),
       ],
     },

@@ -7,14 +7,21 @@ export const twoStepDeleteTemplate = ({
   id,
   parentId = "",
   parentModel = "",
+  iconOnly = false,
 } = {}) => {
+  const buttonContent = [new c.ICON("trash")];
+
+  if (!iconOnly) {
+    buttonContent.push("Delete");
+  }
+
   return {
     class: "two-step-delete",
     children: [
-      new c.BTNCONTAINER({
-        class: "subtle",
+      new c.BTN({
+        class: "subtle" + (iconOnly ? " icon-only" : ""),
         "data-modal": `delete-${id}`,
-        children: [new c.ICON("trash"), "Delete"],
+        children: buttonContent,
       }),
       MODAL({
         modalBody: {

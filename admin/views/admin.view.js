@@ -3,7 +3,8 @@ import * as c from "../../components/components.js";
 import { logoTemplate } from "../templates/logo.template.js";
 
 export const base = (data, template, scripts) => {
-  const useDarkMode = new Date().getHours() > 18 || new Date().getHours() < 6;
+  const useDarkMode = new Date().getHours() > 18 || new Date().getHours() < 6,
+    userClearance = data.user.clearance;
 
   const generateAdminRoutes = () => {
     if (data.loggedIn) {
@@ -34,11 +35,6 @@ export const base = (data, template, scripts) => {
             new e.SPAN("Shows"),
             new c.ICON("rss"),
           ],
-          Tools: [
-            "/periodic/admin/tools",
-            new e.SPAN("Tools"),
-            new c.ICON("tools"),
-          ],
           // Settings: [
           //   "/periodic/admin/settings",
           //   new e.SPAN("Settings"),
@@ -68,17 +64,34 @@ export const base = (data, template, scripts) => {
       }
 
       if (data.features.rewards) {
+        if (userClearance <= 1) {
+          appRoutes.routes.Tiers = [
+            "/periodic/admin/tiers",
+            new e.SPAN("Tiers"),
+            new c.ICON("tiers"),
+          ];
+        }
+
         appRoutes.routes.Rewards = [
           "/periodic/admin/rewards",
           new e.SPAN("Rewards"),
           new c.ICON("gift"),
         ];
-        appRoutes.routes.Members = [
-          "/periodic/admin/members",
-          new e.SPAN("Members"),
-          new c.ICON("users"),
-        ];
+
+        if (userClearance <= 2) {
+          appRoutes.routes.Members = [
+            "/periodic/admin/members",
+            new e.SPAN("Members"),
+            new c.ICON("users"),
+          ];
+        }
       }
+
+      appRoutes.routes.Tools = [
+        "/periodic/admin/tools",
+        new e.SPAN("Tools"),
+        new c.ICON("tools"),
+      ];
 
       return appRoutes;
     } else {
