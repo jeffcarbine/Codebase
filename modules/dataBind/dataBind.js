@@ -42,7 +42,6 @@ export const dataBind = (key, value) => {
           conditionsMet = false;
         }
       } else {
-        console.log("complex condition");
         // loop through the conditions
         for (const condition in conditions) {
           // get the condition value

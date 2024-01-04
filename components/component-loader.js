@@ -6,7 +6,14 @@ const components = document.querySelectorAll("[data-component]"),
 const loadComponentScript = (name) => {
   if (!loadedComponents.includes(name)) {
     loadedComponents.push(name);
-    import(`./${name}/${name}.scripts.js`);
+
+    // if the name has a slash in it, it is a sub-component
+    // and we need to load it from a sub-directory
+    if (name.includes("/")) {
+      import(`./${name}.scripts.js`);
+    } else {
+      import(`./${name}/${name}.scripts.js`);
+    }
   }
 };
 

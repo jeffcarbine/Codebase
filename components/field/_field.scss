@@ -214,8 +214,14 @@
 
   .help {
     display: block;
-    @include fontValues(12);
+    @include fontValues(11);
     text-align: right;
+  }
+
+  .validation {
+    display: block;
+    @include fontValues(11);
+    color: var(--red);
   }
 
   // hande non-checkbox and non-radio
@@ -227,6 +233,10 @@
     .wrapper {
       background: var(--field-background);
       border-radius: var(--border-radius);
+
+      &.invalid {
+        --border-color: var(--red);
+      }
 
       .focus {
         content: "";

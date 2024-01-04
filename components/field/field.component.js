@@ -65,6 +65,10 @@ export class FIELD {
     // put that inside of the input wrapper
     const wrapper = {
       class: "wrapper",
+      "data-bind": `${params.name}--validation`,
+      "data-bind-neq": "",
+      "data-bind-to": "class",
+      "data-bind-value": "invalid",
       children: [
         input,
         {
