@@ -263,12 +263,13 @@ export class FIELD {
         children: [
           new IMG({
             class: "imagePreview",
-            style: params.value !== undefined ? "" : `display: none`,
+            style: params.value !== undefined ? "opacity: 1" : "",
             src: params.value || "",
           }),
           {
             class: "placeholder",
             children: [new ICON("image")],
+            style: params.value !== undefined ? "opacity: 0" : "",
           },
         ],
       };

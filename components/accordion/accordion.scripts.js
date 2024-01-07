@@ -41,6 +41,7 @@ const toggleAccordion = (accordionBody, accordionButton, callback) => {
     // height to "auto" so that we aren't stuck at a pixel height
     setTimeout(() => {
       accordionBody.style.height = "auto";
+      accordionBody.style.overflow = "visible";
     }, delay);
   } else {
     closeAccordion(accordionBody, accordionButton);
@@ -56,6 +57,10 @@ const closeAccordion = (accordionBody, accordionButton) => {
 
   // set the accordion's height back to it's precise pixel amount
   accordionBody.style.height = height + "px";
+
+  // and then set the overflow to hidden so that the
+  // transition can occur
+  accordionBody.style.overflow = "hidden";
 
   // then after a short timeout, set it to null so as
   // to trigger the transition

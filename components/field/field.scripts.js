@@ -20,16 +20,72 @@ const renderImagePreview = (input) => {
 
   FR.addEventListener("load", (evt) => {
     const imagePreview =
-      input.parentNode.parentNode.querySelector(".imagePreview");
+        input.parentNode.parentNode.querySelector(".imagePreview"),
+      placeholder = input.parentNode.parentNode.querySelector(".placeholder");
 
     imagePreview.src = evt.target.result;
     imagePreview.style.opacity = 1;
+    placeholder.style.opacity = 0;
   });
 
   FR.readAsDataURL(input.files[0]);
 };
 
 addEventDelegate("change", ".field input.hasPreview", renderImagePreview);
+
+// Takes a data URI and returns the Data URI corresponding to the resized image at the wanted size.
+const createResizedImage = (
+  datas,
+  maxWidth,
+  maxHeight,
+  wrapper,
+  name,
+  size
+) => {
+  // get the type/extension from the base64
+  const type = datas.split(";")[0].split(":")[1];
+
+  // We create an image to receive the Data URI
+  var img = document.createElement("img");
+
+  // When the event "onload" is triggered we can resize the image.
+  img.onload = function () {
+    // We create a canvas and get its context.
+    var canvas = document.createElement("canvas");
+    var ctx = canvas.getContext("2d");
+
+    let scale = 1;
+
+    if (img.width < maxWidth) {
+      scale = maxWidth / img.width;
+    } else {
+      scale = maxHeight / img.height;
+    }
+    let newWidth = img.width * scale;
+    let newHeight = img.height * scale;
+
+    // We set the dimensions at the wanted size.
+    canvas.width = newWidth;
+    canvas.height = newHeight;
+
+    // We resize the image with the canvas method drawImage();
+    ctx.drawImage(this, 0, 0, img.width, img.height, 0, 0, newWidth, newHeight);
+
+    var dataURI = canvas.toDataURL(type);
+
+    // now create a new hidden input
+    const hiddenInput = document.createElement("input");
+    hiddenInput.type = "hidden";
+    hiddenInput.name = `${name}_${size}`;
+    hiddenInput.value = dataURI;
+
+    // and append it to the wrapper
+    wrapper.appendChild(hiddenInput);
+  };
+
+  // We put the Data URI in the image's src attribute
+  img.src = datas;
+};
 
 // create base64 string for file inputs
 const createBase64String = (input) => {
@@ -47,10 +103,42 @@ const createBase64String = (input) => {
   const FR = new FileReader();
 
   FR.addEventListener("load", (evt) => {
-    const base64file =
-      input.parentNode.parentNode.querySelector("input[type=hidden]");
+    const wrapper = input.parentNode,
+      base64file = wrapper.querySelector("input[type=hidden]"),
+      name = base64file.name;
 
     base64file.value = evt.target.result;
+
+    var img = new Image();
+
+    img.onload = function () {
+      const width = img.width,
+        height = img.height;
+
+      // create large, medium, small and thumnbail images
+
+      if (width > 1600 || height > 1600) {
+        console.log("need to create lg");
+        createResizedImage(evt.target.result, 1600, 1600, wrapper, name, "lg");
+      }
+
+      if (width > 1000 || height > 1000) {
+        console.log("need to create md");
+        createResizedImage(evt.target.result, 1000, 1000, wrapper, name, "md");
+      }
+
+      if (width > 500 || height > 500) {
+        console.log("need to create sm");
+        createResizedImage(evt.target.result, 500, 500, wrapper, name, "sm");
+      }
+
+      if (width > 100 || height > 100) {
+        console.log("need to create xs");
+        createResizedImage(evt.target.result, 100, 100, wrapper, name, "xs");
+      }
+    };
+
+    img.src = FR.result; // is the data URL because called with readAsDataURL
   });
 
   FR.readAsDataURL(input.files[0]);

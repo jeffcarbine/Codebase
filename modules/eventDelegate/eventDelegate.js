@@ -240,8 +240,8 @@ const registerEvent = (event, target, func, preventDefault) => {
   // check to see if the object already has an instance of the event (which, if it does, it means we have already
   // registered an Event Listener for it)
   if (delegate[event] === undefined) {
-    // if it doesn't, then set that delegate event to an empty object
-    delegate[event] = {};
+    // if it doesn't, then set that delegate event to an empty array
+    delegate[event] = [];
 
     // if it is a mutation, then we don't need to register an event with the document
     // because mutations are handled below by our mutationObserver
@@ -255,10 +255,11 @@ const registerEvent = (event, target, func, preventDefault) => {
   }
 
   // now register the function to the delegate
-  delegate[event][target] = {
-    func: func,
-    preventDefault: preventDefault,
-  };
+  delegate[event].push({
+    target,
+    func,
+    preventDefault,
+  });
 };
 
 /**
@@ -323,7 +324,7 @@ const eventMatches = (event, key) => {
 const eventHandler = (event) => {
   // empty eventObj so we can properly pass what
   // delegate event we are going to match this event to
-  var eventObj;
+  var eventArr;
 
   // if this is a keypress, check that it is the enter key
   if (event.type === "keypress") {
@@ -331,7 +332,7 @@ const eventHandler = (event) => {
     // if it is the enter key...
     if (key === 13) {
       // .. then we treat it like a click
-      eventObj = delegate.click;
+      eventArr = delegate.click;
     }
     //// if this is a touch environment and the event is a touchend
     //} else if (window.touchEnvironment === true && event.type === "touchend") {
@@ -341,21 +342,18 @@ const eventHandler = (event) => {
     //    eventObj = mergedObj;
   } else {
     // otherwise, just get the matching event object
-    eventObj = delegate[event.type];
+    eventArr = delegate[event.type];
   }
 
-  // loop through delegate array to see if
-  // any of our click event targets match
-  for (var key in eventObj) {
-    // get the function from the event object
-    let func = eventObj[key].func;
-
-    // get the preventDefault value from the event object
-    let preventDefault = eventObj[key].preventDefault;
+  eventArr.forEach((eventObj) => {
+    const target = eventObj.target,
+      func = eventObj.func,
+      preventDefault = eventObj.preventDefault;
 
     // check whether the element or it's direct parent match
     // the key
-    let match = eventMatches(event, key);
+    let match = eventMatches(event, target);
+
     // set the disabled bool
     let disabled = false;
 
@@ -376,20 +374,12 @@ const eventHandler = (event) => {
         event.preventDefault();
       }
 
-      //// stop clicks on mobile
-      //if (window.touchEnvironment === true && event.type === "click") {
-      //    // return false so we don't make it to the func
-      //    return false;
-      //}
-
       // run the function and pass the target
       if (!disabled) {
         func(match, event);
       }
-    } else {
-      continue;
     }
-  }
+  });
 };
 
 /**
@@ -449,17 +439,9 @@ const observeMutations = () => {
   observer.observe(targetNode, config);
 };
 
-// the previous mutation target, so that we
-// don't target the same node
-let prevMutationTarget;
-
 const executeCheck = (mutation) => {
   let mutationTarget = mutation.target;
 
-  // if (
-  //   mutationTarget !== prevMutationTarget
-  //   //&& mutationTarget.dataset.mutated !== true
-  // ) {
   let type = mutation.type;
   let attributeName = type === "attributes" ? mutation.attributeName : false;
 
@@ -467,36 +449,37 @@ const executeCheck = (mutation) => {
     ? delegate[type + ":" + attributeName]
     : delegate[type];
 
-  for (var target in funcs) {
-    let func = funcs[target].func;
-    var nodes = mutationTarget.querySelectorAll(target);
-    var isMutation = false;
-    var existsInMutation = false;
+  if (funcs !== undefined) {
+    funcs.forEach((funcObj) => {
+      const func = funcObj.func,
+        target = funcObj.target,
+        nodes = mutationTarget.querySelectorAll(target);
 
-    // check to see if the element itself is the
-    // mutation or if the element exists as a child
-    // of the mutation
-    if (mutationTarget.matches(target)) {
-      isMutation = true;
-    }
+      var isMutation = false;
+      var existsInMutation = false;
 
-    if (!isMutation) {
-      existsInMutation = nodes.length > 0 ? true : false;
-    }
+      // check to see if the element itself is the
+      // mutation or if the element exists as a child
+      // of the mutation
+      if (mutationTarget.matches(target)) {
+        isMutation = true;
+      }
 
-    if (isMutation) {
-      func(mutationTarget, mutation);
-      //mutationTarget.dataset.mutated = true;
-    } else if (existsInMutation) {
-      nodes.forEach(function (node) {
-        func(node, mutation);
+      if (!isMutation) {
+        existsInMutation = nodes.length > 0 ? true : false;
+      }
+
+      if (isMutation) {
+        func(mutationTarget, mutation);
         //mutationTarget.dataset.mutated = true;
-      });
-    }
+      } else if (existsInMutation) {
+        nodes.forEach(function (node) {
+          func(node, mutation);
+          //mutationTarget.dataset.mutated = true;
+        });
+      }
+    });
   }
-  // }
-
-  // prevMutationTarget = mutationTarget;
 };
 
 /**
