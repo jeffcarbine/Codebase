@@ -92,7 +92,7 @@ export class FIELD {
         }
       };
 
-      params.options.forEach((option) => {
+      params.options.forEach((option, index) => {
         const optionParams = {
           tagName: "option",
           value: optionValue(option),
@@ -102,9 +102,25 @@ export class FIELD {
               : option.name,
         };
 
+        if (index === 0 && option.help !== undefined) {
+          // set theh params.help to the first one, which will be overwritten if there is a selected option
+          params.help = option.help;
+        }
+
+        // if there is a disabled option, add it
+        if (option.disabled !== undefined && option.disabled === true) {
+          optionParams.disabled = true;
+        }
+
+        // if there is a help value, add it
+        if (option.help !== undefined) {
+          optionParams["data-help"] = option.help;
+        }
+
         if (params.selected !== undefined) {
           if (option === params.selected || option.value === params.selected) {
             optionParams.selected = true;
+            params.help = option.help;
           }
         }
 

@@ -304,6 +304,16 @@ if (selects.length > 0) {
   });
 }
 
+const handleSelectOptionHelp = (select) => {
+  const name = select.name,
+    selectedOption = select.options[select.selectedIndex],
+    help = selectedOption.dataset.help;
+
+  dataBind(`${name}--help`, help);
+};
+
+addEventDelegate("change", ".field select", handleSelectOptionHelp);
+
 // // handle the data-checked value of labels that contain checkboxes/radios/toggles
 // const syncCheckedValue = (input) => {
 //   const wrapper = input.parentNode;

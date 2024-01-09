@@ -50,6 +50,14 @@ button.btn {
 
   &.loading {
     min-height: 0; // don't subscribe to loading min-heights
+
+    > span {
+      opacity: 0.25;
+    }
+
+    &::after {
+      transform: translate(-50%, -50%) scale(0.2);
+    }
   }
 
   // hover is enabled in the breakpoint-md
