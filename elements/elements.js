@@ -1,24 +1,24 @@
-import { HTML } from "./html/html.element.js";
-import { HEAD } from "./head/head.element.js";
-import { TITLE } from "./title/title.element.js";
-import { META, VIEWPORT } from "./meta/meta.element.js";
-import { LINK, STYLESHEET } from "./link/link.element.js";
-import { SCRIPT, MODULE } from "./script/script.element.js";
-import { BODY } from "./body/body.element.js";
-import { HEADER } from "./header/header.element.js";
-import { LI } from "./li/li.element.js";
-import { UL, ULLI } from "./ul/ul.element.js";
-import { OL, OLLI } from "./ol/ol.element.js";
-import { NAV, NAVIGATION } from "./nav/nav.element.js";
-import { SPAN } from "./span/span.element.js";
-import { STRONG } from "./strong/strong.element.js";
-import { EM } from "./em/em.element.js";
-import { P } from "./p/p.element.js";
-import { MAIN } from "./main/main.element.js";
-import { A } from "./a/a.element.js";
-import { IMG, LAZYIMG } from "./img/img.element.js";
-import { FIGURE, FIGCAPTION } from "./figure/figure.element.js";
-import { SECTION } from "./section/section.element.js";
+import { HTML } from "./html/html.html.js";
+import { HEAD } from "./head/head.html.js";
+import { TITLE } from "./title/title.html.js";
+import { META, VIEWPORT } from "./meta/meta.html.js";
+import { LINK, STYLESHEET } from "./link/link.html.js";
+import { SCRIPT, MODULE } from "./script/script.html.js";
+import { BODY } from "./body/body.html.js";
+import { HEADER } from "./header/header.html.js";
+import { LI } from "./li/li.html.js";
+import { UL, ULLI } from "./ul/ul.html.js";
+import { OL, OLLI } from "./ol/ol.html.js";
+import { NAV } from "./nav/nav.html.js";
+import { SPAN } from "./span/span.html.js";
+import { STRONG } from "./strong/strong.html.js";
+import { EM } from "./em/em.html.js";
+import { P } from "./p/p.html.js";
+import { MAIN } from "./main/main.html.js";
+import { A } from "./a/a.html.js";
+import { IMG, LAZYIMG } from "./img/img.html.js";
+import { FIGURE, FIGCAPTION } from "./figure/figure.html.js";
+import { SECTION } from "./section/section.html.js";
 import {
   TABLE,
   CAPTION,
@@ -27,8 +27,8 @@ import {
   TR,
   TH,
   TD,
-} from "./table/table.element.js";
-import { H1, H2, H3, H4, H5, H6 } from "./headings/headings.element.js";
+} from "./table/table.html.js";
+import { H1, H2, H3, H4, H5, H6 } from "./headings/headings.html.js";
 import {
   INPUT,
   LABEL,
@@ -52,16 +52,16 @@ import {
   CHECKBOXLABEL,
   RADIO,
   RADIOLABEL,
-} from "./input/input.element.js";
-import { BUTTON } from "./button/button.element.js";
-import { FORM } from "./form/form.element.js";
-import { BLOCKQUOTE } from "./blockquote/blockquote.element.js";
-import { BR } from "./br/br.element.js";
-import { DIALOG } from "./dialog/dialog.element.js";
-import { ARTICLE } from "./article/article.element.js";
-import { SVG } from "./svg/svg.element.js";
-import { FOOTER } from "./footer/footer.element.js";
-import { STYLE } from "./style/style.element.js";
+} from "./input/input.html.js";
+import { BUTTON } from "./button/button.html.js";
+import { FORM } from "./form/form.html.js";
+import { BLOCKQUOTE } from "./blockquote/blockquote.html.js";
+import { BR } from "./br/br.html.js";
+import { DIALOG } from "./dialog/dialog.html.js";
+import { ARTICLE } from "./article/article.html.js";
+import { SVG } from "./svg/svg.html.js";
+import { FOOTER } from "./footer/footer.html.js";
+import { STYLE } from "./style/style.html.js";
 
 export {
   HTML,
@@ -81,7 +81,6 @@ export {
   OL,
   OLLI,
   NAV,
-  NAVIGATION,
   SPAN,
   STRONG,
   EM,

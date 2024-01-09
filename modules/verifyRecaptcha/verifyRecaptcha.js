@@ -16,7 +16,7 @@ export const verifyRecaptcha = (response, callback) => {
     },
     (err, httpResponse, str) => {
       if (err) {
-        console.log(err);
+        console.error(err);
       } else {
         const body = JSON.parse(str);
         callback(body);

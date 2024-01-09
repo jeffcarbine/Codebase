@@ -1,6 +1,6 @@
 import { xhr } from "../../modules/xhr/xhr.js";
 import { renderTemplate } from "../../template/renderTemplate.js";
-import { PRODUCTSUMMARY } from "../product/productSummary.component.js";
+import { PRODUCTSUMMARY } from "../product/productSummary.html.js";
 
 const productSummaryGrids = document.querySelectorAll(".productSummaryGrid");
 

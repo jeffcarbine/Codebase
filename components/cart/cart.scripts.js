@@ -1,7 +1,7 @@
 import { addEventDelegate } from "../../modules/eventDelegate/eventDelegate.js";
 import { xhr } from "../../modules/xhr/xhr.js";
 import { renderTemplate } from "../../template/renderTemplate.js";
-import { cartContentTemplate } from "./cart.component.js";
+import { cartContentTemplate } from "./cart.html.js";
 import { dataBind } from "../../modules/dataBind/dataBind.js";
 
 const closeCart = () => {

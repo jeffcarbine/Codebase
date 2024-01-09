@@ -22,7 +22,7 @@ export const post__shop_collection = (req, res, next) => {
             callback(null, collectionId);
           })
           .catch((err) => {
-            console.log(err);
+            console.error(err);
           });
       },
       (collectionId, callback) => {
@@ -32,7 +32,7 @@ export const post__shop_collection = (req, res, next) => {
             callback(null, collection);
           })
           .catch((err) => {
-            console.log(err);
+            console.error(err);
           });
       },
       (collection) => {

@@ -64,7 +64,7 @@ const defaultRssArchiver = (show, count, callback) => {
       },
       function (err) {
         if (err) {
-          console.log(err);
+          console.error(err);
         } else {
           console.log("Succesfully updated RSS feed episodes");
           callback(null);
@@ -96,7 +96,7 @@ const defaultPatreonArchiver = (show, count, callback) => {
             },
             (err, result, body) => {
               if (err) {
-                console.log(err);
+                console.error(err);
               } else {
                 body = JSON.parse(body);
 
@@ -141,7 +141,7 @@ const defaultPatreonArchiver = (show, count, callback) => {
               }
             ).exec((err) => {
               if (err) {
-                console.log(err);
+                console.error(err);
               } else {
                 next();
               }
@@ -149,7 +149,7 @@ const defaultPatreonArchiver = (show, count, callback) => {
           },
           (err) => {
             if (err) {
-              console.log(err);
+              console.error(err);
             } else {
               console.log("Successfully updated Patreon posts");
             }
@@ -159,7 +159,7 @@ const defaultPatreonArchiver = (show, count, callback) => {
     ],
     (err) => {
       if (err) {
-        console.log(err);
+        console.error(err);
       }
     }
   );
@@ -184,7 +184,7 @@ const defaultSpotifyArchiver = (show, count, callback) => {
         },
         (err, httpResponse, str) => {
           if (err) {
-            console.log(err);
+            console.error(err);
           } else {
             let body = JSON.parse(str);
 
@@ -236,7 +236,7 @@ const defaultSpotifyArchiver = (show, count, callback) => {
             }
           ).exec((err) => {
             if (err) {
-              console.log(err);
+              console.error(err);
             } else {
               next();
             }
@@ -244,7 +244,7 @@ const defaultSpotifyArchiver = (show, count, callback) => {
         },
         (err) => {
           if (err) {
-            console.log(err);
+            console.error(err);
           } else {
             console.log("Succesfully updated Spotify episodes");
 
@@ -295,7 +295,7 @@ const defaultYouTubeArchiver = (show, count, callback) => {
       },
       function (err) {
         if (err) {
-          console.log(err);
+          console.error(err);
         } else {
           console.log("Succesfully updated YouTube episodes");
           callback(null);
@@ -332,7 +332,7 @@ const defaultAppleArchiver = (show, count, callback) => {
           }
         ).exec((err, episode) => {
           if (err) {
-            console.log(err);
+            console.error(err);
           } else {
             next();
           }
@@ -340,7 +340,7 @@ const defaultAppleArchiver = (show, count, callback) => {
       },
       (err) => {
         if (err) {
-          console.log(err);
+          console.error(err);
         } else {
           console.log("Succesfully updated Apple episodes");
 
@@ -379,7 +379,7 @@ export const archiveEpisodes = ({
 
   Show.find().exec((err, shows) => {
     if (err) {
-      console.log(err);
+      console.error(err);
     } else {
       shows.forEach((show) => {
         archiveLatestEpisode(
@@ -450,7 +450,7 @@ const archiveLatestEpisode = (
     ],
     (err) => {
       if (err) {
-        console.log(err);
+        console.error(err);
       }
     }
   );

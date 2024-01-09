@@ -1,4 +1,4 @@
-﻿import { MODAL } from "./modal.component.js";
+﻿import { MODAL } from "./modal.html.js";
 import { renderTemplate } from "/periodic/template/renderTemplate.js";
 import { addEventDelegate } from "../../modules/eventDelegate/eventDelegate.js";
 

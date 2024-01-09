@@ -42,7 +42,7 @@ export const enableUserRoutes = (app, redirect = "/") => {
         password,
         (err, account) => {
           if (err) {
-            console.log(err);
+            console.error(err);
             return res.status(500).send(err.message);
           }
 

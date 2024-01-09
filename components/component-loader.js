@@ -29,7 +29,6 @@ components.forEach((component) => {
 });
 
 const handleMutationComponent = (element) => {
-  console.log("mutation!");
   const name = element.dataset.component,
     parent = element.dataset.parent;
 

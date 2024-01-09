@@ -31,7 +31,7 @@ const generateSpotifyToken = (mainCallback) => {
     },
     (err, httpResponse, str) => {
       if (err) {
-        console.log(err);
+        console.error(err);
       } else {
         const body = JSON.parse(str),
           expires = new Date();
@@ -56,7 +56,7 @@ const generateSpotifyToken = (mainCallback) => {
           }
         ).exec((err, token) => {
           if (err) {
-            console.log(err);
+            console.error(err);
           } else {
             console.log("Succesfully generated Token for Spotify");
             mainCallback(token.access_token);
@@ -115,7 +115,7 @@ export function getSpotifyToken(mainCallback) {
       },
       (err, httpResponse, str) => {
         if (err) {
-          console.log(err);
+          console.error(err);
         } else {
           let body = JSON.parse(str);
 
@@ -171,7 +171,7 @@ export function getSpotifyToken(mainCallback) {
   //         },
   //         function (err, httpResponse, str) {
   //           if (err) {
-  //             console.log(err);
+  //             console.error(err);
   //           } else {
   //             let body = JSON.parse(str);
   //             console.log(body);

@@ -39,7 +39,7 @@ export const getKicktraqData = (relativePath, callback) => {
       },
     ],
     (err) => {
-      console.log(err);
+      console.error(err);
       return err;
     }
   );
