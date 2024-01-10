@@ -17,7 +17,7 @@ export const PRODUCTSUMMARY = ({
       },
     ],
   },
-  placeholder = "",
+  placeholder = false,
   url = "/shop/product/",
 } = {}) => {
   const price = data.variants[0].price.amount,
@@ -43,7 +43,7 @@ export const PRODUCTSUMMARY = ({
   return {
     tagName: placeholder ? "div" : "a",
     href: url + data.handle || "",
-    class: `productSummary ${tags} ${placeholder}`,
+    class: `productSummary ${tags} ${placeholder ? "placeholder" : ""}`,
     target: url === "/shop/product/" ? "" : "_blank",
     "data-nsfw-event": nsfw ? "click" : "none",
     children: [

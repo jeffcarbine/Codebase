@@ -9,7 +9,7 @@
   --checkbox-radio-font-size: 1rem;
   --checkbox-radio-background-color: var(--background);
   --checkbox-radio-color: var(--foreground);
-  --checkbox-radio-focus-background-color: var(--background-low);
+  --checkbox-radio-focus-background-color: var(--background-mid);
   --checkbox-radio-focus-border-color: var(--accent);
 
   --input-background: transparent;
@@ -67,12 +67,12 @@ input[type="number"] {
 
 .style-inputs {
   label {
-    --label-background: var(--background-low);
+    --label-background: var(--background-mid);
     --label-color: var(--foreground);
     --label-font-size: 1rem;
     --label-line-height: 1rem;
     --label-focus-font-size: 0.75rem;
-    --label-active-color: var(--foreground-mid);
+    --label-active-color: var(--foreground-grey);
     --label-active-border-color: var(--accent);
     --label-border-radius: var(--border-radius);
     --label-round-border-radius: 50px;
@@ -436,7 +436,7 @@ input[type="number"] {
   .base64ImageInput {
     .imagePreview {
       display: block;
-      background: var(--background-low);
+      background: var(--background-mid);
       width: 10rem;
       height: 10rem;
       border-radius: var(--border-radius);

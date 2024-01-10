@@ -1,46 +1,52 @@
 ﻿:root {
+  --primary-light: #dd6980;
   --primary: #d23756;
   --primary-step: #b72a46;
   --primary-on: var(--light);
+
+  --accent-light: #fbdd88;
   --accent: #f9c22e;
   --accent-step: #edb007;
   --accent-on: var(--dark);
 
   --superdark: #121315;
   --dark: #16171b;
-  --dark-low: #202127;
-  --dark-mid: #27272f;
+  --dark-mid: #202127;
+  --dark-grey: #27272f;
 
   --midtone: #888888;
 
-  --superlight: #fafafa;
+  --light-grey: #e0e0e0;
+  --light-mid: #f5f5f5;
   --light: #f7f7f7;
-  --light-low: #f5f5f5;
-  --light-mid: #e0e0e0;
+  --superlight: #fafafa;
 
   --superforeground: var(--superdark);
   --foreground: var(--dark);
-  --foreground-low: var(--dark-low);
   --foreground-mid: var(--dark-mid);
+  --foreground-grey: var(--dark-grey);
   --background: var(--light);
-  --background-low: var(--light-low);
   --background-mid: var(--light-mid);
+  --background-grey: var(--light-grey);
   --superbackground: var(--superlight);
 
   // default urgent, warning and success colors
-  --green-light: #7cb69b;
-  --green: #42765e;
-  --green-dark: #2c4e3e;
-  --red-light: #f9e1e0;
-  --red: #d13d3d;
-  --red-dark: #771822;
-  --yellow-light: #fbd774;
-  --yellow: #edb007;
-  --yellow-dark: #b28406;
+  --success-light: #7cb69b;
+  --success: #42765e;
+  --success-dark: #2c4e3e;
+  --success-on: var(--light);
 
-  --positive: var(--green);
-  --negative: var(--red);
-  --warning: var(--yellow);
+  --urgent-light: #f9e1e0;
+  --urgent: #d13d3d;
+  --urgent-dark: #771822;
+  --urgent-on: var(--light);
+
+  --caution-light: #fbd774;
+  --caution: #edb007;
+  --caution-dark: #b28406;
+  --caution-on: var(--light);
+
+  --link-color: var(--primary);
 
   --box-shadow-color: rgba(0, 0, 0, 0.125); // less intense for light themes
   --box-shadow: 0px 7px 10px -5px var(--box-shadow-color);
@@ -74,11 +80,11 @@
 @mixin darkTheme {
   --superforeground: var(--superlight);
   --foreground: var(--light);
-  --foreground-low: var(--light-low);
   --foreground-mid: var(--light-mid);
+  --foreground-grey: var(--light-grey);
   --background: var(--dark);
-  --background-low: var(--dark-low);
   --background-mid: var(--dark-mid);
+  --background-grey: var(--dark-grey);
   --superbackground: var(--superdark);
 
   --border-color: rgba(95, 95, 95, 0.25);
@@ -93,4 +99,8 @@ html[data-theme="dark"] {
 body {
   background: var(--background);
   color: var(--foreground);
+
+  a {
+    color: var(--link-color);
+  }
 }

@@ -12,7 +12,7 @@
     position: relative;
     border-radius: 5px 5px 0 0;
     border: 1px solid var(--border-color);
-    background: var(--background-low);
+    background: var(--background-mid);
     padding: 1rem;
     @include typography.fontValues(9);
     font-weight: 500;

@@ -1,3 +1,8 @@
+:root {
+  --placeholder-gradient-1: var(--background);
+  --placeholder-gradient-2: var(--background-mid);
+}
+
 @keyframes placeholder {
   0% {
     background-position: -40rem 0;
@@ -12,28 +17,12 @@
   animation: placeholder 1.7s forwards;
   animation-iteration-count: infinite;
   animation-timing-function: linear;
-  background: #f6f7f8;
+  background: var(--placeholder-graident-1);
   background: linear-gradient(
     to right,
-    var(--light-mid) 10%,
-    var(--light-low) 40%,
-    var(--light-mid) 70%
+    var(--placeholder-gradient-1) 10%,
+    var(--placeholder-gradient-2) 40%,
+    var(--placeholder-gradient-1) 70%
   );
   background-size: 80rem;
-}
-
-.placeholder {
-  &.box {
-  }
-
-  &.text {
-    &.sm {
-    }
-
-    &.md {
-    }
-
-    &.lg {
-    }
-  }
 }

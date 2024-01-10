@@ -1,6 +1,6 @@
 :root {
   --field-background: var(--background);
-  --field-toggle-background: var(--background-mid);
+  --field-toggle-background: var(--background-grey);
   --field-input-color: var(--foreground);
   --field-label-color: var(--foreground);
   --field-focus-color: var(--accent);
@@ -8,7 +8,7 @@
   --field-border-width: 0.125rem;
   --field-padding: 0.75rem;
 
-  --reorganizeItem-background: var(--background-mid);
+  --reorganizeItem-background: var(--background-grey);
 }
 
 @keyframes focus {
