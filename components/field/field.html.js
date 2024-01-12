@@ -65,10 +65,10 @@ export class FIELD {
     // put that inside of the input wrapper
     const wrapper = {
       class: "wrapper",
-      "data-bind": `${params.name}--validation`,
-      "data-bind-neq": "",
-      "data-bind-to": "class",
-      "data-bind-value": "invalid",
+      "data-emit": `${params.name}--validation`,
+      "data-emit-neq": "",
+      "data-emit-to": "class",
+      "data-emit-value": "invalid",
       children: [
         input,
         {
@@ -233,6 +233,12 @@ export class FIELD {
     if (type === "checkbox" || type === "radio" || type === "toggleSingle") {
       wrapper["data-checked"] = params.checked;
 
+      // and add the pseudo checkbox/radio/toggle after the input
+      // but before the focus span
+      wrapper.children.splice(1, 0, {
+        class: "pseudo",
+      });
+
       if (params.checked == false) {
         delete input.checked;
       }
@@ -242,14 +248,14 @@ export class FIELD {
     const validation = {
       tagName: "span",
       class: "validation",
-      "data-bind": `${params.name}--validation`,
+      "data-emit": `${params.name}--validation`,
     };
 
     // create the help element
     const help = {
       tagName: "span",
       class: "help",
-      "data-bind": `${params.name}--help`,
+      "data-emit": `${params.name}--help`,
     };
 
     // check the type of help that is coming in

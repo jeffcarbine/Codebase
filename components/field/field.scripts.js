@@ -1,5 +1,5 @@
 import { addEventDelegate } from "../../modules/eventDelegate/eventDelegate.js";
-import { dataBind } from "../../modules/dataBind/dataBind.js";
+import { dataEmit } from "../../modules/dataEmit/dataEmit.js";
 
 const handleFocus = (target, event) => {
   const clientX = event.clientX,
@@ -94,7 +94,7 @@ const createBase64String = (input) => {
   if (input.files[0].size > 40000000) {
     const name = input.name;
 
-    dataBind(`${name}--validation`, "Filesize is too large.");
+    dataEmit(`${name}--validation`, "Filesize is too large.");
 
     input.value = "";
     return;
@@ -309,7 +309,7 @@ const handleSelectOptionHelp = (select) => {
     selectedOption = select.options[select.selectedIndex],
     help = selectedOption.dataset.help;
 
-  dataBind(`${name}--help`, help);
+  dataEmit(`${name}--help`, help);
 };
 
 addEventDelegate("change", ".field select", handleSelectOptionHelp);
@@ -396,3 +396,12 @@ addEventDelegate(
   ".field input[data-simplecurrency]",
   addTwoDecimalPlaces
 );
+
+// toggle checkbox/radio checked property on pseudo element click
+const toggleChecked = (pseudo) => {
+  const input = pseudo.parentNode.querySelector("input");
+
+  input.click();
+};
+
+addEventDelegate("click", ".field .pseudo", toggleChecked);

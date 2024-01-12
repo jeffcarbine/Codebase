@@ -1,4 +1,4 @@
-import { dataBind } from "../../modules/dataBind/dataBind.js";
+import { dataEmit } from "../../modules/dataEmit/dataEmit.js";
 import { addEventDelegate } from "../../modules/eventDelegate/eventDelegate.js";
 import { passwordRegex } from "./passwordRegex.js";
 import { xhrForm } from "../../modules/xhr/xhr.js";
@@ -6,15 +6,15 @@ import { xhrForm } from "../../modules/xhr/xhr.js";
 const checkPasswordComplexity = (input) => {
   if (input.value !== "") {
     if (passwordRegex.test(input.value)) {
-      dataBind("password--validation", "");
+      dataEmit("password--validation", "");
     } else {
-      dataBind(
+      dataEmit(
         "password--validation",
         "Password must be at least 8 characters, contain at least one uppercase letter, one lowercase letter, one number, and one special character"
       );
     }
   } else {
-    dataBind("password--validation", "");
+    dataEmit("password--validation", "");
   }
 };
 
@@ -34,9 +34,9 @@ const checkPasswordMatch = (input) => {
     passwordConfirmInput.value != "" &&
     passwordInput.value !== passwordConfirmInput.value
   ) {
-    dataBind("passwordConfirm--validation", "Passwords do not match");
+    dataEmit("passwordConfirm--validation", "Passwords do not match");
   } else {
-    dataBind("passwordConfirm--validation", "");
+    dataEmit("passwordConfirm--validation", "");
   }
 };
 

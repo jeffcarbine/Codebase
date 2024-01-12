@@ -8,7 +8,7 @@
  * Set a cookie name, value and expiration
  *
  * @param {string} name The name of your cookie
- * @param {string} value The value of that cookie
+ * @param {number} value The value of that cookie
  * @param {number} days The expiration on that cookie
  */
 

@@ -2,7 +2,7 @@ import { addEventDelegate } from "../../modules/eventDelegate/eventDelegate.js";
 import { xhr } from "../../modules/xhr/xhr.js";
 import { renderTemplate } from "../../template/renderTemplate.js";
 import { cartContentTemplate } from "./cart.html.js";
-import { dataBind } from "../../modules/dataBind/dataBind.js";
+import { dataEmit } from "../../modules/dataEmit/dataEmit.js";
 
 const closeCart = () => {
   const cartToggle = document.querySelector("#cartToggle"),
@@ -38,7 +38,7 @@ export const update = (request) => {
 
   const newcartContent = renderTemplate(cartContentTemplate(cartData));
 
-  dataBind("cartCount", countLineItems(cartData.lineItems));
+  dataEmit("cartCount", countLineItems(cartData.lineItems));
 
   cartContent.appendChild(newcartContent);
 };

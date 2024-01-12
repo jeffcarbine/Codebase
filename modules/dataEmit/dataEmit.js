@@ -1,25 +1,25 @@
 /**
- * DataBind
- * @module dataBind
- * @description binds data to elements
- * @param {string} key the key to bind to
- * @param {string} value the value to bind
+ * DataEmit
+ * @module dataEmit
+ * @description emits data to elements
+ * @param {string} key the key to emit to
+ * @param {string} value the value to emit
  */
 
-export const dataBind = (key, value) => {
-  // get all elements with a data-bind attribute
-  const elements = document.querySelectorAll("[data-bind]");
+export const dataEmit = (key, value) => {
+  // get all elements with a data-emit attribute
+  const elements = document.querySelectorAll("[data-emit]");
 
   // loop through the elements
   elements.forEach((element) => {
     // check if we are bound to this key
-    if (element.dataset.bind === key) {
-      const gt = element.dataset.bindGt,
-        lt = element.dataset.bindLt,
-        eq = element.dataset.bindEq,
-        neq = element.dataset.bindNeq,
-        gte = element.dataset.bindGte,
-        lte = element.dataset.bindLte;
+    if (element.dataset.emit === key) {
+      const gt = element.dataset.emitGt,
+        lt = element.dataset.emitLt,
+        eq = element.dataset.emitEq,
+        neq = element.dataset.emitNeq,
+        gte = element.dataset.emitGte,
+        lte = element.dataset.emitLte;
 
       const conditions = {};
 
@@ -114,30 +114,30 @@ export const dataBind = (key, value) => {
         }
       }
 
-      // get the value we are binding to
-      const bindTo = element.dataset.bindTo,
-        bindValue = element.dataset.bindValue;
+      // get the value we are emiting to
+      const emitTo = element.dataset.emitTo,
+        emitValue = element.dataset.emitValue;
 
       // if the conditions are met
       if (conditionsMet) {
         // set the data-bound attribute to true
         element.dataset.bound = true;
 
-        // if there is a bindValue, use that
-        if (bindTo !== undefined) {
+        // if there is a emitValue, use that
+        if (emitTo !== undefined) {
           // get the original value of the attribute
-          const attributeValue = element.getAttribute(bindTo) || "";
-          let newValue = bindValue !== undefined ? bindValue : value,
+          const attributeValue = element.getAttribute(emitTo) || "";
+          let newValue = emitValue !== undefined ? emitValue : value,
             newAttributeValue = !attributeValue.includes(newValue)
               ? `${attributeValue} ${newValue}`
               : attributeValue;
 
-          element.setAttribute(bindTo, newAttributeValue);
+          element.setAttribute(emitTo, newAttributeValue);
         } else {
           // otherwise use the textcontent
-          // if there is a bindValue, use that
-          if (bindValue !== undefined) {
-            element.textContent = bindValue;
+          // if there is a emitValue, use that
+          if (emitValue !== undefined) {
+            element.textContent = emitValue;
           } else {
             // otherwise use the value
             element.textContent = value;
@@ -147,13 +147,13 @@ export const dataBind = (key, value) => {
         // otherwise, remove the data-bound attribute
         delete element.dataset.bound;
 
-        if (bindTo !== undefined) {
+        if (emitTo !== undefined) {
           // remove the bound value from the attribute
-          const attributeValue = element.getAttribute(bindTo) || "";
-          let newValue = bindValue !== undefined ? bindValue : value,
+          const attributeValue = element.getAttribute(emitTo) || "";
+          let newValue = emitValue !== undefined ? emitValue : value,
             newAttributeValue = attributeValue.replace(newValue, "").trim();
 
-          element.setAttribute(bindTo, newAttributeValue);
+          element.setAttribute(emitTo, newAttributeValue);
         }
       }
     }

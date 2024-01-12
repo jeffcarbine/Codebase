@@ -11,7 +11,7 @@ export const CARTTOGGLE = (target = "#cart") => {
         class: "itemCount",
         child: new e.SPAN({
           class: "number",
-          "data-bind": "cartCount",
+          "data-emit": "cartCount",
         }),
       }),
       new c.ICON("cart"),
