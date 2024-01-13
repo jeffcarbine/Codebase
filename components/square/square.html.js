@@ -6,14 +6,16 @@ export const SQUARE = {
   "xmlns:xlink": "http://www.w3.org/1999/xlink",
   x: "0px",
   y: "0px",
-  viewBox: "0 0 1 1",
+  viewBox: "0 0 209 209",
   "xml:space": "preserve",
   child: {
     tagName: "g",
     child: {
       tagName: "rect",
-      width: 1,
-      height: 1,
+      x: 0,
+      y: 0,
+      width: 209,
+      height: 209,
     },
   },
 };

@@ -1,5 +1,5 @@
 import { IMG, H3 } from "../../elements/elements.js";
-import { SQUARE } from "../square/square.html.js";
+import { ICON } from "../../components/components.js";
 import { formatCurrency } from "../../modules/formatCurrency/formatCurrency.js";
 import { camelize } from "../../modules/formatString/formatString.js";
 
@@ -51,7 +51,7 @@ export const PRODUCTSUMMARY = ({
         class: "image",
         "data-nsfw": nsfw,
         children: [
-          SQUARE,
+          new ICON("square"),
           new IMG({
             if: !placeholder,
             src: data.images[0].src || "",

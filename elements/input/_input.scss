@@ -237,7 +237,7 @@ input[type="number"] {
 
       // for inputXhr stuff
       &.unsavedChanges {
-        border-color: var(--yellow);
+        border-color: var(--caution);
         color: var(--foreground);
       }
 
@@ -255,7 +255,7 @@ input[type="number"] {
       }
 
       &.success {
-        border-color: var(--green);
+        border-color: var(--success);
         color: inherit;
       }
     }

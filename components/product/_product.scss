@@ -119,8 +119,9 @@
         }
       }
 
-      .square {
-        opacity: 0;
+      .icon {
+        fill: var(--superbackground);
+        opacity: 0.5;
       }
     }
   }
@@ -271,8 +272,9 @@
   .image {
     position: relative;
 
-    .square {
-      opacity: 0;
+    .icon {
+      background: var(--superbackground);
+      opacity: 0.5;
     }
 
     img {

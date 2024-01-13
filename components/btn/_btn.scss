@@ -98,22 +98,22 @@ button.btn {
   }
 
   &.urgent {
-    --btn-background: var(--red);
-    --btn-focus-background: var(--red-dark);
+    --btn-background: var(--urgent);
+    --btn-focus-background: var(--urgent-dark);
     --btn-color: var(--light);
     --btn-focus-color: var(--light);
   }
 
   &.caution {
-    --btn-background: var(--yellow);
-    --btn-focus-background: var(--yellow-dark);
+    --btn-background: var(--caution);
+    --btn-focus-background: var(--caution-dark);
     --btn-color: var(--light);
     --btn-focus-color: var(--light);
   }
 
   &.success {
-    --btn-background: var(--green);
-    --btn-focus-background: var(--green-dark);
+    --btn-background: var(--success);
+    --btn-focus-background: var(--success-dark);
     --btn-color: var(--light);
     --btn-focus-color: var(--light);
   }

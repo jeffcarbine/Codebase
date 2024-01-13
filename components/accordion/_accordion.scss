@@ -6,7 +6,7 @@
   --carat-width: calc(var(--accordion-title-font-size) * 0.75);
   --accordion-body-background: var(--background);
   --accordion-body-color: var(--foreground);
-  --accordion-highlight-body-background: var(--yellow-dark);
+  --accordion-highlight-body-background: var(--caution-dark);
   --accordion-border: 1px solid var(--border-color);
 
   &.sm {

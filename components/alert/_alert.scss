@@ -5,12 +5,12 @@
   --alert-font-weight: 100;
   --alert-default-background: var(--background-grey);
   --alert-default-color: var(--foreground-grey);
-  --alert-success-background: var(--green-dark);
-  --alert-success-color: var(--green);
-  --alert-failure-background: var(--red-dark);
-  --alert-failure-color: var(--red);
-  --alert-error-background: var(--yellow-dark);
-  --alert-error-color: var(--yellow);
+  --alert-success-background: var(--success-dark);
+  --alert-success-color: var(--success);
+  --alert-failure-background: var(--urgent-dark);
+  --alert-failure-color: var(--urgent);
+  --alert-error-background: var(--caution-dark);
+  --alert-error-color: var(--caution);
 }
 
 .alert {
