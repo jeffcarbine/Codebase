@@ -1,7 +1,4 @@
-import { TITLE } from "../title/title.html.js";
-import { META } from "../meta/meta.html.js";
-import { LINK, STYLESHEET } from "../link/link.html.js";
-import { SCRIPT } from "../script/script.html.js";
+import { STYLE, SCRIPT, LINK, STYLESHEET, TITLE, META } from "../elements.js";
 
 export class HEAD {
   constructor(params) {
@@ -69,6 +66,14 @@ export class HEAD {
 
         this.children.push(faviconTag);
       }
+    }
+
+    if (params.inlineStyles !== undefined) {
+      const inlineStyles = new STYLE({
+        textContent: params.inlineStyles,
+      });
+
+      this.children.push(inlineStyles);
     }
   }
 }

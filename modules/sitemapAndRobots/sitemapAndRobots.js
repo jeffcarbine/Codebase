@@ -1,5 +1,5 @@
-import Page from "../../admin/models/Page.js";
-import Episode from "../../admin/models/Episode.js";
+import Page from "../../../premmio/models/Page.js";
+import Episode from "../../../premmio/models/Episode.js";
 
 import { SitemapStream, streamToPromise } from "sitemap";
 import { createGzip } from "zlib";

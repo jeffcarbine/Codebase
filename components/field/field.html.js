@@ -3,6 +3,8 @@ import { camelize } from "../../modules/formatString/formatString.js";
 import { SQUARE, ICON } from "../components.js";
 import { BUTTON, IMG, LI, SPAN, UL, ULLI } from "../../elements/elements.js";
 
+// add in aria-label assignment
+
 export class FIELD {
   constructor(params = {}) {
     // set the data-component attribute

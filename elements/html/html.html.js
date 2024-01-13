@@ -44,6 +44,7 @@ export class HTML {
       metas: params.metas,
       links: params.links,
       stylesheets: params.stylesheets,
+      inlineStyles: params.inlineStyles,
       scripts: params.scripts,
       favicons: params.favicons || defaultFavicons,
     });
