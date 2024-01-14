@@ -1,9 +1,24 @@
-﻿import { addEventDelegate } from "../../modules/eventDelegate/eventDelegate.js";
+﻿// TODO: there is an issue with our eventdelegate that is causing the mouseout event to fire
+// when hovering over the p child of the alert (ie: we are no longer hovering over the alert
+// technically speaking) - this is causing the toast to fire the events over and over and
+// eventually will lead to an error in the console when it triees to remove an element
+// that is no longer in the DOM
+// it doesn't break anything per se, but it should be fixed eventually. so, future Jeff,
+// please fix it
+// thank you
+// - past Jeff
+
+import { addEventDelegate } from "../../modules/eventDelegate/eventDelegate.js";
 import { renderTemplate } from "../../template/renderTemplate.js";
 
 // ALERTS
 
-function removeToast(alert, head = null, transition = null) {
+const removeToast = ({
+  alert,
+  parent,
+  head = null,
+  transition = null,
+} = {}) => {
   alert.classList.remove("visible");
 
   if (transition !== null) {
@@ -11,14 +26,15 @@ function removeToast(alert, head = null, transition = null) {
   }
 
   setTimeout(() => {
-    document.body.removeChild(alert);
+    parent.removeChild(alert);
   }, 1000);
-}
+};
 
 const dismissToast = (button) => {
-  let alert = button.parentNode;
+  let alert = button.parentNode,
+    parent = alert.parentNode;
 
-  removeToast(alert);
+  removeToast({ alert, parent });
 };
 
 addEventDelegate("click", ".alert button.dismiss", dismissToast);
@@ -76,7 +92,7 @@ export const toast = ({
 
     // we give the user one second for every
     // fifteen characters
-    let delay = Math.round(contentLength / 15);
+    let delay = Math.round(contentLength / 5);
     let transition = document.createElement("style");
     let head = document.querySelector("head");
 
@@ -91,7 +107,7 @@ export const toast = ({
     }, toastDelay);
 
     let timeout = setTimeout(function () {
-      removeToast(alert, head, transition);
+      removeToast({ alert, parent, head, transition });
     }, delay * 1000);
 
     let stopTimeout = function () {
@@ -104,9 +120,7 @@ export const toast = ({
     let resumeTimeout = function () {
       head.appendChild(transition);
       timeout = setTimeout(function () {
-        alert.classList.remove("visible");
-        head.removeChild(transition);
-        document.body.removeChild(alert);
+        removeToast({ alert, parent, head, transition });
       }, delay * 1000);
     };
 

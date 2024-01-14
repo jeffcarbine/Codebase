@@ -1,4 +1,5 @@
 import { toast } from "../../components/alert/alert.js";
+import { stripHtml } from "../formatString/formatString.js";
 
 /**
  * XHR
@@ -57,7 +58,8 @@ export const xhr = ({
 };
 
 const toastResponse = (string, status, form) => {
-  toast({ message: string, dismissable: true, status, parent: form });
+  const message = stripHtml(string);
+  toast({ message, dismissable: true, status, parent: form });
 };
 
 const toastSuccess = (request, body, form) => {
@@ -69,13 +71,13 @@ const toastSuccess = (request, body, form) => {
 const toastError = (request, body, form) => {
   const string = request.response;
 
-  toastResponse(string, "error", form);
+  toastResponse(string, "caution", form);
 };
 
 const toastFailure = (request, body, form) => {
   const string = request.response;
 
-  toastResponse(string, "failure", form);
+  toastResponse(string, "urgent", form);
 };
 
 export const xhrForm = ({

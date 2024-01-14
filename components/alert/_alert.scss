@@ -4,29 +4,37 @@
   --alert-font-size-sm: var(--f12-font-size);
   --alert-font-weight: 100;
   --alert-default-background: var(--background-grey);
+  --alert-default-overlay: var(--background-mid);
   --alert-default-color: var(--foreground-grey);
-  --alert-success-background: var(--success-dark);
-  --alert-success-color: var(--success);
-  --alert-failure-background: var(--urgent-dark);
-  --alert-failure-color: var(--urgent);
-  --alert-error-background: var(--caution-dark);
-  --alert-error-color: var(--caution);
 }
 
 .alert {
+  --background: var(--alert-default-background);
+  --color: var(--alert-default-color);
+  --overlay: var(--alert-default-overlay);
+
   font-size: var(--alert-font-size);
   font-weight: var(--alert-font-weight);
-  border: 1px solid;
   margin: 0.5rem;
   position: relative;
   transition: all 0.5s ease;
   height: auto;
-  padding: 1rem 2rem;
+  padding: 1rem;
   overflow: hidden;
   opacity: 1;
   box-sizing: border-box;
   color: var(--alert-color);
-  border-radius: 10rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+
+  &::after {
+    content: "";
+    background: var(--background);
+    @include absolute-center();
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
 
   &.sm {
     font-size: var(--alert-font-size-sm);
@@ -34,7 +42,7 @@
 
   p,
   li {
-    color: var(--alert-color);
+    color: var(--color);
     position: relative;
     z-index: 1;
     @include fontValues(11);
@@ -51,76 +59,29 @@
     margin: 0 0.5rem;
   }
 
-  &:not(.success):not(.error):not(.failure) {
-    background: var(--alert-default-background);
-    border-color: var(--alert-default-color);
-
-    button {
-      &::before,
-      &::after {
-        background: var(--alert-default-color);
-      }
+  button {
+    &::before,
+    &::after {
+      background: var(--color);
     }
   }
 
   &.success {
-    &::after {
-      content: "";
-      background: var(--alert-success-background);
-      @include absolute-center();
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-    }
-
-    border-color: var(--alert-success-color);
-
-    button {
-      &::before,
-      &::after {
-        background: var(--alert-success-color);
-      }
-    }
+    --background: var(--success);
+    --overlay: var(--success-dark);
+    --color: var(--success-on);
   }
 
-  &.failure {
-    &::after {
-      content: "";
-      background: var(--alert-failure-background);
-      @include absolute-center();
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-    }
-
-    border-color: var(--alert-failure-color);
-
-    button {
-      &::before,
-      &::after {
-        background: var(--alert-failure-color);
-      }
-    }
+  &.caution {
+    --background: var(--caution);
+    --overlay: var(--caution-dark);
+    --color: var(--caution-on);
   }
 
-  &.error {
-    &::after {
-      content: "";
-      background: var(--alert-error-background);
-      @include absolute-center();
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-    }
-
-    border-color: var(--alert-error-color);
-
-    button {
-      &::before,
-      &::after {
-        background: var(--alert-error-color);
-      }
-    }
+  &.urgent {
+    --background: var(--urgent);
+    --overlay: var(--urgent-dark);
+    --color: var(--urgent-on);
   }
 
   &.toast {
@@ -148,9 +109,8 @@
         left: 0;
         width: 0;
         height: 100%;
-        background: rgba(0, 0, 0, 0.025);
+        background: var(--overlay);
         z-index: 1;
-        border-radius: 10rem;
       }
     }
   }
@@ -170,7 +130,7 @@
       padding: 0;
       margin: 0;
       z-index: 1;
-      opacity: 0.5;
+      opacity: 0.75;
       transition: all 0.5s ease;
 
       &::before,
