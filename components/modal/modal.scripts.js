@@ -36,5 +36,5 @@ const openModal = (button) => {
   modal.showModal();
 };
 
-addEventDelegate("click", "dialog .close", closeModal, true);
+addEventDelegate("click", "dialog .close, dialog .cancel", closeModal, true);
 addEventDelegate("click", "[data-modal]", openModal, true);
