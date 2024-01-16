@@ -7,7 +7,7 @@ export class CODEBLOCK extends PRE {
 
     this.child = {
       class: "code",
-      textContent: htmlize(params),
+      textContent: params,
     };
   }
 }
