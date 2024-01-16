@@ -1,7 +1,16 @@
 import { generateUniqueId } from "../../modules/generateUniqueId/generateUniqueId.js";
 import { camelize } from "../../modules/formatString/formatString.js";
 import { SQUARE, ICON } from "../components.js";
-import { BUTTON, IMG, LI, SPAN, UL, ULLI } from "../../elements/elements.js";
+import {
+  BUTTON,
+  IMG,
+  LI,
+  SPAN,
+  UL,
+  ULLI,
+  INPUT,
+  LABEL,
+} from "../../elements/elements.js";
 
 // add in aria-label assignment
 
@@ -31,7 +40,7 @@ export class FIELD {
         : "";
     }
 
-    // and change it to a textarea if necessary
+    // if type is textarea, change the input to a textarea
     if (type === "textarea") {
       input.tagName = "textarea";
 
@@ -39,6 +48,7 @@ export class FIELD {
       if (!params.rows) {
         params.rows = 6;
       }
+      // if the type is select, change the input to a select
     } else if (type === "select") {
       input.tagName = "select";
     } else {
@@ -80,6 +90,18 @@ export class FIELD {
       ],
     };
 
+    //
+    //
+    //
+    // MODIFICATIONS
+    // these are modifications to the field depending on type
+    //
+    //
+    //
+
+    //
+    //
+    // SELECT
     // if a select field, create the options
     if (type === "select") {
       input.children = [];
@@ -137,6 +159,9 @@ export class FIELD {
       wrapper.children.push(fauxSelect);
     }
 
+    //
+    //
+    // FILE
     // if this is a file, we need to create the base64file input
     if (type === "file") {
       const base64file = {
@@ -152,6 +177,9 @@ export class FIELD {
       wrapper.children.push(base64file);
     }
 
+    //
+    //
+    // SIMPLEDATE
     // if this is a simpledate, we need to create the hidden input
     if (type === "simpledate") {
       const hidden = {
@@ -182,6 +210,9 @@ export class FIELD {
       wrapper.children.push(hidden);
     }
 
+    //
+    //
+    // CURRENCY OR SIMPLECURRENCY
     // if this is a currency, we need to add the prefix
     if (type === "currency" || type === "simplecurrency") {
       wrapper.children.unshift({
@@ -201,6 +232,9 @@ export class FIELD {
       }
     }
 
+    //
+    //
+    // SIMPLECURRENCY
     if (type === "simplecurrency") {
       // if simplecurrency, we need to add the hidden input
       const hidden = {
@@ -219,24 +253,17 @@ export class FIELD {
       input["data-simplecurrency"] = params.name;
     }
 
+    //
+    //
+    // FULLCHECKBOX OR FULLRADIO
     if (type === "fullcheckbox" || type === "fullradio") {
       input.type = type.replace("full", "");
       wrapper.class += ` ${type}`;
     }
 
-    // create the label element
-    let label;
-
-    if (params.label) {
-      label = {
-        tagName: "label",
-        textContent: params.label,
-        for: params.id,
-      };
-    } else {
-      label = null;
-    }
-
+    //
+    //
+    // CHECKBOX, FULLCHECKBOX, RADIO OR FULLRADIO
     if (
       type === "checkbox" ||
       type === "fullcheckbox" ||
@@ -257,6 +284,64 @@ export class FIELD {
       if (params.checked == false) {
         delete input.checked;
       }
+    }
+
+    //
+    //
+    // ARRAY
+    if (type === "array") {
+      // then we need to create multiple checkbox/label pairs out of
+      // the comma-separated array param and place them inside the wrapper
+      // and make the input hidden
+      input.type = "hidden";
+      input.value = JSON.stringify(params.value);
+
+      const arr = Array.isArray(params.array)
+        ? params.array
+        : params.array.split(",");
+
+      arr.forEach((item) => {
+        const subField = new FIELD({
+          type: "checkbox",
+          name: `${params.name}__${item}`,
+          label: item,
+          "data-input": params.name,
+          checked: params.value.includes(item),
+          value: item,
+        });
+
+        wrapper.children.push(subField);
+      });
+
+      // then make the wrapper a fieldset
+      wrapper.tagName = "fieldset";
+
+      // create a legend inside the wrapper
+      wrapper.children.unshift({
+        tagName: "legend",
+        textContent: params.label,
+      });
+
+      // and then null out the label so it doesn't render
+      params.label = null;
+    }
+
+    //
+    //
+    // END MODIFICATIONS
+    //
+    //
+
+    // create the label element
+    let label;
+
+    // if there is a label, create it
+    if (params.label) {
+      label = {
+        tagName: "label",
+        textContent: params.label,
+        for: params.id,
+      };
     }
 
     // create the validation element
@@ -282,15 +367,25 @@ export class FIELD {
       help.child = params.help;
     }
 
+    // set the children
+    this.children = [wrapper, help, validation];
+
     // put the label second if checkbox or radio
     if (type === "checkbox" || type === "radio") {
-      this.children = [wrapper, label, help, validation];
+      // if label, put it at index 1
+      if (label) {
+        this.children.splice(1, 0, label);
+      }
     } else if (type === "fullradio" || type === "fullcheckbox") {
-      // put the label inside the wrapper as index 1
-      wrapper.children.splice(1, 0, label);
-      this.children = [wrapper, help, validation];
+      // if label, put inside the wrapper as index 1
+      if (label) {
+        wrapper.children.splice(1, 0, label);
+      }
     } else {
-      this.children = [label, wrapper, help, validation];
+      // if label, put it at index 0
+      if (label) {
+        this.children.splice(0, 0, label);
+      }
     }
 
     // if there is a preview, prepend it to the children

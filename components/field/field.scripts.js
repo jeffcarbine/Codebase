@@ -405,3 +405,23 @@ const toggleChecked = (pseudo) => {
 };
 
 addEventDelegate("click", ".field .pseudo", toggleChecked);
+
+// update the hidden input that contains the values for the array field
+const updateArrayInput = (input) => {
+  const arrayInputName = input.dataset.input,
+    arrayInput = document.querySelector(`input[name=${arrayInputName}]`),
+    wrapper = arrayInput.parentNode,
+    values = [...wrapper.querySelectorAll("input:checked")].map(
+      (input) => input.value
+    );
+
+  console.log(arrayInputName);
+
+  arrayInput.value = JSON.stringify(values);
+};
+
+addEventDelegate(
+  "change",
+  ".field.array-field input[type='checkbox']",
+  updateArrayInput
+);

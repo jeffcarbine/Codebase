@@ -2,41 +2,7 @@ import { FORM } from "../../elements/elements.js";
 import { formatCents } from "../../modules/formatCurrency/formatCurrency.js";
 import { BTN, FIELD } from "../components.js";
 
-export const SIGNUP = (tiers) => {
-  // sort the tiers by amount
-  tiers.sort((a, b) => {
-    return a.amount - b.amount;
-  });
-
-  const generateTierOptions = () => {
-    const options = [];
-
-    tiers.forEach((tier) => {
-      options.push({
-        value: tier.amount,
-        name: `${tier.title} - ${formatCents(tier.amount)}/Month`,
-      });
-    });
-
-    return options;
-  };
-
-  const generateTierDescriptions = () => {
-    const descriptions = [];
-
-    tiers.forEach((tier) => {
-      descriptions.push({
-        id: `tierDescription${tier.amount}`,
-        textContent: tier.description,
-        style: {
-          display: "none",
-        },
-      });
-    });
-
-    return descriptions;
-  };
-
+export const SIGNUP = () => {
   return {
     id: "signUp",
     "data-component": "user/signUp",
@@ -77,18 +43,6 @@ export const SIGNUP = (tiers) => {
           required: true,
           label: "Confirm Password",
         }),
-        new FIELD({
-          type: "select",
-          id: "pledge",
-          name: "pledge",
-          required: true,
-          label: "Tier",
-          options: generateTierOptions(),
-        }),
-        {
-          id: "tierDescriptions",
-          children: generateTierDescriptions(),
-        },
         new BTN({
           textContent: "Sign Up",
         }),

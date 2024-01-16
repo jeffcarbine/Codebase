@@ -124,6 +124,24 @@
     }
   }
 
+  fieldset.wrapper {
+    padding: 0.5rem;
+    box-sizing: border-box;
+    border: var(--field-border-width) solid var(--border-color);
+    border-radius: var(--border-radius);
+    display: flex;
+
+    legend {
+      padding: 0.5rem 0.25rem;
+    }
+
+    .field {
+      flex: 0 0 auto;
+      width: auto;
+      margin: 0 0.5rem;
+    }
+  }
+
   label {
     @include fontValues(10);
     color: var(--field-label-color);
@@ -226,7 +244,7 @@
   // hande non-checkbox and non-radio
   &:not(.checkbox-field):not(.radio-field):not(.fullcheckbox-field):not(
       .fullradio-field
-    ) {
+    ):not(.array-field) {
     label {
       display: block;
     }
@@ -251,6 +269,7 @@
         width: 1px;
         height: 1px;
         border-radius: 50%;
+        pointer-events: none;
       }
     }
 

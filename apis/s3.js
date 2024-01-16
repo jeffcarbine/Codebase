@@ -1,5 +1,6 @@
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import crypto from "crypto";
+import axios from "axios";
 
 export const uploadBase64ToS3 = async (base64, callback) => {
   const cloudfrontURL = process.env.CLOUDFRONTURL;
@@ -54,3 +55,24 @@ export const uploadBase64ToS3 = async (base64, callback) => {
     callback(err);
   }
 };
+
+// https://stackoverflow.com/questions/16803293/is-there-a-way-to-upload-to-s3-from-a-url-using-node-js
+
+const uploadUrlToS3 = (url, bucket, key) => {
+  return axios
+    .get(url, { responseType: "arraybuffer", responseEncoding: "binary" })
+    .then((response) => {
+      const params = {
+        ContentType: response.headers["content-type"],
+        ContentLength: response.data.length.toString(), // or response.header["content-length"] if available for the type of file downloaded
+        Bucket: bucket,
+        Body: response.data,
+        Key: key,
+      };
+      return s3.putObject(params).promise();
+    });
+};
+
+// uploadUrlToS3(<your_file_url>, <your_s3_path>, <your_s3_bucket>)
+//    .then(() => console.log("File saved!"))
+//    .catch(error) => console.log(error));
