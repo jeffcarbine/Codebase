@@ -17,8 +17,7 @@ const addToCart = (button) => {
   const success = (request) => {
     const cart = document.querySelector("#cart"),
       cartToggle = document.querySelector("#cartToggle");
-    cart.classList.add("open");
-    cartToggle.classList.add("open");
+    cartToggle.click();
 
     button.classList.remove("loading");
     update(request);

@@ -219,6 +219,11 @@ export class FIELD {
       input["data-simplecurrency"] = params.name;
     }
 
+    if (type === "fullcheckbox" || type === "fullradio") {
+      input.type = type.replace("full", "");
+      wrapper.class += ` ${type}`;
+    }
+
     // create the label element
     let label;
 
@@ -232,14 +237,22 @@ export class FIELD {
       label = null;
     }
 
-    if (type === "checkbox" || type === "radio" || type === "toggleSingle") {
+    if (
+      type === "checkbox" ||
+      type === "fullcheckbox" ||
+      type === "radio" ||
+      type === "fullradio" ||
+      type === "toggleSingle"
+    ) {
       wrapper["data-checked"] = params.checked;
 
-      // and add the pseudo checkbox/radio/toggle after the input
-      // but before the focus span
-      wrapper.children.splice(1, 0, {
-        class: "pseudo",
-      });
+      if (type === "checkbox" || type === "radio") {
+        // add the pseudo checkbox/radio/toggle after the input
+        // but before the focus span
+        wrapper.children.splice(1, 0, {
+          class: "pseudo",
+        });
+      }
 
       if (params.checked == false) {
         delete input.checked;
@@ -272,6 +285,10 @@ export class FIELD {
     // put the label second if checkbox or radio
     if (type === "checkbox" || type === "radio") {
       this.children = [wrapper, label, help, validation];
+    } else if (type === "fullradio" || type === "fullcheckbox") {
+      // put the label inside the wrapper as index 1
+      wrapper.children.splice(1, 0, label);
+      this.children = [wrapper, help, validation];
     } else {
       this.children = [label, wrapper, help, validation];
     }

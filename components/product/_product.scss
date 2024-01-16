@@ -24,6 +24,10 @@
       border-radius: var(--border-radius);
       overflow: hidden;
 
+      svg.icon {
+        opacity: 0;
+      }
+
       .singleImage {
         position: absolute;
         width: 100%;
@@ -127,10 +131,33 @@
   }
 
   .details {
+    .compareAt {
+      margin-top: 0.5rem;
+      display: inline-block;
+      @include fontValues(4);
+      font-weight: 700;
+      position: relative;
+
+      &::before {
+        content: "";
+        width: 125%;
+        height: 0.5rem;
+        background: var(--urgent);
+        position: absolute;
+        top: 60%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(3deg);
+        opacity: 0.85;
+      }
+    }
     .price {
       display: block;
       @include fontValues(2);
       font-weight: 700;
+
+      &.onSale {
+        color: var(--urgent);
+      }
     }
 
     .description {
@@ -187,7 +214,6 @@
     }
 
     .variants {
-      padding: 2rem 0;
       background: var(--variants-background);
 
       &.hidden {
@@ -203,15 +229,13 @@
         justify-content: center;
 
         legend {
-          position: absolute;
-          top: 0;
-          left: 50%;
-          transform: translateX(-50%);
+          flex: 0 0 100%;
+          width: 100%;
           font-weight: 700;
-          height: 3rem;
           display: flex;
           flex-direction: column;
           justify-content: center;
+          margin-top: 1rem;
 
           &.mainLegend {
             @include fontValues(6);
@@ -219,33 +243,15 @@
           }
         }
 
-        .radioLabel {
-          position: relative;
-          margin: 0.5rem;
+        .field {
+          flex: 0 0 auto;
+          width: auto;
 
-          label {
-            font-weight: 700;
-            border: var(--variant-border);
-            padding: 1rem;
-            transition: all 0.25s ease;
-            cursor: pointer;
-            border-radius: var(--border-radius);
-            display: block;
-            @include fontValues(9);
-            text-align: center;
-          }
+          .wrapper {
+            margin: 0 0.5rem;
 
-          input {
-            position: absolute;
-            opacity: 0;
-            visibility: 0;
-
-            &:checked {
-              + label {
-                color: var(--variant-color);
-                background: var(--variant-background);
-                border-color: var(--variant-checked-border-color);
-              }
+            label {
+              padding: 0 2rem;
             }
           }
         }

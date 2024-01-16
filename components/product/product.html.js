@@ -7,6 +7,12 @@ import { formatCurrency } from "../../modules/formatCurrency/formatCurrency.js";
 export const PRODUCT = ({ data, heading = true, price = true } = {}) => {
   const product = data.product;
 
+  let onSale = false;
+
+  if (product.compareAtPrice) {
+    onSale = product.compareAtPrice.amount > product.price.amount;
+  }
+
   let tags = "",
     nsfw = false;
 
@@ -67,13 +73,22 @@ export const PRODUCT = ({ data, heading = true, price = true } = {}) => {
 
         children.push(childGroup);
       } else {
-        const radio = new e.RADIOLABEL({
+        const radio = new c.FIELD({
+          type: "fullradio",
           name: "variant",
           value: value.id,
           id: value.id,
           "data-imageid": value.imageid,
           label: value.name,
         });
+
+        // const radio = new e.RADIOLABEL({
+        //   name: "variant",
+        //   value: value.id,
+        //   id: value.id,
+        //   "data-imageid": value.imageid,
+        //   label: value.name,
+        // });
 
         children.push(radio);
       }
@@ -92,7 +107,10 @@ export const PRODUCT = ({ data, heading = true, price = true } = {}) => {
         child: {
           class: "images",
           "data-nsfw": nsfw,
-          children: [SLIDER({ elements: generateProductImages() }), SQUARE],
+          children: [
+            SLIDER({ elements: generateProductImages() }),
+            new c.ICON("square"),
+          ],
         },
       },
       {
@@ -103,8 +121,13 @@ export const PRODUCT = ({ data, heading = true, price = true } = {}) => {
             textContent: product.name,
           }),
           new e.SPAN({
+            if: price && onSale,
+            class: "compareAt",
+            textContent: formatCurrency(product.compareAtPrice?.amount),
+          }),
+          new e.SPAN({
             if: price,
-            class: "price",
+            class: `price ${onSale ? "onSale" : ""}`,
             textContent: formatCurrency(product.price.amount),
           }),
           {
