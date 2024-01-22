@@ -63,7 +63,10 @@ export const cartContentTemplate = (cartData) => {
             }),
             new e.SPAN({
               class: "price",
-              textContent: formatCurrency(item.variant.price.amount),
+              textContent: formatCurrency(
+                item.variant.price.amount,
+                item.variant.price.currencyCode
+              ),
             }),
           ],
         }),
@@ -105,19 +108,23 @@ export const cartContentTemplate = (cartData) => {
   });
 
   // set the pricing
-  const pricing_subtotal = formatCurrency(cartData.subtotalPrice.amount);
+  const pricing_subtotal = formatCurrency(
+    cartData.subtotalPrice.amount,
+    cartData.subtotalPrice.currencyCode
+  );
   let pricing_total = 0,
     pricing_discount = 0;
 
   // check for discounts
   const calculatedTotal = cartData.lineItemsSubtotalPrice.amount,
-    total = cartData.subtotalPrice.amount;
+    total = cartData.subtotalPrice.amount,
+    currencyCode = cartData.subtotalPrice.currencyCode;
 
   if (calculatedTotal !== total) {
     const diff = calculatedTotal - total;
 
-    pricing_total = formatCurrency(calculatedTotal);
-    pricing_discount = "Discount: -" + formatCurrency(diff);
+    pricing_total = formatCurrency(calculatedTotal, currencyCode);
+    pricing_discount = "Discount: -" + formatCurrency(diff, currencyCode);
   }
 
   return {

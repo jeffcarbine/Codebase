@@ -228,9 +228,10 @@ button.btn {
 
   > .btn {
     width: auto;
+    max-width: calc(100% - 1rem);
 
-    &:nth-child(n + 1) {
-      margin-right: var(--btn-container-space);
+    &:nth-child(n + 2) {
+      margin-left: var(--btn-container-space);
     }
   }
 }
