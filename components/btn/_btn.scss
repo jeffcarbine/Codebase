@@ -3,7 +3,7 @@
 
   --btn-background: var(--primary);
   --btn-color: var(--light);
-  --btn-focus-background: var(--primary-step);
+  --btn-focus-background: var(--primary-dark);
   --btn-focus-color: var(--light);
 
   --btn-font-weight: 400;
@@ -85,7 +85,7 @@ button.btn {
 
   &.accent {
     --btn-background: var(--accent);
-    --btn-focus-background: var(--accent-step);
+    --btn-focus-background: var(--accent-dark);
     --btn-color: var(--accent-on);
     --btn-focus-color: var(--accent-on);
   }
