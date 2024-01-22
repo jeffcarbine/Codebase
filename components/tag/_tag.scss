@@ -1,0 +1,43 @@
+.tag {
+  display: inline-block;
+  padding: 0.375rem 0.75rem 0.5rem 0.75rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  background: var(--background-mid);
+  color: var(--foreground);
+  border-radius: 5px;
+  transform: translateY(
+    0.25rem
+  ); // to get the text to line up with other text on the same line
+
+  &.sm {
+    @include fontValues(12);
+    padding: 0.25rem 0.5rem 0.375rem 0.5rem;
+  }
+
+  &.primary {
+    background: var(--primary);
+    color: var(--primary-on);
+  }
+
+  &.accent {
+    background: var(--accent);
+    color: var(--accent-on);
+  }
+
+  &.urgent {
+    background: var(--urgent);
+    color: var(--urgent-on);
+  }
+
+  &.success {
+    background: var(--success);
+    color: var(--success-on);
+  }
+
+  &.caution {
+    background: var(--caution);
+    color: var(--caution-on);
+  }
+}

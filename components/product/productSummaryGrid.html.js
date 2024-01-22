@@ -4,6 +4,8 @@ export const PRODUCTSUMMARYGRID = ({
   products,
   collectionHandle,
   count = 8,
+  currency = "USD",
+  convertPrice = [],
 }) => {
   // render grid of placeholderes
   const generatePlaceholders = (count) => {
@@ -17,6 +19,8 @@ export const PRODUCTSUMMARYGRID = ({
       "data-component": "product/productSummaryGrid",
       "data-collectionHandle": collectionHandle,
       "data-count": count,
+      "data-currency": currency,
+      "data-convertPrice": JSON.stringify(convertPrice),
       children: placeholders,
     };
   };
@@ -26,7 +30,7 @@ export const PRODUCTSUMMARYGRID = ({
     const productSummaries = [];
 
     products.forEach((product) => {
-      productSummaries.push(PRODUCTSUMMARY({ data: product }));
+      productSummaries.push(PRODUCTSUMMARY({ data: product, currency }));
     });
 
     return {

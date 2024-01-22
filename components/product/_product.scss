@@ -160,6 +160,12 @@
       }
     }
 
+    .original {
+      @include fontValues(9);
+      margin-top: -0.5rem;
+      opacity: 0.75;
+    }
+
     .description {
       padding: 1rem;
       text-align: center;
@@ -299,6 +305,19 @@
 
   .pricing {
     @include fontValues(6);
+
+    .currencyCode {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-left: 0.5rem;
+    }
+
+    .original {
+      @include fontValues(10);
+      margin: 0.5rem 0;
+      opacity: 0.75;
+    }
   }
 
   &.placeholder {

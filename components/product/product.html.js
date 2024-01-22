@@ -4,7 +4,12 @@ import { SLIDER } from "../../components/slider/slider.html.js";
 import { SQUARE } from "../../components/square/square.html.js";
 import { formatCurrency } from "../../modules/formatCurrency/formatCurrency.js";
 
-export const PRODUCT = ({ data, heading = true, price = true } = {}) => {
+export const PRODUCT = ({
+  data,
+  heading = true,
+  price = true,
+  currency = "USD",
+} = {}) => {
   const product = data.product;
 
   let onSale = false;
@@ -123,12 +128,15 @@ export const PRODUCT = ({ data, heading = true, price = true } = {}) => {
           new e.SPAN({
             if: price && onSale,
             class: "compareAt",
-            textContent: formatCurrency(product.compareAtPrice?.amount),
+            textContent: formatCurrency(
+              product.compareAtPrice?.amount,
+              currency
+            ),
           }),
           new e.SPAN({
             if: price,
             class: `price ${onSale ? "onSale" : ""}`,
-            textContent: formatCurrency(product.price.amount),
+            textContent: formatCurrency(product.price.amount, currency),
           }),
           {
             class: "description",

@@ -1,4 +1,4 @@
-import { IMG, H3 } from "../../elements/elements.js";
+import { IMG, H3, SPAN } from "../../elements/elements.js";
 import { ICON } from "../../components/components.js";
 import { formatCurrency } from "../../modules/formatCurrency/formatCurrency.js";
 import { camelize } from "../../modules/formatString/formatString.js";
@@ -21,10 +21,12 @@ export const PRODUCTSUMMARY = ({
   url = "/shop/product/",
 } = {}) => {
   const price = data.variants[0].price.amount,
-    hasCompareAtPrice = data.variants[0].compareAtPrice !== null,
-    compareAtPrice = hasCompareAtPrice
-      ? data.variants[0].compareAtPrice.amount
-      : price;
+    compareAtPrice = data.variants[0].compareAtPrice?.amount || price,
+    currency = data.variants[0].price.currencyCode,
+    price__converted = data.variants[0].price__converted?.amount,
+    compareAtPrice__converted =
+      data.variants[0].compareAtPrice__converted?.amount,
+    currency__converted = data.variants[0].price__converted?.currencyCode;
 
   let tags = "",
     nsfw = false;
@@ -81,14 +83,43 @@ export const PRODUCTSUMMARY = ({
         class: "pricing",
         children: [
           {
-            if: !placeholder && hasCompareAtPrice && compareAtPrice !== price,
+            if: !placeholder && compareAtPrice !== price,
             class: "compareAt",
-            textContent: formatCurrency(compareAtPrice),
+            textContent: formatCurrency(
+              compareAtPrice__converted || compareAtPrice,
+              currency__converted || currency
+            ),
           },
+          // {
+          //   if:
+          //     !placeholder &&
+          //     compareAtPrice !== price &&
+          //     compareAtPrice__converted !== undefined,
+          //   class: "original",
+          //   textContent: `(${formatCurrency(compareAtPrice, currency)})`,
+          // },
           {
             if: !placeholder,
             class: "price " + (compareAtPrice !== price ? "onSale" : ""),
-            textContent: formatCurrency(data.variants[0].price.amount || ""),
+            children: [
+              formatCurrency(
+                price__converted || price,
+                currency__converted || currency
+              ),
+              {
+                if: price__converted !== undefined,
+                class: "currencyCode",
+                child: new SPAN({
+                  class: "tag accent sm",
+                  textContent: currency__converted,
+                }),
+              },
+            ],
+          },
+          {
+            if: !placeholder && price__converted !== undefined,
+            class: "original",
+            textContent: `(${formatCurrency(price, currency)})`,
           },
           {
             if: placeholder,

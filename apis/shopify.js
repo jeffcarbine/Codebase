@@ -5,6 +5,7 @@ dotenv.config();
 //import Client from "shopify-buy";
 import Client from "shopify-buy-with-tags-updated/index.unoptimized.umd.js";
 import fetch from "node-fetch";
+import Product from "../models/Product.js";
 global.fetch = fetch;
 
 const shopifyToken = process.env.SHOPIFYTOKEN,
@@ -108,6 +109,7 @@ export const formatProduct = (product) => {
       tags: simpleTags(product.tags),
       type: product.productType,
       metafields: product.metafields,
+      handle: product.handle,
     },
     organizedOptions = [];
 
@@ -231,6 +233,15 @@ export const formatProduct = (product) => {
     processOption(option, formattedProduct, null, finalLoop);
   }
 
+  // find this product by id in the database and update it
+  Product.findOneAndUpdate({ id: formattedProduct.id }, formattedProduct, {
+    upsert: true,
+  }).exec((err, product) => {
+    if (err) {
+      console.log(err);
+    }
+  });
+
   return formattedProduct;
 };
 
@@ -344,17 +355,41 @@ export const getProductTotalInventory = (productId, mainCallback) => {
     mainCallback(inventory, crowdfund_goal);
   });
 };
-
-async function getProductsGraphql4(productId) {
+export const getAllProducts = (callback, pageInfo = null) => {
   const productsQuery = shopify.graphQLClient.query((root) => {
-    root.addConnection("products", { args: { first: 250 } }, (product) => {
-      product.add("title");
-      product.add("totalInventory");
-    });
+    root.addConnection(
+      "products",
+      { args: { first: 249, after: pageInfo } },
+      (product) => {
+        product.add(
+          "metafields",
+          {
+            args: {
+              identifiers: [{ namespace: "custom", key: "crowdfund_goal" }],
+            },
+          },
+          (metafield) => {
+            metafield.add("namespace");
+            metafield.add("key");
+            metafield.add("value");
+          }
+        );
+      }
+    );
   });
-  let result = await shopify.graphQLClient.send(productsQuery);
-  return result.data.products.edges.find((p) => p.node.id === productId).node;
-}
+
+  // Call the send method with the custom products query
+  shopify.graphQLClient.send(productsQuery).then(({ model, data }) => {
+    const products = model.products;
+    const pageInfo = data.products.pageInfo;
+
+    if (pageInfo.hasNextPage) {
+      getAllProducts(callback, pageInfo.endCursor);
+    } else {
+      callback(products);
+    }
+  });
+};
 
 // TODO: finish this
 // adding attributes (like is merch club or is gift)
