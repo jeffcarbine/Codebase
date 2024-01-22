@@ -14,12 +14,12 @@ import { countryToCurrency } from "../modules/countryToCurrency/countryToCurrenc
 import { getExchangeRate } from "../apis/currencyapi.js";
 import asyncLoop from "node-async-loop";
 
-export const post__shop_collection = (req, res, next) => {
+export const post__shop_collection = (req, res, convertCurrency) => {
   const ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress,
     lookup = geoip.lookup(ip),
     country = lookup === null ? process.env.DEVCOUNTRYCODE : lookup.country,
     collectionHandle = req.body.collectionHandle,
-    count = parseInt(req.body.count);
+    count = parseInt(req.body.count) || 8;
 
   async.waterfall(
     [
@@ -46,65 +46,69 @@ export const post__shop_collection = (req, res, next) => {
           });
       },
       (collection, callback) => {
-        // check the currency code of the products in the collection
-        const collectionCurrency =
-            collection.products[0].variants[0].price.currencyCode,
-          countryCurrency = countryToCurrency(country);
+        if (convertCurrency) {
+          // check the currency code of the products in the collection
+          const collectionCurrency =
+              collection.products[0].variants[0].price.currencyCode,
+            countryCurrency = countryToCurrency(country);
 
-        // if they don't match, we need to update that info
-        if (collectionCurrency !== countryCurrency) {
-          getExchangeRate(collectionCurrency, countryCurrency, (rate) => {
-            // now asyncLoop through the products
-            asyncLoop(
-              collection.products,
-              (product, next) => {
-                // asyncLoop through the variants
-                asyncLoop(
-                  product.variants,
-                  (variant, next) => {
-                    // get the price and the compareAtPrice
-                    const price = parseFloat(variant.price.amount),
-                      compareAtPrice = parseFloat(
-                        variant.compareAtPrice?.amount
-                      );
+          // if they don't match, we need to update that info
+          if (collectionCurrency !== countryCurrency) {
+            getExchangeRate(collectionCurrency, countryCurrency, (rate) => {
+              // now asyncLoop through the products
+              asyncLoop(
+                collection.products,
+                (product, next) => {
+                  // asyncLoop through the variants
+                  asyncLoop(
+                    product.variants,
+                    (variant, next) => {
+                      // get the price and the compareAtPrice
+                      const price = parseFloat(variant.price.amount),
+                        compareAtPrice = parseFloat(
+                          variant.compareAtPrice?.amount
+                        );
 
-                    // and add it to the variant
-                    variant.price__converted = {
-                      // round the price up to the next whole number
-                      amount: Math.ceil(price * rate + 0.5), // adding $.50 to help push up to match Shopify
-                      currencyCode: countryCurrency,
-                    };
-
-                    // if there is a compareAtPrice
-                    if (compareAtPrice !== undefined) {
-                      // add it to the variant
-                      variant.compareAtPrice__converted = {
+                      // and add it to the variant
+                      variant.price__converted = {
                         // round the price up to the next whole number
-                        amount: Math.ceil(compareAtPrice * rate + 0.5), // adding $.50 to ehlp push up to match Shopify
+                        amount: Math.ceil(price * rate + 0.5), // adding $.50 to help push up to match Shopify
                         currencyCode: countryCurrency,
                       };
-                    }
 
-                    next();
-                  },
-                  (err) => {
-                    if (err) {
-                      console.error(err);
-                    } else {
+                      // if there is a compareAtPrice
+                      if (compareAtPrice !== undefined) {
+                        // add it to the variant
+                        variant.compareAtPrice__converted = {
+                          // round the price up to the next whole number
+                          amount: Math.ceil(compareAtPrice * rate + 0.5), // adding $.50 to ehlp push up to match Shopify
+                          currencyCode: countryCurrency,
+                        };
+                      }
+
                       next();
+                    },
+                    (err) => {
+                      if (err) {
+                        console.error(err);
+                      } else {
+                        next();
+                      }
                     }
+                  );
+                },
+                (err) => {
+                  if (err) {
+                    console.error(err);
+                  } else {
+                    callback(null, collection);
                   }
-                );
-              },
-              (err) => {
-                if (err) {
-                  console.error(err);
-                } else {
-                  callback(null, collection);
                 }
-              }
-            );
-          });
+              );
+            });
+          } else {
+            callback(null, collection);
+          }
         } else {
           callback(null, collection);
         }
@@ -194,11 +198,13 @@ export const refreshProductArchive = () => {
   });
 };
 
-export const enableShopRoutes = (app) => {
+export const enableShopRoutes = (app, convertCurrency = false) => {
   app.get("/shop/admin", (req, res) => {
     res.redirect(`https://${process.env.SHOPIFYDOMAIN}/admin`);
   });
-  app.post("/shop/collection", post__shop_collection);
+  app.post("/shop/collection", (req, res) => {
+    return post__shop_collection(req, res, convertCurrency);
+  });
   app.post("/shop/cart", post__shop_cart);
   app.post("/shop/add-to-cart", post__shop_addToCart);
   app.post("/shop/modify-line-item", post__shop_modifyLineItem);
