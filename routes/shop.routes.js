@@ -5,6 +5,7 @@ import {
   formatProduct,
   getProductTotalInventory,
   getAllProducts,
+  convertCollectionPrices,
 } from "../apis/shopify.js";
 import { capitalize } from "../modules/formatString/formatString.js";
 import Product from "../models/Product.js";
@@ -14,7 +15,7 @@ import { countryToCurrency } from "../modules/countryToCurrency/countryToCurrenc
 import { getExchangeRate } from "../apis/currencyapi.js";
 import asyncLoop from "node-async-loop";
 
-export const post__shop_collection = (req, res, convertCurrency) => {
+export const post__shop_collection = (req, res) => {
   const ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress,
     lookup = geoip.lookup(ip),
     country = lookup === null ? process.env.DEVCOUNTRYCODE : lookup.country,
@@ -46,7 +47,7 @@ export const post__shop_collection = (req, res, convertCurrency) => {
           });
       },
       (collection, callback) => {
-        if (convertCurrency) {
+        if (process.env.CONVERTCURRENCY === "true") {
           // check the currency code of the products in the collection
           const collectionCurrency =
               collection.products[0].variants[0].price.currencyCode,
@@ -54,58 +55,14 @@ export const post__shop_collection = (req, res, convertCurrency) => {
 
           // if they don't match, we need to update that info
           if (collectionCurrency !== countryCurrency) {
-            getExchangeRate(collectionCurrency, countryCurrency, (rate) => {
-              // now asyncLoop through the products
-              asyncLoop(
-                collection.products,
-                (product, next) => {
-                  // asyncLoop through the variants
-                  asyncLoop(
-                    product.variants,
-                    (variant, next) => {
-                      // get the price and the compareAtPrice
-                      const price = parseFloat(variant.price.amount),
-                        compareAtPrice = parseFloat(
-                          variant.compareAtPrice?.amount
-                        );
-
-                      // and add it to the variant
-                      variant.price__converted = {
-                        // round the price up to the next whole number
-                        amount: Math.ceil(price * rate + 0.5), // adding $.50 to help push up to match Shopify
-                        currencyCode: countryCurrency,
-                      };
-
-                      // if there is a compareAtPrice
-                      if (compareAtPrice !== undefined) {
-                        // add it to the variant
-                        variant.compareAtPrice__converted = {
-                          // round the price up to the next whole number
-                          amount: Math.ceil(compareAtPrice * rate + 0.5), // adding $.50 to ehlp push up to match Shopify
-                          currencyCode: countryCurrency,
-                        };
-                      }
-
-                      next();
-                    },
-                    (err) => {
-                      if (err) {
-                        console.error(err);
-                      } else {
-                        next();
-                      }
-                    }
-                  );
-                },
-                (err) => {
-                  if (err) {
-                    console.error(err);
-                  } else {
-                    callback(null, collection);
-                  }
-                }
-              );
-            });
+            convertCollectionPrices(
+              collection,
+              collectionCurrency,
+              countryCurrency,
+              (collection) => {
+                callback(null, collection);
+              }
+            );
           } else {
             callback(null, collection);
           }
