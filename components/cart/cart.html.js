@@ -51,7 +51,7 @@ export const cartContentTemplate = (cartData) => {
           class: "image",
           children: [
             new e.IMG({
-              src: item.variant.image.src,
+              src: item.variant.src,
             }),
           ],
         },

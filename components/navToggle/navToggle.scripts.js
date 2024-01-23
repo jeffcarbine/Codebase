@@ -1,13 +1,15 @@
 import { addEventDelegate } from "../../modules/eventDelegate/eventDelegate.js";
 
 const toggleNav = (button) => {
-  const nav = document.querySelector("nav");
+  const nav = document.querySelector("nav"),
+    query = button.dataset.target,
+    target = document.querySelector(query);
 
-  if (nav.classList.contains("open")) {
-    nav.classList.remove("open");
+  if (target.classList.contains("open")) {
+    target.classList.remove("open");
     button.classList.remove("open");
   } else {
-    nav.classList.add("open");
+    target.classList.add("open");
     button.classList.add("open");
   }
 

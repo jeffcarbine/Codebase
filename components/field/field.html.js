@@ -328,6 +328,67 @@ export class FIELD {
 
     //
     //
+    // TOGGLEDUAL
+    if (type === "toggledual") {
+      // then we need to create two radio buttons
+      // using the input as the first value and
+      // a new input as a second value
+
+      // modify the first input
+      input.type = "radio";
+      input.value = params.values[0];
+      input.id = `${params.id}--${params.values[0]}`;
+      input["data-number"] = 1;
+
+      // create the first label
+      const label1 = {
+        tagName: "label",
+        textContent: params.labels[0],
+        for: `${params.id}--${params.values[0]}`,
+      };
+
+      // create the second input
+      const input2 = {
+        tagName: "input",
+        type: "radio",
+        name: params.name,
+        value: params.values[1],
+        id: `${params.id}--${params.values[1]}`,
+        "data-number": 2,
+      };
+
+      // if the checked value is the same as the second value
+      // then set the input to checked and the wrapper data-toggled
+      if (params.checked === params.values[1]) {
+        input2.checked = true;
+        wrapper["data-toggled"] = 2;
+      } else {
+        // set it to the first value
+        input.checked = true;
+        wrapper["data-toggled"] = 1;
+      }
+
+      // create the second label
+      const label2 = {
+        tagName: "label",
+        textContent: params.labels[1],
+        for: `${params.id}--${params.values[1]}`,
+      };
+
+      // and create the toggle element
+      const toggle = {
+        class: "toggle",
+      };
+
+      // put all four elements into the wrapper
+      wrapper.children.push(label1, toggle, input2, label2);
+
+      // and move the focus element to index 5
+      wrapper.children.splice(5, 0, wrapper.children.splice(1, 1)[0]);
+    }
+
+    //
+    //
     // END MODIFICATIONS
     //
     //

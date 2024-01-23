@@ -425,3 +425,15 @@ addEventDelegate(
   ".field.array-field input[type='checkbox']",
   updateArrayInput
 );
+
+// handle the data-checked value of the wrapper for toggledual fields
+const syncCheckedValue = (input) => {
+  // get the wrapper
+  const wrapper = input.parentNode;
+
+  if (input.checked) {
+    wrapper.dataset.toggled = input.dataset.number;
+  }
+};
+
+addEventDelegate("change", ".field.toggledual-field input", syncCheckedValue);
