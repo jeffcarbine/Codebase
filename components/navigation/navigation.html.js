@@ -3,6 +3,7 @@ import { UL } from "../../elements/ul/ul.html.js";
 import { LI } from "../../elements/li/li.html.js";
 import { A } from "../../elements/a/a.html.js";
 import { BUTTON } from "../../elements/button/button.html.js";
+import { SPAN } from "../../elements/span/span.html.js";
 
 export class NAVIGATION extends ELEMENT {
   constructor(params) {
@@ -33,11 +34,15 @@ export class NAVIGATION extends ELEMENT {
             class:
               route.toLowerCase().replaceAll(" ", "") +
               (active ? " active" : ""),
-            child: new A({
-              href: path,
-              textContent: route,
-              target: external ? "_blank" : "",
-            }),
+            children: [
+              new SPAN({ class: "embellishment-1" }),
+              new A({
+                href: path,
+                textContent: route,
+                target: external ? "_blank" : "",
+              }),
+              new SPAN({ class: "embellishment-2" }),
+            ],
           });
           // then we have textcontent
         } else if (Array.isArray(path)) {
@@ -55,10 +60,14 @@ export class NAVIGATION extends ELEMENT {
             class:
               route.toLowerCase().replaceAll(" ", "") +
               (active ? " active" : ""),
-            child: new A({
-              href,
-              children,
-            }),
+            children: [
+              new SPAN({ class: "embellishment-1" }),
+              new A({
+                href,
+                children,
+              }),
+              new SPAN({ class: "embellishment-2" }),
+            ],
           });
         } else {
           // check
@@ -69,7 +78,9 @@ export class NAVIGATION extends ELEMENT {
               route.toLowerCase().replaceAll(" ", "") +
               (childActive ? " active" : ""),
             children: [
+              new SPAN({ class: "embellishment-1" }),
               new BUTTON(route),
+              new SPAN({ class: "embellishment-2" }),
               {
                 class: "submenu",
                 child: new UL(createNavItems(path)),
