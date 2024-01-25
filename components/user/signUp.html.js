@@ -2,6 +2,23 @@ import { FORM } from "../../elements/elements.js";
 import { formatCents } from "../../modules/formatCurrency/formatCurrency.js";
 import { BTN, FIELD } from "../components.js";
 
+export const PASSWORDFIELDS = [
+  new FIELD({
+    type: "password",
+    id: "password",
+    name: "password",
+    required: true,
+    label: "Password",
+  }),
+  new FIELD({
+    type: "password",
+    id: "passwordConfirm",
+    name: "passwordConfirm",
+    required: true,
+    label: "Confirm Password",
+  }),
+];
+
 export const SIGNUP = () => {
   return {
     id: "signUp",
@@ -29,20 +46,7 @@ export const SIGNUP = () => {
           required: true,
           label: "Email",
         }),
-        new FIELD({
-          type: "password",
-          id: "password",
-          name: "password",
-          required: true,
-          label: "Password",
-        }),
-        new FIELD({
-          type: "password",
-          id: "passwordConfirm",
-          name: "passwordConfirm",
-          required: true,
-          label: "Confirm Password",
-        }),
+        ...passwordFields,
         new BTN({
           textContent: "Sign Up",
         }),

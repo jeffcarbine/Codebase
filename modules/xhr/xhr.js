@@ -38,13 +38,13 @@ export const xhr = ({
       // 200s
       if (request.status >= 200 && request.status < 300) {
         success(request);
-      // 400s
+        // 400s
       } else if (request.status >= 400 && request.status < 500) {
         error(request);
-      // 500s
+        // 500s
       } else if (request.status >= 500 && request.status < 600) {
         failure(request);
-      // default
+        // default
       } else {
         defaultHandler(request);
       }
@@ -53,7 +53,7 @@ export const xhr = ({
 
   request.ontimeout = () => {
     defaultHandler(request.response);
-  }
+  };
 
   request.onerror = () => {
     defaultHandler(request.response);
@@ -70,20 +70,20 @@ export const xhr = ({
   request.send(requestBody);
 };
 
-const toastResponse = (string, form) => {
+const toastResponse = (string, status, form) => {
   const message = stripHtml(string);
   toast({ message, dismissable: true, status, parent: form });
 };
 
-const toastSuccess = (message, form) => {
+const toastSuccess = (request, form, message) => {
   toastResponse(message, "success", form);
 };
 
-const toastError = (message, form) => {
+const toastError = (request, form, message) => {
   toastResponse(message, "caution", form);
 };
 
-const toastFailure = (message, form) => {
+const toastFailure = (request, form, message) => {
   toastResponse(message, "urgent", form);
 };
 
@@ -98,6 +98,7 @@ export const xhrForm = ({
   responseMessages = {},
   responseHandler = {},
   body = {},
+  reset = true,
 }) => {
   // get the data from the form
   const formData = new FormData(form),
@@ -135,9 +136,11 @@ export const xhrForm = ({
 
     const message = successMessage || request.response;
 
-    success(message, form);
+    success(request, form, message);
 
-    form.reset();
+    if (reset) {
+      form.reset();
+    }
 
     // check to see if we have any field previews in the form
     const previews = form.querySelectorAll(".preview");
@@ -160,7 +163,7 @@ export const xhrForm = ({
 
     const message = errorMessage || request.response;
 
-    error(message, form);
+    error(request, form, message);
   };
 
   // default behavior for failure
@@ -171,10 +174,10 @@ export const xhrForm = ({
 
     const message = failureMessage || request.response;
 
-    failure(message, form);
+    failure(request, form, message);
   };
 
-  for(const [key, value] of Object.entries(responseMessages)) {
+  for (const [key, value] of Object.entries(responseMessages)) {
     responseHandler[key] = (request) => {
       const message = value || request.response;
 
@@ -187,10 +190,10 @@ export const xhrForm = ({
         status = "caution";
       } else if (key >= 500 && key < 600) {
         status = "urgent";
-      } 
+      }
 
       toastResponse(message, status, form);
-    }
+    };
   }
 
   const params = {

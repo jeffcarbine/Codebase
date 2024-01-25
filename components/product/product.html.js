@@ -4,13 +4,10 @@ import { SLIDER } from "../../components/slider/slider.html.js";
 import { SQUARE } from "../../components/square/square.html.js";
 import { formatCurrency } from "../../modules/formatCurrency/formatCurrency.js";
 
-export const PRODUCT = ({
-  data,
-  heading = true,
-  price = true,
-  currency = "USD",
-} = {}) => {
+export const PRODUCT = ({ data, heading = true, price = true } = {}) => {
   const product = data.product;
+
+  console.log(product);
 
   let onSale = false;
 
@@ -130,13 +127,30 @@ export const PRODUCT = ({
             class: "compareAt",
             textContent: formatCurrency(
               product.compareAtPrice?.amount,
-              currency
+              product.compareAtPrice?.currencyCode
             ),
           }),
           new e.SPAN({
             if: price,
             class: `price ${onSale ? "onSale" : ""}`,
-            textContent: formatCurrency(product.price.amount, currency),
+            textContent:
+              product.price__converted !== undefined
+                ? formatCurrency(
+                    product.price__converted.amount,
+                    product.price__converted.currencyCode
+                  )
+                : formatCurrency(
+                    product.price.amount,
+                    product.price.currencyCode
+                  ),
+          }),
+          new e.SPAN({
+            if: price && product.price__converted !== undefined,
+            class: "original",
+            textContent: `(${formatCurrency(
+              product.price.amount,
+              product.price.currencyCode
+            )})`,
           }),
           {
             class: "description",

@@ -92,7 +92,7 @@ export const toast = ({
 
     // we give the user one second for every
     // fifteen characters
-    let delay = Math.round(contentLength / 5);
+    let delay = Math.round(contentLength / 10);
     let transition = document.createElement("style");
     let head = document.querySelector("head");
 

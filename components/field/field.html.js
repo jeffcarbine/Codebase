@@ -116,6 +116,10 @@ export class FIELD {
         }
       };
 
+      const fauxSelectData = {
+        class: "faux-select",
+      };
+
       params.options.forEach((option, index) => {
         const optionParams = {
           tagName: "option",
@@ -145,6 +149,7 @@ export class FIELD {
           if (option === params.selected || option.value === params.selected) {
             optionParams.selected = true;
             params.help = option.help;
+            fauxSelectData.textContent = optionParams.textContent;
           }
         }
 
@@ -152,9 +157,7 @@ export class FIELD {
       });
 
       // and add the faux select span
-      const fauxSelect = new SPAN({
-        class: "faux-select",
-      });
+      const fauxSelect = new SPAN(fauxSelectData);
 
       wrapper.children.push(fauxSelect);
     }
