@@ -25,6 +25,22 @@ export const validatePassword = () => {
     checkPasswordComplexity
   );
 
+  const checkPasswordMeetsRequirements = (input) => {
+    if (input.value !== "") {
+      if (passwordRegex.test(input.value)) {
+        dataEmit("password--validation", "");
+      }
+    } else {
+      dataEmit("password--validation", "");
+    }
+  };
+
+  addEventDelegate(
+    "keyup",
+    "input[name='password']",
+    checkPasswordMeetsRequirements
+  );
+
   const checkPasswordMatch = (input) => {
     const passwordInput =
         input.name === "password"
