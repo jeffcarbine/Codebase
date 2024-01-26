@@ -78,52 +78,57 @@ export const getCart = (req, res) => {
         if (process.env.CONVERTCURRENCY === "true") {
           // check the currency code of the products in the collection
           const checkoutCurrency =
-              checkout.lineItems[0].variant.price.currencyCode,
+            checkout.lineItems[0]?.variant.price.currencyCode;
+
+          if (checkoutCurrency !== undefined) {
             countryCurrency = countryToCurrency(country);
 
-          // if they don't match, we need to update that info
-          if (checkoutCurrency !== countryCurrency) {
-            getExchangeRate(checkoutCurrency, countryCurrency, (rate) => {
-              const lineItems = checkout.lineItems;
+            // if they don't match, we need to update that info
+            if (checkoutCurrency !== countryCurrency) {
+              getExchangeRate(checkoutCurrency, countryCurrency, (rate) => {
+                const lineItems = checkout.lineItems;
 
-              // now asyncLoop through the lineItems
-              asyncLoop(
-                lineItems,
-                (lineItem, next) => {
-                  // get the price and the compareAtPrice
-                  const price = parseFloat(lineItem.variant.price.amount),
-                    compareAtPrice = parseFloat(
-                      lineItem.variant.compareAtPrice?.amount
-                    );
+                // now asyncLoop through the lineItems
+                asyncLoop(
+                  lineItems,
+                  (lineItem, next) => {
+                    // get the price and the compareAtPrice
+                    const price = parseFloat(lineItem.variant.price.amount),
+                      compareAtPrice = parseFloat(
+                        lineItem.variant.compareAtPrice?.amount
+                      );
 
-                  // and add it to the variant
-                  lineItem.variant.price__converted = {
-                    // round the price up to the next whole number
-                    amount: Math.ceil(price * rate + 0.5), // adding $.50 to help push up to match Shopify
-                    currencyCode: countryCurrency,
-                  };
-
-                  // if there is a compareAtPrice
-                  if (compareAtPrice !== undefined) {
-                    // add it to the variant
-                    lineItem.variant.compareAtPrice__converted = {
+                    // and add it to the variant
+                    lineItem.variant.price__converted = {
                       // round the price up to the next whole number
-                      amount: Math.ceil(compareAtPrice * rate + 0.5), // adding $.50 to ehlp push up to match Shopify
+                      amount: Math.ceil(price * rate + 0.5), // adding $.50 to help push up to match Shopify
                       currencyCode: countryCurrency,
                     };
-                  }
 
-                  next();
-                },
-                (err) => {
-                  if (err) {
-                    console.error(err);
-                  } else {
-                    return res.status(200).send(checkout);
+                    // if there is a compareAtPrice
+                    if (compareAtPrice !== undefined) {
+                      // add it to the variant
+                      lineItem.variant.compareAtPrice__converted = {
+                        // round the price up to the next whole number
+                        amount: Math.ceil(compareAtPrice * rate + 0.5), // adding $.50 to ehlp push up to match Shopify
+                        currencyCode: countryCurrency,
+                      };
+                    }
+
+                    next();
+                  },
+                  (err) => {
+                    if (err) {
+                      console.error(err);
+                    } else {
+                      return res.status(200).send(checkout);
+                    }
                   }
-                }
-              );
-            });
+                );
+              });
+            } else {
+              return res.status(200).send(checkout);
+            }
           } else {
             return res.status(200).send(checkout);
           }
