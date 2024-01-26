@@ -1,10 +1,12 @@
 import async from "async";
 import request from "request";
-import Member from "../premmio/models/Member.js";
-import { getPatreonToken } from "../periodic/apis/patreon.js";
+import Member from "../../../premmio/models/Member.js";
+import { getPatreonToken } from "../../apis/patreon.js";
 
-export const archiveMembers = () => {
+export const archiveMembers = (campaignId) => {
   console.log("Beginning archive of Patreon patrons (this takes a while)");
+
+  let count = 0;
 
   // get the current year and current month (zero-index) of today
   const today = new Date(),
@@ -54,7 +56,7 @@ export const archiveMembers = () => {
                     },
                     phone;
 
-                  if (member.relationships.address.data !== null) {
+                  if (member.relationships?.address?.data !== undefined) {
                     const addressId = member.relationships.address.data.id;
 
                     body.included.filter((obj) => {
