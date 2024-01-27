@@ -51,11 +51,11 @@ export const PRODUCTSUMMARY = ({
     children: [
       {
         class: "image",
-        "data-nsfw": nsfw,
         children: [
           new ICON("square"),
           new IMG({
             if: !placeholder,
+            "data-nsfw": nsfw,
             src: data.images[0].src || "",
             alt: data.title,
           }),
