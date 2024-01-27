@@ -461,6 +461,8 @@ export const formatProduct = (product, country, callback) => {
     } else {
       formatter(product);
     }
+  } else {
+    formatter(product);
   }
 };
 
