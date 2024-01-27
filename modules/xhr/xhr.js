@@ -1,22 +1,42 @@
 import { toast } from "../../components/alert/alert.js";
 import { stripHtml } from "../formatString/formatString.js";
 
+/**
+ * Logs the response of the request to the console.
+ *
+ * @param {XMLHttpRequest} request - The request object.
+ */
 const defaultResponse = (request) => {
   console.log(request.response);
 };
+
+/**
+ * Sends an HTTP request and handles the response.
+ *
+ * @param {Object} options - The options for the HTTP request.
+ * @param {string} [options.method='POST'] - The HTTP method to use.
+ * @param {string} [options.path='/'] - The path to send the request to.
+ * @param {Object} [options.body={}] - The body of the request.
+ * @param {string} [options.contentType='application/json;charset=UTF-8'] - The content type of the request.
+ * @param {string} [options.authorization=null] - The authorization header for the request.
+ * @param {Object} [options.statusHandlers={}] - An object where each key is a status code and the value is a function to handle that status.
+ * @param {Function} [options.success=defaultResponse] - The function to call when the request is successful.
+ * @param {Function} [options.error=defaultResponse] - The function to call when the request results in a client error.
+ * @param {Function} [options.failure=defaultResponse] - The function to call when the request results in a server error.
+ * @param {Function} [options.defaultHandler=defaultResponse] - The default function to call when no other handler is provided.
+ */
 
 export const xhr = ({
   method = "POST",
   path = "/",
   body = {},
   contentType = "application/json;charset=UTF-8",
-  authorization,
+  authorization = null,
   statusHandlers = {},
   success = defaultResponse,
   error = defaultResponse,
   failure = defaultResponse,
   defaultHandler = defaultResponse,
-  progress,
 } = {}) => {
   // start by creating a request
   const request = new XMLHttpRequest();
@@ -24,7 +44,7 @@ export const xhr = ({
 
   request.setRequestHeader("Content-Type", contentType);
 
-  if (authorization !== undefined) {
+  if (authorization !== null) {
     request.setRequestHeader("Authorization", authorization);
   }
 
@@ -59,34 +79,68 @@ export const xhr = ({
     defaultHandler(request.response);
   };
 
-  if (progress !== undefined) {
-    request.onprogress = (event) => {
-      progress(event);
-    };
-  }
-
   const requestBody = JSON.stringify(body);
 
   request.send(requestBody);
 };
 
+/**
+ * Displays a toast message after stripping any HTML from the input string.
+ *
+ * @param {string} string - The string to display in the toast. Any HTML will be stripped.
+ * @param {string} status - The status of the toast, which affects its appearance.
+ * @param {HTMLFormElement} form - The form element to append the toast to.
+ */
 const toastResponse = (string, status, form) => {
   const message = stripHtml(string);
   toast({ message, dismissable: true, status, parent: form });
 };
 
-const toastSuccess = (request, form, message) => {
+/**
+ * Displays a success toast message.
+ *
+ * @param {string} message - The message to display in the toast.
+ * @param {HTMLFormElement} form - The form element to append the toast to.
+ */
+const toastSuccess = (message, form) => {
   toastResponse(message, "success", form);
 };
 
-const toastError = (request, form, message) => {
+/**
+ * Displays an error toast message.
+ *
+ * @param {string} message - The message to display in the toast.
+ * @param {HTMLFormElement} form - The form element to append the toast to.
+ */
+const toastError = (message, form) => {
   toastResponse(message, "caution", form);
 };
 
-const toastFailure = (request, form, message) => {
+/**
+ * Displays a failure toast message.
+ *
+ * @param {string} message - The message to display in the toast.
+ * @param {HTMLFormElement} form - The form element to append the toast to.
+ */
+const toastFailure = (message, form) => {
   toastResponse(message, "urgent", form);
 };
 
+/**
+ * Sends an HTTP request using form data and handles the response.
+ *
+ * @param {Object} options - The options for the HTTP request.
+ * @param {HTMLFormElement} options.form - The form element to get the data from.
+ * @param {string} [options.successMessage] - The message to display when the request is successful.
+ * @param {Function} [options.success=toastSuccess] - The function to call when the request is successful.
+ * @param {string} [options.errorMessage] - The message to display when the request results in a client error.
+ * @param {Function} [options.error=toastError] - The function to call when the request results in a client error.
+ * @param {string} [options.failureMessage] - The message to display when the request results in a server error.
+ * @param {Function} [options.failure=toastFailure] - The function to call when the request results in a server error.
+ * @param {Object} [options.responseMessages={}] - An object where each key is a status code and the value is a message to display for that status.
+ * @param {Object} [options.responseHandler={}] - An object where each key is a status code and the value is a function to handle that status.
+ * @param {Object} [options.body={}] - An object to add to the form data.
+ */
 export const xhrForm = ({
   form,
   successMessage,
@@ -210,6 +264,17 @@ export const xhrForm = ({
   xhr(params);
 };
 
+/**
+ * Sends an HTTP request using form data and a reCAPTCHA token and handles the response.
+ *
+ * @param {Object} options - The options for the HTTP request.
+ * @param {HTMLFormElement} options.form - The form element to get the data from.
+ * @param {Function} [options.success=toastSuccess] - The function to call when the request is successful.
+ * @param {Function} [options.error=toastError] - The function to call when the request results in a client error.
+ * @param {Function} [options.failure=toastFailure] - The function to call when the request results in a server error.
+ * @param {Object} [options.responseHandler={}] - An object where each key is a status code and the value is a function to handle that status.
+ * @param {Object} [options.body={}] - An object to add to the form data.
+ */
 export const xhrFormRecaptcha = ({
   form,
   success = toastSuccess,
