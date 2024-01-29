@@ -1,11 +1,7 @@
 import { addEventDelegate } from "../../modules/eventDelegate/eventDelegate.js";
 
 const toggleSubmenu = (button) => {
-  // TODO: use transitionend event
-  // instead of the transitionDuration
-  // stuff
-
-  const submenu = button.nextElementSibling,
+  const submenu = button.parentNode.querySelector(".submenu"),
     listItem = button.parentNode,
     isOpen = submenu.classList.contains("open");
 

@@ -11,11 +11,13 @@ export const addSubscribingUser = async (
   FNAME,
   LNAME,
   email_address,
+  tags = [],
   callback
 ) => {
   const response = await mailchimp.lists.addListMember(listId, {
     email_address,
     status: "subscribed",
+    tags,
     merge_fields: {
       FNAME,
       LNAME,

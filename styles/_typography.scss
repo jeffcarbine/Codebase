@@ -96,8 +96,13 @@ a {
   cursor: pointer;
   color: var(--anchor-color);
 }
+
 strong {
   font-weight: var(--strong-font-weight);
+}
+
+em {
+  font-style: italic;
 }
 
 @mixin fontValues($size, $height: $size) {
