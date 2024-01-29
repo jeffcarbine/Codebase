@@ -3,7 +3,7 @@ import request from "request";
 import Member from "../../../premmio/models/Member.js";
 import { getPatreonToken } from "../../apis/patreon.js";
 
-export const archiveMembers = (campaignId) => {
+export const archiveMembers = (campaignId, archiveAll = false) => {
   console.log("Beginning archive of Patreon patrons (this takes a while)");
 
   let count = 0;
@@ -42,60 +42,74 @@ export const archiveMembers = (campaignId) => {
                 body.data.forEach((member) => {
                   const email = member.attributes.email;
 
-                  // this is so we can blank out addresses if anyone removes their address
-                  // from patreon ie: they don't want physical rewards
-                  let address = {
-                      addressee: "",
-                      city: "",
-                      country: "",
-                      line_1: "",
-                      line_2: "",
-                      phone_number: "",
-                      postal_code: "",
-                      state: "",
-                    },
-                    phone;
+                  const last_charge_date = new Date(
+                      member.attributes.last_charge_date
+                    ),
+                    now = new Date();
 
-                  if (member.relationships?.address?.data !== undefined) {
-                    const addressId = member.relationships.address.data.id;
+                  // check to see if this member's pledge has been updated in the past hour
+                  // or if we're archiving all members
+                  if (
+                    last_charge_date.getTime() >
+                      now.getTime() - 60 * 60 * 1000 ||
+                    archiveAll
+                  ) {
+                    console.log("Pledge charge detected, updating member");
+                    // this is so we can blank out addresses if anyone removes their address
+                    // from patreon ie: they don't want physical rewards
+                    let address = {
+                        addressee: "",
+                        city: "",
+                        country: "",
+                        line_1: "",
+                        line_2: "",
+                        phone_number: "",
+                        postal_code: "",
+                        state: "",
+                      },
+                      phone;
 
-                    body.included.filter((obj) => {
-                      if (obj.id === addressId) {
-                        address = obj.attributes;
-                        phone = obj.attributes.phone_number;
+                    if (member.relationships?.address?.data !== undefined) {
+                      const addressId = member.relationships.address.data.id;
+
+                      body.included.filter((obj) => {
+                        if (obj.id === addressId) {
+                          address = obj.attributes;
+                          phone = obj.attributes.phone_number;
+                        }
+                      });
+                    }
+
+                    Member.findOneAndUpdate(
+                      {
+                        email,
+                      },
+                      {
+                        $set: {
+                          email,
+                          phone,
+                          address,
+                          currentPledge:
+                            member.attributes.currently_entitled_amount_cents,
+                        },
+                        $addToSet: {
+                          pledgeHistory: {
+                            year,
+                            month,
+                            pledge:
+                              member.attributes.currently_entitled_amount_cents,
+                          },
+                        },
+                      },
+                      {
+                        upsert: true,
+                      }
+                    ).exec((err) => {
+                      if (err) {
+                        console.log(err);
                       }
                     });
                   }
-
-                  Member.findOneAndUpdate(
-                    {
-                      email,
-                    },
-                    {
-                      $set: {
-                        email,
-                        phone,
-                        address,
-                        currentPledge:
-                          member.attributes.currently_entitled_amount_cents,
-                      },
-                      $addToSet: {
-                        pledgeHistory: {
-                          year,
-                          month,
-                          pledge:
-                            member.attributes.currently_entitled_amount_cents,
-                        },
-                      },
-                    },
-                    {
-                      upsert: true,
-                    }
-                  ).exec((err) => {
-                    if (err) {
-                      console.log(err);
-                    }
-                  });
                 });
 
                 // // check to see if there is a next value
@@ -112,7 +126,7 @@ export const archiveMembers = (campaignId) => {
         };
 
         getPatreonMembers(
-          `https://www.patreon.com/api/oauth2/v2/campaigns/${campaignId}/members?include=address&fields%5Bmember%5D=email,full_name,currently_entitled_amount_cents&fields%5Btier%5D=amount_cents,created_at,description,discord_role_ids,edited_at,patron_count,published,published_at,requires_shipping,title,url&fields%5Baddress%5D=addressee,city,line_1,line_2,phone_number,postal_code,state,country&page%5Bcount%5D=1000`
+          `https://www.patreon.com/api/oauth2/v2/campaigns/${campaignId}/members?include=address&fields%5Bmember%5D=email,full_name,currently_entitled_amount_cents,last_charge_date&fields%5Btier%5D=amount_cents,created_at,description,discord_role_ids,edited_at,patron_count,published,published_at,requires_shipping,title,url&fields%5Baddress%5D=addressee,city,line_1,line_2,phone_number,postal_code,state,country&page%5Bcount%5D=1000`
         );
       },
     ],

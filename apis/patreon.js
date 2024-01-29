@@ -8,7 +8,7 @@ import Token from "../models/Token.js";
 import request from "request";
 import async from "async";
 
-// https://www.patreon.com/oauth2/authorize?response_type=code&client_id=VFwd4Mix4Vce-cqXqKYEMjrHiSeD3UAEOZ4U3ssfRwZ33RyaysQ3KsMh9d6iv2gC&redirect_uri=https://carbine.co&scope=identity%20identity%5Bemail%5D%20campaigns%20campaigns.posts%20campaigns.members%20campaigns.members%5Bemail%5D
+// https://www.patreon.com/oauth2/authorize?response_type=code&client_id=VFwd4Mix4Vce-cqXqKYEMjrHiSeD3UAEOZ4U3ssfRwZ33RyaysQ3KsMh9d6iv2gC&redirect_uri=https://carbine.co&scope=identity%20identity%5Bemail%5D%20campaigns%20campaigns.posts%20campaigns.members%20campaigns.members%5Bemail%5D&fields%5Bmembers%5D=last_charge_date
 
 const patreonClientId = process.env.PATREONCLIENTID,
   patreonClientSecret = process.env.PATREONCLIENTSECRET,
