@@ -11,6 +11,9 @@
 }
 
 #product {
+  --product-images-background: var(--light);
+  --product-images-controls-color: var(--dark);
+
   padding: 2rem;
   box-sizing: border-box;
 
@@ -20,7 +23,7 @@
 
     .images {
       position: relative;
-      background: var(--light);
+      background: var(--product-images-background);
       border-radius: var(--border-radius);
       overflow: hidden;
 
@@ -103,7 +106,7 @@
             height: 2rem;
             position: absolute;
             top: 0;
-            border: 0.5rem solid var(--dark);
+            border: 0.5rem solid var(--product-images-controls-color);
             background: none;
 
             &.prev {
@@ -395,6 +398,12 @@
   .productSummaryGrid {
     .productSummary {
       flex: 0 0 25%;
+    }
+
+    &.lg {
+      .productSummary {
+        flex: 0 0 50%;
+      }
     }
   }
 }

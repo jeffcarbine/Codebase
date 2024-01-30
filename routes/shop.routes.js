@@ -3,23 +3,12 @@ import {
   getCart,
   shopify,
   formatProduct,
-  getProductTotalInventory,
   getAllProducts,
-  convertCollectionPrices,
+  convertCollectionCurrency,
 } from "../apis/shopify.js";
-import { capitalize } from "../modules/formatString/formatString.js";
-import Product from "../models/Product.js";
-import ExchangeRate from "../models/ExchangeRate.js";
-import geoip from "geoip-lite";
-import { countryToCurrency } from "../modules/countryToCurrency/countryToCurrency.js";
-import { getExchangeRate } from "../apis/currencyapi.js";
-import asyncLoop from "node-async-loop";
 
 export const post__shop_collection = (req, res) => {
-  const ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress,
-    lookup = geoip.lookup(ip),
-    country = lookup === null ? process.env.DEVCOUNTRYCODE : lookup.country,
-    collectionHandle = req.body.collectionHandle,
+  const collectionHandle = req.body.collectionHandle,
     count = parseInt(req.body.count) || 8;
 
   async.waterfall(
@@ -48,24 +37,9 @@ export const post__shop_collection = (req, res) => {
       },
       (collection, callback) => {
         if (process.env.CONVERTCURRENCY === "true") {
-          // check the currency code of the products in the collection
-          const collectionCurrency =
-              collection.products[0].variants[0].price.currencyCode,
-            countryCurrency = countryToCurrency(country);
-
-          // if they don't match, we need to update that info
-          if (collectionCurrency !== countryCurrency) {
-            convertCollectionPrices(
-              collection,
-              collectionCurrency,
-              countryCurrency,
-              (collection) => {
-                callback(null, collection);
-              }
-            );
-          } else {
+          convertCollectionCurrency({ collection, req }, (collection) => {
             callback(null, collection);
-          }
+          });
         } else {
           callback(null, collection);
         }

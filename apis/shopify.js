@@ -30,11 +30,161 @@ if (shopifyToken !== undefined) {
   productsPromise = shopify.product.fetchAll();
 }
 
+/**
+ * Converts the currency of a product variant based on a given rate and target currency.
+ *
+ * @param {Object} variant - The product variant whose currency needs to be converted.
+ * @param {number} rate - The conversion rate from the original currency to the target currency.
+ * @param {string} countryCurrency - The currency code of the target currency.
+ * @returns {Object} The product variant with the converted currency.
+ */
+const convertVariantCurrency = (variant, rate, countryCurrency) => {
+  // get the price and the compareAtPrice
+  const price = parseFloat(variant.price.amount),
+    compareAtPrice = parseFloat(variant.compareAtPrice?.amount);
+
+  // and add it to the variant
+  variant.price__converted = {
+    // round the price up to the next whole number
+    amount: Math.ceil(price * rate + 0.5), // adding $.50 to help push up to match Shopify
+    currencyCode: countryCurrency,
+  };
+
+  // if there is a compareAtPrice
+  if (compareAtPrice !== undefined) {
+    // add it to the variant
+    variant.compareAtPrice__converted = {
+      // round the price up to the next whole number
+      amount: Math.ceil(compareAtPrice * rate + 0.5), // adding $.50 to ehlp push up to match Shopify
+      currencyCode: countryCurrency,
+    };
+  }
+
+  return variant;
+};
+
+/**
+ * Converts the currency of a product based on the client's country.
+ *
+ * @param {Object} product - The product whose currency needs to be converted.
+ * @param {Object} req - The HTTP request object, used to get the client's IP address.
+ * @param {string} country - The country code of the client's country.
+ * @param {Function} callback - The callback function to be called after the currency conversion.
+ */
+export const convertProductCurrency = (
+  { product, req, country } = {},
+  callback
+) => {
+  if (country === undefined) {
+    // get the country
+    const ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress,
+      lookup = geoip.lookup(ip);
+
+    country = lookup === null ? process.env.DEVCOUNTRYCODE : lookup.country;
+  }
+
+  // check the currency code of the product
+  const productCurrency = product.variants[0].price.currencyCode,
+    countryCurrency = countryToCurrency(country);
+
+  // if they don't match, we need to update that info
+  if (productCurrency !== countryCurrency) {
+    getExchangeRate(productCurrency, countryCurrency, (rate) => {
+      // now asyncLoop through the variants
+      asyncLoop(
+        product.variants,
+        (variant, next) => {
+          variant = convertVariantCurrency(variant, rate, countryCurrency);
+
+          next();
+        },
+        (err) => {
+          if (err) {
+            console.error(err);
+          } else {
+            callback(product);
+          }
+        }
+      );
+    });
+  } else {
+    callback(product);
+  }
+};
+
+/**
+ * Converts the currency of a collection of products based on the client's country.
+ *
+ * @param {Object} collection - The collection of products whose currency needs to be converted.
+ * @param {Object} req - The HTTP request object, used to get the client's IP address.
+ * @param {string} country - The country code of the client's country.
+ * @param {Function} callback - The callback function to be called after the currency conversion.
+ */
+export const convertCollectionCurrency = (
+  { collection, req, country } = {},
+  callback
+) => {
+  if (country === undefined) {
+    const ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress,
+      lookup = geoip.lookup(ip);
+
+    country = lookup === null ? process.env.DEVCOUNTRYCODE : lookup.country;
+  }
+
+  // check the currency code of the products in the collection
+  const collectionCurrency =
+      collection.products[0].variants[0].price.currencyCode,
+    countryCurrency = countryToCurrency(country);
+
+  // if they don't match, we need to update that info
+  if (collectionCurrency !== countryCurrency) {
+    getExchangeRate(collectionCurrency, countryCurrency, (rate) => {
+      // now asyncLoop through the products
+      asyncLoop(
+        collection.products,
+        (product, next) => {
+          // asyncLoop through the variants
+          asyncLoop(
+            product.variants,
+            (variant, next) => {
+              variant = convertVariantCurrency(variant, rate, countryCurrency);
+
+              next();
+            },
+            (err) => {
+              if (err) {
+                console.error(err);
+              } else {
+                next();
+              }
+            }
+          );
+        },
+        (err) => {
+          if (err) {
+            console.error(err);
+          } else {
+            callback(collection);
+          }
+        }
+      );
+    });
+  } else {
+    callback(collection);
+  }
+};
+
+/**
+ * Retrieves the shopping cart for the client, converting the currency of the products based on the client's country.
+ *
+ * @param {Object} req - The HTTP request object, used to get the client's IP address and cookies.
+ * @param {Object} res - The HTTP response object, used to send the response back to the client.
+ */
 export const getCart = (req, res) => {
   // get country for currency conversion
   const ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress,
     lookup = geoip.lookup(ip),
-    country = lookup.country || process.env.DEVCOUNTRYCODE;
+    country = lookup === null ? process.env.DEVCOUNTRYCODE : lookup.country;
 
   let checkoutId = req.cookies["checkoutId"];
 
@@ -86,6 +236,23 @@ export const getCart = (req, res) => {
             // if they don't match, we need to update that info
             if (checkoutCurrency !== countryCurrency) {
               getExchangeRate(checkoutCurrency, countryCurrency, (rate) => {
+                // update the subtotal with the new currency
+                checkout.subtotalPrice__converted = {
+                  amount: Math.ceil(
+                    parseFloat(checkout.subtotalPrice.amount) * rate + 0.5
+                  ), // adding $.50 to help push up to match Shopify
+                  currencyCode: countryCurrency,
+                };
+
+                // update the lineItemsSubtotalPrice with the new currency
+                checkout.lineItemsSubtotalPrice__converted = {
+                  amount: Math.ceil(
+                    parseFloat(checkout.lineItemsSubtotalPrice.amount) * rate +
+                      0.5
+                  ), // adding $.50 to help push up to match Shopify
+                  currencyCode: countryCurrency,
+                };
+
                 const lineItems = checkout.lineItems;
 
                 // now asyncLoop through the lineItems
@@ -155,6 +322,12 @@ export const getCart = (req, res) => {
   }
 };
 
+/**
+ * Converts an array of tag objects into an array of tag strings.
+ *
+ * @param {Object[]} tagsArray - The array of tag objects. Each object should have a 'value' property that is the tag string.
+ * @returns {string[]} An array of tag strings.
+ */
 const simpleTags = (tagsArray) => {
   const tags = [];
 
@@ -168,108 +341,13 @@ const simpleTags = (tagsArray) => {
   return tags;
 };
 
-export const convertCollectionPrices = (
-  collection,
-  collectionCurrency,
-  countryCurrency,
-  callback
-) => {
-  getExchangeRate(collectionCurrency, countryCurrency, (rate) => {
-    // now asyncLoop through the products
-    asyncLoop(
-      collection.products,
-      (product, next) => {
-        // asyncLoop through the variants
-        asyncLoop(
-          product.variants,
-          (variant, next) => {
-            // get the price and the compareAtPrice
-            const price = parseFloat(variant.price.amount),
-              compareAtPrice = parseFloat(variant.compareAtPrice?.amount);
-
-            // and add it to the variant
-            variant.price__converted = {
-              // round the price up to the next whole number
-              amount: Math.ceil(price * rate + 0.5), // adding $.50 to help push up to match Shopify
-              currencyCode: countryCurrency,
-            };
-
-            // if there is a compareAtPrice
-            if (compareAtPrice !== undefined) {
-              // add it to the variant
-              variant.compareAtPrice__converted = {
-                // round the price up to the next whole number
-                amount: Math.ceil(compareAtPrice * rate + 0.5), // adding $.50 to ehlp push up to match Shopify
-                currencyCode: countryCurrency,
-              };
-            }
-
-            next();
-          },
-          (err) => {
-            if (err) {
-              console.error(err);
-            } else {
-              next();
-            }
-          }
-        );
-      },
-      (err) => {
-        if (err) {
-          console.error(err);
-        } else {
-          callback(collection);
-        }
-      }
-    );
-  });
-};
-
-export const convertProductPrices = (
-  product,
-  productCurrency,
-  countryCurrency,
-  callback
-) => {
-  getExchangeRate(productCurrency, countryCurrency, (rate) => {
-    asyncLoop(
-      product.variants,
-      (variant, next) => {
-        // get the price and the compareAtPrice
-        const price = parseFloat(variant.price.amount),
-          compareAtPrice = parseFloat(variant.compareAtPrice?.amount);
-
-        // and add it to the variant
-        variant.price__converted = {
-          // round the price up to the next whole number
-          amount: Math.ceil(price * rate + 0.5), // adding $.50 to help push up to match Shopify
-          currencyCode: countryCurrency,
-        };
-
-        // if there is a compareAtPrice
-        if (compareAtPrice !== undefined) {
-          // add it to the variant
-          variant.compareAtPrice__converted = {
-            // round the price up to the next whole number
-            amount: Math.ceil(compareAtPrice * rate + 0.5), // adding $.50 to ehlp push up to match Shopify
-            currencyCode: countryCurrency,
-          };
-        }
-
-        next();
-      },
-      (err) => {
-        if (err) {
-          console.error(err);
-        } else {
-          callback(product);
-        }
-      }
-    );
-  });
-};
-
+/**
+ * Formats a product object into a specific structure and sorts its options.
+ *
+ * @param {Object} product - The product object to be formatted.
+ * @param {string} country - The country code for the client's location.
+ * @param {Function} callback - The callback function to be called after the product is formatted.
+ */
 export const formatProduct = (product, country, callback) => {
   const formatter = (product) => {
     // first, we need to structure the object
@@ -444,28 +522,29 @@ export const formatProduct = (product, country, callback) => {
   };
 
   if (process.env.CONVERTCURRENCY === "true") {
-    // check the currency code of the products in the collection
-    const productCurrency = product.variants[0].price.currencyCode,
-      countryCurrency = countryToCurrency(country);
-
-    // if they don't match, we need to update that info
-    if (productCurrency !== countryCurrency) {
-      convertProductPrices(
+    convertProductCurrency(
+      {
         product,
-        productCurrency,
-        countryCurrency,
-        (product) => {
-          formatter(product);
-        }
-      );
-    } else {
-      formatter(product);
-    }
+        country,
+      },
+      (product) => {
+        formatter(product);
+      }
+    );
   } else {
     formatter(product);
   }
 };
 
+/**
+ * Retrieves the metafields of a product.
+ *
+ * @param {Object} options - An object containing the options for the function.
+ * @param {string} options.productId - The ID of the product whose metafields are to be retrieved.
+ * @param {string[]} [options.keys=[]] - An array of keys of the metafields to be retrieved.
+ * @param {string} [options.namespace="custom"] - The namespace of the metafields to be retrieved.
+ * @param {Function} options.callback - The callback function to be called after the metafields are retrieved.
+ */
 export const getMetafields = ({
   productId,
   keys = [],
@@ -510,6 +589,15 @@ export const getMetafields = ({
   });
 };
 
+/**
+ * Retrieves a specific metafield of a product.
+ *
+ * @param {Object} options - An object containing the options for the function.
+ * @param {string} options.productId - The ID of the product whose metafield is to be retrieved.
+ * @param {string} options.key - The key of the metafield to be retrieved.
+ * @param {string} [options.namespace="custom"] - The namespace of the metafield to be retrieved.
+ * @param {Function} options.callback - The callback function to be called after the metafield is retrieved.
+ */
 export const getMetafield = ({
   productId,
   key,
@@ -545,6 +633,12 @@ export const getMetafield = ({
   });
 };
 
+/**
+ * Retrieves the total inventory and crowdfunding goal of a product.
+ *
+ * @param {string} productId - The ID of the product whose total inventory and crowdfunding goal are to be retrieved.
+ * @param {Function} mainCallback - The callback function to be called after the total inventory and crowdfunding goal are retrieved. The function is called with two arguments: the total inventory and the crowdfunding goal.
+ */
 export const getProductTotalInventory = (productId, mainCallback) => {
   const productsQuery = shopify.graphQLClient.query((root) => {
     root.addConnection("products", { args: { first: 249 } }, (product) => {
@@ -576,6 +670,13 @@ export const getProductTotalInventory = (productId, mainCallback) => {
     mainCallback(inventory, crowdfund_goal);
   });
 };
+
+/**
+ * Retrieves all products, including their crowdfunding goals.
+ *
+ * @param {Function} callback - The callback function to be called after the products are retrieved. The function is called with the products as the argument.
+ * @param {string} [pageInfo=null] - The cursor for pagination. If provided, the function retrieves the products after this cursor.
+ */
 export const getAllProducts = (callback, pageInfo = null) => {
   const productsQuery = shopify.graphQLClient.query((root) => {
     root.addConnection(
@@ -609,16 +710,5 @@ export const getAllProducts = (callback, pageInfo = null) => {
     } else {
       callback(products);
     }
-  });
-};
-
-// TODO: finish this
-// adding attributes (like is merch club or is gift)
-export const modifyAttributes = (key, value) => {
-  const checkoutId = req.cookies["checkoutId"],
-    input = { customAttributes: [{ key, value }] };
-
-  client.checkout.updateAttributes(checkoutId, input).then((checkout) => {
-    // Do something with the updated checkout
   });
 };

@@ -15,7 +15,7 @@ export const PRODUCTSUMMARYGRID = ({
     }
 
     return {
-      class: "productSummaryGrid",
+      class: `productSummaryGrid ${count <= 2 ? "lg" : ""}`,
       "data-component": "product/productSummaryGrid",
       "data-collectionHandle": collectionHandle,
       "data-count": count,
@@ -34,7 +34,7 @@ export const PRODUCTSUMMARYGRID = ({
     });
 
     return {
-      class: "productSummaryGrid",
+      class: `productSummaryGrid ${count <= 2 ? "lg" : ""}`,
       children: productSummaries,
     };
   };

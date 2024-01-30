@@ -51,7 +51,7 @@ export const cartContentTemplate = (cartData) => {
           class: "image",
           children: [
             new e.IMG({
-              src: item.variant.src,
+              src: item.variant.image.src,
             }),
           ],
         },
@@ -64,8 +64,10 @@ export const cartContentTemplate = (cartData) => {
             new e.SPAN({
               class: "price",
               textContent: formatCurrency(
-                item.variant.price.amount,
-                item.variant.price.currencyCode
+                item.variant.price__converted.amount ||
+                  item.variant.price.amount,
+                item.variant.price__converted.currencyCode ||
+                  item.variant.price.currencyCode
               ),
             }),
           ],
@@ -107,23 +109,28 @@ export const cartContentTemplate = (cartData) => {
     itemCount += item.quantity;
   });
 
+  // get the cart subtotal values
+  const subtotal =
+      cartData.subtotalPrice__converted?.amount ||
+      cartData.subtotalPrice.amount,
+    lineItemsSubtotal =
+      cartData.lineItemsSubtotalPrice__converted?.amount ||
+      cartData.lineItemsSubtotalPrice.amount,
+    currencyCode =
+      cartData.subtotalPrice__converted?.currencyCode ||
+      cartData.subtotalPrice.currencyCode;
+
   // set the pricing
-  const pricing_subtotal = formatCurrency(
-    cartData.subtotalPrice.amount,
-    cartData.subtotalPrice.currencyCode
-  );
+  const pricing_subtotal = formatCurrency(subtotal, currencyCode);
+
   let pricing_total = 0,
     pricing_discount = 0;
 
   // check for discounts
-  const calculatedTotal = cartData.lineItemsSubtotalPrice.amount,
-    total = cartData.subtotalPrice.amount,
-    currencyCode = cartData.subtotalPrice.currencyCode;
+  if (lineItemsSubtotal !== subtotal) {
+    const diff = lineItemsSubtotal - subtotal;
 
-  if (calculatedTotal !== total) {
-    const diff = calculatedTotal - total;
-
-    pricing_total = formatCurrency(calculatedTotal, currencyCode);
+    pricing_total = formatCurrency(lineItemsSubtotal, currencyCode);
     pricing_discount = "Discount: -" + formatCurrency(diff, currencyCode);
   }
 

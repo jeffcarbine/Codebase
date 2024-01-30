@@ -10,13 +10,15 @@ const listId = process.env.MAILCHIMPLISTID;
 export const addSubscribingUser = async (
   FNAME,
   LNAME,
-  email_address,
+  email,
   tags = [],
   callback
 ) => {
-  const response = await mailchimp.lists.addListMember(listId, {
+  const email_address = email.toLowerCase();
+
+  const response = await mailchimp.lists.setListMember(listId, email_address, {
     email_address,
-    status: "subscribed",
+    status_if_new: "subscribed",
     tags,
     merge_fields: {
       FNAME,

@@ -1,5 +1,34 @@
 import { addEventDelegate } from "../../modules/eventDelegate/eventDelegate.js";
 
+const closeSubmenu = (submenu, button, listItem) => {
+  // start by measuring the submenu
+  const height = submenu.offsetHeight,
+    // get the transition duration from CSS
+    transitionDuration = getComputedStyle(submenu).getPropertyValue(
+      "transition-duration"
+    ),
+    // and parse it into milliseconds
+    delay = parseFloat(transitionDuration.replace("s", "")) * 1000;
+
+  // set the submenu's height property back
+  // to the actual current pixel height
+  submenu.style.height = height + "px";
+
+  // then after a short timeout, set it to null so as
+  // to trigger the transition
+  setTimeout(() => {
+    submenu.style.height = null;
+  }, 10);
+
+  // and then after the transition duration, remove the
+  // open class from the submenu
+  setTimeout(() => {
+    submenu.classList.remove("open");
+    button.classList.remove("open");
+    listItem.classList.remove("open");
+  }, delay);
+};
+
 const toggleSubmenu = (button) => {
   const submenu = button.parentNode.querySelector(".submenu"),
     listItem = button.parentNode,
@@ -16,6 +45,16 @@ const toggleSubmenu = (button) => {
 
   // if the submenu isn't open
   if (!isOpen) {
+    // find the currenly open submenu, if any, and close it
+    const openSubmenu = document.querySelector("nav ul li.open");
+
+    if (openSubmenu) {
+      const openSubmenuSubmenu = openSubmenu.querySelector(".submenu"),
+        openSubmenuButton = openSubmenu.querySelector("button");
+
+      closeSubmenu(openSubmenuSubmenu, openSubmenuButton, openSubmenu);
+    }
+
     // set the submenu to the exact pixel height
     // after a minor delay
     setTimeout(() => {
@@ -34,24 +73,25 @@ const toggleSubmenu = (button) => {
     }, delay);
     // otherwise
   } else {
-    // set the submenu's height property back
-    // to the actual current pixel height
-    submenu.style.height = height + "px";
-
-    // then after a short timeout, set it to null so as
-    // to trigger the transition
-    setTimeout(() => {
-      submenu.style.height = null;
-    }, 10);
-
-    // and then after the transition duration, remove the
-    // open class from the submenu
-    setTimeout(() => {
-      submenu.classList.remove("open");
-      button.classList.remove("open");
-      listItem.classList.remove("open");
-    }, delay);
+    closeSubmenu(submenu, button, listItem);
   }
 };
 
 addEventDelegate("click", "nav ul li button", toggleSubmenu);
+
+const closeSubmenus = () => {
+  const openSubmenus = document.querySelectorAll("nav ul li.open");
+
+  openSubmenus.forEach((listItem) => {
+    const submenu = listItem.querySelector(".submenu"),
+      button = listItem.querySelector("button");
+
+    closeSubmenu(submenu, button, listItem);
+  });
+};
+
+addEventDelegate(
+  "click",
+  ":not(nav), :not(nav a), :not(nav button)",
+  closeSubmenus
+);

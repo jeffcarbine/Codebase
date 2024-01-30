@@ -102,7 +102,7 @@ const toastResponse = (string, status, form) => {
  * @param {string} message - The message to display in the toast.
  * @param {HTMLFormElement} form - The form element to append the toast to.
  */
-const toastSuccess = (message, form) => {
+const toastSuccess = (request, message, form) => {
   toastResponse(message, "success", form);
 };
 
@@ -112,7 +112,7 @@ const toastSuccess = (message, form) => {
  * @param {string} message - The message to display in the toast.
  * @param {HTMLFormElement} form - The form element to append the toast to.
  */
-const toastError = (message, form) => {
+const toastError = (request, message, form) => {
   toastResponse(message, "caution", form);
 };
 
@@ -122,7 +122,7 @@ const toastError = (message, form) => {
  * @param {string} message - The message to display in the toast.
  * @param {HTMLFormElement} form - The form element to append the toast to.
  */
-const toastFailure = (message, form) => {
+const toastFailure = (request, message, form) => {
   toastResponse(message, "urgent", form);
 };
 
@@ -190,7 +190,7 @@ export const xhrForm = ({
 
     const message = successMessage || request.response;
 
-    success(request, form, message);
+    success(request, message, form);
 
     if (reset) {
       form.reset();
@@ -217,7 +217,7 @@ export const xhrForm = ({
 
     const message = errorMessage || request.response;
 
-    error(request, form, message);
+    error(request, message, form);
   };
 
   // default behavior for failure
@@ -228,7 +228,7 @@ export const xhrForm = ({
 
     const message = failureMessage || request.response;
 
-    failure(request, form, message);
+    failure(request, message, form);
   };
 
   for (const [key, value] of Object.entries(responseMessages)) {

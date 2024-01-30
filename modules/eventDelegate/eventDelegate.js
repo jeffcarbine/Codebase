@@ -295,7 +295,41 @@ const eventMatches = (event, key) => {
   // loop through the target and all its parents until
   // we either find a match or reach the document
   for (; elem && elem !== document; elem = elem.parentNode) {
-    if (elem.matches(key)) return elem;
+    // handle :not selectors
+    if (key.includes(":not")) {
+      // get all of the :not selectors out of the string
+      let notSelectors = key.match(/:not\((.*?)\)/g);
+
+      let notElem,
+        matchFound = false;
+
+      // loop through the not selectors
+      for (var i = 0; i < notSelectors.length; i++) {
+        // get the not selector
+        let notSelector = notSelectors[i];
+
+        // get the selector inside the not selector
+        let selector = notSelector.replace(":not(", "").replace(")", "");
+
+        console.log(elem, selector, elem.matches(selector));
+
+        // if the element matches the selector, then
+        // return false
+        if (!elem.matches(selector)) {
+          notElem = elem;
+        } else {
+          matchFound = true;
+        }
+      }
+
+      if (!matchFound) {
+        return notElem;
+      } else {
+        return false;
+      }
+    } else {
+      if (elem.matches(key)) return elem;
+    }
   }
 
   // and if we don't return a match before
