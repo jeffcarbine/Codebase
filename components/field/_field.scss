@@ -236,13 +236,19 @@
 
   .help {
     display: block;
-    @include fontValues(11);
+    @include fontValues(12);
+    position: relative;
+    z-index: 1;
+    padding: 0.125rem 0.5rem;
   }
 
   .validation {
     display: block;
-    @include fontValues(11);
+    @include fontValues(12);
     color: var(--urgent);
+    position: relative;
+    z-index: 1;
+    padding: 0.125rem 0.5rem;
   }
 
   // hande non-checkbox and non-radio
@@ -435,8 +441,6 @@
     .help,
     .validation {
       flex: 0 0 100%;
-      position: relative;
-      z-index: 1;
     }
   }
 
