@@ -36,8 +36,6 @@ export const getCart = (req, res) => {
     lookup = geoip.lookup(ip),
     country = lookup.country || process.env.DEVCOUNTRYCODE;
 
-  console.log(country);
-
   let checkoutId = req.cookies["checkoutId"];
 
   // check for null variants, which will require a new checkout
@@ -83,7 +81,7 @@ export const getCart = (req, res) => {
             checkout.lineItems[0]?.variant.price.currencyCode;
 
           if (checkoutCurrency !== undefined) {
-            countryCurrency = countryToCurrency(country);
+            const countryCurrency = countryToCurrency(country);
 
             // if they don't match, we need to update that info
             if (checkoutCurrency !== countryCurrency) {
