@@ -34,7 +34,9 @@ export const getCart = (req, res) => {
   // get country for currency conversion
   const ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress,
     lookup = geoip.lookup(ip),
-    country = lookup === null ? process.env.DEVCOUNTRYCODE : lookup.country;
+    country = lookup.country || process.env.DEVCOUNTRYCODE;
+
+  console.log(country);
 
   let checkoutId = req.cookies["checkoutId"];
 
