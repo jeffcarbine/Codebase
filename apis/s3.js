@@ -25,6 +25,9 @@ export const uploadBase64ToS3 = async (base64, callback) => {
     "base64"
   );
 
+  // console log the first 20 characters of the base64 encoded data
+  console.log(base64Data.toString().substring(0, 20));
+
   // Getting the file extension
   const extension = base64.split(";")[0].split("/")[1].replace("+xml", "");
 

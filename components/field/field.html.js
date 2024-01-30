@@ -12,7 +12,19 @@ import {
   LABEL,
 } from "../../elements/elements.js";
 
-// add in aria-label assignment
+export class FIELD__ARRAYENTRY {
+  constructor(params = "") {
+    this.class = "arrayEntry";
+    this.children = [
+      params,
+      new BUTTON({
+        type: "button",
+        class: "arrayEntry__remove",
+        child: new ICON("close"),
+      }),
+    ];
+  }
+}
 
 export class FIELD {
   constructor(params = {}) {
@@ -89,6 +101,18 @@ export class FIELD {
         },
       ],
     };
+
+    // if there is a buttonIcon, add it to the wrapper
+    if (params.buttonIcon) {
+      wrapper.class += " hasButton";
+
+      wrapper.children.push({
+        tagName: "button",
+        type: "button",
+        class: `inputButton ${params.buttonClass || ""}`,
+        child: new ICON(params.buttonIcon),
+      });
+    }
 
     //
     //
@@ -297,24 +321,56 @@ export class FIELD {
       // the comma-separated array param and place them inside the wrapper
       // and make the input hidden
       input.type = "hidden";
-      input.value = JSON.stringify(params.value);
+      input.value = JSON.stringify(params.value) || `[]`;
 
-      const arr = Array.isArray(params.array)
-        ? params.array
-        : params.array.split(",");
+      // if options are provided, then generate a series of checkboxes
+      // for each of the predetermined options
+      if (params.options) {
+        wrapper.class += " hasOptions";
 
-      arr.forEach((item) => {
-        const subField = new FIELD({
-          type: "checkbox",
-          name: `${params.name}__${item}`,
-          label: item,
-          "data-input": params.name,
-          checked: params.value.includes(item),
-          value: item,
+        const arr = Array.isArray(params.options)
+          ? params.options
+          : params.options.split(",");
+
+        arr.forEach((item) => {
+          const subField = new FIELD({
+            type: "checkbox",
+            name: `${params.name}__${item}`,
+            label: item,
+            "data-input": params.name,
+            checked: params.value.includes(item),
+            value: item,
+          });
+
+          wrapper.children.push(subField);
+        });
+      } else {
+        // otherwise, create a holder for the array tags
+        const arrayEntries = {
+          class: "arrayEntries",
+          children: [],
+        };
+
+        // and process any of the values that are already in the array
+        // and add them as FIELD__ARRAYENTRY
+        params.value.forEach((item) => {
+          const subField = new FIELD__ARRAYENTRY(item);
+
+          arrayEntries.children.push(subField);
         });
 
-        wrapper.children.push(subField);
-      });
+        // and a text input for adding new values to the array
+        const subField = new FIELD({
+          type: "text",
+          name: `${params.name}__new`,
+          label: "Add New",
+          "data-input": params.name,
+          buttonIcon: "plus",
+          buttonClass: "array__add",
+        });
+
+        wrapper.children.push(arrayEntries, subField);
+      }
 
       // then make the wrapper a fieldset
       wrapper.tagName = "fieldset";

@@ -1,5 +1,7 @@
 import { addEventDelegate } from "../../modules/eventDelegate/eventDelegate.js";
 import { dataEmit } from "../../modules/dataEmit/dataEmit.js";
+import { renderTemplate } from "../../template/renderTemplate.js";
+import { FIELD__ARRAYENTRY } from "./field.html.js";
 
 const handleFocus = (target, event) => {
   const clientX = event.clientX,
@@ -437,3 +439,49 @@ const syncCheckedValue = (input) => {
 };
 
 addEventDelegate("change", ".field.toggledual-field input", syncCheckedValue);
+
+// add new items to the array field from a text input
+const addToArray = (button) => {
+  const fieldset = button.parentNode.parentNode.parentNode,
+    input = button.parentNode.querySelector("input"),
+    value = input.value,
+    arrayInput = fieldset.querySelector(`input[type=hidden]`),
+    arrayInputValue = arrayInput.value,
+    arrayInputValues = JSON.parse(arrayInputValue);
+
+  arrayInputValues.push(value);
+  arrayInput.value = JSON.stringify(arrayInputValues);
+
+  // now create a new arrayTag and push it to the arrayTags element
+  const arrayEntries = fieldset.querySelector(".arrayEntries"),
+    arrayTag = renderTemplate(new FIELD__ARRAYENTRY({ textContent: value }));
+
+  arrayEntries.appendChild(arrayTag);
+
+  input.value = "";
+};
+
+addEventDelegate("click", ".field.array-field .array__add", addToArray);
+
+// remove items from the array field by clicking the remove button in the arrayEntry button
+const removeFromArray = (button) => {
+  const fieldset = button.parentNode.parentNode.parentNode,
+    arrayInput = fieldset.querySelector(`input[type=hidden]`),
+    arrayInputValue = arrayInput.value,
+    arrayInputValues = JSON.parse(arrayInputValue),
+    arrayEntry = button.parentNode,
+    value = arrayEntry.textContent;
+
+  // remove the value from the arrayInputValues
+  const index = arrayInputValues.indexOf(value);
+  arrayInputValues.splice(index, 1);
+  arrayInput.value = JSON.stringify(arrayInputValues);
+
+  arrayEntry.remove();
+};
+
+addEventDelegate(
+  "click",
+  ".field.array-field .arrayEntry__remove",
+  removeFromArray
+);

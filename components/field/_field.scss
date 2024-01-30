@@ -4,10 +4,11 @@
   --field-input-color: var(--foreground);
   --field-label-color: var(--foreground);
   --field-focus-color: var(--accent);
+  --field-focus-color-on: var(--accent-on);
   --field-focus-opacity: 0.15;
-  --field-border-width: 0.125rem;
+  --field-border-width: 0.1rem;
   --field-border-color: var(--background-grey);
-  --field-padding: 0.75rem;
+  --field-padding: 0.5rem;
   --field-toggle-color: var(--primary);
 
   --reorganizeItem-background: var(--background-grey);
@@ -35,7 +36,7 @@
   select {
     @include fontValues(10);
     outline: none;
-    min-height: 3.75rem;
+    min-height: 3rem;
     font-family: var(--base-font-family);
     -webkit-appearance: none;
   }
@@ -131,7 +132,6 @@
     box-sizing: border-box;
     border: var(--field-border-width) solid var(--field-border-color);
     border-radius: var(--border-radius);
-    display: flex;
 
     legend {
       padding: 0.5rem 0.25rem;
@@ -148,6 +148,8 @@
     @include fontValues(10);
     color: var(--field-label-color);
     padding-top: 0.5rem;
+    z-index: 1;
+    position: relative;
   }
 
   .preview {
@@ -273,6 +275,31 @@
         border-radius: 50%;
         pointer-events: none;
       }
+
+      &.hasButton {
+        display: flex;
+
+        input {
+          border-radius: var(--border-radius) 0 0 var(--border-radius);
+          border-right: none;
+        }
+
+        .inputButton {
+          width: 3rem;
+          background: var(--field-focus-color);
+          position: relative;
+
+          .icon {
+            width: 1.5rem;
+            height: 1.5rem;
+            fill: var(--field-focus-color-on);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+          }
+        }
+      }
     }
 
     input,
@@ -281,7 +308,7 @@
       display: block;
       padding: var(--field-padding);
       box-sizing: border-box;
-      border: 0.125rem solid var(--field-border-color);
+      border: var(--field-border-width) solid var(--field-border-color);
       border-radius: var(--border-radius);
       transition: border-color 0.5s ease;
       transition-delay: 0.25s;
@@ -296,6 +323,40 @@
         + .focus {
           animation: focus 1s forwards;
           animation-delay: 0.01s;
+        }
+      }
+    }
+  }
+
+  &.array-field {
+    &.hasOptions {
+      fieldset.wrapper {
+        display: flex;
+      }
+    }
+
+    .arrayEntries {
+      padding: 0.5rem;
+      box-sizing: border-box;
+
+      .arrayEntry {
+        display: block;
+        background: var(--field-focus-color);
+        color: var(--field-focus-color-on);
+        padding: 0.5rem;
+        border-radius: var(--border-radius);
+        padding-right: 3rem;
+        position: relative;
+
+        button.arrayEntry__remove {
+          width: 1rem;
+          height: 1rem;
+          background: transparent;
+          position: absolute;
+          top: 50%;
+          right: 0.5rem;
+          transform: translateY(-50%);
+          fill: var(--field-focus-color-on);
         }
       }
     }
