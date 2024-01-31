@@ -271,8 +271,12 @@
 
 .productSummaryGrid {
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
+  justify-content: center;
+
+  .productSummary {
+    flex: 0 0 50%;
+  }
 }
 
 .productSummary {
@@ -308,7 +312,40 @@
   }
 
   .pricing {
-    @include fontValues(6);
+    @include fontValues(7);
+    text-align: center;
+
+    .compareAt {
+      display: inline-block;
+      text-align: center;
+      position: relative;
+      margin-bottom: 0.25rem;
+      color: var(--accent);
+
+      &::before {
+        content: "";
+        width: 125%;
+        height: 0.25rem;
+        background: var(--urgent);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(3deg);
+      }
+    }
+
+    .price {
+      font-weight: 900;
+      @include fontValues(6);
+      text-align: center;
+      color: var(--accent);
+      display: flex;
+      justify-content: center;
+
+      &.onSale {
+        color: var(--urgent);
+      }
+    }
 
     .currencyCode {
       display: flex;
@@ -358,17 +395,7 @@
   }
 }
 
-@media only screen and (min-width: $breakpoint-lg) {
-  .productSummaryGrid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-
-    .productSummary {
-      flex: 0 0 50%;
-    }
-  }
-
+@media only screen and (min-width: $breakpoint-md) {
   #product {
     display: flex;
 
