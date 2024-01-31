@@ -37,9 +37,12 @@ export const post__shop_collection = (req, res) => {
       },
       (collection, callback) => {
         if (process.env.CONVERTCURRENCY === "true") {
-          convertCollectionCurrency({ collection, req }, (collection) => {
-            callback(null, collection);
-          });
+          convertCollectionCurrency(
+            { collection, req },
+            (convertedCollection) => {
+              callback(null, convertedCollection);
+            }
+          );
         } else {
           callback(null, collection);
         }

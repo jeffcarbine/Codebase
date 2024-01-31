@@ -64,9 +64,9 @@ export const cartContentTemplate = (cartData) => {
             new e.SPAN({
               class: "price",
               textContent: formatCurrency(
-                item.variant.price__converted.amount ||
+                item.variant.price__converted?.amount ||
                   item.variant.price.amount,
-                item.variant.price__converted.currencyCode ||
+                item.variant.price__converted?.currencyCode ||
                   item.variant.price.currencyCode
               ),
             }),

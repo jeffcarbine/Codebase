@@ -6,6 +6,7 @@ export const PRODUCTSUMMARYGRID = ({
   count = 8,
   currency = "USD",
   convertPrice = [],
+  lg = false,
 }) => {
   // render grid of placeholderes
   const generatePlaceholders = (count) => {
@@ -15,7 +16,7 @@ export const PRODUCTSUMMARYGRID = ({
     }
 
     return {
-      class: `productSummaryGrid ${count <= 2 ? "lg" : ""}`,
+      class: `productSummaryGrid ${lg ? "lg" : ""}`,
       "data-component": "product/productSummaryGrid",
       "data-collectionHandle": collectionHandle,
       "data-count": count,
@@ -34,7 +35,7 @@ export const PRODUCTSUMMARYGRID = ({
     });
 
     return {
-      class: `productSummaryGrid ${count <= 2 ? "lg" : ""}`,
+      class: `productSummaryGrid ${lg ? "lg" : ""}`,
       children: productSummaries,
     };
   };
