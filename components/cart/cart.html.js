@@ -42,8 +42,6 @@ export const cartContentTemplate = (cartData) => {
 
   // loop through the lineItems
   lineItemsData.forEach((item) => {
-    console.log(item);
-
     const lineItem = new e.LI({
       class: "lineItem",
       children: [
