@@ -5,6 +5,7 @@ import {
   formatProduct,
   getAllProducts,
   convertCollectionCurrency,
+  convertCheckoutCurrency,
 } from "../apis/shopify.js";
 
 export const post__shop_collection = (req, res) => {
@@ -79,7 +80,14 @@ export const post__shop_addToCart = (req, res) => {
   shopify.checkout
     .addLineItems(checkoutId, line_item)
     .then((checkout) => {
-      res.status(200).send(checkout);
+      // convert the currency if necessary
+      if (process.env.CONVERTCURRENCY === "true") {
+        convertCheckoutCurrency({ checkout, req }, (convertedCheckout) => {
+          res.status(200).send(convertedCheckout);
+        });
+      } else {
+        res.status(200).send(checkout);
+      }
     })
     .catch((err) => {
       res.status(500).send(err);

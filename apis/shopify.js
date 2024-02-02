@@ -30,6 +30,85 @@ if (shopifyToken !== undefined) {
   productsPromise = shopify.product.fetchAll();
 }
 
+export const convertCheckoutCurrency = (
+  { checkout, req, country } = {},
+  callback
+) => {
+  if (country === undefined) {
+    // get the country
+    const ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress,
+      lookup = geoip.lookup(ip);
+
+    country = lookup === null ? process.env.DEVCOUNTRYCODE : lookup.country;
+  }
+
+  const checkoutCurrency = checkout.lineItems[0]?.variant.price.currencyCode,
+    countryCurrency = countryToCurrency(country);
+
+  // if they don't match, we need to update that info
+  if (checkoutCurrency !== countryCurrency) {
+    getExchangeRate(checkoutCurrency, countryCurrency, (rate) => {
+      // update the subtotal with the new currency
+      checkout.subtotalPrice__converted = {
+        amount: Math.ceil(
+          parseFloat(checkout.subtotalPrice.amount) * rate + 0.5
+        ), // adding $.50 to help push up to match Shopify
+        currencyCode: countryCurrency,
+      };
+
+      // update the lineItemsSubtotalPrice with the new currency
+      checkout.lineItemsSubtotalPrice__converted = {
+        amount: Math.ceil(
+          parseFloat(checkout.lineItemsSubtotalPrice.amount) * rate + 0.5
+        ), // adding $.50 to help push up to match Shopify
+        currencyCode: countryCurrency,
+      };
+
+      const lineItems = checkout.lineItems;
+
+      // now asyncLoop through the lineItems
+      asyncLoop(
+        lineItems,
+        (lineItem, next) => {
+          // get the price and the compareAtPrice
+          const price = parseFloat(lineItem.variant.price.amount),
+            compareAtPrice = parseFloat(
+              lineItem.variant.compareAtPrice?.amount
+            );
+
+          // and add it to the variant
+          lineItem.variant.price__converted = {
+            // round the price up to the next whole number
+            amount: Math.ceil(price * rate + 0.5), // adding $.50 to help push up to match Shopify
+            currencyCode: countryCurrency,
+          };
+
+          // if there is a compareAtPrice
+          if (compareAtPrice !== undefined) {
+            // add it to the variant
+            lineItem.variant.compareAtPrice__converted = {
+              // round the price up to the next whole number
+              amount: Math.ceil(compareAtPrice * rate + 0.5), // adding $.50 to ehlp push up to match Shopify
+              currencyCode: countryCurrency,
+            };
+          }
+
+          next();
+        },
+        (err) => {
+          if (err) {
+            console.error(err);
+          } else {
+            callback(checkout);
+          }
+        }
+      );
+    });
+  } else {
+    callback(checkout);
+  }
+};
+
 /**
  * Converts the currency of a product variant based on a given rate and target currency.
  *
@@ -181,11 +260,6 @@ export const convertCollectionCurrency = (
  * @param {Object} res - The HTTP response object, used to send the response back to the client.
  */
 export const getCart = (req, res) => {
-  // get country for currency conversion
-  const ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress,
-    lookup = geoip.lookup(ip),
-    country = lookup === null ? process.env.DEVCOUNTRYCODE : lookup.country;
-
   let checkoutId = req.cookies["checkoutId"];
 
   // check for null variants, which will require a new checkout
@@ -231,71 +305,9 @@ export const getCart = (req, res) => {
             checkout.lineItems[0]?.variant.price.currencyCode;
 
           if (checkoutCurrency !== undefined) {
-            const countryCurrency = countryToCurrency(country);
-
-            // if they don't match, we need to update that info
-            if (checkoutCurrency !== countryCurrency) {
-              getExchangeRate(checkoutCurrency, countryCurrency, (rate) => {
-                // update the subtotal with the new currency
-                checkout.subtotalPrice__converted = {
-                  amount: Math.ceil(
-                    parseFloat(checkout.subtotalPrice.amount) * rate + 0.5
-                  ), // adding $.50 to help push up to match Shopify
-                  currencyCode: countryCurrency,
-                };
-
-                // update the lineItemsSubtotalPrice with the new currency
-                checkout.lineItemsSubtotalPrice__converted = {
-                  amount: Math.ceil(
-                    parseFloat(checkout.lineItemsSubtotalPrice.amount) * rate +
-                      0.5
-                  ), // adding $.50 to help push up to match Shopify
-                  currencyCode: countryCurrency,
-                };
-
-                const lineItems = checkout.lineItems;
-
-                // now asyncLoop through the lineItems
-                asyncLoop(
-                  lineItems,
-                  (lineItem, next) => {
-                    // get the price and the compareAtPrice
-                    const price = parseFloat(lineItem.variant.price.amount),
-                      compareAtPrice = parseFloat(
-                        lineItem.variant.compareAtPrice?.amount
-                      );
-
-                    // and add it to the variant
-                    lineItem.variant.price__converted = {
-                      // round the price up to the next whole number
-                      amount: Math.ceil(price * rate + 0.5), // adding $.50 to help push up to match Shopify
-                      currencyCode: countryCurrency,
-                    };
-
-                    // if there is a compareAtPrice
-                    if (compareAtPrice !== undefined) {
-                      // add it to the variant
-                      lineItem.variant.compareAtPrice__converted = {
-                        // round the price up to the next whole number
-                        amount: Math.ceil(compareAtPrice * rate + 0.5), // adding $.50 to ehlp push up to match Shopify
-                        currencyCode: countryCurrency,
-                      };
-                    }
-
-                    next();
-                  },
-                  (err) => {
-                    if (err) {
-                      console.error(err);
-                    } else {
-                      return res.status(200).send(checkout);
-                    }
-                  }
-                );
-              });
-            } else {
-              return res.status(200).send(checkout);
-            }
+            convertCheckoutCurrency({ checkout, req }, (convertedCheckout) => {
+              return res.status(200).send(convertedCheckout);
+            });
           } else {
             return res.status(200).send(checkout);
           }
