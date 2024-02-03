@@ -1,12 +1,12 @@
 ﻿import { addEventDelegate } from "../../modules/eventDelegate/eventDelegate.js";
+import { smoothScroll } from "../../scripts/smoothScroll/smoothScroll.js";
 
 function skipToMain() {
   let main = document.querySelector("main");
   main.setAttribute("tabindex", "0");
 
-  setTimeout(() => {
-    main.focus();
-  }, 500);
+  smoothScroll("main");
+  main.focus();
 }
 
-addEventDelegate("click", "#skipToMain", skipToMain);
+addEventDelegate("click", "#skipToMainContent", skipToMain);

@@ -311,8 +311,6 @@ const eventMatches = (event, key) => {
         // get the selector inside the not selector
         let selector = notSelector.replace(":not(", "").replace(")", "");
 
-        console.log(elem, selector, elem.matches(selector));
-
         // if the element matches the selector, then
         // return false
         if (!elem.matches(selector)) {

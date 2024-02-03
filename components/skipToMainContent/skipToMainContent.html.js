@@ -1,10 +1,10 @@
-export class SKIPTOMAIN {
+export class SKIPTOMAINCONTENT {
   constructor(params) {
     this.tagName = "button";
 
-    this.id = "skipToMain";
+    this.id = "skipToMainContent";
 
-    this["data-component"] = "skipToMain";
+    this["data-component"] = "skipToMainContent";
 
     this.tabIndex = 0;
 

@@ -18,43 +18,39 @@ const smoothScrollClick = (link) => {
  * Handles scrolling to the correct position
  * @param {string} hash the id that we are scrolling to
  */
-export const smoothScroll = (hash) => {
-  // check to see if the hash contains letters
-  // (ie: its a valid id selector)
-  if (hash.match(/[a-z]/i)) {
-    // we need to figure out what the scrollable
-    // dom element is. we do this by
-    // working our way up the parentnodes
-    // until we find a parent that has
-    // overflow-y set to scroll or we hit
-    // the window
+export const smoothScroll = (query) => {
+  // we need to figure out what the scrollable
+  // dom element is. we do this by
+  // working our way up the parentnodes
+  // until we find a parent that has
+  // overflow-y set to scroll or we hit
+  // the window
 
-    const target = document.querySelector(hash);
+  const target = document.querySelector(query);
 
-    // now check to see that the target is defined
-    // (ie: the element we want to scroll to actually exists)
-    if (target !== undefined && target !== null) {
-      const scrollOffset = target.dataset.scrolloffset || 0,
-        // figure out what the parent is
-        scrollParent = getScrollParent(target);
+  // now check to see that the target is defined
+  // (ie: the element we want to scroll to actually exists)
+  if (target !== undefined && target !== null) {
+    const scrollOffset = target.dataset.scrolloffset || 0,
+      // figure out what the parent is
+      scrollParent = getScrollParent(target);
 
-      let targetPosition = target.getBoundingClientRect().top,
-        parentOffset = scrollParent.offsetTop || 0,
-        offsetPosition = targetPosition - parentOffset - scrollOffset;
+    let targetPosition = target.getBoundingClientRect().top,
+      parentOffset = scrollParent.offsetTop || 0,
+      offsetPosition = targetPosition - parentOffset - scrollOffset;
 
-      // if window, then do window
-      if (scrollParent === window) {
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: "smooth",
-        });
-      } else {
-        // otherwise, do scrollParent
-        scrollParent.scrollTo({
-          top: offsetPosition,
-          behavior: "smooth",
-        });
-      }
+    // if window, then do window
+    if (scrollParent === window) {
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
+    } else {
+      // otherwise, do scrollParent
+      scrollParent.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
     }
   }
 };

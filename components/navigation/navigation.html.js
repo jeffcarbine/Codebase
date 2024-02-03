@@ -37,6 +37,7 @@ export class NAVIGATION extends ELEMENT {
             children: [
               new SPAN({ class: "embellishment-1" }),
               new A({
+                tabindex: 0,
                 href: path,
                 textContent: route,
                 target: external ? "_blank" : "",
@@ -63,6 +64,7 @@ export class NAVIGATION extends ELEMENT {
             children: [
               new SPAN({ class: "embellishment-1" }),
               new A({
+                tabindex: 0,
                 href,
                 children,
               }),
