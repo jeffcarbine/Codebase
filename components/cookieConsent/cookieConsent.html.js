@@ -6,6 +6,8 @@ export const COOKIECONSENT = ({
   analyticCookiesOn = true,
   marketingCookiesOn = true,
 }) => {
+  console.log(analyticCookiesOn, marketingCookiesOn);
+
   return {
     id: "cookieConsent",
     "data-component": "cookieConsent",
@@ -61,17 +63,17 @@ export const COOKIECONSENT = ({
                   type: "checkbox",
                   id: "analytics",
                   label: "Analytics",
-                  checked: analyticCookiesOn || true,
+                  checked: analyticCookiesOn,
                   name: "analyticCookies",
-                  help: "These cookies help us understand how visitors interact with the website.",
+                  help: "These cookies help us understand how visitors interact with the website, and help us to continuously improve the user experience.",
                 }),
                 new FIELD({
                   type: "checkbox",
                   id: "marketing",
                   label: "Marketing",
-                  checked: marketingCookiesOn || true,
+                  checked: marketingCookiesOn,
                   name: "marketingCookies",
-                  help: "These cookies are used to track visitors across websites. The intention is to display ads that are relevant and engaging for the individual user and thereby more valuable for publishers and third party advertisers.",
+                  help: "These cookies are used to track visitors across websites. The intention is to display ads that are relevant and engaging.",
                 }),
                 new BTNCONTAINER({
                   id: "saveCookiePreferences",
