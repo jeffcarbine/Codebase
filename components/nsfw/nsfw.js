@@ -10,6 +10,8 @@ const checkNsfw = () => {
   if (nsfwCookie) {
     document.body.classList.add("nsfw-allowed");
   } else {
+    document.body.classList.add("nsfw-disallowed");
+
     // check for any nsfw-event: load elements
     const nsfwElements = document.querySelectorAll("[data-nsfw-event='load']");
 
@@ -77,7 +79,7 @@ export const delegate = () => {
 
   addEventDelegate(
     "click",
-    "body:not(.nsfw-allowed) [data-nsfw-event='click']",
+    "body.nsfw-disallowed [data-nsfw-event='click']",
     showNsfwModal,
     true
   );
