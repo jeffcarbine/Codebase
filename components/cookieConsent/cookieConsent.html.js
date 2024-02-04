@@ -1,4 +1,4 @@
-import { FORM, H2, P } from "../../elements/elements.js";
+import { A, FORM, H2, P } from "../../elements/elements.js";
 import { BTNCONTAINER, FIELD, MODAL } from "../components.js";
 
 export const COOKIECONSENT = ({
@@ -17,9 +17,16 @@ export const COOKIECONSENT = ({
         children: [
           {
             class: "explanation",
-            child: new P(
-              "We use essential cookies to make our site work. With your consent, we may also use non-essential cookies to improve user experience and analyze website traffic. By clicking “Accept,” you agree to our website's cookie use as described in our Cookie Policy. You can change your cookie settings at any time by clicking 'Preferences.'"
-            ),
+            children: [
+              new P([
+                "We use essential cookies to make our site work. With your consent, we may also use non-essential cookies to improve user experience and analyze website traffic. By clicking “Accept All,” you agree to our website's cookie use as described in our",
+                new A({ href: "/cookie-policy", textContent: "Cookie Policy" }),
+                ".",
+              ]),
+              new P(
+                "You can change your cookie settings at any time by clicking 'Cookie Preferences' in the footer.'"
+              ),
+            ],
           },
           {
             class: "actions",
