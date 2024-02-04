@@ -723,3 +723,47 @@ export const getAllProducts = (callback, pageInfo = null) => {
     }
   });
 };
+
+export const createNewDiscountCode = () => {
+  shopify.priceRule
+    .create({
+      email,
+      phone,
+      title: "REFERRALFRIEND",
+      allocation_method: "each",
+      once_per_customer: true,
+      target_type: "line_item",
+      target_selection: "all",
+      value_type: "percentage",
+      value: -15.0,
+      customer_selection: "all",
+      starts_at: "2018-10-10T1:00:10Z",
+    })
+    .then((data) => {
+      shopify.discountCode
+        .create(data.id, { code: couponcode })
+        .then((data) => {
+          console.log(`coupon code created = `, data);
+          response.json({
+            status: "success",
+            discount_code: {
+              code: couponcode,
+            },
+          });
+        })
+        .catch((err) => {
+          console.log(`Error in create coupon code'. = `, err);
+          console.log(
+            `Error creating coupon code'. ${JSON.stringify(err.response.body)}`
+          );
+          response.status(err.statusCode).send(err.response.body);
+        });
+    })
+    .catch((err) => {
+      console.log(`Error in create price rule'. = `, err);
+      console.log(
+        `Error creating price rule'. ${JSON.stringify(err.response.body)}`
+      );
+      response.status(err.statusCode).send(err.response.body);
+    });
+};

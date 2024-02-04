@@ -147,7 +147,8 @@ export const getPatreonToken = (mainCallback, tokenName = "patreon") => {
           access_token,
           refresh_token,
           expires_in,
-          callback
+          callback,
+          mainCallback
         );
       },
     ],
