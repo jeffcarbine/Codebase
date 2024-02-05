@@ -6,6 +6,8 @@ export class SKIPTOMAINCONTENT {
 
     this["data-component"] = "skipToMainContent";
 
+    this["data-query"] = params?.target || "main";
+
     this.tabIndex = 0;
 
     this.class = "btn primary";

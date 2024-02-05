@@ -190,7 +190,7 @@ export const xhrForm = ({
 
     const message = successMessage || request.response;
 
-    success(request, message, form);
+    success(request, message, form, body);
 
     if (reset) {
       form.reset();

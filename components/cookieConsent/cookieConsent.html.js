@@ -3,11 +3,11 @@ import { BTNCONTAINER, FIELD, MODAL } from "../components.js";
 
 export const COOKIECONSENT = ({
   cookiesDetected = false,
+  analyticCookiesDetected = false,
   analyticCookiesOn = true,
+  marketingCookiesDetected = false,
   marketingCookiesOn = true,
 }) => {
-  console.log(analyticCookiesOn, marketingCookiesOn);
-
   return {
     id: "cookieConsent",
     "data-component": "cookieConsent",
@@ -18,13 +18,14 @@ export const COOKIECONSENT = ({
           {
             class: "explanation",
             children: [
+              new H2("Cookie Consent"),
               new P([
-                "We use essential cookies to make our site work. With your consent, we may also use non-essential cookies to improve user experience and analyze website traffic. By clicking “Accept All,” you agree to our website's cookie use as described in our",
+                "Hello! We use essential cookies in order to make our site function - however, with your consent, we may also use non-essential cookies to improve user experience and analyze website traffic. By clicking 'Accept All', you agree to the storing of non-essential cookies on your device. You can learn more about how we use cookies by visiting our",
                 new A({ href: "/cookie-policy", textContent: "Cookie Policy" }),
                 ".",
               ]),
               new P(
-                "You can change your cookie settings at any time by clicking 'Cookie Preferences' in the footer.'"
+                "You can change your cookie settings now by clicking 'Preferences' or at any time by going to 'Cookie Preferences' in the footer."
               ),
             ],
           },
@@ -70,7 +71,7 @@ export const COOKIECONSENT = ({
                   type: "checkbox",
                   id: "analytics",
                   label: "Analytics",
-                  checked: analyticCookiesOn,
+                  checked: analyticCookiesDetected ? analyticCookiesOn : true,
                   name: "analyticCookies",
                   help: "These cookies help us understand how visitors interact with the website, and help us to continuously improve the user experience.",
                 }),
@@ -78,7 +79,7 @@ export const COOKIECONSENT = ({
                   type: "checkbox",
                   id: "marketing",
                   label: "Marketing",
-                  checked: marketingCookiesOn,
+                  checked: marketingCookiesDetected ? marketingCookiesOn : true,
                   name: "marketingCookies",
                   help: "These cookies are used to track visitors across websites. The intention is to display ads that are relevant and engaging.",
                 }),

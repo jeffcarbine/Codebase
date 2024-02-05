@@ -1,12 +1,14 @@
 ﻿import { addEventDelegate } from "../../modules/eventDelegate/eventDelegate.js";
 import { smoothScroll } from "../../scripts/smoothScroll/smoothScroll.js";
 
-function skipToMain() {
-  let main = document.querySelector("main");
-  main.setAttribute("tabindex", "0");
+function skipToMainContent(button) {
+  const query = button.dataset.query;
 
-  smoothScroll("main");
-  main.focus();
+  let mainContent = document.querySelector(query);
+  mainContent.setAttribute("tabindex", "0");
+
+  smoothScroll(query);
+  mainContent.focus();
 }
 
-addEventDelegate("click", "#skipToMainContent", skipToMain);
+addEventDelegate("click", "#skipToMainContent", skipToMainContent);
