@@ -23,7 +23,7 @@
     .explanation {
       h2 {
         @include fontValues(8);
-        margin-bottom: 0.5rem;
+        margin: 0.5rem 0;
       }
 
       @include fontValues(12, 10);

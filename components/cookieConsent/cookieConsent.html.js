@@ -20,7 +20,7 @@ export const COOKIECONSENT = ({
             children: [
               new H2("Cookie Consent"),
               new P([
-                "Hello! We use essential cookies in order to make our site function - however, with your consent, we may also use non-essential cookies to improve user experience and analyze website traffic. By clicking 'Accept All', you agree to the storing of non-essential cookies on your device. You can learn more about how we use cookies by visiting our",
+                "Hello! We use essential cookies in order to make our site function - however, with your consent, we may also use non-essential cookies to improve user experience and analyze website traffic. By clicking 'Accept All', you agree to the storing of non-essential cookies on your device. You can learn more about how we use cookies by visiting our ",
                 new A({ href: "/cookie-policy", textContent: "Cookie Policy" }),
                 ".",
               ]),
