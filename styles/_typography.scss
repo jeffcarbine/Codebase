@@ -95,6 +95,10 @@ p {
 a {
   cursor: pointer;
   color: var(--anchor-color);
+
+  &[role="button"] {
+    text-decoration: underline;
+  }
 }
 
 strong {
