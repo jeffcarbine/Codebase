@@ -7,6 +7,7 @@ export const PRODUCTSUMMARYGRID = ({
   currency = "USD",
   convertPrice = [],
   lg = false,
+  url = "/shop/product/",
 }) => {
   // render grid of placeholderes
   const generatePlaceholders = (count) => {
@@ -22,6 +23,7 @@ export const PRODUCTSUMMARYGRID = ({
       "data-count": count,
       "data-currency": currency,
       "data-convertPrice": JSON.stringify(convertPrice),
+      "data-url": url,
       children: placeholders,
     };
   };
@@ -31,7 +33,7 @@ export const PRODUCTSUMMARYGRID = ({
     const productSummaries = [];
 
     products.forEach((product) => {
-      productSummaries.push(PRODUCTSUMMARY({ data: product, currency }));
+      productSummaries.push(PRODUCTSUMMARY({ data: product, url }));
     });
 
     return {

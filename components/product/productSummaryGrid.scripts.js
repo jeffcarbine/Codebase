@@ -7,7 +7,8 @@ const productSummaryGrids = document.querySelectorAll(".productSummaryGrid");
 
 productSummaryGrids.forEach((productSummaryGrid) => {
   const collectionHandle = productSummaryGrid.dataset.collectionhandle,
-    count = productSummaryGrid.dataset.count;
+    count = productSummaryGrid.dataset.count,
+    url = productSummaryGrid.dataset.url;
 
   const success = (request) => {
     const products = JSON.parse(request.response).products;
@@ -18,6 +19,7 @@ productSummaryGrids.forEach((productSummaryGrid) => {
       const productSummary = renderTemplate(
         PRODUCTSUMMARY({
           data: product,
+          url,
         })
       );
       productSummaryGrid.appendChild(productSummary);
