@@ -24,8 +24,10 @@ export const sitemapAndRobots = (app, hostname) => {
       });
       const pipeline = smStream.pipe(createGzip());
 
-      // get all the pages from the database
-      Page.find().exec((err, pages) => {
+      // get all the pages from the database where active = true
+      Page.find({
+        active: true,
+      }).exec((err, pages) => {
         if (err) {
           throw new Error(err);
         } else {
