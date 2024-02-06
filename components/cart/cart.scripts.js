@@ -36,8 +36,6 @@ export const update = (request) => {
 
   cartContent.classList.remove("loading");
 
-  console.log(cartData);
-
   const newcartContent = renderTemplate(cartContentTemplate(cartData));
 
   dataEmit("cartCount", countLineItems(cartData.lineItems));

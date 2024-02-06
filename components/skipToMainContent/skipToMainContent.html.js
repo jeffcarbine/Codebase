@@ -1,3 +1,4 @@
+import { SPAN } from "../../elements/span/span.html.js";
 export class SKIPTOMAINCONTENT {
   constructor(params) {
     this.tagName = "button";
@@ -12,6 +13,8 @@ export class SKIPTOMAINCONTENT {
 
     this.class = "btn primary";
 
-    this.textContent = "Skip to Main Content";
+    this.child = new SPAN({
+      textContent: "Skip to Main Content",
+    });
   }
 }
