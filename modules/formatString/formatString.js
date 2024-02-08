@@ -31,6 +31,18 @@ export const capitalizeAll = (str) => {
   return arr.join(" ");
 };
 
+export const capitalCase = (str) => {
+  // from "example string" to "ExampleString"
+
+  const arr = str.split(" ");
+
+  for (var i = 0; i < arr.length; i++) {
+    arr[i] = capitalize(arr[i]);
+  }
+
+  return arr.join("");
+};
+
 export const deCamelize = (str) => {
   const result = str.replace(/([A-Z])/g, " $1");
   return result.charAt(0).toUpperCase() + result.slice(1);
