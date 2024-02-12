@@ -25,11 +25,6 @@ button.btn {
 .btn {
   --loader-color: var(--btn-color);
 
-  &.sm {
-    @include fontValues(10);
-    padding: calc(var(--btn-padding-x) * 0.75) calc(var(--btn-padding-y) * 0.75);
-  }
-
   outline: none;
   padding: var(--btn-padding-x) var(--btn-padding-y);
   border: 1px solid var(--btn-background);
@@ -57,6 +52,26 @@ button.btn {
 
     &::after {
       transform: translate(-50%, -50%) scale(0.2);
+    }
+  }
+
+  svg.icon {
+    width: var(--btn-icon-size);
+    height: var(--btn-icon-size);
+    fill: var(--btn-color);
+    transform: translateY(-6%) scale(2.5);
+    margin-right: var(--btn-icon-size);
+    transition: fill 0.25s ease;
+  }
+
+  &.sm {
+    @include fontValues(12);
+    padding: calc(var(--btn-padding-x) * 0.75) calc(var(--btn-padding-y) * 0.75);
+
+    svg.icon {
+      width: calc(var(--btn-icon-size) * 0.5);
+      height: calc(var(--btn-icon-size) * 0.5);
+      transform: translateY(-30%) scale(2.5);
     }
   }
 
@@ -91,8 +106,8 @@ button.btn {
   }
 
   &.subtle {
-    --btn-background: var(--background-grey);
-    --btn-focus-background: var(--background-mid);
+    --btn-background: var(--background-mid);
+    --btn-focus-background: var(--background-grey);
     --btn-color: var(--foreground);
     --btn-focus-color: var(--foreground);
   }
@@ -184,15 +199,6 @@ button.btn {
   //   }
   // }
 
-  svg.icon {
-    width: var(--btn-icon-size);
-    height: var(--btn-icon-size);
-    fill: var(--btn-color);
-    transform: translateY(-6%) scale(2.5);
-    margin-right: var(--btn-icon-size);
-    transition: fill 0.25s ease;
-  }
-
   // &.block {
   //   display: block;
   //   width: 100%;
@@ -224,6 +230,14 @@ button.btn {
 
   &.centered {
     justify-content: center;
+  }
+
+  &.right {
+    justify-content: flex-end;
+  }
+
+  &.minimal {
+    margin: 0;
   }
 
   > .btn {

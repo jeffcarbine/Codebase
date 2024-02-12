@@ -485,3 +485,87 @@ addEventDelegate(
   ".field.array-field .arrayEntry__remove",
   removeFromArray
 );
+
+// when a text field in an array field is focused, prevent the enter key from submitting the form
+// and instead add a new item to the array
+const preventEnterSubmit = (input) => {
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+
+      const button = input.parentNode.querySelector(".array__add");
+      addToArray(button);
+    }
+  });
+};
+
+const arrayTextInputs = document.querySelectorAll(".field.array-field input");
+
+if (arrayTextInputs.length > 0) {
+  arrayTextInputs.forEach((input) => {
+    preventEnterSubmit(input);
+  });
+}
+
+// and handle mutations
+addEventDelegate("childList", ".field.array-field input", preventEnterSubmit);
+
+const randomPlaceholder = () => {
+  const placeholders = [
+    "It's dangerous to go alone!",
+    "Bread makes you fat?",
+    "Welcome to the world of Pokémon!",
+    "I'm giving the Covenant back their bomb.",
+    "Any objections, Lady?",
+    "Hey, listen!",
+    "I swear by my pretty floral bonnet, I will end you.",
+  ];
+
+  return placeholders[Math.floor(Math.random() * placeholders.length)];
+};
+
+const quillScriptImported = false;
+
+// enable quill on richtext fields
+const enableQuillField = (quillField) => {
+  if (!quillScriptImported) {
+    import("https://cdn.quilljs.com/1.3.6/quill.js").then(() => {
+      enable();
+    });
+  } else {
+    enable();
+  }
+
+  const enable = () => {
+    if (!quillField.classList.contains("ql-container")) {
+      const quill = new Quill(quillField, {
+        theme: "snow",
+        placeholder: randomPlaceholder(),
+      });
+
+      quill.on("text-change", function (delta, oldDelta, source) {
+        if (source == "api") {
+          console.log("An API call triggered this change.");
+        } else if (source == "user") {
+          const html = quill.root.innerHTML,
+            textarea =
+              quill.root.parentNode.parentNode.parentNode.querySelector(
+                "textarea"
+              );
+
+          textarea.innerHTML = html.replace(/<p><br><\/p>/g, ""); // getting rid of the empty paragraph tags
+        }
+      });
+    }
+  };
+};
+
+const quillFields = document.querySelectorAll(".quill");
+
+if (quillFields.length > 0) {
+  quillFields.forEach((quillField) => {
+    enableQuillField(quillField);
+  });
+}
+
+addEventDelegate("childList", ".quill:not(.ql-container)", enableQuillField);

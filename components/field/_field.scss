@@ -32,6 +32,7 @@
   display: block;
   width: 100%;
   margin-bottom: 0.5rem;
+  font-weight: 400;
 
   input,
   textarea,
@@ -561,5 +562,57 @@
         }
       }
     }
+  }
+
+  &.richtext-field {
+    .wrapper {
+      overflow: visible;
+    }
+
+    textarea {
+      opacity: 0;
+      pointer-events: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1px;
+      height: 1px;
+    }
+
+    .richText {
+      .ql-container {
+        height: 10rem;
+      }
+    }
+  }
+}
+
+@import "quill";
+
+// quill overrides
+
+.ql-container,
+.ql-toolbar {
+  &.ql-snow {
+    border: none;
+  }
+}
+
+.ql-toolbar {
+  &.ql-snow {
+    border-bottom: 1px solid var(--field-border-color);
+  }
+}
+
+.ql-snow .ql-picker {
+  @include fontValues(12);
+}
+
+.ql-editor {
+  @include fontValues(10, 7);
+
+  ul,
+  ol {
+    margin: 0.5rem 0;
   }
 }

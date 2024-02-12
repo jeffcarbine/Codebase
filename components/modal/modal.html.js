@@ -6,13 +6,16 @@ export const MODAL = ({ modalBody = {}, id = "", className = "" } = {}) => {
     "data-component": "modal",
     class: "modal " + className,
     id,
-    children: [
-      new BUTTON({
-        class: "close",
-        "aria-label": "Close Modal",
-        children: [new ICON("close")],
-      }),
-      modalBody,
-    ],
+    child: {
+      class: "modal-content",
+      children: [
+        new BUTTON({
+          class: "close",
+          "aria-label": "Close Modal",
+          children: [new ICON("close")],
+        }),
+        modalBody,
+      ],
+    },
   });
 };

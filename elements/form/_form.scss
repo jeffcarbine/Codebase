@@ -45,6 +45,16 @@ form {
     display: none;
   }
 
+  fieldset {
+    width: 100%;
+    padding: 0.5rem 0.5rem 0.5rem 1.5rem;
+    border-left: 0.5rem solid var(--field-focus-color);
+  }
+
+  .btn-container {
+    width: 100%;
+  }
+
   // label:not([for]),
   // *:not(label) {
   //   flex: 0 0 100%;

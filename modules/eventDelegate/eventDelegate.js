@@ -433,6 +433,7 @@ const config = {
   ],
   childList: true,
   subtree: true,
+  characterData: true,
 };
 
 // check to see if an event is a mutation or not
@@ -453,6 +454,8 @@ const callback = (mutationsList) => {
       if (mutation.type === "childList" && mutation.addedNodes.length > 0) {
         executeCheck(mutation);
       } else if (mutation.type === "attributes") {
+        executeCheck(mutation);
+      } else if (mutation.type === "characterData") {
         executeCheck(mutation);
       }
     }
@@ -485,7 +488,10 @@ const executeCheck = (mutation) => {
     funcs.forEach((funcObj) => {
       const func = funcObj.func,
         target = funcObj.target,
-        nodes = mutationTarget.querySelectorAll(target);
+        nodes =
+          mutationTarget.nodeType === 1
+            ? mutationTarget.querySelectorAll(target)
+            : [];
 
       var isMutation = false;
       var existsInMutation = false;
@@ -493,7 +499,7 @@ const executeCheck = (mutation) => {
       // check to see if the element itself is the
       // mutation or if the element exists as a child
       // of the mutation
-      if (mutationTarget.matches(target)) {
+      if (mutationTarget.nodeType === 1 && mutationTarget.matches(target)) {
         isMutation = true;
       }
 
@@ -503,11 +509,9 @@ const executeCheck = (mutation) => {
 
       if (isMutation) {
         func(mutationTarget, mutation);
-        //mutationTarget.dataset.mutated = true;
       } else if (existsInMutation) {
         nodes.forEach(function (node) {
           func(node, mutation);
-          //mutationTarget.dataset.mutated = true;
         });
       }
     });

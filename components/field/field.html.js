@@ -53,8 +53,9 @@ export class FIELD {
     }
 
     // if type is textarea, change the input to a textarea
-    if (type === "textarea") {
+    if (type === "textarea" || type === "richtext") {
       input.tagName = "textarea";
+      input.innerHTML = params.value;
 
       // if no rows, default to 4
       if (!params.rows) {
@@ -351,13 +352,15 @@ export class FIELD {
           children: [],
         };
 
-        // and process any of the values that are already in the array
+        // and process any of the values, if any, that are already in the array
         // and add them as FIELD__ARRAYENTRY
-        params.value.forEach((item) => {
-          const subField = new FIELD__ARRAYENTRY(item);
+        if (params.value) {
+          params.value.forEach((item) => {
+            const subField = new FIELD__ARRAYENTRY(item);
 
-          arrayEntries.children.push(subField);
-        });
+            arrayEntries.children.push(subField);
+          });
+        }
 
         // and a text input for adding new values to the array
         const subField = new FIELD({
@@ -448,6 +451,26 @@ export class FIELD {
 
     //
     //
+    // RICHTEXT
+    if (type === "richtext") {
+      input.rows = 8;
+
+      // create the rich text editor
+      const richText = {
+        class: "richText",
+        "data-input": params.name,
+        child: {
+          class: "quill",
+          innerHTML: params.value || "",
+        },
+      };
+
+      // and add it to the wrapper
+      wrapper.children.unshift(richText);
+    }
+
+    //
+    //
     // END MODIFICATIONS
     //
     //
@@ -514,18 +537,20 @@ export class FIELD {
         input.class !== undefined ? input.class : ""
       } hasPreview`;
 
+      console.log(params.value);
+
       const preview = {
         class: "preview",
         children: [
           new IMG({
             class: "imagePreview",
-            style: params.value !== undefined ? "opacity: 1" : "",
+            style: params.value ? "opacity: 1" : "",
             src: params.value || "",
           }),
           {
             class: "placeholder",
             children: [new ICON("image")],
-            style: params.value !== undefined ? "opacity: 0" : "",
+            style: params.value ? "opacity: 0" : "",
           },
         ],
       };

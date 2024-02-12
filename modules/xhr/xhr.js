@@ -164,22 +164,40 @@ export const xhrForm = ({
     form.classList.add("loading");
   }
 
-  formData.forEach((value, key) => {
-    // need to create subobjects
-    if (key.includes(".")) {
-      // then split it and assign it as split
-      let parent = key.split(".")[0],
-        child = key.split(".")[1];
+  const assignValue = (obj, keys, value) => {
+    let key = keys.shift();
 
-      // and if the parent is undefined, define it
-      if (body[parent] === undefined) {
-        body[parent] = {};
+    if (key.includes("[")) {
+      let [arrayKey, arrayIndex] = key.split("[");
+      arrayIndex = parseInt(arrayIndex);
+
+      if (!obj[arrayKey]) {
+        obj[arrayKey] = [];
       }
 
-      body[parent][child] = value;
+      if (keys.length === 0) {
+        obj[arrayKey][arrayIndex] = value;
+      } else {
+        if (!obj[arrayKey][arrayIndex]) {
+          obj[arrayKey][arrayIndex] = {};
+        }
+        assignValue(obj[arrayKey][arrayIndex], keys, value);
+      }
     } else {
-      body[key] = value;
+      if (keys.length === 0) {
+        obj[key] = value;
+      } else {
+        if (!obj[key]) {
+          obj[key] = {};
+        }
+        assignValue(obj[key], keys, value);
+      }
     }
+  };
+
+  formData.forEach((value, key) => {
+    let keys = key.split(".");
+    assignValue(body, keys, value);
   });
 
   // default behaviour for success

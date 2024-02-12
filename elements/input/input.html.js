@@ -31,6 +31,13 @@ export class FIELDSET extends ELEMENT {
   }
 }
 
+export class LEGEND extends ELEMENT {
+  constructor(params) {
+    super(params);
+    this.tagName = "legend";
+  }
+}
+
 export class LABELINPUT {
   constructor(params) {
     this.if = params.if;
