@@ -369,12 +369,14 @@ const convertCurrencyToSimpleCurrency = (currencyInput) => {
     parent = currencyInput.parentNode,
     simplecurrencyName = currencyInput.dataset.simplecurrency,
     simpleCurrencyInput = parent.querySelector(
-      `input[name=${simplecurrencyName}]`
+      `input[name='${simplecurrencyName}']`
     );
 
   if (!simpleCurrencyInput) return;
 
   const simpleCurrency = currency * 100;
+
+  console.log(simpleCurrency);
 
   simpleCurrencyInput.value = simpleCurrency;
 };
@@ -417,9 +419,7 @@ const updateArrayInput = (input) => {
       (input) => input.value
     );
 
-  console.log(arrayInputName);
-
-  arrayInput.value = JSON.stringify(values);
+  arrayInput.value = values.join(",");
 };
 
 addEventDelegate(
@@ -447,10 +447,10 @@ const addToArray = (button) => {
     value = input.value,
     arrayInput = fieldset.querySelector(`input[type=hidden]`),
     arrayInputValue = arrayInput.value,
-    arrayInputValues = JSON.parse(arrayInputValue);
+    arrayInputValues = arrayInput.value ? arrayInputValue.split(",") : [];
 
   arrayInputValues.push(value);
-  arrayInput.value = JSON.stringify(arrayInputValues);
+  arrayInput.value = arrayInputValues.join(",");
 
   // now create a new arrayTag and push it to the arrayTags element
   const arrayEntries = fieldset.querySelector(".arrayEntries"),
@@ -468,14 +468,14 @@ const removeFromArray = (button) => {
   const fieldset = button.parentNode.parentNode.parentNode,
     arrayInput = fieldset.querySelector(`input[type=hidden]`),
     arrayInputValue = arrayInput.value,
-    arrayInputValues = JSON.parse(arrayInputValue),
+    arrayInputValues = arrayInputValue.split(","),
     arrayEntry = button.parentNode,
     value = arrayEntry.textContent;
 
   // remove the value from the arrayInputValues
   const index = arrayInputValues.indexOf(value);
   arrayInputValues.splice(index, 1);
-  arrayInput.value = JSON.stringify(arrayInputValues);
+  arrayInput.value = arrayInputValues.join(",");
 
   arrayEntry.remove();
 };

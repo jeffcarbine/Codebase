@@ -134,8 +134,16 @@ button.btn {
   }
 
   &.transparent {
-    --btn-background: transparent;
-    --btn-color: var(--foreground);
+    background: transparent;
+    border: none;
+
+    --btn-color: var(--btn-background);
+    --btn-focus-color: var(--btn-focus-background);
+
+    &:hover {
+      background: transparent;
+      border: none;
+    }
   }
 
   &.icon-only {

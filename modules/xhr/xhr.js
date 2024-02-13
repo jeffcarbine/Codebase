@@ -206,7 +206,7 @@ export const xhrForm = ({
   const formSuccess = (request) => {
     form.classList.remove("loading");
 
-    const message = successMessage || request.response;
+    const message = successMessage || request.response || "Success";
 
     success(request, message, form, body);
 
@@ -233,7 +233,7 @@ export const xhrForm = ({
   const formError = (request) => {
     form.classList.remove("loading");
 
-    const message = errorMessage || request.response;
+    const message = errorMessage || request.response || "Error";
 
     error(request, message, form);
   };
@@ -244,7 +244,7 @@ export const xhrForm = ({
   const formFailure = (request) => {
     form.classList.remove("loading");
 
-    const message = failureMessage || request.response;
+    const message = failureMessage || request.response || "Failure";
 
     failure(request, message, form);
   };

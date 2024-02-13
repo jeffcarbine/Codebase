@@ -322,7 +322,8 @@ export class FIELD {
       // the comma-separated array param and place them inside the wrapper
       // and make the input hidden
       input.type = "hidden";
-      input.value = JSON.stringify(params.value) || `[]`;
+      // conver the array to comma separated string
+      input.value = params?.value?.join(",") || "";
 
       // if options are provided, then generate a series of checkboxes
       // for each of the predetermined options
@@ -348,7 +349,7 @@ export class FIELD {
       } else {
         // otherwise, create a holder for the array tags
         const arrayEntries = {
-          class: "arrayEntries",
+          class: `arrayEntries ${params.style === "tag" ? "tag-style" : ""}`,
           children: [],
         };
 

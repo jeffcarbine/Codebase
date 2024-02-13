@@ -374,6 +374,17 @@
           fill: var(--field-focus-color-on);
         }
       }
+
+      &.tag-style {
+        display: flex;
+        flex-wrap: wrap;
+
+        .arrayEntry {
+          + .arrayEntry {
+            margin-left: 0.5rem;
+          }
+        }
+      }
     }
   }
 

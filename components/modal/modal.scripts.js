@@ -23,9 +23,17 @@ const destroyModal = (button) => {
   modal.remove();
 };
 
-const closeModal = (modal) => {
+export const closeModal = (modal) => {
   // add a class that triggers an animation
   modal.classList.add("closing");
+
+  // check to see if a parent modal exists and has a class of hidden
+  const parentModal = modal.closest("dialog.hidden");
+
+  // if it does, remove the class
+  if (parentModal) {
+    parentModal.classList.remove("hidden");
+  }
 
   // get the animation duration from the css
   const duration = parseFloat(
@@ -44,19 +52,6 @@ const closeModal = (modal) => {
 
 const closeModalClick = (button) => {
   const modal = button.closest("dialog");
-
-  // now, check if there is a previous modal to re-open
-  const prevModalId = modal.dataset.prevModal;
-
-  // if there is a previous modal to re-open, open it
-  if (prevModalId !== undefined) {
-    const prevModal = document.querySelector("#" + prevModalId);
-
-    prevModal.classList.remove("hidden");
-
-    // remove the prevModalId from the modal
-    modal.removeAttribute("data-prev-modal");
-  }
 
   closeModal(modal);
 };

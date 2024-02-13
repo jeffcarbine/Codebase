@@ -48,6 +48,7 @@ form {
   fieldset {
     width: 100%;
     padding: 0.5rem 0.5rem 0.5rem 1.5rem;
+    box-sizing: border-box;
     border-left: 0.5rem solid var(--field-focus-color);
   }
 

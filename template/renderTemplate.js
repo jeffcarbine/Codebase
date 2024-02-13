@@ -59,9 +59,28 @@ const clientRender = (template) => {
           key !== "tagName" &&
           key !== "textContent" &&
           key !== "innerHTML" &&
-          key !== "if"
+          key !== "if" &&
+          key !== "style"
         ) {
           element.setAttribute(key, value);
+        } else if (key === "style") {
+          console.log("style!");
+          console.log(value);
+
+          let style = "";
+          // for styles, we can accept either a string or an object
+          if (typeof value === "string") {
+            style = value;
+          } else if (typeof value === "object") {
+            for (let key in value) {
+              // if the key already has a hyphen, then just use it, otherwise de-camlize it
+              const property = key.includes("-") ? key : camelToHyphen(key);
+
+              style = style + property + ":" + value[key] + ";";
+            }
+
+            element.setAttribute("style", style);
+          }
         }
       }
     }
