@@ -40,7 +40,6 @@ button.btn {
   color: var(--btn-color);
   border-radius: var(--btn-border-radius);
   cursor: pointer;
-  box-sizing: border-box;
   position: relative;
 
   &.loading {

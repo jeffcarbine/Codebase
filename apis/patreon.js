@@ -7,12 +7,41 @@ dotenv.config();
 import Token from "../models/Token.js";
 import request from "request";
 import async from "async";
+import User from "../../premmio/models/User.js";
 
-// https://www.patreon.com/oauth2/authorize?response_type=code&client_id=VFwd4Mix4Vce-cqXqKYEMjrHiSeD3UAEOZ4U3ssfRwZ33RyaysQ3KsMh9d6iv2gC&redirect_uri=https://carbine.co&scope=identity%20identity%5Bemail%5D%20campaigns%20campaigns.posts%20campaigns.members%20campaigns.members%5Bemail%5D&fields%5Bmembers%5D=last_charge_date
+// const generatePatreonOAuthUrl = (clientId, redirectUri) => {
+//   const scopes = [
+//     "identity",
+//     "identity%5Bemail%5D",
+//     "identity.memberships",
+//     "campaigns",
+//     "campaigns.members",
+//     "campaigns.posts",
+//     "members",
+//     "members%5Bemail%5D",
+//     "members.address",
+//     "members.campaign",
+//     "projects",
+//     "webhooks",
+//     "notifications",
+//   ];
+//   const baseUrl = "https://www.patreon.com/oauth2/authorize";
+//   const params = new URLSearchParams({
+//     response_type: "code",
+//     client_id: clientId,
+//     redirect_uri: redirectUri,
+//     scope: scopes.join(" "),
+//   });
+
+//   return `${baseUrl}?${params.toString().replace(/\+/g, "%20")}`;
+// };
 
 const patreonClientId = process.env.PATREONCLIENTID,
+  patreonRedirectUri = process.env.PATREONREDIRECTURI,
   patreonClientSecret = process.env.PATREONCLIENTSECRET,
   patreonOneTimeCode = process.env.PATREONONETIMECODE;
+
+export const patreonOauthUrl = `https://www.patreon.com/oauth2/authorize?response_type=code&client_id=${patreonClientId}&redirect_uri=${patreonRedirectUri}&scope=identity%20identity%5Bemail%5D%20identity.memberships%20campaigns%20campaigns.members%20campaigns.posts%20campaigns.members%20campaigns.members%5Bemail%5D`;
 
 const saveAndReturnPatreonToken = (
   tokenName,
@@ -50,10 +79,16 @@ const saveAndReturnPatreonToken = (
   });
 };
 
-export const generateNewPatreonToken = (tokenName, callback, mainCallback) => {
+export const generateNewPatreonToken = ({
+  oneTimeCode = patreonOneTimeCode,
+  tokenName,
+  callback,
+  mainCallback,
+} = {}) => {
+  console.log("Generating new Patreon token");
   request.post(
     {
-      url: `https://www.patreon.com/api/oauth2/token?code=${patreonOneTimeCode}&grant_type=authorization_code&client_id=${patreonClientId}&client_secret=${patreonClientSecret}&redirect_uri=https://carbine.co`,
+      url: `https://www.patreon.com/api/oauth2/token?code=${oneTimeCode}&grant_type=authorization_code&client_id=${patreonClientId}&client_secret=${patreonClientSecret}&redirect_uri=${patreonRedirectUri}`,
       headers: "Content-Type: application/x-www-form-urlencoded",
     },
     (err, httpResponse, str) => {
@@ -64,14 +99,101 @@ export const generateNewPatreonToken = (tokenName, callback, mainCallback) => {
 
         if (body.access_token) {
           console.log("Successfully generated Patreon token");
-          return saveAndReturnPatreonToken(
-            tokenName,
-            body.access_token,
-            body.refresh_token,
-            body.expires_in,
-            callback,
-            mainCallback
-          );
+
+          if (tokenName) {
+            return saveAndReturnPatreonToken(
+              tokenName,
+              body.access_token,
+              body.refresh_token,
+              body.expires_in,
+              callback,
+              mainCallback
+            );
+          } else {
+            // we need to save this token to a user, so we need to get
+            // their info from Patreon
+            request.get(
+              {
+                url: "https://www.patreon.com/api/oauth2/api/current_user",
+                headers: {
+                  Authorization: `Bearer ${body.access_token}`,
+                },
+              },
+              (err, httpResponse, str) => {
+                if (err) {
+                  callback(err);
+                } else {
+                  let patreonUser = JSON.parse(str);
+
+                  const getPledgeData = (user) => {
+                    // loop throug the patreon user's included data
+                    // and format it into an array of pledges
+                    const pledges = [];
+
+                    for (let i = 0; i < patreonUser.included.length; i++) {
+                      const inclusion = patreonUser.included[i];
+                      if (
+                        inclusion.type === "reward" &&
+                        inclusion.relationships !== undefined
+                      ) {
+                        console.log(JSON.stringify(inclusion));
+                        const campaign_id =
+                            inclusion.relationships.campaign.data.id,
+                          pledge = inclusion.attributes.amount_cents;
+
+                        pledges.push({
+                          campaign_id,
+                          pledge,
+                        });
+                      }
+                    }
+
+                    return pledges;
+                  };
+
+                  // check to see if we have a user with this patreon id
+                  // if so, update their token inf
+                  // if not, register a new user
+                  User.findOne({
+                    "patreon.id": patreonUser.data.id,
+                  }).exec((err, user) => {
+                    if (user) {
+                      user.patreon.access_token = body.access_token;
+                      user.patreon.refresh_token = body.refresh_token;
+                      user.patreon.expires =
+                        new Date().getTime() + body.expires_in * 1000;
+                      user.patreon_pledges = getPledgeData(patreonUser);
+
+                      user.save((err, updatedUser) => {
+                        mainCallback(err, updatedUser);
+                      });
+                    } else {
+                      const username = patreonUser.data.attributes.email,
+                        password = patreonUser.data.id;
+
+                      User.register(
+                        {
+                          username,
+                          firstName: patreonUser.data.attributes.first_name,
+                          createdAt: new Date(),
+                          "patreon.id": patreonUser.data.id,
+                          "patreon.access_token": body.access_token,
+                          "patreon.refresh_token": body.refresh_token,
+                          "patreon.expires_in":
+                            new Date().getTime() + body.expires_in * 1000,
+                          patreon_pledges: getPledgeData(patreonUser),
+                        },
+                        password,
+                        (err, newUser) => {
+                          mainCallback(err, newUser);
+                        }
+                      );
+                    }
+                  });
+                }
+              }
+            );
+          }
         } else {
           console.log("Error generating Patreon token:");
           console.log(body);
@@ -93,8 +215,24 @@ export const getPatreonToken = (mainCallback, tokenName = "patreon") => {
             callback(err);
           } else {
             if (token === null) {
-              console.log("No Patreon token found, requesting new one");
-              generateNewPatreonToken(tokenName, callback, mainCallback);
+              // check to see if we have a one-time code
+              if (patreonOneTimeCode) {
+                console.log("No Patreon token found, requesting new one");
+                generateNewPatreonToken(tokenName, callback, mainCallback);
+              } else {
+                if (
+                  !patreonClientId ||
+                  !patreonClientSecret ||
+                  !patreonRedirectUri
+                ) {
+                  mainCallback(
+                    "No Patreon client ID, client secret, or redirect URI found. Please correct this in your environment variables."
+                  );
+                } else {
+                  mainCallback(`No Patreon one-time code found in environment variables. Please generate one at ${patreonOauthUrl}
+                  `);
+                }
+              }
             } else {
               // check expiration
               let now = new Date().getTime();

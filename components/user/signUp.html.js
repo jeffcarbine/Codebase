@@ -46,7 +46,7 @@ export const SIGNUP = () => {
           required: true,
           label: "Email",
         }),
-        ...passwordFields,
+        ...PASSWORDFIELDS,
         new BTN({
           textContent: "Sign Up",
         }),

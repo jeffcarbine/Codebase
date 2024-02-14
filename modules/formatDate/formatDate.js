@@ -5,6 +5,8 @@
 import { months } from "../months/months.js";
 
 export const formatDate = (date) => {
+  if (typeof date === "string") date = new Date(date);
+
   // get the day, month and year values from the date object
   const day = date.getDate(),
     month = date.getMonth() + 1,
@@ -61,4 +63,36 @@ export const formatSimpleDate = (simpledate) => {
     day = simpledate.toString().slice(6, 8);
 
   return createDateString(day, month, year);
+};
+
+export const formatDaysAgo = (date) => {
+  if (typeof date === "string") date = new Date(date);
+
+  const now = new Date(),
+    diff = now - date,
+    // get the number of days between the two dates
+    // ignoring the time
+    days = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+  let daysString = "";
+
+  if (days === 0) {
+    daysString = "Today";
+  } else if (days === 1) {
+    daysString = "Yesterday";
+  } else {
+    daysString = days + " days ago";
+  }
+
+  return daysString;
+};
+
+export const formatDateOrDaysAgo = (date) => {
+  if (typeof date === "string") date = new Date(date);
+
+  const now = new Date(),
+    diff = now - date,
+    days = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+  return days < 7 ? formatDaysAgo(date) : formatDate(date);
 };

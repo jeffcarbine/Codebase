@@ -64,9 +64,6 @@ const clientRender = (template) => {
         ) {
           element.setAttribute(key, value);
         } else if (key === "style") {
-          console.log("style!");
-          console.log(value);
-
           let style = "";
           // for styles, we can accept either a string or an object
           if (typeof value === "string") {

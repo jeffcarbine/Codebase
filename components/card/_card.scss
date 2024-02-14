@@ -1,8 +1,10 @@
 // cards
 .card {
-  --card-background: var(--light);
+  --card-background: var(--background);
+  --card-color: var(--foreground);
 
   background: var(--card-background);
+  color: var(--card-color);
   padding: 1rem;
   box-shadow: var(--box-shadow);
   box-sizing: border-box;
