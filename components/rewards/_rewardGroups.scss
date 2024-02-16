@@ -1,16 +1,28 @@
 #rewardGroups {
+  margin-top: 5rem;
+
   #rewardGroupsList {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     margin-top: 1rem;
-    overflow: scroll;
 
     .rewardGroup {
-      flex: 0 0 15rem;
-      height: 15rem;
-      margin: 0;
+      flex: 0 0 20rem;
+      height: 20rem;
+      margin: 1rem;
 
-      + .rewardGroup {
-        margin-left: 1rem;
+      > div {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+
+        .description {
+          flex: 1 1 auto;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
       }
     }
   }
