@@ -1,83 +1,94 @@
-#latestRewardsList {
+#latestRewards {
   margin-top: 2rem;
+}
+
+#latestRewardsList {
+  margin: 2rem 0;
 
   &.loading {
     height: 20rem;
   }
 
-  .info {
-    display: flex;
-    margin: -1rem;
-
-    .previewImage {
-      flex: 0 0 auto;
-      margin-right: 1rem;
-
-      img {
-        width: 7rem;
-        height: 7rem;
-        object-fit: cover;
-      }
-    }
-
-    .titleAndDate {
-      flex: 1 1 auto;
+  .card {
+    .info {
       display: flex;
-      flex-direction: column;
-      justify-content: center;
+      margin: -1rem;
 
-      h2 {
-        @include fontValues(4);
+      .previewImage {
+        flex: 0 0 auto;
+        margin-right: 1rem;
+
+        img {
+          width: 7rem;
+          height: 7rem;
+          object-fit: cover;
+        }
       }
 
-      .date {
-        @include fontValues(11);
-        margin: 0.5rem 0;
-      }
-    }
-  }
-
-  .descriptionAndAttachments {
-    .description {
-      padding: 1rem 0.5rem;
-    }
-    .attachments {
-      margin: 0 -1rem;
-
-      .attachment {
+      .titleAndDate {
+        flex: 1 1 auto;
         display: flex;
-        padding: 0.25rem 1.5rem;
-        border-top: 1px solid var(--border-color);
+        flex-direction: column;
+        justify-content: center;
 
-        .icon-container {
-          flex: 0 0 auto;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          margin-right: 0.5rem;
-
-          .icon {
-            width: 1.5rem;
-            height: 1.5rem;
-            fill: var(--foreground);
-          }
+        h3 {
+          padding: 1rem 1rem 0 1rem;
         }
 
-        p {
-          flex: 1 1 auto;
-          padding: 0.5rem;
-          margin: 0;
+        .date {
           @include fontValues(11);
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
+          margin: 0.5rem 0;
+          padding: 0 1.125rem;
         }
+      }
+    }
 
-        .btn-container {
-          flex: 0 0 auto;
+    .descriptionAndAttachments {
+      .description {
+        padding: 1rem 0.5rem;
+      }
+
+      .attachments {
+        margin: 0 -1rem;
+
+        .attachment {
           display: flex;
-          flex-direction: column;
-          justify-content: center;
+          justify-content: flex-end;
+          padding: 0.25rem 1.5rem;
+
+          + .attachment {
+            border-top: 1px solid var(--border-color);
+          }
+
+          .icon-container {
+            flex: 0 0 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin-right: 0.5rem;
+
+            .icon {
+              width: 2rem;
+              height: 2rem;
+            }
+          }
+
+          p {
+            flex: 0 0 auto;
+            padding: 0.5rem;
+            margin: 0 1rem;
+            @include fontValues(10);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+          }
+
+          .btn-container {
+            flex: 0 0 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+          }
         }
       }
     }

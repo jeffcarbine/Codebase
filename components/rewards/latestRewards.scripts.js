@@ -17,9 +17,6 @@ const getLatestRewards = () => {
     const latestRewardsList = document.getElementById("latestRewardsList"),
       accessKeys = JSON.parse(latestRewardsList.dataset.accessKeys);
 
-    console.log("access keys");
-    console.log(accessKeys);
-
     latestRewardsList.innerHTML = "";
     latestRewardsList.classList.remove("loading");
 
@@ -40,7 +37,6 @@ const getLatestRewards = () => {
               new P(attachment.title),
               new BTNCONTAINER(
                 {
-                  class: "sm",
                   href: `/rewards/reward/${rewards._id}`,
                   textContent: "View Reward",
                 },
@@ -61,7 +57,7 @@ const getLatestRewards = () => {
 
           const noAccessBtn = attachment.noAccessKey
             ? {
-                class: "sm subtle",
+                class: "accent",
                 textContent: `Join the ${patreonName} to Unlock for ${formatCents(
                   attachment.price
                 )}`,
@@ -69,7 +65,7 @@ const getLatestRewards = () => {
                 target: "+blank",
               }
             : {
-                class: "sm subtle",
+                class: "accent",
                 textContent: `Reward Unlocked at ${formatCents(
                   attachment.price
                 )}`,
@@ -101,7 +97,7 @@ const getLatestRewards = () => {
               class: "info",
               children: [
                 {
-                  if: reward.preview_src,
+                  if: reward.preview_src !== undefined,
                   class: "previewImage",
                   child: new IMG({
                     src: reward.preview_src,

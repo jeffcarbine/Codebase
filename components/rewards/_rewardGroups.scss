@@ -1,0 +1,17 @@
+#rewardGroups {
+  #rewardGroupsList {
+    display: flex;
+    margin-top: 1rem;
+    overflow: scroll;
+
+    .rewardGroup {
+      flex: 0 0 15rem;
+      height: 15rem;
+      margin: 0;
+
+      + .rewardGroup {
+        margin-left: 1rem;
+      }
+    }
+  }
+}
