@@ -7,11 +7,12 @@
   --field-focus-color: var(--accent);
   --field-focus-color-on: var(--accent-on);
   --field-focus-opacity: 0.15;
-  --field-border-radius: var(--field-border-radius);
+  --field-border-radius: var(--border-radius);
   --field-border-width: 0.1rem;
   --field-border-color: var(--background-grey);
   --field-padding: 0.5rem;
   --field-toggle-color: var(--primary);
+  --field-toggle-inactive-color: var(--background-grey);
 
   --reorganizeItem-background: var(--background-grey);
 }
@@ -139,6 +140,10 @@
     border: var(--field-border-width) solid var(--field-border-color);
     border-radius: var(--field-border-radius);
 
+    &.hasOptions {
+      display: flex;
+    }
+
     legend {
       padding: 0.5rem 0;
       transform: translate(-0.5rem, -50%);
@@ -153,11 +158,20 @@
   }
 
   label {
+    display: flex;
+    justify-content: space-between;
     @include fontValues(10);
     color: var(--field-label-color);
     padding-top: 0.5rem;
     z-index: 1;
     position: relative;
+
+    span {
+      @include fontValues(12);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
   }
 
   .preview {
@@ -260,13 +274,7 @@
   }
 
   // hande non-checkbox and non-radio
-  &:not(.checkbox-field):not(.radio-field):not(.fullcheckbox-field):not(
-      .fullradio-field
-    ):not(.array-field):not(.toggledual-field) {
-    label {
-      display: block;
-    }
-
+  &.typed {
     .wrapper {
       background: var(--field-background);
       border-radius: var(--field-border-radius);
@@ -500,7 +508,7 @@
     }
   }
 
-  &.toggledual-field {
+  @mixin toggleStyles {
     position: relative;
 
     input {
@@ -525,13 +533,6 @@
       display: flex;
       overflow: visible;
 
-      label {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding: 0;
-      }
-
       .toggle {
         flex: 0 0 3.5rem;
         margin: 0 0.5rem;
@@ -555,6 +556,56 @@
           box-shadow: var(--box-shadow);
           transition: transform 0.25s ease;
         }
+      }
+    }
+  }
+
+  &.togglesingle-field {
+    @include toggleStyles;
+
+    label {
+      padding-left: 4.5rem;
+      display: block;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-top: 0;
+    }
+
+    .wrapper {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      margin: 0;
+
+      .toggle {
+        &::before {
+          transition: transform 0.25s ease, background-color 0.25s ease;
+          transform: translate(-100%, -50%);
+          background-color: var(--field-toggle-inactive-color);
+        }
+      }
+
+      input:checked + .toggle {
+        &::before {
+          transform: translate(0, -50%);
+          background-color: var(--field-toggle-color);
+        }
+      }
+    }
+  }
+
+  &.toggledual-field {
+    @include toggleStyles;
+
+    .wrapper {
+      label {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 0;
       }
 
       &[data-toggled="1"] {

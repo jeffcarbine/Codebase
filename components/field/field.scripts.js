@@ -12,7 +12,7 @@ const handleFocus = (target, event) => {
   focus.style.left = xPos + "px";
 };
 
-addEventDelegate("click", ".field input, .field textarea", handleFocus);
+addEventDelegate("click", ".field.typed", handleFocus);
 
 // handle image inputs with preview
 const renderImagePreview = (input) => {

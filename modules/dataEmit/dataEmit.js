@@ -6,7 +6,9 @@
  * @param {string} value the value to emit
  */
 
-export const dataEmit = (key, value) => {
+import { addEventDelegate } from "../eventDelegate/eventDelegate.js";
+
+export const dataEmit = (key, value, listener = false) => {
   // get all elements with a data-emit attribute
   const elements = document.querySelectorAll("[data-emit]");
 
@@ -47,15 +49,8 @@ export const dataEmit = (key, value) => {
         // default conditionsMet to true
         let conditionsMet = true;
 
-        // check if this is a simple condition or a complex condition
-        if (Object.keys(conditions).length === 0) {
-          // if it is a simple condition, check if the value is truthy
-          if (value !== false && value !== undefined && value !== null) {
-            conditionsMet = true;
-          } else {
-            conditionsMet = false;
-          }
-        } else {
+        // check if there are any conditions
+        if (Object.keys(conditions).length > 0) {
           // loop through the conditions
           for (const condition in conditions) {
             // get the condition value
@@ -130,6 +125,12 @@ export const dataEmit = (key, value) => {
 
         // if the conditions are met
         if (conditionsMet) {
+          // if this was triggered by a listener, then set
+          // the data-listening attribute to true
+          // if (listener) {
+          //   element.dataset.listening = true;
+          // }
+
           // set the data-bound attribute to true
           element.dataset.bound = true;
 
@@ -140,6 +141,8 @@ export const dataEmit = (key, value) => {
 
             if (emitTo === "class") {
               element.classList.add(newValue);
+            } else if (emitTo === "checked") {
+              element.checked = newValue;
             } else {
               element.setAttribute(emitTo, newValue);
             }
@@ -168,7 +171,39 @@ export const dataEmit = (key, value) => {
             }
           }
         }
+
+        // if this was triggered by a listener, then remove
+        // the data-listening attribute
+        // if (listener) {
+        //   delete element.dataset.listening;
+        // }
       }
     }
   });
 };
+
+// export const dataEmitListener = () => {
+//   const listener = (element, event) => {
+//     const key = element.dataset.emit;
+
+//     let value;
+
+//     if (element.type === "checkbox") {
+//       value = element.checked;
+//     } else if (element.value !== undefined) {
+//       value = element.value;
+//     } else {
+//       value = element.textContent;
+//     }
+
+//     // dataEmit(key, value, true);
+//     console.log(element);
+//     console.log(event);
+//   };
+
+//   addEventDelegate(
+//     "change, input, attributes:class, attributes:id, attributes:value, attributes.checked",
+//     "[data-emit]:not([data-listening])",
+//     listener
+//   );
+// };

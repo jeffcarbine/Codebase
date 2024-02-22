@@ -13,12 +13,12 @@
 
   // font sizes f1 - f10
   $base-font-size-increase: calc(1 + var(--base-font-multiplier));
-  $base-font-line-height-multiplier: 0.8;
+  --base-font-line-height-multiplier: 0.8;
 
   // f0 font size which is 5x the root-font-size
   --f0-font-size: calc(var(--root-font-size) * 5);
   --f0-line-height: calc(
-    var(--f0-font-size) * $base-font-line-height-multiplier
+    var(--f0-font-size) * var(--base-font-line-height-multiplier)
   );
 
   @for $i from 0 through 9 {
@@ -32,7 +32,7 @@
     --f#{$level}-font-size: calc(var(--base-font-size) * #{$increasePower});
 
     --f#{$level}-line-height: calc(
-      var(--f#{$level}-font-size) * #{$base-font-line-height-multiplier}
+      var(--f#{$level}-font-size) * var(--base-font-line-height-multiplier)
     );
   }
 
@@ -50,7 +50,7 @@
     --f#{$level}-font-size: calc(var(--base-font-size) * #{$decreasePower});
 
     --f#{$level}-line-height: calc(
-      var(--f#{$level}-font-size) * #{$base-font-line-height-multiplier}
+      var(--f#{$level}-font-size) * var(--base-font-line-height-multiplier)
     );
   }
 

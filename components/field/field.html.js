@@ -37,8 +37,29 @@ export class FIELD {
     // default to text type if no type is provided
     const type = params.type || "text";
 
+    // check to see if this is a typed input
+    const typedTypes = [
+      "text",
+      "password",
+      "email",
+      "number",
+      "date",
+      "time",
+      "richtext",
+      "url",
+      "tel",
+      "textarea",
+      "select",
+      "array",
+      "file",
+    ];
+
+    const typed = typedTypes.includes(type);
+
     // set the class name for object
-    this.class = `field ${type}-field ${params.className || ""}`;
+    this.class = `field ${type}-field ${typed ? "typed" : ""} ${
+      params.className || ""
+    }`;
 
     // create the input/textarea element
     let input = {
@@ -89,19 +110,23 @@ export class FIELD {
 
     // put that inside of the input wrapper
     const wrapper = {
-      class: "wrapper",
+      class: `wrapper ${typed ? "typed" : ""}`,
       "data-emit": `${params.name}--validation`,
       "data-emit-neq": "",
       "data-emit-to": "class",
       "data-emit-value": "invalid",
-      children: [
-        input,
-        {
-          tag: "span",
-          class: "focus",
-        },
-      ],
+      children: [input],
     };
+
+    const focus = {
+      tag: "span",
+      class: "focus",
+    };
+
+    // insert the focus into the wrapper children if it is a typed input
+    if (typed) {
+      wrapper.children.push(focus);
+    }
 
     // if there is a buttonIcon, add it to the wrapper
     if (params.buttonIcon) {
@@ -297,7 +322,7 @@ export class FIELD {
       type === "fullcheckbox" ||
       type === "radio" ||
       type === "fullradio" ||
-      type === "toggleSingle"
+      type === "togglesingle"
     ) {
       wrapper["data-checked"] = params.checked;
 
@@ -387,6 +412,26 @@ export class FIELD {
 
       // and then null out the label so it doesn't render
       params.label = null;
+    }
+
+    //
+    //
+    // TOGGLESINGLE
+    if (type === "togglesingle") {
+      // then we need to create a single checkbox
+      // using the input as the value
+
+      // modify the input
+      input.type = "checkbox";
+      input.checked = params.checked;
+
+      // and create the toggle element
+      const toggle = {
+        class: "toggle",
+      };
+
+      // put the label and input into the wrapper
+      wrapper.children.push(toggle);
     }
 
     //
@@ -486,6 +531,10 @@ export class FIELD {
         textContent: params.label,
         for: params.id,
       };
+
+      if (params.required === false) {
+        label.append = new SPAN("(Optional)");
+      }
     }
 
     // create the validation element
@@ -514,8 +563,8 @@ export class FIELD {
     // set the children
     this.children = [wrapper, help, validation];
 
-    // put the label second if checkbox or radio
-    if (type === "checkbox" || type === "radio") {
+    // put the label second if checkbox or radio or togglesingle
+    if (type === "checkbox" || type === "radio" || type === "togglesingle") {
       // if label, put it at index 1
       if (label) {
         this.children.splice(1, 0, label);
