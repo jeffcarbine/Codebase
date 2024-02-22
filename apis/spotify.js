@@ -58,7 +58,7 @@ const generateSpotifyToken = (mainCallback) => {
           if (err) {
             console.error(err);
           } else {
-            console.log("Succesfully generated Token for Spotify");
+            console.info("Succesfully generated Token for Spotify");
             mainCallback(token.access_token);
           }
         });
@@ -79,15 +79,15 @@ export function getSpotifyToken(mainCallback) {
     } else {
       // if the token is still valid, use it
       if (token !== null && token.expires > now) {
-        console.log("Spotify token is still valid");
+        console.info("Spotify token is still valid");
         mainCallback(token.access_token);
       } else {
         // if the token is null, we don't have one so we need to generate a token
         if (token === null) {
-          console.log("No Spotify token found - generating one");
+          console.info("No Spotify token found - generating one");
           generateSpotifyToken(mainCallback);
         } else {
-          console.log("Spotify token invalid - time for a new one");
+          console.info("Spotify token invalid - time for a new one");
           // otherwise, let's get a new token
           refreshSpotifyToken(token, mainCallback);
         }
@@ -142,10 +142,10 @@ export function getSpotifyToken(mainCallback) {
   //         } else {
   //           // if the token is still valid, use it
   //           if (token == null && token.expires > now) {
-  //             console.log("spotify token still valid!");
+  //             console.info("spotify token still valid!");
   //             mainCallback(token.access_token);
   //           } else {
-  //             console.log("spotify token invalid, time for a new one");
+  //             console.info("spotify token invalid, time for a new one");
   //             // otherwise, let's get a new token
   //             callback(null, token);
   //           }
@@ -174,7 +174,7 @@ export function getSpotifyToken(mainCallback) {
   //             console.error(err);
   //           } else {
   //             let body = JSON.parse(str);
-  //             console.log(body);
+  //             console.info(body);
 
   //             token.access_token = body.access_token;
   //             token.expires = now.setHours(now.getHours() + 1);

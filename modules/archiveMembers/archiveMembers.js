@@ -4,7 +4,7 @@ import Member from "../../../premmio/models/Member.js";
 import { getPatreonToken } from "../../apis/patreon.js";
 
 export const archiveMembers = (campaignId, archiveAll = false) => {
-  console.log("Beginning archive of Patreon patrons (this takes a while)");
+  console.info("Beginning archive of Patreon patrons (this takes a while)");
 
   let count = 0;
 
@@ -24,7 +24,7 @@ export const archiveMembers = (campaignId, archiveAll = false) => {
         const getPatreonMembers = (patreonUrl) => {
           count = count + 1;
 
-          console.log(`Pulling patrons from Patreon: page ${count}`);
+          console.info(`Pulling patrons from Patreon: page ${count}`);
 
           request(
             {
@@ -35,7 +35,7 @@ export const archiveMembers = (campaignId, archiveAll = false) => {
             },
             (err, result, body) => {
               if (err) {
-                console.log(err);
+                console.error(err);
               } else {
                 body = JSON.parse(body);
 
@@ -54,7 +54,7 @@ export const archiveMembers = (campaignId, archiveAll = false) => {
                       now.getTime() - 60 * 60 * 1000 ||
                     archiveAll
                   ) {
-                    console.log("Pledge charge detected, updating member");
+                    console.info("Pledge charge detected, updating member");
                     // this is so we can blank out addresses if anyone removes their address
                     // from patreon ie: they don't want physical rewards
                     let address = {
@@ -106,7 +106,7 @@ export const archiveMembers = (campaignId, archiveAll = false) => {
                       }
                     ).exec((err) => {
                       if (err) {
-                        console.log(err);
+                        console.error(err);
                       }
                     });
                   }
@@ -116,7 +116,7 @@ export const archiveMembers = (campaignId, archiveAll = false) => {
                 if (body.links !== undefined && body.links.next !== undefined) {
                   getPatreonMembers(body.links.next);
                 } else {
-                  console.log(
+                  console.info(
                     `Finished pulling and archiving all Members from Patreon`
                   );
                 }
@@ -132,7 +132,7 @@ export const archiveMembers = (campaignId, archiveAll = false) => {
     ],
     (err) => {
       if (err) {
-        console.log(err);
+        console.error(err);
       }
     }
   );

@@ -7,7 +7,7 @@ import { stripHtml } from "../formatString/formatString.js";
  * @param {XMLHttpRequest} request - The request object.
  */
 const defaultResponse = (request) => {
-  console.log(request.response);
+  console.info(request.response);
 };
 
 /**

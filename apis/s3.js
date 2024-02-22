@@ -74,5 +74,5 @@ const uploadUrlToS3 = (url, bucket, key) => {
 };
 
 // uploadUrlToS3(<your_file_url>, <your_s3_path>, <your_s3_bucket>)
-//    .then(() => console.log("File saved!"))
-//    .catch(error) => console.log(error));
+//    .then(() => console.info("File saved!"))
+//    .catch(error) => console.error(error));

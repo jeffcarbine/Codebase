@@ -37,8 +37,6 @@ import("https://web.squarecdn.com/v1/square.js").then(() => {
         body,
       });
 
-      console.log(paymentResponse);
-
       // if the response is ok, return the json
       if (paymentResponse.ok) {
         return paymentResponse;
@@ -79,7 +77,7 @@ import("https://web.squarecdn.com/v1/square.js").then(() => {
   try {
     payments = window.Square.payments(appId, locationId);
   } catch {
-    console.log("Square credentials are invalid. Please try again later.");
+    console.error("Square credentials are invalid. Please try again later.");
     return;
   }
 
@@ -99,7 +97,6 @@ import("https://web.squarecdn.com/v1/square.js").then(() => {
     try {
       const token = await tokenize(paymentMethod);
       const paymentResults = await createPayment(token);
-      console.log(paymentResults);
 
       console.debug("Payment Success", paymentResults);
     } catch (e) {

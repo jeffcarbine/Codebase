@@ -17,7 +17,7 @@ import {
 import { getPatreonToken } from "../../apis/patreon.js";
 
 const defaultRssArchiver = (show, count, callback) => {
-  console.log("getting episodes from RSS feed");
+  console.info("getting episodes from RSS feed");
   const url = show.rss;
 
   parse(url).then((feed) => {
@@ -66,7 +66,7 @@ const defaultRssArchiver = (show, count, callback) => {
         if (err) {
           console.error(err);
         } else {
-          console.log("Succesfully updated RSS feed episodes");
+          console.info("Succesfully updated RSS feed episodes");
           callback(null);
         }
       }
@@ -79,7 +79,7 @@ const defaultPatreonArchiver = (show, count, callback) => {
     [
       // step 1: get patreon access_token
       (callback) => {
-        console.log("trying to get patreon token");
+        console.info("trying to get patreon token");
         getPatreonToken(callback);
       },
       // step 5: get patreon posts
@@ -151,7 +151,7 @@ const defaultPatreonArchiver = (show, count, callback) => {
             if (err) {
               console.error(err);
             } else {
-              console.log("Successfully updated Patreon posts");
+              console.info("Successfully updated Patreon posts");
             }
           }
         );
@@ -246,7 +246,7 @@ const defaultSpotifyArchiver = (show, count, callback) => {
           if (err) {
             console.error(err);
           } else {
-            console.log("Succesfully updated Spotify episodes");
+            console.info("Succesfully updated Spotify episodes");
 
             callback(null);
           }
@@ -297,7 +297,7 @@ const defaultYouTubeArchiver = (show, count, callback) => {
         if (err) {
           console.error(err);
         } else {
-          console.log("Succesfully updated YouTube episodes");
+          console.info("Succesfully updated YouTube episodes");
           callback(null);
         }
       }
@@ -342,7 +342,7 @@ const defaultAppleArchiver = (show, count, callback) => {
         if (err) {
           console.error(err);
         } else {
-          console.log("Succesfully updated Apple episodes");
+          console.info("Succesfully updated Apple episodes");
 
           callback(null);
         }
@@ -375,8 +375,6 @@ export const archiveEpisodes = ({
   youTubeArchiver = defaultYouTubeArchiver,
   appleArchiver = defaultAppleArchiver,
 } = {}) => {
-  console.log(count);
-
   Show.find().exec((err, shows) => {
     if (err) {
       console.error(err);

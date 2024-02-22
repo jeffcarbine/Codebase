@@ -120,22 +120,18 @@ const createBase64String = (input) => {
       // create large, medium, small and thumnbail images
 
       if (width > 1600 || height > 1600) {
-        console.log("need to create lg");
         createResizedImage(evt.target.result, 1600, 1600, wrapper, name, "lg");
       }
 
       if (width > 1000 || height > 1000) {
-        console.log("need to create md");
         createResizedImage(evt.target.result, 1000, 1000, wrapper, name, "md");
       }
 
       if (width > 500 || height > 500) {
-        console.log("need to create sm");
         createResizedImage(evt.target.result, 500, 500, wrapper, name, "sm");
       }
 
       if (width > 100 || height > 100) {
-        console.log("need to create xs");
         createResizedImage(evt.target.result, 100, 100, wrapper, name, "xs");
       }
     };
@@ -331,7 +327,6 @@ addEventDelegate("change", ".field select", handleSelectOptionHelp);
 
 // // toggle checked on wrapper click
 // const toggleChecked = (wrapper) => {
-//   console.log(wrapper);
 //   const input = wrapper.querySelector("input");
 
 //   input.click();
@@ -346,13 +341,9 @@ const convertDateToSimpleDate = (dateInput) => {
     simpledateName = dateInput.dataset.simpledate,
     simpleDateInput = parent.querySelector(`input[name=${simpledateName}]`);
 
-  console.log(simpleDateInput);
-
   if (!simpleDateInput) return;
 
   const simpleDate = date.replace(/-/g, "");
-
-  console.log(simpleDate);
 
   simpleDateInput.value = simpleDate;
 };
@@ -375,8 +366,6 @@ const convertCurrencyToSimpleCurrency = (currencyInput) => {
   if (!simpleCurrencyInput) return;
 
   const simpleCurrency = currency * 100;
-
-  console.log(simpleCurrency);
 
   simpleCurrencyInput.value = simpleCurrency;
 };
@@ -545,7 +534,7 @@ const enableQuillField = (quillField) => {
 
       quill.on("text-change", function (delta, oldDelta, source) {
         if (source == "api") {
-          console.log("An API call triggered this change.");
+          console.info("An API call triggered this change.");
         } else if (source == "user") {
           const html = quill.root.innerHTML,
             textarea =

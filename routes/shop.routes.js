@@ -106,28 +106,24 @@ export const post__shop_modifyLineItem = (req, res) => {
       return shopify.checkout
         .removeLineItems(checkoutId, [id])
         .then((checkout) => {
-          console.log(checkout);
-
           res.status(200).send(checkout);
         });
     } else {
       return shopify.checkout
         .updateLineItems(checkoutId, [{ id, quantity }])
         .then((checkout) => {
-          console.log(checkout);
           res.status(200).send(checkout);
         });
     }
   } else {
-    console.log("No checkoutId");
     return res.status(500).send("No checkoutId provided");
   }
 };
 
 export const refreshProductArchive = () => {
-  console.log("Refreshing product archive");
+  console.info("Refreshing product archive");
   getAllProducts((products) => {
-    console.log("Refresh complete");
+    console.info("Refresh complete");
 
     products.forEach((product) => {
       // request the product data from shopify via the api

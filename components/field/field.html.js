@@ -587,8 +587,6 @@ export class FIELD {
         input.class !== undefined ? input.class : ""
       } hasPreview`;
 
-      console.log(params.value);
-
       const preview = {
         class: "preview",
         children: [

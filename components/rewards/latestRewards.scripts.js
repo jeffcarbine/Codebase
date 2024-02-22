@@ -3,20 +3,19 @@ import { CARD } from "../../components/card/card.html.js";
 import { H3, IMG, P } from "../../elements/elements.js";
 import { renderTemplate } from "../../template/renderTemplate.js";
 import { ICON, BTN, BTNCONTAINER } from "../components.js";
-import {
-  formatDate,
-  formatDateOrDaysAgo,
-} from "../../modules/formatDate/formatDate.js";
+import { formatDateOrDaysAgo } from "../../modules/formatDate/formatDate.js";
 import { formatCents } from "../../modules/formatCurrency/formatCurrency.js";
+import { addEventDelegate } from "../../modules/eventDelegate/eventDelegate.js";
 
 let latestRewardsIndex = 0,
   rewards;
 
 const renderLatestRewards = () => {
+  latestRewardsIndex += 3;
+
   const latestRewardsList = document.getElementById("latestRewardsList"),
     accessKeys = JSON.parse(latestRewardsList.dataset.accessKeys);
 
-  latestRewardsList.innerHTML = "";
   latestRewardsList.classList.remove("loading");
 
   const generateAttachments = (reward) => {
@@ -36,6 +35,7 @@ const renderLatestRewards = () => {
             new P(attachment.title),
             new BTNCONTAINER(
               {
+                class: "sm",
                 href: `/rewards/reward/${rewards._id}`,
                 textContent: "View Reward",
               },
@@ -56,7 +56,7 @@ const renderLatestRewards = () => {
 
         const noAccessBtn = attachment.noAccessKey
           ? {
-              class: "accent",
+              class: "sm accent",
               textContent: `Join the ${patreonName} to Unlock for ${formatCents(
                 attachment.price
               )}`,
@@ -64,7 +64,7 @@ const renderLatestRewards = () => {
               target: "+blank",
             }
           : {
-              class: "accent",
+              class: "sm accent",
               textContent: `Reward Unlocked at ${formatCents(
                 attachment.price
               )}`,
@@ -88,7 +88,7 @@ const renderLatestRewards = () => {
     return attachmentsList;
   };
 
-  for (let i = 0; i < latestRewardsIndex; i++) {
+  for (let i = latestRewardsIndex - 3; i < latestRewardsIndex; i++) {
     const reward = rewards[i];
 
     const card = CARD({

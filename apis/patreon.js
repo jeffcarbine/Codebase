@@ -85,7 +85,7 @@ export const generateNewPatreonToken = ({
   callback,
   mainCallback,
 } = {}) => {
-  console.log("Generating new Patreon token");
+  console.info("Generating new Patreon token");
   request.post(
     {
       url: `https://www.patreon.com/api/oauth2/token?code=${oneTimeCode}&grant_type=authorization_code&client_id=${patreonClientId}&client_secret=${patreonClientSecret}&redirect_uri=${patreonRedirectUri}`,
@@ -98,7 +98,7 @@ export const generateNewPatreonToken = ({
         let body = JSON.parse(str);
 
         if (body.access_token) {
-          console.log("Successfully generated Patreon token");
+          console.info("Successfully generated Patreon token");
 
           if (tokenName) {
             return saveAndReturnPatreonToken(
@@ -136,7 +136,6 @@ export const generateNewPatreonToken = ({
                         inclusion.type === "reward" &&
                         inclusion.relationships !== undefined
                       ) {
-                        console.log(JSON.stringify(inclusion));
                         const campaign_id =
                             inclusion.relationships.campaign.data.id,
                           pledge = inclusion.attributes.amount_cents;
@@ -195,8 +194,8 @@ export const generateNewPatreonToken = ({
             );
           }
         } else {
-          console.log("Error generating Patreon token:");
-          console.log(body);
+          console.info("Error generating Patreon token:");
+          console.error(body);
         }
       }
     }
@@ -217,7 +216,7 @@ export const getPatreonToken = (mainCallback, tokenName = "patreon") => {
             if (token === null) {
               // check to see if we have a one-time code
               if (patreonOneTimeCode) {
-                console.log("No Patreon token found, requesting new one");
+                console.info("No Patreon token found, requesting new one");
                 generateNewPatreonToken(tokenName, callback, mainCallback);
               } else {
                 if (
@@ -238,11 +237,11 @@ export const getPatreonToken = (mainCallback, tokenName = "patreon") => {
               let now = new Date().getTime();
 
               if (now > token.expires) {
-                console.log("Patreon token invalid, requesting new one");
+                console.info("Patreon token invalid, requesting new one");
                 // then we need to refresh
                 callback(null, token.refresh_token);
               } else {
-                console.log("Patreon token still valid!");
+                console.info("Patreon token still valid!");
                 // we can return the token now
                 mainCallback(null, token.access_token);
               }

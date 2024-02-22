@@ -80,8 +80,6 @@ export const descriptionFormatter = (rawDescription) => {
     // the string contains an adString, don't add it
     // to the formattedString
 
-    //console.log(splitDescription);
-
     splitDescription.forEach((string, index) => {
       const previousString = splitDescription[index - 1];
 
@@ -91,44 +89,22 @@ export const descriptionFormatter = (rawDescription) => {
         );
       };
 
-      // console.log(`Checking string: "${string}"`);
-      // console.log(containsAdString(string));
       if (!containsAdString(string)) {
-        // console.log(`"${string}" doesn't contain an ad string`);
         // check to see if this string is a delimiter
         if (delimiters.includes(string)) {
-          // console.log(`"${string}" is a delimiter`);
           // if it is, check to see if the previous string isn't a delimiter
           // before adding it to the formatted string
-          //console.log(`Checking previous string: "${previousString}"`);
           if (
             !delimiters.includes(previousString) &&
             !containsAdString(previousString)
           ) {
-            // console.log(
-            //   `"${previousString}" isn't a delimiter or an adString, so adding "${string}" to formattedString`
-            // );
-
             formattedString += string;
           }
-          // else {
-          //   console.log(
-          //     `"${previousString}" is a delimiter or an adString, so skipping "${string}"`
-          //   );
-          // }
         } else {
-          // console.log(
-          //   `"${string}" isn't a delimiter, so adding it to formattedString`
-          // );
           // if not, add it to the formattedString
           formattedString += string;
         }
       }
-      // else {
-      //   console.log(
-      //     `"${string}" contains an ad string, so it is being skipped`
-      //   );
-      // }
     });
 
     return formattedString.trim(); // remove any unneccssary spaces

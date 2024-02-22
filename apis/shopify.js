@@ -521,7 +521,7 @@ export const formatProduct = (product, country, callback) => {
       upsert: true,
     }).exec((err, product) => {
       if (err) {
-        console.log(err);
+        console.error(err);
       }
     });
 
@@ -743,7 +743,7 @@ export const createNewDiscountCode = () => {
       shopify.discountCode
         .create(data.id, { code: couponcode })
         .then((data) => {
-          console.log(`coupon code created = `, data);
+          console.info(`coupon code created = `, data);
           response.json({
             status: "success",
             discount_code: {
@@ -752,16 +752,16 @@ export const createNewDiscountCode = () => {
           });
         })
         .catch((err) => {
-          console.log(`Error in create coupon code'. = `, err);
-          console.log(
+          console.info(`Error in create coupon code'. = `, err);
+          console.error(
             `Error creating coupon code'. ${JSON.stringify(err.response.body)}`
           );
           response.status(err.statusCode).send(err.response.body);
         });
     })
     .catch((err) => {
-      console.log(`Error in create price rule'. = `, err);
-      console.log(
+      console.info(`Error in create price rule'. = `, err);
+      console.error(
         `Error creating price rule'. ${JSON.stringify(err.response.body)}`
       );
       response.status(err.statusCode).send(err.response.body);

@@ -65,8 +65,6 @@ export const get__episodes_transcript = (req, res) => {
       },
     },
     (err, http, response) => {
-      console.log("heard back!");
-      console.log(response);
       if (err) {
         callback(err);
       } else {

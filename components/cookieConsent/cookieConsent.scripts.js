@@ -21,7 +21,6 @@ const acceptAllCookies = () => {
 
 const saveCookiePreferences = (form) => {
   const formData = new FormData(form);
-  console.log("saving!");
 
   setCookiePreference(
     "analyticCookies",

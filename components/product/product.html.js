@@ -7,8 +7,6 @@ import { formatCurrency } from "../../modules/formatCurrency/formatCurrency.js";
 export const PRODUCT = ({ data, heading = true, price = true } = {}) => {
   const product = data.product;
 
-  console.log(product);
-
   let onSale = false;
 
   if (product.compareAtPrice) {

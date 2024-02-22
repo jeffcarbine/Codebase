@@ -7,17 +7,17 @@
  */
 
 const getOrCreateCustomer = (email, firstName, lastName) => {
-  console.log("Getting customer data from Square");
-  console.log(email);
+  console.info("Getting customer data from Square");
+  console.info(email);
   let isValidEmail = emailValidator.validate(email);
   if (!isValidEmail) {
-    console.log(
+    console.info(
       email +
         " is not a valid email address. Generating placeholder email address."
     );
     // make up a temp email
     let newEmail = Date.now() + "@tailorcooperative-tempemail.com";
-    console.log(newEmail);
+    console.info(newEmail);
     email = newEmail;
   }
 
@@ -46,7 +46,7 @@ const getOrCreateCustomer = (email, firstName, lastName) => {
         let body = JSON.parse(str);
 
         // display the response
-        console.log(body);
+        console.info(body);
 
         // if there is no matching customer found
         if (body.customers === undefined) {
@@ -82,7 +82,7 @@ const getOrCreateCustomer = (email, firstName, lastName) => {
                 let squareCustomerId = body.customer.id,
                   squareNew = true;
 
-                console.log(
+                console.info(
                   "Got newly created customer ID from Square: " +
                     squareCustomerId
                 );
@@ -123,7 +123,7 @@ const getOrCreateCustomer = (email, firstName, lastName) => {
               } else {
                 let body = JSON.parse(str);
 
-                console.log(
+                console.info(
                   "Got existing customer ID from Square: " + squareCustomerId
                 );
 
@@ -166,8 +166,8 @@ const createPayment = () => {
         callback(err);
       } else {
         let body = JSON.parse(str);
-        console.log("payment creation response from Square:");
-        console.log(body);
+        console.info("payment creation response from Square:");
+        console.info(body);
 
         if (body.errors !== undefined) {
           callback(body.errors);
