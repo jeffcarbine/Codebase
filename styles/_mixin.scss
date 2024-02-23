@@ -57,6 +57,20 @@ $breakpoint-xxl: 2160px;
   }
 }
 
+@mixin photoshopCheck {
+  background-image: linear-gradient(
+      45deg,
+      var(--light-mid) 25%,
+      transparent 25%
+    ),
+    linear-gradient(-45deg, var(--light-mid) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, var(--light-mid) 75%),
+    linear-gradient(-45deg, transparent 75%, var(--light-mid) 75%);
+  background-color: var(--light);
+  background-size: 1rem 1rem;
+  background-position: 0 0, 0 0.5rem, 0.5rem -0.5rem, -0.5rem 0px;
+}
+
 @mixin display-flex($flex-direction) {
   display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
   display: -ms-flexbox; /* TWEENER - IE 10 */
