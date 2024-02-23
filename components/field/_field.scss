@@ -549,8 +549,8 @@
         border-radius: 25px;
         height: 1.5rem;
         position: relative;
-        border: var(--field-border-width) solid var(--field-border-color);
         background: var(--field-background);
+        border: var(--field-border-width) solid var(--field-border-color);
 
         &::before {
           content: "";
