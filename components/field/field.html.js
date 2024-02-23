@@ -617,13 +617,13 @@ export class FIELD {
         children: [
           new IMG({
             class: "imagePreview",
-            style: params.value ? "opacity: 1" : "",
-            src: params.value || "",
+            style: params.previewSrc ? "opacity: 1" : "",
+            src: params.previewSrc || "",
           }),
           {
             class: "placeholder",
             children: [new ICON("image")],
-            style: params.value ? "opacity: 0" : "",
+            style: params.previewSrc ? "opacity: 0" : "",
           },
         ],
       };

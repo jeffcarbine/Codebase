@@ -75,9 +75,9 @@ const clientRender = (template) => {
 
               style = style + property + ":" + value[key] + ";";
             }
-
-            element.setAttribute("style", style);
           }
+
+          element.setAttribute("style", style);
         }
       }
     }
