@@ -55,7 +55,7 @@
   }
 
   // p
-  --p-margin: calc(var(--base-font-size) * 0.75) 0;
+  --p-margin: calc(var(--base-font-size) * 0.75);
 
   // strong
   --strong-font-weight: 700;
@@ -85,7 +85,7 @@ html {
 }
 
 p {
-  margin: var(--p-margin);
+  margin: var(--p-margin) 0;
 
   + p {
     margin: 0 0 0.75rem 0;
@@ -134,7 +134,8 @@ em {
 
 ul,
 ol {
-  margin-bottom: 0.75rem;
+  margin-top: var(--p-margin);
+  margin-bottom: var(--p-margin);
   margin-left: 1.5rem;
 
   li {

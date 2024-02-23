@@ -28,7 +28,8 @@ button.btn {
   outline: none;
   padding: var(--btn-padding-x) var(--btn-padding-y);
   border: 1px solid var(--btn-background);
-  transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+  transition: background-color 0.25s ease, border-color 0.25s ease,
+    color 0.25s ease;
   font-size: inherit;
   text-decoration: none;
   line-height: var(--btn-line-height);
@@ -106,9 +107,9 @@ button.btn {
 
   &.subtle {
     --btn-background: var(--background-mid);
-    --btn-focus-background: var(--background-grey);
+    --btn-focus-background: var(--foreground-grey);
     --btn-color: var(--foreground);
-    --btn-focus-color: var(--foreground);
+    --btn-focus-color: var(--background);
   }
 
   &.urgent {
@@ -154,13 +155,13 @@ button.btn {
     justify-content: center;
 
     > span {
-      width: 2rem;
-      height: 2rem;
+      width: 1.5rem;
+      height: 1.5rem;
     }
 
     svg.icon {
-      width: 2rem;
-      height: 2rem;
+      width: 1.5rem;
+      height: 1.5rem;
       transform: none;
       margin: 0;
     }
