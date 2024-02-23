@@ -620,6 +620,9 @@
   }
 
   &.togglesingle-field {
+    --field-toggle-color: var(--success);
+    --field-toggle-color-on: var(--success-on);
+
     @include toggleStyles;
 
     label {
