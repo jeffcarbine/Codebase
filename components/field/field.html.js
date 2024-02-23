@@ -110,7 +110,9 @@ export class FIELD {
 
     // put that inside of the input wrapper
     const wrapper = {
-      class: `wrapper ${typed ? "typed" : ""}`,
+      class: `wrapper ${typed ? "typed" : ""} ${
+        params.label ? "hasLabel" : "noLabel"
+      }`,
       "data-emit": `${params.name}--validation`,
       "data-emit-neq": "",
       "data-emit-to": "class",
@@ -423,12 +425,35 @@ export class FIELD {
 
       // modify the input
       input.type = "checkbox";
-      input.checked = params.checked;
+
+      if (params.checked) {
+        input.checked = params.checked;
+      }
 
       // and create the toggle element
       const toggle = {
         class: "toggle",
       };
+
+      // check to see if there is a checkedIcon and uncheckedIcon value
+      // and add them to the toggle as children
+      if (params.checkedIcon) {
+        if (!toggle.children) toggle.children = [];
+
+        toggle.children.push({
+          class: "checkedIcon",
+          child: new ICON(params.checkedIcon),
+        });
+      }
+
+      if (params.uncheckedIcon) {
+        if (!toggle.children) toggle.children = [];
+
+        toggle.children.push({
+          class: "uncheckedIcon",
+          child: new ICON(params.uncheckedIcon),
+        });
+      }
 
       // put the label and input into the wrapper
       wrapper.children.push(toggle);

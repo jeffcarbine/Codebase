@@ -10,7 +10,7 @@ const clientRender = (template) => {
 
   // check to see if the template has an "if" property, and check if it is true
   // or not - if not true, they we just don't render anything
-  if (template.if !== undefined && !template.if) {
+  if (Object.keys(template).includes("if")) {
     // then check it if is false
     if (!template.if) {
       return null;
@@ -174,9 +174,9 @@ const serverRender = (template) => {
   // start by creating the element
   let element;
 
-  // check to see if the template has an "if" property, and check if it is true
+  // check to see if the template has an "if" key, and check if it is true
   // or not - if not true, they we just don't render anything
-  if (template.if !== undefined) {
+  if (Object.keys(template).includes("if")) {
     // then check it if is false
     if (!template.if) {
       return "";

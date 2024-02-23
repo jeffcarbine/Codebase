@@ -394,7 +394,12 @@ addEventDelegate(
 const toggleChecked = (pseudo) => {
   const input = pseudo.parentNode.querySelector("input");
 
-  input.click();
+  // trigger a click event that bubbles
+  const event = new MouseEvent("click", {
+    bubbles: true,
+  });
+
+  input.dispatchEvent(event);
 };
 
 addEventDelegate("click", ".field .pseudo", toggleChecked);
@@ -427,7 +432,38 @@ const syncCheckedValue = (input) => {
   }
 };
 
-addEventDelegate("change", ".field.toggledual-field input", syncCheckedValue);
+addEventDelegate(
+  "change, attributes:checked",
+  ".field.toggledual-field input",
+  syncCheckedValue
+);
+
+// make it so clicking the .toggle of a togglesingle clicks the input
+const toggleSingle = (toggle) => {
+  const input = toggle.parentNode.querySelector("input");
+
+  input.click();
+};
+
+addEventDelegate("click", ".field.togglesingle-field .toggle", toggleSingle);
+
+// handle the data-checked value of the wrapper for togglesingle fields
+const syncSingleCheckedValue = (input) => {
+  // get the wrapper
+  const wrapper = input.parentNode;
+
+  if (input.checked) {
+    wrapper.dataset.checked = true;
+  } else {
+    wrapper.dataset.checked = false;
+  }
+};
+
+addEventDelegate(
+  "change, attributes:checked",
+  ".field.togglesingle-field input",
+  syncSingleCheckedValue
+);
 
 // add new items to the array field from a text input
 const addToArray = (button) => {

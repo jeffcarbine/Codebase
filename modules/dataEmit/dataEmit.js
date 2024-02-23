@@ -49,8 +49,15 @@ export const dataEmit = (key, value, listener = false) => {
         // default conditionsMet to true
         let conditionsMet = true;
 
-        // check if there are any conditions
-        if (Object.keys(conditions).length > 0) {
+        // check if this is a simple condition or a complex condition
+        if (Object.keys(conditions).length === 0) {
+          // if it is a simple condition, check if the value is truthy
+          if (value !== false && value !== undefined && value !== null) {
+            conditionsMet = true;
+          } else {
+            conditionsMet = false;
+          }
+        } else {
           // loop through the conditions
           for (const condition in conditions) {
             // get the condition value
@@ -142,7 +149,7 @@ export const dataEmit = (key, value, listener = false) => {
             if (emitTo === "class") {
               element.classList.add(newValue);
             } else if (emitTo === "checked") {
-              element.checked = newValue;
+              element.setAttribute("checked", true);
             } else {
               element.setAttribute(emitTo, newValue);
             }
@@ -166,6 +173,8 @@ export const dataEmit = (key, value, listener = false) => {
 
             if (emitTo === "class") {
               element.classList.remove(newValue);
+            } else if (emitTo === "checked") {
+              element.removeAttribute("checked");
             } else {
               element.setAttribute(emitTo, "");
             }
