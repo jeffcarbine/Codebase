@@ -15,7 +15,7 @@
   --field-toggle-color-on: var(--primary-on);
   --field-toggle-inactive-color: var(--background-grey);
 
-  --reorganizeItem-background: var(--background-grey);
+  --reorderItem-background: var(--background-mid);
 }
 
 @keyframes focus {
@@ -226,7 +226,7 @@
       list-style-type: none;
       margin: 0.25rem 0;
       padding: 0.5rem;
-      background: var(--reorganizeItem-background);
+      background: var(--reorderItem-background);
       border-radius: var(--field-border-radius);
       display: flex;
       transition: transform 0.25s ease;

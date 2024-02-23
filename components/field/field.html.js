@@ -632,22 +632,29 @@ export class FIELD {
       this.children.splice(1, 0, preview);
     }
 
-    // if this is a reorganize, then make the input hidden
+    // if this is a reordder, then make the input hidden
     // and add the reorganize ui
     if (type === "reorder") {
       input.type = "hidden";
 
-      const generateReorganizeListItems = () => {
+      // if the params.value is an array of objects, then we need to
+      // reduce it to an array of the object's values and pass that as
+      // the input value
+      if (Array.isArray(params.value)) {
+        input.value = params.value.map((item) => item.value).join(",");
+      }
+
+      const generateReorderListItems = () => {
         const arr = Array.isArray(params.value)
             ? params.value
             : params.value.split(","),
-          reorganizeListItems = [];
+          reorderListItems = [];
 
         arr.forEach((item, index) => {
           const listItem = new LI({
             class: "reorderItem",
             "data-originalindex": index,
-            "data-value": item,
+            "data-value": item.value || item,
             children: [
               {
                 class: "handle",
@@ -655,19 +662,19 @@ export class FIELD {
                 "aria-label": "Drag item",
                 child: new ICON("dragHandle"),
               },
-              new SPAN(item),
+              new SPAN(item.name || item),
             ],
           });
 
-          reorganizeListItems.push(listItem);
+          reorderListItems.push(listItem);
         });
 
-        return reorganizeListItems;
+        return reorderListItems;
       };
 
       const reorganizeList = new UL({
         class: "reorderList",
-        children: generateReorganizeListItems(),
+        children: generateReorderListItems(),
       });
 
       // and add it to the wrapper
