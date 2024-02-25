@@ -27,3 +27,12 @@
     }
   }
 }
+
+#rewardGroup {
+  .groupRewards {
+    &.grid {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  }
+}

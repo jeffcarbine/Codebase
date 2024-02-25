@@ -1,0 +1,53 @@
+.rewardBox {
+  flex: 0 0 100%;
+  padding: 1rem;
+  box-sizing: border-box;
+  text-decoration: none;
+  color: var(--foreground);
+
+  img {
+    width: 100%;
+    height: 60vw;
+    object-fit: cover;
+  }
+
+  h2 {
+    @include fontValues(7);
+    margin-top: 1rem;
+  }
+
+  p.date {
+    @include fontValues(11);
+    margin-top: 0.5rem;
+  }
+}
+
+@media only screen and (min-width: $breakpoint-md) {
+  .rewardBox {
+    flex: 0 0 50%;
+
+    img {
+      height: 30vw;
+    }
+  }
+}
+
+@media only screen and (min-width: $breakpoint-lg) {
+  .rewardBox {
+    flex: 0 0 33.3333%;
+
+    img {
+      height: 20vw;
+    }
+  }
+}
+
+@media only screen and (min-width: $breakpoint-xl) {
+  .rewardBox {
+    flex: 0 0 25%;
+
+    img {
+      height: 15vw;
+    }
+  }
+}

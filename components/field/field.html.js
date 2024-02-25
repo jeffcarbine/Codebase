@@ -28,6 +28,12 @@ export class FIELD__ARRAYENTRY {
 
 export class FIELD {
   constructor(params = {}) {
+    // if there is an if param, check if it is true
+    // if not, return null
+    if (params.if !== undefined && params.if === false) {
+      return null;
+    }
+
     // set the data-component attribute
     this["data-component"] = "field";
 
@@ -52,6 +58,8 @@ export class FIELD {
       "select",
       "array",
       "file",
+      "simplecurrency",
+      "simpledate",
     ];
 
     const typed = typedTypes.includes(type);
@@ -617,13 +625,13 @@ export class FIELD {
         children: [
           new IMG({
             class: "imagePreview",
-            style: params.previewSrc ? "opacity: 1" : "",
-            src: params.previewSrc || "",
+            style: params.value !== undefined ? "opacity: 1" : "",
+            src: params.value || "",
           }),
           {
             class: "placeholder",
             children: [new ICON("image")],
-            style: params.previewSrc ? "opacity: 0" : "",
+            style: params.value !== undefined ? "opacity: 0" : "",
           },
         ],
       };

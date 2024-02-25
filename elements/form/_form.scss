@@ -47,9 +47,25 @@ form {
 
   fieldset {
     width: 100%;
-    padding: 0.5rem 0.5rem 0.5rem 1.5rem;
+    padding: 1.5rem;
     box-sizing: border-box;
-    border-left: 0.5rem solid var(--field-focus-color);
+    border: 0.125rem solid var(--border-color);
+    border-radius: var(--border-radius);
+
+    legend {
+      @include fontValues(9);
+      padding: 0.5rem;
+    }
+
+    fieldset {
+      legend {
+        @include fontValues(10);
+      }
+
+      + fieldset {
+        margin-top: 2rem;
+      }
+    }
   }
 
   .btn-container {

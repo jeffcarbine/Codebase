@@ -36,7 +36,7 @@ const renderLatestRewards = () => {
             new BTNCONTAINER(
               {
                 class: "sm",
-                href: `/rewards/reward/${rewards._id}`,
+                href: `/rewards/reward/${reward._id}`,
                 textContent: "View Reward",
               },
               "minimal"
