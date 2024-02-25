@@ -1,15 +1,15 @@
 .toggle {
-  --toggle-border-radius: 50px;
-  --toggle-background: var(--background-grey);
-  --toggle-color: var(--background);
-  --toggle-active: var(--positive);
-  --toggle-active-negative: var(--negative);
-  --toggle-focus-color: var(--accent);
+  --old-toggle-border-radius: 50px;
+  --old-toggle-background: var(--background-grey);
+  --old-toggle-color: var(--background);
+  --old-toggle-active: var(--positive);
+  --old-toggle-active-negative: var(--negative);
+  --old-toggle-focus-color: var(--accent);
 
-  --toggle-group-padding: 0.5rem;
-  --toggle-group-pill-background: var(--primary);
-  --toggle-group-color: var(--dark);
-  --toggle-group-selected-color: var(--primary-on);
+  --old-toggle-group-padding: 0.5rem;
+  --old-toggle-group-pill-background: var(--primary);
+  --old-toggle-group-color: var(--dark);
+  --old-toggle-group-selected-color: var(--primary-on);
 
   position: relative;
   display: flex;
@@ -38,7 +38,7 @@
 
         &::before {
           content: "";
-          background: var(--toggle-color);
+          background: var(--old-toggle-color);
           border: 1px solid var(--border-color);
           box-sizing: border-box;
           width: 1.5rem;
@@ -55,7 +55,7 @@
 
         &::after {
           content: "";
-          background: var(--toggle-background);
+          background: var(--old-toggle-background);
           border: 1px solid var(--border-color);
           box-sizing: border-box;
           width: 3rem;
@@ -73,7 +73,7 @@
       &:focus {
         + label {
           &::before {
-            border-color: var(--toggle-focus-color) !important;
+            border-color: var(--old-toggle-focus-color) !important;
           }
         }
       }
@@ -90,11 +90,11 @@
         + label {
           &::before {
             left: -2.25rem;
-            border-color: var(--toggle-active);
+            border-color: var(--old-toggle-active);
           }
 
           &::after {
-            background: var(--toggle-active);
+            background: var(--old-toggle-active);
           }
         }
       }
@@ -137,11 +137,11 @@
           + label {
             &::before {
               left: -1.75rem;
-              border-color: var(--toggle-active-negative);
+              border-color: var(--old-toggle-active-negative);
             }
 
             &::after {
-              background: var(--toggle-active-negative);
+              background: var(--old-toggle-active-negative);
             }
           }
         }
@@ -166,8 +166,8 @@
         width: 1rem;
         height: 1rem;
         border-radius: 50%;
-        background: var(--toggle-color);
-        border: 1px solid var(--toggle-active);
+        background: var(--old-toggle-color);
+        border: 1px solid var(--old-toggle-active);
         box-sizing: border-box;
         position: absolute;
         z-index: 2;
@@ -184,7 +184,7 @@
         display: block;
         width: 2.5rem;
         height: 1.25rem;
-        background: var(--toggle-active);
+        background: var(--old-toggle-active);
         box-sizing: border-box;
         border-radius: 50px;
         position: absolute;
@@ -208,8 +208,8 @@
         width: 1rem;
         height: 1rem;
         border-radius: 50%;
-        background: var(--toggle-color);
-        border: 1px solid var(--toggle-active);
+        background: var(--old-toggle-color);
+        border: 1px solid var(--old-toggle-active);
         box-sizing: border-box;
         position: absolute;
         z-index: 2;
@@ -225,7 +225,7 @@
         display: block;
         width: 2.5rem;
         height: 1.25rem;
-        background: var(--toggle-active);
+        background: var(--old-toggle-active);
         box-sizing: border-box;
         border-radius: 50px;
         position: absolute;
@@ -245,7 +245,7 @@
       &:focus {
         + label {
           &::before {
-            background: var(--toggle-focus);
+            background: var(--old-toggle-focus);
           }
         }
       }
@@ -294,22 +294,22 @@
       > *:nth-of-type(1) > label,
       > label:nth-of-type(1) {
         &::before {
-          border: 1px solid var(--toggle-active-negative);
+          border: 1px solid var(--old-toggle-active-negative);
         }
 
         &::after {
-          background: var(--toggle-active-negative);
+          background: var(--old-toggle-active-negative);
         }
       }
 
       *:nth-of-type(2) > label,
       > label:nth-of-type(2) {
         &::before {
-          border: 1px solid var(--toggle-active-negative);
+          border: 1px solid var(--old-toggle-active-negative);
         }
 
         &::after {
-          background: var(--toggle-active-negative);
+          background: var(--old-toggle-active-negative);
         }
       }
     }
@@ -345,19 +345,19 @@
 
     .radios {
       position: relative;
-      padding: var(--toggle-group-padding);
-      margin-top: calc(var(--toggle-group-padding) * 2);
+      padding: var(--old-toggle-group-padding);
+      margin-top: calc(var(--old-toggle-group-padding) * 2);
 
       &::after {
         content: "";
         width: 100%;
-        height: calc(100% + calc(var(--toggle-group-padding) * 2));
+        height: calc(100% + calc(var(--old-toggle-group-padding) * 2));
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         z-index: 0;
-        background: var(--toggle-background);
+        background: var(--old-toggle-background);
         border-radius: 50px;
       }
 
@@ -388,7 +388,7 @@
         box-sizing: border-box;
         position: relative;
         padding: 0.5rem 1rem;
-        color: var(--toggle-group-color);
+        color: var(--old-toggle-group-color);
         transition: all 0.5s ease;
         z-index: 2;
         text-align: center;
@@ -401,15 +401,15 @@
 
       &:checked {
         + label {
-          color: var(--toggle-group-selected-color);
-          background: var(--toggle-group-pill-background);
+          color: var(--old-toggle-group-selected-color);
+          background: var(--old-toggle-group-pill-background);
           border-radius: 50px;
         }
       }
 
       &:focus {
         ~ span.switch {
-          background: var(--toggle-focus);
+          background: var(--old-toggle-focus);
         }
       }
     }
@@ -419,7 +419,7 @@
       top: 0;
       left: 0;
       height: 100%;
-      background: var(--toggle-group-pill-background);
+      background: var(--old-toggle-group-pill-background);
       z-index: 1;
       border-radius: 50px;
 
